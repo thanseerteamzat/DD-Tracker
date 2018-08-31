@@ -167,7 +167,7 @@ export class DdEntryComponent implements OnInit {
 
     console.log('cokieeeeeeeee name',this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
-    if (this.ets.cookievalue == "1") {
+    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3") {
       this.router.navigate(['/dd-entry'])
     }
     else {

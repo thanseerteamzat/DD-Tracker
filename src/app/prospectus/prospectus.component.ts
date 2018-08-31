@@ -140,9 +140,9 @@ export class ProspectusComponent implements OnInit {
       });
     });
     this.newddEntry.feesItem = "Prospectus";
-    this.newddentry.enteredBy =this.ets.cookiename;
-      //dates of ddentry;
-      let todayDate = (new Date(Date.now()));
+    this.newddentry.enteredBy = this.ets.cookiename;
+    //dates of ddentry;
+    let todayDate = (new Date(Date.now()));
     let dddate = new Date();
     this.newddEntry.ddDate = this.formatDate(dddate);
     this.newddEntry.dDate = this.formatDate(todayDate);
@@ -159,7 +159,14 @@ export class ProspectusComponent implements OnInit {
     return [day, month, year].join('-');
   }
   ngOnInit() {
-    console.log('cokieeeeeeee name', this.ets.cookiename)
+    console.log('cokieeeeeeeee name', this.ets.cookiename)
+    this.newddentry.enteredBy = this.ets.cookiename;
+    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3") {
+      this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     this.cookienametodb = this.ets.cookiename
   }
   register(key, dlastid: ddLastid) {
