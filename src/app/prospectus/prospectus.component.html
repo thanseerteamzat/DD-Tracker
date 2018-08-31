@@ -1,0 +1,180 @@
+<div class="wrapper ">
+
+  <!-- Page Content Holder -->
+  <div id="content" class="createcontent">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
+        <h2 *ngIf='!isEditMode'>DD Entry</h2>
+        <h2 *ngIf='isEditMode'>Edit Entry</h2>
+
+      </div>
+    </div>
+    <form name="form" #f="ngForm" novalidate>
+      <ng-container *ngFor="let lstid of ddLastids">
+        <div class="row">
+
+          <div class="form-group col-md-3">
+            <br>
+            <label for="ddid"> DD Serial No : &nbsp;</label>
+            <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
+            <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
+
+            <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="date">Date</label>
+            <input type="date" [(ngModel)]="newddEntry.dDate" name="dDate" class="form-control">
+
+          </div>
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="enteredby">Fees Item </label>
+            <input type="text" readonly [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
+          </div>
+         
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="center">Centre Name</label>
+
+            <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
+              <option value="">--Choose--</option>
+              <ng-container *ngFor="let s of centers">
+                <option [ngValue]="s.Id">{{s.CenterName}}</option>
+              </ng-container>
+
+            </select>
+            <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+              <div *ngIf="centerName.errors.required">
+                Please select a center
+              </div>
+
+            </div>
+
+
+            <!-- <label for="centerName">Center Name</label>
+                  <input type="text" class="form-control" placeholder="Center Name"> -->
+          </div>
+
+
+
+
+        </div>
+
+        <div class="row">
+         
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="ddNo">DD Number</label>
+            <input type="text" class="form-control" [(ngModel)]="newddEntry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
+            <div *ngIf="ddNumber.invalid && (ddNumber.dirty || ddNumber.touched)" class="alert-danger">
+              <div *ngIf="ddNumber.errors.required">
+                DD Number is Required
+              </div>
+              <div *ngIf="ddNumber.errors.minlength">
+                Minimum is 6 digit number
+              </div>
+              <div *ngIf="ddNumber.errors.maxlength">
+                Maximum is 6 digit number
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="bank">Bank</label>
+
+            <select [(ngModel)]="newddEntry.bank" class="form-control" name="bank" formControlName="bank">
+              <option value="" disabled [selected]>--Choose--</option>
+              <ng-container>
+                <option>AXIS BANK</option>
+                <option>BANK OF BARODA</option>
+                <option>BANK OF INDIA (BOI)</option>
+                <option>CANARA BANK</option>
+                <option>CENTRAL BANK OF INDIA</option>
+                <option>CHALLAN BANK OF INDIA</option>
+                <option>CORPORATION BANK</option>
+                <option>DHANALEKSHI BANK</option>
+                <option>FEDERAL BANK</option>
+                <option>HDFC</option>
+                <option>ICICI</option>
+                <option>IDBI</option>
+                <option>INDIAN BANK</option>
+                <option> INDIAN OVERSEAS BANK (IOB)</option>
+                <option>INDUSIND BANK</option>
+                <option>KARUR VYSYA BANK</option>
+                <option>KERALA GRAMIN BANK</option>
+                <option>PUNJAB NATIONAL BANK</option>
+                <option>SOUTH INDIAN BANK (SIB)</option>
+                <option>SPL PB</option>
+                <option>STATE BANK OF INDIA(SBI)</option>
+                <option>STATE BANK OF TRAVANCORE(SBT)</option>
+                <option>SYNDICATE BANK</option>
+                <option>THE CATHOLIC SYRIAN BANK</option>
+                <option>UNION BANK OF INDIA (UBI)</option>
+                <option>UNITED BANK OF INDIA</option>
+                <option>VIJAYA BANK</option>
+
+
+              </ng-container>
+
+            </select>
+            <div *ngIf="bank.invalid && (bank.dirty || bank.touched)" class="alert-danger">
+              <div *ngIf="bank.errors.required">
+                Please select a bank
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <div class="form-group col-md-3">
+            <label for="ddDate">DD Date</label>
+            <input type="date" [(ngModel)]="newddEntry.ddDate" name="ddDate" class="form-control">
+          </div>
+
+
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="ddAmount">DD Amount</label>
+            <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
+            <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
+              <div *ngIf="ddAmount.errors.required">
+                DD Amount is Required
+              </div>
+              <div *ngIf="ddAmount.errors.pattern">
+                Please enter digit format
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+         
+
+          <div class="form-group col-md-3">
+            <label for="enteredby">Entered By </label>
+            <input type="text" [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control" placeholder="Entered By">
+          </div>
+
+
+
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12" [formGroup]="ddentryForm">
+            <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Save</button>
+            &nbsp;
+
+            <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Update</button>
+
+            <!-- <button  type="submit" class="btn btn-primary">Update</button> -->
+            &nbsp; <button type="reset" class="btn btn-primary">Cancel</button>
+
+
+          </div>
+        </div>
+      </ng-container>
+
+    </form>
+
+  </div>
+</div>

@@ -10,7 +10,7 @@
 
             </div>
         </div>
-        <form name="form" #f="ngForm" novalidate >
+        <form name="form" #f="ngForm" novalidate>
             <ng-container *ngFor="let lstid of ddLastids">
                 <div class="row">
 
@@ -22,15 +22,42 @@
 
                         <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
                     </div>
-
-                    <div class="form-group col-md-3"  >
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                            <label for="feesItem">Fees Item</label>
+    
+                            <select (change)="getResult($event.target.value)" [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control"
+                                formControlName="feesItem">
+                                <option value="" disabled [selected]>--Choose--</option>
+                                <ng-container>
+                                    <option>Course Fee</option>
+                                    <option>Prospectus</option>
+                                    <option>Re exam</option>
+                                    <option>Renewal Fee</option>
+    
+                                    <option>Affiliation</option>
+                                    <option>Inspection</option>
+                                    <option>Duplicate Certificate/Marklist</option>
+    
+    
+                                </ng-container>
+    
+                            </select>
+                            <div *ngIf="feesItem.invalid && (feesItem.dirty || feesItem.touched)" class="alert-danger">
+                                <div *ngIf="feesItem.errors.required">
+                                    Please select fees item
+                                </div>
+    
+                            </div>
+                        </div>
+                    <div class="form-group col-md-3">
                         <label for="date">Date</label>
-                        <input type="date" [(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"  >
-                        
+                        <input type="date" [(ngModel)]="newddEntry.dDate" name="dDate" class="form-control">
+
                     </div>
+                   
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="appno">Application No</label>
-                        <input type="text" bsDatepicker [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control"  formControlName="applicationNo" >
+                        <input type="text" bsDatepicker [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control" formControlName="applicationNo">
 
                         <div *ngIf="applicationNo.invalid && (applicationNo.dirty || applicationNo.touched)" class="alert-danger">
                             <div *ngIf="applicationNo.errors.required">
@@ -39,6 +66,14 @@
 
                         </div>
                     </div>
+
+
+
+
+
+                </div>
+
+                <div class="row">
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="center">Centre Name</label>
 
@@ -58,15 +93,8 @@
 
 
                         <!-- <label for="centerName">Center Name</label>
-                    <input type="text" class="form-control" placeholder="Center Name"> -->
+                            <input type="text" class="form-control" placeholder="Center Name"> -->
                     </div>
-                 
-
-
-
-                </div>
-
-                <div class="row">
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="course">Course Name</label>
 
@@ -78,16 +106,16 @@
 
                         </select>
                         <div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert-danger">
-                                <div *ngIf="courseName.errors.required">
-                                    Please select a center
-                                </div>
-    
+                            <div *ngIf="courseName.errors.required">
+                                Please select a center
                             </div>
+
+                        </div>
 
                         <!-- <label for="centerName">Center Name</label>
                     <input type="text" class="form-control" placeholder="Center Name"> -->
                     </div>
-                 
+
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="studentName">Student Name</label>
                         <input type="text" class="form-control" [(ngModel)]="newddEntry.studentName" name="studentName" formControlName="studentName"
@@ -118,6 +146,15 @@
                     </div>
 
 
+
+
+
+
+
+
+
+                </div>
+                <div class="row">
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="bank">Bank</label>
 
@@ -163,18 +200,10 @@
 
                         </div>
                     </div>
-
-                    
-
-
-
-
-                </div>
-                <div class="row">
-                        <div class="form-group col-md-3">
-                                <label for="ddDate">DD Date</label>
-                                <input type="date" [(ngModel)]="newddEntry.ddDate" name="ddDate" class="form-control">
-                            </div>
+                    <div class="form-group col-md-3">
+                        <label for="ddDate">DD Date</label>
+                        <input type="date" [(ngModel)]="newddEntry.ddDate" name="ddDate" class="form-control">
+                    </div>
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="ddAmount">DD Amount</label>
                         <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
@@ -193,44 +222,20 @@
                         <label for="enteredby">Entered By </label>
                         <input type="text" [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control" placeholder="Entered By">
                     </div>
-                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                        <label for="feesItem">Fees Item</label>
 
-                        <select [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
-                            <option value="" disabled [selected]>--Choose--</option>
-                            <ng-container>
-                                <option>Course Fee</option>
-                                <option>Prospectus</option>
-                                <option>Re exam</option>
-                                <option>Renewal Fee</option>
-
-                                <option>Affiliation</option>
-                                <option>Inspection</option>
-                                <option>Duplicate Certificate/Marklist</option>
-
-
-                            </ng-container>
-
-                        </select>
-                        <div *ngIf="feesItem.invalid && (feesItem.dirty || feesItem.touched)" class="alert-danger">
-                            <div *ngIf="feesItem.errors.required">
-                                Please select fees item
-                            </div>
-
-                        </div>
-                    </div>
 
 
                 </div>
 
                 <div class="row">
                     <div class="form-group col-md-12" [formGroup]="ddentryForm">
-                        <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Save</button> &nbsp;
-                       
+                        <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Save</button>
+                        &nbsp;
+
                         <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Update</button>
-                       
+
                         <!-- <button  type="submit" class="btn btn-primary">Update</button> -->
- &nbsp;                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        &nbsp; <button type="reset" class="btn btn-primary">Cancel</button>
 
 
                     </div>

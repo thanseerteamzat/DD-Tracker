@@ -31,6 +31,7 @@ import { RollnoEntryComponent } from './rollno-entry/rollno-entry.component';
 import { DdIdVerificationComponent } from './dd-id-verification/dd-id-verification.component';
 import { DdentryDetailsComponent } from './ddentry-details/ddentry-details.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ProspectusComponent } from './prospectus/prospectus.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,9 +45,10 @@ const appRoutes: Routes = [
   { path: 'dba-no-entry', component: DbaNoEntryComponent },
   { path: 'rollno-entry', component: RollnoEntryComponent },
   { path: 'pending-dd', component: PendingDdComponent },
-  {path:'dd-id-verification',component:DdIdVerificationComponent},
-  {path:'ddentry-details',component:DdentryDetailsComponent},
-  {path:'ddentry-details/:ddlastId',component:DdentryDetailsComponent}
+  { path: 'dd-id-verification', component: DdIdVerificationComponent },
+  { path: 'ddentry-details', component: DdentryDetailsComponent },
+  { path: 'ddentry-details/:ddlastId', component: DdentryDetailsComponent },
+  { path: 'prospectus', component: ProspectusComponent }
 ];
 
 
@@ -68,7 +70,8 @@ const appRoutes: Routes = [
     RollnoEntryComponent,
     DdIdVerificationComponent,
     DdentryDetailsComponent,
-  
+    ProspectusComponent,
+
   ],
   imports: [
     FormsModule,
@@ -87,7 +90,7 @@ const appRoutes: Routes = [
 
     MatButtonModule, MatCheckboxModule, MatMenuModule
   ],
-  providers: [{provide:LocationStrategy , useClass:HashLocationStrategy}],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

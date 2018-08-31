@@ -1,27 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { HttpClient } from 'selenium-webdriver/http';
+import { ConfigService } from '../services/config.service';
+import { EtsService } from '../services/ets.service';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
-
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Common } from '../models/common';
-import { ddEntry, ddList } from '../models/ddEntry';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { ConfigService } from "src/app/services/config.service";
-import { EtsService } from "src/app/services/ets.service";
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { ddList, ddEntry } from '../models/ddEntry';
 import { ddLastid } from '../models/ddLastid';
 import { ddentryTemp } from '../models/ddentryTemp';
-@Component({
-  selector: 'app-dd-entry',
-  templateUrl: './dd-entry.component.html',
-  styleUrls: ['./dd-entry.component.css']
-})
-export class DdEntryComponent implements OnInit {
+import { Common } from '../models/common';
 
-  //api url and center variable
+@Component({
+  selector: 'app-prospectus',
+  templateUrl: './prospectus.component.html',
+  styleUrls: ['./prospectus.component.css']
+})
+export class ProspectusComponent implements OnInit {
+
   centers: Center[];
   courses: Course[];
   ddLists: ddList[] = [];
@@ -50,16 +47,14 @@ export class DdEntryComponent implements OnInit {
   ddentries: ddEntry[] = [];
   newddentry: ddEntry = new ddEntry();
   qIdEditMode: string = undefined;
-
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router,
-    private http: HttpClient,
+    // private http: HttpClient,
     private config: ConfigService,
     private ets: EtsService,
     private fb: FormBuilder,
-
   ) {
     this.ddcreateForm();
 
@@ -115,9 +110,6 @@ export class DdEntryComponent implements OnInit {
         })
       })
 
-
-
-
     }
     //code for listing ddLastid
     let itemRef = db.object('ddLastId');
@@ -148,26 +140,14 @@ export class DdEntryComponent implements OnInit {
         this.ddtempentries.push(obj as ddentryTemp);
       });
     });
-
+    this.newddEntry.feesItem = "Prospectus";
 
     //dates of ddentry
     let todayDate = (new Date(Date.now()));
     let dddate = new Date();
     this.newddEntry.ddDate = this.formatDate(dddate);
     this.newddEntry.dDate = this.formatDate(todayDate);
-
   }
-
-
-  //EDIT
-
-
-
-
-  ngOnInit() {
-  }
-
-  //date format
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -179,148 +159,25 @@ export class DdEntryComponent implements OnInit {
 
     return [day, month, year].join('-');
   }
-
+  ngOnInit() {
+  }
   register(key, dlastid: ddLastid) {
+    console.log('******************************************* Not Edit Mode')
+    var ddreferno = this.newddEntry.ddNumber;
+    var ddreferdate = this.newddEntry.ddDate;
+    var ddreferbank = this.newddEntry.bank;
 
+    for (let i = 0; i < this.ddtempentries.length; i++) {
+      //variable for check reference
+      var temp = this.ddtempentries[i];
+      // console.log('tttttttttttttttttttttt', temp)
 
-
-    if (this.isEditMode) {
-
-      var ddreferno = this.newddEntry.ddNumber;
-      var ddreferdate = this.newddEntry.ddDate;
-      var ddreferbank = this.newddEntry.bank;
-
-      for (let i = 0; i < this.ddtempentries.length; i++) {
-        //variable for check reference
-        var temp = this.ddtempentries[i];
-        console.log('tttttttttttttttttttttt', temp)
-
-      }
-      if (temp != null) {
-        if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
-          console.log('******************************************************  Edit mode')
-          var updates = {};
-          this.newddEntry.centerId = this.selectedcenter;
-          this.newddEntry.courseName = this.selectedcourse;
-          if (confirm('Are you sure to update details')) {
-            updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
-            try {
-              let up = this.db.database.ref().update(updates);
-
-            }
-            catch (ex) {
-              alert("Error in Updating Quotation");
-            }
-            this.newddentryTemp.bank = this.newddentry.bank;
-            this.newddentryTemp.ddDate = this.newddentry.ddDate;
-            this.newddentryTemp.ddNumber = this.newddentry.ddNumber;
-
-            updates['/ddentryTemp/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddentryTemp);
-            try {
-              let up = this.db.database.ref().update(updates);
-
-            }
-            catch (ex) {
-              alert("Error in Updating Quotation");
-            }
-            this.router.navigate(['/dd-verification']);
-
-          }
-          else {
-            this.router.navigate(['/dd-verification']);
-
-          }
-
-
-        }
-
-        else {
-          var updates = {};
-          this.newddEntry.centerId = this.selectedcenter;
-          this.newddEntry.courseName = this.selectedcourse;
-          updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
-          try {
-            if (confirm('Are you sure to update details')) {
-              let up = this.db.database.ref().update(updates);
-              this.router.navigate(['/dd-verification']);
-
-            }
-            else {
-              this.router.navigate(['/dd-verification']);
-            }
-
-          }
-          catch (ex) {
-            alert("Error in Updating Quotation");
-          }
-
-        }
-
-      }
     }
+    if (temp != null) {
 
+      if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
 
-
-    else {
-
-      console.log('******************************************* Not Edit Mode')
-      var ddreferno = this.newddEntry.ddNumber;
-      var ddreferdate = this.newddEntry.ddDate;
-      var ddreferbank = this.newddEntry.bank;
-
-      for (let i = 0; i < this.ddtempentries.length; i++) {
-        //variable for check reference
-        var temp = this.ddtempentries[i];
-        // console.log('tttttttttttttttttttttt', temp)
-
-      }
-      if (temp != null) {
-        console.log('888888888888888888888888888888888888888 kayari')
-        if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
-
-          alert('DD details  already exists')
-        }
-        else {
-          var counter = parseInt(this.count) + 1;
-          //updating lastid
-          var updates = {};
-          dlastid.lastId = counter;
-          updates['/ddLastId/' + key] = JSON.stringify(dlastid);
-          let up = this.db.database.ref().update(updates);
-          this.newddEntry.ddlastId = counter.toString();
-          this.newddEntry.centerId = this.selectedcenter;
-          this.newddEntry.courseName = this.selectedcourse;
-
-          // let uniqueId = "/DD" + Common.newGuid();
-          // this.newddEntry.dduId = uniqueId;
-          this.newddentryTemp.ddDate = this.newddEntry.ddDate;
-          this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
-          this.newddentryTemp.bank = this.newddEntry.bank;
-          let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-          console.log(ddentryTempJson);
-          try {
-            this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
-
-          }
-          catch (ex) {
-
-          }
-          this.newddEntry.isVerified = false;
-          this.newddEntry.isddIdentered = false;
-          this.newddEntry.isidVerified = false;
-
-          let ddEntryJson = JSON.stringify(this.newddEntry);
-          console.log(ddEntryJson);
-          try {
-            this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!!.");
-            this.router.navigate(['/dd-entry']);
-          }
-          catch (ex) {
-
-          }
-        }
-        this.resetForm();
+        alert('DD details  already exists')
       }
       else {
         var counter = parseInt(this.count) + 1;
@@ -331,10 +188,8 @@ export class DdEntryComponent implements OnInit {
         let up = this.db.database.ref().update(updates);
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
-        this.newddEntry.courseName = this.selectedcourse;
+        this.newddEntry.feesItem = "Prospectus";
 
-        // let uniqueId = "/DD" + Common.newGuid();
-        // this.newddEntry.dduId = uniqueId;
         this.newddentryTemp.ddDate = this.newddEntry.ddDate;
         this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
         this.newddentryTemp.bank = this.newddEntry.bank;
@@ -361,28 +216,63 @@ export class DdEntryComponent implements OnInit {
         catch (ex) {
 
         }
-        this.resetForm();
+      }
+      this.resetForm();
+    }
+    else {
+      var counter = parseInt(this.count) + 1;
+      //updating lastid
+      var updates = {};
+      dlastid.lastId = counter;
+      updates['/ddLastId/' + key] = JSON.stringify(dlastid);
+      let up = this.db.database.ref().update(updates);
+      this.newddEntry.ddlastId = counter.toString();
+      this.newddEntry.centerId = this.selectedcenter;
+      this.newddEntry.feesItem = "Prospectus";
+
+      this.newddentryTemp.ddDate = this.newddEntry.ddDate;
+      this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
+      this.newddentryTemp.bank = this.newddEntry.bank;
+      let ddentryTempJson = JSON.stringify(this.newddentryTemp);
+      console.log(ddentryTempJson);
+      try {
+        this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
 
       }
+      catch (ex) {
+
+      }
+      this.newddEntry.isVerified = false;
+      this.newddEntry.isddIdentered = false;
+      this.newddEntry.isidVerified = false;
+
+      let ddEntryJson = JSON.stringify(this.newddEntry);
+      console.log(ddEntryJson);
+      try {
+        this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
+        alert("DD Entry added successfully!!.");
+        this.router.navigate(['/dd-entry']);
+      }
+      catch (ex) {
+
+      }
+      this.resetForm();
+
     }
-
-
   }
-
-  //validation codes 
 
   ddentryForm = new FormGroup({
 
     // currentDate: new FormControl(),
     centerName: new FormControl(),
-    courseName: new FormControl(),
-    studentName: new FormControl(),
+    // courseName: new FormControl(),
+    // studentName: new FormControl(),
     ddNumber: new FormControl(),
     bank: new FormControl(),
     // ddDate: new FormControl(),
     ddAmount: new FormControl(),
     feesItem: new FormControl(),
-    applicationNo: new FormControl()
+    // applicationNo: new FormControl()
 
   })
 
@@ -391,15 +281,15 @@ export class DdEntryComponent implements OnInit {
       {
         // currentDate: [null, Validators.required],
         centerName: [null, Validators.required],
-        courseName: [null, Validators.required],
+        // courseName: [null, Validators.required],
 
-        studentName: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z \-\']+')])],
+        // studentName: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z \-\']+')])],
         ddNumber: [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*')])],
         bank: [null, Validators.required],
         // ddDate: [null, Validators.required],
         ddAmount: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
         feesItem: [null, Validators.required],
-        applicationNo: [null, Validators.required]
+        // applicationNo: [null, Validators.required]
 
       }
     )
@@ -407,86 +297,31 @@ export class DdEntryComponent implements OnInit {
 
   // get currentDate() { return this.ddentryForm.get('currentDate'); }
   get centerName() { return this.ddentryForm.get('centerName'); }
-  get courseName() { return this.ddentryForm.get('courseName'); }
+  // get courseName() { return this.ddentryForm.get('courseName'); }
 
-  get studentName() { return this.ddentryForm.get('studentName'); }
+  // get studentName() { return this.ddentryForm.get('studentName'); }
   get ddNumber() { return this.ddentryForm.get('ddNumber'); }
   get bank() { return this.ddentryForm.get('bank'); }
   get ddAmount() { return this.ddentryForm.get('ddAmount'); }
   // get ddDate() { return this.ddentryForm.get('ddDate'); }
   get feesItem() { return this.ddentryForm.get('feesItem'); }
-  get applicationNo() { return this.ddentryForm.get('applicationNo'); }
+  // get applicationNo() { return this.ddentryForm.get('applicationNo'); }
 
   resetForm() {
     this.ddentryForm.reset(
       {
         // currentDate: null,
         centerName: null,
-        courseName: null,
-        studentName: null,
+        // courseName: null,
+        // studentName: null,
         ddNumber: null,
         bank: null,
         ddAmount: null,
         // ddDate: null,
         feesItem: null,
-        applicationNo: null
+        // applicationNo: null
       }
     )
-  }
-
-  callType(value) {
-    console.log(value);
-    this.selectedcenterr = value;
-    this.split1 = this.selectedcenterr.split(" ")[1];
-    console.log(this.split1)
-
-    // this.split1 = value.substring( 0, value.indexOf(":"));
-    //  console.log(this.split1)
-    // this.split1=this.selectedcenterr.split(":")[0];
-    for (let i = 0; i < this.ets.centerList.length; i++) {
-      //variable for check reference
-
-      var temp = this.ets.centerList[i];
-      // console.log('*****',temp)
-      if (temp.Id == this.split1) {
-        this.vtemp = temp.CenterName;
-
-        // this.selectedcenterr=value;
-        console.log(this.vtemp);
-
-
-      }
-    }
-
-
-    // this.split1=this.selectedcenterr.split(": ")[1];
-
-
-    let that = this;
-    this.ets.GetAllCourses(this.vtemp).subscribe(data => {
-      that.courses = data;
-      this.ets.courseList = this.courses;
-
-
-    },
-      error => console.log(error),
-      () => console.log('courses'));
-    // // console.log(this.split1);
-    // return this.split1;
-
-
-  }
-  getResult(event) {
-
-    console.log('eventttttttttttttttttttt', event)
-    if (event == "Prospectus") {
-
-      this.router.navigate(['/prospectus']);
-
-    }
-    else {
-      console.log('error')
-    }
   }
 
 }
