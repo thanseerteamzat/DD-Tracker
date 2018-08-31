@@ -47,6 +47,7 @@ export class ProspectusComponent implements OnInit {
   ddentries: ddEntry[] = [];
   newddentry: ddEntry = new ddEntry();
   qIdEditMode: string = undefined;
+  cookienametodb;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -77,7 +78,7 @@ export class ProspectusComponent implements OnInit {
       () => console.log('Get all complete'));
 
     if (id != undefined) {
-      console.log('12345678901234567892345678234567856789', id)
+
       let dReference = db.object('ddEntry');
       dReference.snapshotChanges().subscribe(action => {
         console.log(action.type);
@@ -97,9 +98,7 @@ export class ProspectusComponent implements OnInit {
           if (obj.ddlastId != undefined && (obj.ddlastId) == id) {
             obj.ddlastId = obj.ddlastId.replace("/", "");
             this.newddEntry = obj;
-            console.log('0000000000000000000000000000', this.newddEntry)
-            console.log(this.newddEntry.centerId);
-            console.log(this.newddEntry.courseName)
+
 
             // let center = this.centerList.filter(s => s.Id==(obj.centerId));
             // // console.log('000000000000000',center)
@@ -121,7 +120,7 @@ export class ProspectusComponent implements OnInit {
         let obj: ddLastid = JSON.parse(element);
         this.newddLastId = obj;
         this.ddLastids.push(obj as ddLastid);
-        console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
         this.count = obj.lastId;
         this.fromLastId = obj.Id;
 
@@ -141,9 +140,9 @@ export class ProspectusComponent implements OnInit {
       });
     });
     this.newddEntry.feesItem = "Prospectus";
-
-    //dates of ddentry
-    let todayDate = (new Date(Date.now()));
+    this.newddentry.enteredBy =this.ets.cookiename;
+      //dates of ddentry;
+      let todayDate = (new Date(Date.now()));
     let dddate = new Date();
     this.newddEntry.ddDate = this.formatDate(dddate);
     this.newddEntry.dDate = this.formatDate(todayDate);
@@ -160,6 +159,8 @@ export class ProspectusComponent implements OnInit {
     return [day, month, year].join('-');
   }
   ngOnInit() {
+    console.log('cokieeeeeeee name', this.ets.cookiename)
+    this.cookienametodb = this.ets.cookiename
   }
   register(key, dlastid: ddLastid) {
     console.log('******************************************* Not Edit Mode')
@@ -189,6 +190,7 @@ export class ProspectusComponent implements OnInit {
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.feesItem = "Prospectus";
+        this.newddentry.enteredBy = this.ets.cookiename;
 
         this.newddentryTemp.ddDate = this.newddEntry.ddDate;
         this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
@@ -205,6 +207,7 @@ export class ProspectusComponent implements OnInit {
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
+        this.newddentry.enteredBy = this.cookienametodb;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);
@@ -229,6 +232,7 @@ export class ProspectusComponent implements OnInit {
       this.newddEntry.ddlastId = counter.toString();
       this.newddEntry.centerId = this.selectedcenter;
       this.newddEntry.feesItem = "Prospectus";
+      this.newddentry.enteredBy = this.ets.cookiename;
 
       this.newddentryTemp.ddDate = this.newddEntry.ddDate;
       this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
@@ -245,6 +249,7 @@ export class ProspectusComponent implements OnInit {
       this.newddEntry.isVerified = false;
       this.newddEntry.isddIdentered = false;
       this.newddEntry.isidVerified = false;
+      this.newddentry.enteredBy = this.cookienametodb;
 
       let ddEntryJson = JSON.stringify(this.newddEntry);
       console.log(ddEntryJson);

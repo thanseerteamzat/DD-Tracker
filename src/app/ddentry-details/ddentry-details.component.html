@@ -1,4 +1,4 @@
-<div class="wrapper ">
+<div class="wrapper " style="margin-left: 50px">
 
     <!-- Page Content Holder -->
     <div id="content" class="createcontent">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="center">Centre Name</label>
-                   <select [(ngModel)]="newddentry.centerId" class="form-control" name="selectedcenter" formControlName="centerName">
+                   <select disabled="true" [(ngModel)]="newddentry.centerId" class="form-control" name="selectedcenter" formControlName="centerName">
                         <option value="">--Choose--</option>
                         <ng-container readonly *ngFor="let s of centers">
                             <option [ngValue]="s.Id">{{s.CenterName}}</option>

@@ -33,6 +33,7 @@ import { DdentryDetailsComponent } from './ddentry-details/ddentry-details.compo
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ProspectusComponent } from './prospectus/prospectus.component';
 import { CookieService } from 'ngx-cookie-service';
+import { ErrorComponent } from './error/error.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
   { path: 'dd-id-verification', component: DdIdVerificationComponent },
   { path: 'ddentry-details', component: DdentryDetailsComponent },
   { path: 'ddentry-details/:ddlastId', component: DdentryDetailsComponent },
-  { path: 'prospectus', component: ProspectusComponent }
+  { path: 'prospectus', component: ProspectusComponent },
+  { path: 'error', component: ErrorComponent }
 ];
 
 
@@ -71,7 +73,8 @@ const appRoutes: Routes = [
     RollnoEntryComponent,
     DdIdVerificationComponent,
     DdentryDetailsComponent,
-    ProspectusComponent
+    ProspectusComponent,
+    ErrorComponent
   ],
   imports: [
     FormsModule,
@@ -81,7 +84,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     HttpClientModule,
     MatDatepickerModule,
-  
+
     BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,

@@ -63,6 +63,13 @@ export class DdIdEntryComponent implements OnInit {
 
   ngOnInit() {
 
+    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+      this.router.navigate(['/dd-id-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
+
   }
   updateDD(key, ddentry: ddEntry) {
     this.db.database.ref(`ddEntry/${key}`).once("value", snapshot => {

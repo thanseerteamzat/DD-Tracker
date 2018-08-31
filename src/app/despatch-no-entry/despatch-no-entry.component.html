@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" style="margin-left: 50px">
     <h2>Despatch No Entry</h2>
     <div class="row" style="padding-top: 30px;">
         <div class="form-group col-md-3">
@@ -48,9 +48,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor='let ddenter of selectedData '>
-                        <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter?.isddIdentered==true">
-                            <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+                    <!-- <ng-container *ngFor='let ddenter of selectedData '> -->
+                       <tr> <!-- <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter?.isddIdentered==true"> -->
+                            <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td>
                             <td>{{ddenter.ddenter.ddlastId}}</td>
                             
                             <td>{{ddenter.ddenter?.dDate}}</td>
@@ -66,13 +66,25 @@
                             <td>{{ddenter.ddenter?.enteredBy}}</td>
                             <td>{{ddenter.ddenter?.feesItem}}</td>
                             <td>{{ddenter.ddenter?.ddId}}</td>
+                            -->
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
+                            <td>test</td>
                             <td>
                                 <mat-checkbox></mat-checkbox>
                             </td>
 
 
                         </tr>
-                    </ng-container>
+                    <!-- </ng-container> -->
                 </tbody>
 
             </table>

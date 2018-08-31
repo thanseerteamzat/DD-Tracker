@@ -21,7 +21,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./dd-entry.component.css']
 })
 export class DdEntryComponent implements OnInit {
-  
+
   //api url and center variable
   centers: Center[];
   courses: Course[];
@@ -66,8 +66,7 @@ export class DdEntryComponent implements OnInit {
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
-    console.log('**********************************')
-    console.log(id);
+  
     if (id != undefined) {
       this.qIdEditMode = id;
       this.isEditMode = true;
@@ -84,7 +83,7 @@ export class DdEntryComponent implements OnInit {
       () => console.log('Get all complete'));
 
     if (id != undefined) {
-      console.log('12345678901234567892345678234567856789', id)
+      // console.log('12345678901234567892345678234567856789', id)
       let dReference = db.object('ddEntry');
       dReference.snapshotChanges().subscribe(action => {
         console.log(action.type);
@@ -104,10 +103,7 @@ export class DdEntryComponent implements OnInit {
           if (obj.ddlastId != undefined && (obj.ddlastId) == id) {
             obj.ddlastId = obj.ddlastId.replace("/", "");
             this.newddEntry = obj;
-            console.log('0000000000000000000000000000', this.newddEntry)
-            console.log(this.newddEntry.centerId);
-            console.log(this.newddEntry.courseName)
-
+            
             // let center = this.centerList.filter(s => s.Id==(obj.centerId));
             // // console.log('000000000000000',center)
             // if (center.length > 0) {
@@ -131,7 +127,7 @@ export class DdEntryComponent implements OnInit {
         let obj: ddLastid = JSON.parse(element);
         this.newddLastId = obj;
         this.ddLastids.push(obj as ddLastid);
-        console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
         this.count = obj.lastId;
         this.fromLastId = obj.Id;
 
@@ -168,11 +164,14 @@ export class DdEntryComponent implements OnInit {
 
 
   ngOnInit() {
-  this.ets.getCookie(this.ets.cookievalue)
-    console.log('cokieeeeeeeeeeee',this.ets.cookievalue)
 
-    if (this.ets.cookievalue == "2") {
-      this.router.navigate(['/dd-verification'])
+    console.log('cokieeeeeeeee name',this.ets.cookiename)
+    this.newddentry.enteredBy = this.ets.cookiename;
+    if (this.ets.cookievalue == "1") {
+      this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
     }
   }
 
@@ -211,6 +210,7 @@ export class DdEntryComponent implements OnInit {
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
+          
           if (confirm('Are you sure to update details')) {
             updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
             try {
@@ -247,6 +247,8 @@ export class DdEntryComponent implements OnInit {
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
+          
+
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
           try {
             if (confirm('Are you sure to update details')) {
@@ -299,6 +301,7 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
+         
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;
@@ -317,6 +320,7 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
+          
 
           let ddEntryJson = JSON.stringify(this.newddEntry);
           console.log(ddEntryJson);
@@ -341,6 +345,7 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
+        
 
         // let uniqueId = "/DD" + Common.newGuid();
         // this.newddEntry.dduId = uniqueId;
@@ -359,6 +364,7 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
+        
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Center } from "src/app/models/Center";
 import { EtsService } from "src/app/services/ets.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dba-no-entry',
@@ -11,7 +12,7 @@ export class DbaNoEntryComponent implements OnInit {
 
   centers: Center[] = [];
   
-  constructor(private ets: EtsService) { 
+  constructor(private ets: EtsService,private router:Router) { 
     let that = this;
     this.ets.GetAllCenters().subscribe(data => {
       that.centers = data;
@@ -22,6 +23,12 @@ export class DbaNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+      this.router.navigate(['/dba-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
 
 }

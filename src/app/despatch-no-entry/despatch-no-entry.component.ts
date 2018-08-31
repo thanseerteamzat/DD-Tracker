@@ -4,6 +4,7 @@ import { Center } from '../models/Center';
 import { Common } from '../models/common';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from "src/app/services/ets.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -21,7 +22,8 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   constructor(private db: AngularFireDatabase,
-    private ets: EtsService
+    private ets: EtsService,
+    private router:Router
   ) {
 
 
@@ -75,6 +77,12 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+      this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
   filterCenter(key) {
     let centerResponse = this.ets.centerList;
