@@ -1,0 +1,78 @@
+<div class="wrapper">
+    <h2>DBA No Entry</h2>
+    <div class="row" style="padding-top: 30px;">
+        <div class="form-group col-md-3">
+
+            <label>Filter DD's  with Centre Name : </label>&nbsp;
+            <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
+            <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
+            <ng-container *ngFor="let s of centers">
+                <option [ngValue]="s.Id">{{s.CenterName}}</option>
+            </ng-container>
+
+        </select>
+        </div>
+
+        <div class="form-group col-md-3">
+
+            <label>Note : Select DD's and Enter DBA  No here </label>&nbsp;
+            <input type="text" class="form-control">
+        </div>
+        
+        <div class="form-group col-md-3">
+
+            <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> --><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+
+        <div style="padding-top: 50px;">
+
+            <table class="table table-hover table-responsive table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th height="50" bgcolor="#6599F">SL NO</th>
+                        <th>Date</th>
+
+                        <th>Center Name</th>
+                        <th>Student Name</th>
+                        <th>DD No</th>
+                        <th>Bank</th>
+
+                        <th>DD Date</th>
+                        <th>DD Amount</th>
+                        <th>Entered By</th>
+                        <th>Fees Item</th>
+                        <th>DD ID </th>
+                        <th>Despatch No</th>
+                        <th></th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                         <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>
+                            <mat-checkbox></mat-checkbox>
+                        </td>
+
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="wrapper ">
+
+    <div id="content" class="listcontent listcontenttable">
+        <h2>DD Entry Verification</h2>
+        <div style="height:20px"></div>
+        <div>
+            <table class="table table-hover table-responsive table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th height="50" bgcolor="#6599F">SL NO</th>
+                        <th>DD Serial No</th>
+                        <th>Date</th>
+                        <th>Application No</th>
+
+                        <th>Centre Name</th>
+                        <th>Course Name</th>
+                        <th>Student Name</th>
+                        <th>DD No</th>
+                        <th>Bank</th>
+
+                        <th>DD Date</th>
+
+                        <th>DD Amount</th>
+
+                        <th>Entered By</th>
+                        <th>Fees Item</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor='let ddenter of ddLists '>
+                        <tr *ngIf="ddenter.ddenter.isVerified  == false">
+                            <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+                            <td>{{ddenter.ddenter.ddlastId}}</td>
+                            <td>{{ddenter.ddenter.dDate}}</td>
+                            <td>{{ddenter.ddenter.appNo}}</td>
+
+                            <td>{{ddenter.center.CenterName}}</td>
+                            <td>{{ddenter.ddenter.courseName}}</td>
+                            <td>   {{ddenter.ddenter.studentName}}
+                            </td>
+                         
+                            <!-- <button type="button" class="btn btn-link">
+                                    <a [routerLink]="['/ddentry-details', ddenter.ddenter.ddlastId]">{{ddenter.ddenter.studentName}}</a>
+                                </button> -->
+
+
+                            <td>{{ddenter.ddenter.ddNumber}}</td>
+                            <td>{{ddenter.ddenter.bank}}</td>
+
+                            <td>{{ddenter.ddenter.ddDate}}</td>
+
+                            <td>{{ddenter.ddenter.Amount}}</td>
+
+                            <td>{{ddenter.ddenter.enteredBy}}</td>
+                            <td>{{ddenter.ddenter.feesItem}}</td>
+
+                         
+                            <td>
+                                <button type="button" class="btn btn-primary">
+                                    <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+            </table>
+            <div>
+                <div style="padding-top: 50px;">
+                    <h2>Verified DD Entries</h2>
+
+                    <table class="table table-hover table-responsive table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th height="50" bgcolor="#6599F">SL NO</th>
+                                <th>DD Serial No</th>
+
+                                <th>Date</th>
+                                <th>Application No</th>
+                                <th>Centre Name</th>
+                                <th>Course Name</th>
+                                <th>Student Name</th>
+                                <th>DD No</th>
+                                <th>Bank</th>
+
+                                <th>DD Date</th>
+
+                                <th>DD Amount</th>
+                                <th>Entered By</th>
+
+                                <th>Fees Item</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor='let ddenter of ddLists '>
+                                <tr *ngIf="ddenter.ddenter.isVerified == true">
+                                    <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+
+                                    <td>{{ddenter.ddenter.ddlastId}}</td>
+
+                                    <td>{{ddenter.ddenter.dDate}}</td>
+                                    <td>{{ddenter.ddenter.appNo}}</td>
+
+                                    <td>{{ddenter.center.CenterName}}</td>
+                                    <td>{{ddenter.ddenter.courseName}}</td>
+
+                                    <td>{{ddenter.ddenter.studentName}}</td>
+                                    <td>{{ddenter.ddenter.ddNumber}}</td>
+                                    <td>{{ddenter.ddenter.bank}}</td>
+
+                                    <td>{{ddenter.ddenter.ddDate}}</td>
+
+                                    <td>{{ddenter.ddenter.Amount}}</td>
+
+                                    <td>{{ddenter.ddenter.enteredBy}}</td>
+                                    <td>{{ddenter.ddenter.feesItem}}</td>
+                                    <td>verified</td>
+
+                                </tr>
+                            </ng-container>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

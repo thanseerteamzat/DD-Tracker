@@ -1,0 +1,49 @@
+
+<div>
+    <nav class="navbar1"></nav>
+    <nav class="navbar navbar-default navstyle">
+      <div class="container-fluid ">
+        <!-- <div class="navbar-header headerStyle">     
+        <img class="logoimg"  alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">     
+      </div> -->
+        <div class="titlestyle">
+          <a class="navbar-brand headerText" href="#">{{ title }}</a>
+        </div>
+        
+    <div style="float:right; padding-top: 10px;" >{{ version }}
+      <!-- <select class="form-control">
+       <option   disabled [selected]=""> Settings</option>
+        <option>Add Centre Name</option>
+        <option>Add Bank Name</option>
+        
+      </select>  -->
+      <button class="but" mat-button [matMenuTriggerFor]="menu">Admin Settings</button>
+<mat-menu #menu="matMenu">
+  <!-- <button mat-menu-item><a routerLink="/center">Add New Centre </a></button> -->
+  <button mat-menu-item><a routerLink="/addbank" >Add New Bank </a></button>
+</mat-menu>
+
+      <!-- <a [routerLink]="['/login']">Logout</a> -->
+    </div>
+  
+      </div>
+    </nav>
+  </div>
+  <div>
+        <div class="navbar-header">
+          <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+            <i class="glyphicon glyphicon-align-left"></i>
+      
+          </button>
+        </div>
+        <div class="sidebar">
+       <app-sidebar></app-sidebar>
+
+        </div>
+        </div>
+      
+
+        <div>
+<router-outlet></router-outlet>
+            
+        </div> 
