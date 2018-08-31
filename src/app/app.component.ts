@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
+import { CookieService } from 'ngx-cookie-service';
+import { EtsService } from './services/ets.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,11 @@ import { toBase64String } from '@angular/compiler/src/output/source_map';
 })
 export class AppComponent implements OnInit {
   title = 'DD Tracker';
-  version = '30/08/2018(N)';
+  version = '31/08/2018, 12:00pm(N)';
   // userId:[];
-  constructor(private route: ActivatedRoute) { }
+  cookievalue;
+  expiredDate: Date;
+  constructor(private route: ActivatedRoute, private cookieService: CookieService, private ets: EtsService) { }
   ngOnInit() {
 
 
@@ -19,20 +23,28 @@ export class AppComponent implements OnInit {
       var userId = params['u'];
       let password = params['p'];
       let privilege = params['q']
-      console.log('aaaaaaaaaaaaaaaaaa', userId)
-      try {
-        var decoded = window.atob(userId);
-        //  document.getElementById("decoded").innerHTML = decoded;
-        // var encoded = btoa(userId)
-        // console.log(btoa(userId),btoa(password));
+      
 
-        // console.log('covertedddddddddddddddd', encoded);
-        console.log('covertedddddddddddddddd', decoded);
+
+      try {
+        var u = window.atob(userId);
+        this.ets.cookievalue = privilege;
+      this.ets.cookiename = u;
+      console.log('aaaaaaaaaaaaaaaaaa', privilege)
+      this.expiredDate = new Date();
+      this.expiredDate.setDate(this.expiredDate.getDate() + 1);
+      this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate)
+
       }
       catch (e) {
         console.log(e);
       }
+
+
+
     });
   }
+
+
 
 }

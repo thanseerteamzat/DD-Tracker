@@ -14,13 +14,14 @@ import { EtsService } from "src/app/services/ets.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ddLastid } from '../models/ddLastid';
 import { ddentryTemp } from '../models/ddentryTemp';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-dd-entry',
   templateUrl: './dd-entry.component.html',
   styleUrls: ['./dd-entry.component.css']
 })
 export class DdEntryComponent implements OnInit {
-
+  
   //api url and center variable
   centers: Center[];
   courses: Course[];
@@ -59,6 +60,7 @@ export class DdEntryComponent implements OnInit {
     private config: ConfigService,
     private ets: EtsService,
     private fb: FormBuilder,
+    private cookieservice: CookieService
 
   ) {
     this.ddcreateForm();
@@ -156,6 +158,7 @@ export class DdEntryComponent implements OnInit {
     this.newddEntry.ddDate = this.formatDate(dddate);
     this.newddEntry.dDate = this.formatDate(todayDate);
 
+
   }
 
 
@@ -165,6 +168,12 @@ export class DdEntryComponent implements OnInit {
 
 
   ngOnInit() {
+  this.ets.getCookie(this.ets.cookievalue)
+    console.log('cokieeeeeeeeeeee',this.ets.cookievalue)
+
+    if (this.ets.cookievalue == "2") {
+      this.router.navigate(['/dd-verification'])
+    }
   }
 
   //date format

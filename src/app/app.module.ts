@@ -32,6 +32,7 @@ import { DdIdVerificationComponent } from './dd-id-verification/dd-id-verificati
 import { DdentryDetailsComponent } from './ddentry-details/ddentry-details.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ProspectusComponent } from './prospectus/prospectus.component';
+import { CookieService } from 'ngx-cookie-service';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -70,8 +71,7 @@ const appRoutes: Routes = [
     RollnoEntryComponent,
     DdIdVerificationComponent,
     DdentryDetailsComponent,
-    ProspectusComponent,
-
+    ProspectusComponent
   ],
   imports: [
     FormsModule,
@@ -81,6 +81,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     HttpClientModule,
     MatDatepickerModule,
+  
     BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
@@ -90,7 +91,7 @@ const appRoutes: Routes = [
 
     MatButtonModule, MatCheckboxModule, MatMenuModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
