@@ -23,9 +23,8 @@ export class DespatchNoEntryComponent implements OnInit {
 
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
-    private router:Router
+    private router: Router
   ) {
-
 
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
@@ -34,7 +33,7 @@ export class DespatchNoEntryComponent implements OnInit {
       this.centerList.push(cent);
 
     }
-    this.selectedData = this.centerList;
+    // this.selectedData = this.centerList;
 
 
     let that = this;
@@ -48,32 +47,36 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
 
-    // let itemRef = db.object('ddEntry');
-    // itemRef.snapshotChanges().subscribe(action => {
-    //   this.ddLists = [];
-    //   var quatationsList = action.payload.val();
-    //   let quotationobj = Common.snapshotToArray(action.payload);
-    //   quotationobj.forEach(element => {
-    //     let ddListItem = new ddList();
-    //     let qobj: ddEntry = JSON.parse(element);
-    //     // console.log("****" + element);
-    //     if (qobj.dduId != undefined) {
-    //       qobj.dduId = qobj.dduId.replace("/", "");
-    //     }
+    let itemRef = db.object('ddEntry');
+    itemRef.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new ddList();
+        let qobj: ddEntry = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.dduId != undefined) {
+          qobj.dduId = qobj.dduId.replace("/", "");
+        }
 
-    //     ddListItem.ddenter = qobj;
+        ddListItem.ddenter = qobj;
 
-    //     let centList = this.centerList.filter(s => s.Id == (qobj.centerId));
-    //     if (centList.length > 0) {
-    //       ddListItem.center = centList[0];
-    //       this.selectedCenter = this.centerList[0].Id;
-    //     }
+        let centList = this.centerList.filter(s => s.Id == (qobj.centerId));
+        if (centList.length > 0) {
+          ddListItem.center = centList[0];
+          this.selectedCenter = this.centerList[0].Id;
+          console.log('***********', this.selectedCenter)
+        }
 
-    //     this.ddLists.push(ddListItem);
+        this.ddLists.push(ddListItem);
 
-    //   });
+        // console.log('**********', this.selectedData)
 
-    // });
+      });
+
+    });
+
   }
 
   ngOnInit() {
@@ -85,17 +88,12 @@ export class DespatchNoEntryComponent implements OnInit {
     // }
   }
   filterCenter(key) {
-    let centerResponse = this.ets.centerList;
-    //  Iterate throw all keys.
-    for (let cent of centerResponse) {
 
-      this.centerList.push(cent);
 
-    }
-    this.selectedData = this.centerList;
-    console.log('data.........', this.selectedData)
+    // console.log('ddlists', this.ddLists)
 
-    this.selectedData = this.centerList.filter(s => s.Id == key);
+
+    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
 
     console.log('........', this.selectedData)
 

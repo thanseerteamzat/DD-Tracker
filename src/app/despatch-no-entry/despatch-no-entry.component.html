@@ -48,10 +48,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <ng-container *ngFor='let ddenter of selectedData '> -->
-                       <tr> <!-- <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter?.isddIdentered==true"> -->
-                            <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td>
-                            <td>{{ddenter.ddenter.ddlastId}}</td>
+                    <ng-container *ngFor='let ddenter of selectedData '>
+                       <tr> <tr *ngIf="ddenter.ddenter?.isVerified  == true">
+                             <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+                            <td>{{ddenter.ddenter?.ddlastId}}</td>
                             
                             <td>{{ddenter.ddenter?.dDate}}</td>
                             <td>{{ddenter.center?.CenterName}}</td>
@@ -66,7 +66,8 @@
                             <td>{{ddenter.ddenter?.enteredBy}}</td>
                             <td>{{ddenter.ddenter?.feesItem}}</td>
                             <td>{{ddenter.ddenter?.ddId}}</td>
-                            -->
+                            
+                            <!-- <td>test</td>
                             <td>test</td>
                             <td>test</td>
                             <td>test</td>
@@ -76,15 +77,14 @@
                             <td>test</td>
                             <td>test</td>
                             <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
+                            <td>test</td> -->
                             <td>
                                 <mat-checkbox></mat-checkbox>
                             </td>
 
 
                         </tr>
-                    <!-- </ng-container> -->
+                    </ng-container> 
                 </tbody>
 
             </table>
