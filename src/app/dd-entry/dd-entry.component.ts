@@ -51,7 +51,7 @@ export class DdEntryComponent implements OnInit {
   ddentries: ddEntry[] = [];
   newddentry: ddEntry = new ddEntry();
   qIdEditMode: string = undefined;
-
+  check : string;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -66,6 +66,10 @@ export class DdEntryComponent implements OnInit {
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
+    console.log('this is id ********************************');
+    
+    console.log(id);
+    // console.log()
   
     if (id != undefined) {
       this.qIdEditMode = id;
@@ -167,12 +171,20 @@ export class DdEntryComponent implements OnInit {
 
     console.log('cokieeeeeeeee name',this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
-    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3") {
-      this.router.navigate(['/dd-entry'])
+    
+    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3" || this.ets.cookievalue == "2") {
+      // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
     }
+
+     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name',this.ets.cookiename)
+    this.check = this.ets.cookiename;
+    this.newddEntry.enteredBy = this.check;
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check',this.newddEntry.enteredBy)
+     
+    
   }
 
   //date format

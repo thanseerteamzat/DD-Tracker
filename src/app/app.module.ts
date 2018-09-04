@@ -34,6 +34,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ProspectusComponent } from './prospectus/prospectus.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
+import { ProspectusDetailsComponent } from './prospectus-details/prospectus-details.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -74,7 +75,8 @@ const appRoutes: Routes = [
     DdIdVerificationComponent,
     DdentryDetailsComponent,
     ProspectusComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProspectusDetailsComponent
   ],
   imports: [
     FormsModule,

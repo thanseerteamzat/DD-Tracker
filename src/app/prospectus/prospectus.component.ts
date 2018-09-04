@@ -18,7 +18,7 @@ import { Common } from '../models/common';
   styleUrls: ['./prospectus.component.css']
 })
 export class ProspectusComponent implements OnInit {
-
+  check :string;
   centers: Center[];
   courses: Course[];
   ddLists: ddList[] = [];
@@ -159,15 +159,32 @@ export class ProspectusComponent implements OnInit {
     return [day, month, year].join('-');
   }
   ngOnInit() {
-    console.log('cokieeeeeeeee name', this.ets.cookiename)
+    // console.log('cokieeeeeeeee name', this.ets.cookiename)
+    // this.newddentry.enteredBy = this.ets.cookiename;
+    // if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3") {
+    //   this.router.navigate(['/prospectus'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
+    // this.cookienametodb = this.ets.cookiename
+
+    console.log('cokieeeeeeeee name',this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
-    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3") {
-      this.router.navigate(['/dd-entry'])
+    
+    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3" || this.ets.cookievalue == "2") {
+      // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
     }
-    this.cookienametodb = this.ets.cookiename
+
+     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name',this.ets.cookiename)
+    this.check = this.ets.cookiename;
+    this.newddEntry.enteredBy = this.check;
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check',this.newddEntry.enteredBy)
+     
+    
   }
   register(key, dlastid: ddLastid) {
     console.log('******************************************* Not Edit Mode')

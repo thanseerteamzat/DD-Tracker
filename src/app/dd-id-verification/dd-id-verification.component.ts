@@ -75,12 +75,12 @@ export class DdIdVerificationComponent implements OnInit {
   ngOnInit() {
 
     
-    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
-      this.router.navigate(['/dd-id-verification'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+    //   this.router.navigate(['/dd-id-verification'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
   }
   verify(key, ddentry: ddEntry) {
     this.db.database.ref(`ddEntry/${key}`).once("value", snapshot => {

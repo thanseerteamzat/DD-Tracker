@@ -112,6 +112,10 @@ export class DdentryDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  
+    // console.log('***************************************************111111',this.newddentry.ddlastId);
+    
   }
 
   ddentryForm = new FormGroup({

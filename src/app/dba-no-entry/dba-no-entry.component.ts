@@ -23,12 +23,12 @@ export class DbaNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
-      this.router.navigate(['/dba-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+    //   this.router.navigate(['/dba-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
   }
 
 }

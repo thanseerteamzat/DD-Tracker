@@ -11,7 +11,7 @@ import { EtsService } from './services/ets.service';
 })
 export class AppComponent implements OnInit {
   title = 'DD Tracker';
-  version = '31/08/2018, 12:00pm(N)';
+  version = '03/09/2018(N)';
   // userId:[];
   cookievalue;
   expiredDate: Date;
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
         var u = window.atob(userId);
         this.ets.cookievalue = privilege;
       this.ets.cookiename = u;
-      console.log('aaaaaaaaaaaaaaaaaa', privilege)
+      console.log('aaaaaaaaaaaaaaaaaa', privilege);
       this.expiredDate = new Date();
       this.expiredDate.setDate(this.expiredDate.getDate() + 1);
       this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate)
