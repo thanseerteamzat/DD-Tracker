@@ -62,11 +62,12 @@ export class DespatchNoEntryComponent implements OnInit {
 
         ddListItem.ddenter = qobj;
 
-        let centList = this.centerList.filter(s => s.Id == (qobj.centerId));
+        let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+
         if (centList.length > 0) {
           ddListItem.center = centList[0];
-          this.selectedCenter = this.centerList[0].Id;
-          console.log('***********', this.selectedCenter)
+
+          console.log('selected****', this.selectedCenter)
         }
 
         this.ddLists.push(ddListItem);
@@ -100,5 +101,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   }
-
+  onClick(event: any) {
+    console.log('**********', event)
+  }
 }
