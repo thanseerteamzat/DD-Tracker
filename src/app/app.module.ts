@@ -53,7 +53,8 @@ const appRoutes: Routes = [
   { path: 'ddentry-details', component: DdentryDetailsComponent },
   { path: 'ddentry-details/:ddlastId', component: DdentryDetailsComponent },
   { path: 'prospectus', component: ProspectusComponent },
-  { path: 'error', component: ErrorComponent }
+  { path: 'error', component: ErrorComponent },
+  { path: 'despatchno-list',component:DespatchnoListComponent}
 ];
 
 

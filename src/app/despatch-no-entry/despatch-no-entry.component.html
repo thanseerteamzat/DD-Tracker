@@ -96,7 +96,19 @@
             </table>
 
             <h2>Despatch No List</h2>
-
+            <div class="row" style="padding-top: 30px;">
+                <div class="form-group col-md-3">
+        
+                    <label>Filter DD's with Centre Name : </label>&nbsp;
+                    <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
+                        <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
+                        <ng-container *ngFor="let s of centers">
+                            <option [ngValue]="s.Id">{{s.CenterName}}</option>
+                        </ng-container>
+        
+                    </select>
+                </div>
+            
             <table class="table table-hover table-responsive table-bordered">
                 <thead class="thead-dark">
                     <tr>
