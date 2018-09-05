@@ -35,6 +35,7 @@ import { ProspectusComponent } from './prospectus/prospectus.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
 import { ProspectusDetailsComponent } from './prospectus-details/prospectus-details.component';
+import { DespatchnoListComponent } from './despatchno-list/despatchno-list.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -76,7 +77,8 @@ const appRoutes: Routes = [
     DdentryDetailsComponent,
     ProspectusComponent,
     ErrorComponent,
-    ProspectusDetailsComponent
+    ProspectusDetailsComponent,
+    DespatchnoListComponent
   ],
   imports: [
     FormsModule,
