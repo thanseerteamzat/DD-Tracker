@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ddList, ddEntry } from '../models/ddEntry';
+import { ddList, ddEntry, CheckTemp } from '../models/ddEntry';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from "src/app/services/ets.service";
 import { Router } from '@angular/router';
+import { registerContentQuery } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./despatch-no-entry.component.css']
 })
 export class DespatchNoEntryComponent implements OnInit {
+  newddEntry: ddEntry = new ddEntry();
 
   ddLists: ddList[] = [];
   centerList: Center[] = [];
@@ -19,7 +21,8 @@ export class DespatchNoEntryComponent implements OnInit {
   selectedCenter: string = "";
   selectedData;
   centerData;
-
+  checklist: CheckTemp[] = [];
+  public temp: string;
 
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
@@ -59,7 +62,7 @@ export class DespatchNoEntryComponent implements OnInit {
         if (qobj.dduId != undefined) {
           qobj.dduId = qobj.dduId.replace("/", "");
         }
-
+        this.newddEntry = qobj;
         ddListItem.ddenter = qobj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
@@ -78,6 +81,18 @@ export class DespatchNoEntryComponent implements OnInit {
 
     });
 
+
+  }
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
   }
 
   ngOnInit() {
@@ -90,10 +105,6 @@ export class DespatchNoEntryComponent implements OnInit {
   }
   filterCenter(key) {
 
-
-    // console.log('ddlists', this.ddLists)
-
-
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
 
     console.log('........', this.selectedData)
@@ -101,7 +112,50 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   }
-  onClick(event: any) {
-    console.log('**********', event)
+  onClick(event, temp, ddEntry: ddEntry) {
+    console.log(event)
+
+    if (event == true) {
+      for (let i = 0; i < temp.length; i++) {
+
+        this.checklist.push(ddEntry);
+
+
+      }
+      console.log('event****', this.checklist)
+    }
+    else if (event == false) {
+
+      this.checklist.pop();
+
+    }
   }
+  register() {
+
+
+    for (let i = 0; i <= this.checklist.length; i++) {
+      var temp = this.checklist[i];
+      var tempid = temp.ddlastId;
+      var despref = this.newddEntry.despatchNo;
+      var despdate = this.formatDate(this.newddEntry.despatchDate);
+      temp.despatchNo = despref;
+      temp.despatchDate = despdate
+      var updates = {}
+
+      updates['/ddEntry/' + tempid] = JSON.stringify(temp);
+      try {
+
+        let up = this.db.database.ref().update(updates);
+        this.router.navigate(['/dba-no-entry'])
+      }
+      catch (e) {
+
+      }
+
+    }
+
+
+
+  }
+
 }

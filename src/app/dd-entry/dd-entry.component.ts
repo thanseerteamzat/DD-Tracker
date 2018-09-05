@@ -230,7 +230,7 @@ export class DdEntryComponent implements OnInit {
 
             }
             catch (ex) {
-              alert("Error in Updating Quotation");
+              alert("Error in Updating details");
             }
             this.newddentryTemp.bank = this.newddentry.bank;
             this.newddentryTemp.ddDate = this.newddentry.ddDate;
