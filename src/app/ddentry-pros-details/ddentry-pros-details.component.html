@@ -12,13 +12,13 @@
                     <div *ngIf='!isEditable' style="float:left;margin-left: 35%;margin-top: 4%">
                             
                         <button type="button" class="btn btn-primary">
-                            <a [routerLink]="['/prospectus', newddentry.ddlastId]">Edit</a>
+                            <a style="color: white"    [routerLink]="['/prospectus', newddentry.ddlastId]">Edit</a>
                         </button>&nbsp;&nbsp;
                                 <button type="submit" class="btn btn-primary" (click)="verify(newddentry.ddlastId,newddentry)">Verify</button>
                        &nbsp;
                        &nbsp;
                         <button type="button" class="btn btn-primary">
-                                <a [routerLink]="['/dd-verification']">Cancel</a>
+                                <a style="color: white" [routerLink]="['/dd-verification']">Cancel</a>
                             </button>
                     </div>
                 </div>
