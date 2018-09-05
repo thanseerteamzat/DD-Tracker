@@ -36,6 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
 import { ProspectusDetailsComponent } from './prospectus-details/prospectus-details.component';
 import { DespatchnoListComponent } from './despatchno-list/despatchno-list.component';
+import { DdentryProsDetailsComponent } from './ddentry-pros-details/ddentry-pros-details.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -53,8 +54,11 @@ const appRoutes: Routes = [
   { path: 'ddentry-details', component: DdentryDetailsComponent },
   { path: 'ddentry-details/:ddlastId', component: DdentryDetailsComponent },
   { path: 'prospectus', component: ProspectusComponent },
+  { path: 'prospectus/:ddlastId', component: ProspectusComponent },
+  
   { path: 'error', component: ErrorComponent },
-  { path: 'despatchno-list',component:DespatchnoListComponent}
+  { path: 'despatchno-list',component:DespatchnoListComponent},
+  { path:'ddentrypros-details/:ddlastId',component:DdentryProsDetailsComponent},
 ];
 
 
@@ -79,7 +83,8 @@ const appRoutes: Routes = [
     ProspectusComponent,
     ErrorComponent,
     ProspectusDetailsComponent,
-    DespatchnoListComponent
+    DespatchnoListComponent,
+    DdentryProsDetailsComponent
   ],
   imports: [
     FormsModule,

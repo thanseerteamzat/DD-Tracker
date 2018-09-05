@@ -1,0 +1,232 @@
+<div class="wrapper " style="margin-left: 50px">
+
+    <!-- Page Content Holder -->
+    <div id="content" class="createcontent">
+        <form name="form" (ngSubmit)="register()" #f="ngForm" novalidate>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <div style="float:left">
+                                              <h2>DD Entry Prospectus Details</h2>
+                    </div>                   
+                    <div *ngIf='!isEditable' style="float:left;margin-left: 35%;margin-top: 4%">
+                            
+                        <button type="button" class="btn btn-primary">
+                            <a [routerLink]="['/prospectus', newddentry.ddlastId]">Edit</a>
+                        </button>&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary" (click)="verify(newddentry.ddlastId,newddentry)">Verify</button>
+                       &nbsp;
+                       &nbsp;
+                        <button type="button" class="btn btn-primary">
+                                <a [routerLink]="['/dd-verification']">Cancel</a>
+                            </button>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-md-2">
+                    <br>
+                    <label for="ddid"> DD Serial No : &nbsp;</label>
+                    <span  style="color: red">{{newddentry.ddlastId}}</span>
+
+                    <!-- <input readonly type="hidden" disabled [(ngModel)]="newddEntry.ddlastId" name="lastId" class="form-control"> -->
+                </div>
+
+                <div class="form-group col-md-2"  >
+                    <label for="date">Date</label>
+                    <input readonly type="date" [(ngModel)]="newddentry.dDate" name="dDate" class="form-control"  >
+                    
+                </div>
+
+                
+
+
+
+
+                <div class="form-group col-md-2" [formGroup]="ddentryForm">
+                    <label for="feesItem">Fees Item</label>
+                    <input readonly type="text"  [(ngModel)]="newddentry.feesItem" class="form-control" name="feesItem" formControlName="feesItem">
+                    
+                    <!-- <select readonly [(ngModel)]="newddentry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
+                        <option value="" disabled [selected]>--Choose--</option>
+                        <ng-container readonly>
+                            <option>Course Fee</option>
+                            <option>Prospectus</option>
+                            <option>Re exam</option>
+                            <option>Renewal Fee</option>
+        
+                            <option>Affiliation</option>
+                            <option>Inspection</option>
+                            <option>Duplicate Certificate/Marklist</option>
+        
+        
+                        </ng-container>
+        
+                    </select> -->
+                    <div *ngIf="feesItem.invalid && (feesItem.dirty || feesItem.touched)" class="alert-danger">
+                        <div *ngIf="feesItem.errors.required">
+                            Please select fees item
+                        </div>
+        
+                    </div>
+                </div>
+        
+
+
+
+
+
+                <div class="form-group col-md-2" [formGroup]="ddentryForm">
+                    <label for="center">Centre Name</label>
+                   <select disabled="true" [(ngModel)]="newddentry.centerId" class="form-control" name="selectedcenter" formControlName="centerName">
+                        <option value="">--Choose--</option>
+                        <ng-container readonly *ngFor="let s of centers">
+                            <option [ngValue]="s.Id">{{s.CenterName}}</option>
+                        </ng-container>
+
+                    </select>
+                    <div readonly *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+                        <div *ngIf="centerName.errors.required">
+                            Please select a center
+                        </div>
+
+                    </div>
+
+
+                    <!-- <label for="centerName">Center Name</label>
+                <input type="text" class="form-control" placeholder="Center Name"> -->
+                </div>
+             
+                
+            </div>
+
+            <div class="row">
+                  
+              
+                <div class="form-group col-md-2" [formGroup]="ddentryForm">
+                    <label for="ddNo">DD Number</label>
+                    <input readonly type="text" class="form-control" [(ngModel)]="newddentry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
+                    <div *ngIf="ddNumber.invalid && (ddNumber.dirty || ddNumber.touched)" class="alert-danger">
+                        <div *ngIf="ddNumber.errors.required">
+                            DD Number is Required
+                        </div>
+                        <div *ngIf="ddNumber.errors.minlength">
+                            Minimum is 6 digit number
+                        </div>
+                        <div *ngIf="ddNumber.errors.maxlength">
+                            Maximum is 6 digit number
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group col-md-2" [formGroup]="ddentryForm">
+                    <label for="bank">Bank</label>
+                    <input readonly type="text"  [(ngModel)]="newddentry.bank" class="form-control" name="bank" formControlName="bank">
+                    
+
+                    <!-- <select readonly [(ngModel)]="newddentry.bank" class="form-control" name="bank" formControlName="bank">
+                        <option value="" disabled [selected]>--Choose--</option>
+                        <ng-container readonly>
+                            <option>AXIS BANK</option>
+                            <option>BANK OF BARODA</option>
+                            <option>BANK OF INDIA (BOI)</option>
+                            <option>CANARA BANK</option>
+                            <option>CENTRAL BANK OF INDIA</option>
+                            <option>CHALLAN BANK OF INDIA</option>
+                            <option>CORPORATION BANK</option>
+                            <option>DHANALEKSHI BANK</option>
+                            <option>FEDERAL BANK</option>
+                            <option>HDFC</option>
+                            <option>ICICI</option>
+                            <option>IDBI</option>
+                            <option>INDIAN BANK</option>
+                            <option> INDIAN OVERSEAS BANK (IOB)</option>
+                            <option>INDUSIND BANK</option>
+                            <option>KARUR VYSYA BANK</option>
+                            <option>KERALA GRAMIN BANK</option>
+                            <option>PUNJAB NATIONAL BANK</option>
+                            <option>SOUTH INDIAN BANK (SIB)</option>
+                            <option>SPL PB</option>
+                            <option>STATE BANK OF INDIA(SBI)</option>
+                            <option>STATE BANK OF TRAVANCORE(SBT)</option>
+                            <option>SYNDICATE BANK</option>
+                            <option>THE CATHOLIC SYRIAN BANK</option>
+                            <option>UNION BANK OF INDIA (UBI)</option>
+                            <option>UNITED BANK OF INDIA</option>
+                            <option>VIJAYA BANK</option>
+
+
+                        </ng-container>
+
+                    </select> -->
+                    <div *ngIf="bank.invalid && (bank.dirty || bank.touched)" class="alert-danger">
+                        <div *ngIf="bank.errors.required">
+                            Please select a bank
+                        </div>
+
+                    </div>
+                </div>
+
+                
+                <div class="form-group col-md-2">
+                    <label for="ddDate">DD Date</label>
+                    <input readonly type="date" [(ngModel)]="newddentry.ddDate" name="ddDate" class="form-control">
+                </div>
+        <div class="form-group col-md-2" [formGroup]="ddentryForm">
+            <label for="ddAmount">DD Amount</label>
+            <input readonly type="text" [(ngModel)]="newddentry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
+            <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
+                <div *ngIf="ddAmount.errors.required">
+                    DD Amount is Required
+                </div>
+                <div *ngIf="ddAmount.errors.pattern">
+                    Please enter digit format
+                </div>
+
+            </div>
+        </div>
+
+      
+
+
+
+
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="enteredby">Entered By </label>
+                    <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="enteredBy" class="form-control" placeholder="Entered By">
+                </div>
+        
+            </div>
+
+           
+
+        </form>
+
+    </div>
+
+
+
+
+
+
+    <!-- jQuery CDN -->
+
+    <!-- Bootstrap Js CDN -->
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>

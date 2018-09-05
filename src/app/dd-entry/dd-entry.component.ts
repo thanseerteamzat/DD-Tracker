@@ -202,7 +202,7 @@ export class DdEntryComponent implements OnInit {
 
   register(key, dlastid: ddLastid) {
 
-
+     this.newddEntry.entryPros=false;
 
     if (this.isEditMode) {
 

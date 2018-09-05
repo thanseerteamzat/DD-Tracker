@@ -187,8 +187,97 @@ export class ProspectusComponent implements OnInit {
     
   }
   register(key, dlastid: ddLastid) {
+
+
+
+    this.newddEntry.entryPros= true;
+    console.log('entry pros **************************************** ',this.newddEntry.entryPros)
+
     console.log('******************************************* Not Edit Mode')
-    var ddreferno = this.newddEntry.ddNumber;
+    if (this.isEditMode) {
+
+
+
+
+      var ddreferno = this.newddEntry.ddNumber;
+      var ddreferdate = this.newddEntry.ddDate;
+      var ddreferbank = this.newddEntry.bank;
+
+      for (let i = 0; i < this.ddtempentries.length; i++) {
+        //variable for check reference
+        var temp = this.ddtempentries[i];
+        console.log('tttttttttttttttttttttt', temp)
+
+      }
+      if (temp != null) {
+        if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
+          console.log('******************************************************  Edit mode')
+          var updates = {};
+          this.newddEntry.centerId = this.selectedcenter;
+          this.newddEntry.courseName = this.selectedcourse;
+          
+          if (confirm('Are you sure to update details')) {
+            updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
+            try {
+              let up = this.db.database.ref().update(updates);
+
+            }
+            catch (ex) {
+              alert("Error in Updating details");
+            }
+            this.newddentryTemp.bank = this.newddentry.bank;
+            this.newddentryTemp.ddDate = this.newddentry.ddDate;
+            this.newddentryTemp.ddNumber = this.newddentry.ddNumber;
+
+            updates['/ddentryTemp/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddentryTemp);
+            try {
+              let up = this.db.database.ref().update(updates);
+
+            }
+            catch (ex) {
+              alert("Error in Updating Quotation");
+            }
+            this.router.navigate(['/dd-verification']);
+
+          }
+          else {
+            this.router.navigate(['/dd-verification']);
+
+          }
+
+
+        }
+
+        else {
+          var updates = {};
+          this.newddEntry.centerId = this.selectedcenter;
+          this.newddEntry.courseName = this.selectedcourse;
+          
+
+          updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
+          try {
+            if (confirm('Are you sure to update details')) {
+              let up = this.db.database.ref().update(updates);
+              this.router.navigate(['/dd-verification']);
+
+            }
+            else {
+              this.router.navigate(['/dd-verification']);
+            }
+
+          }
+          catch (ex) {
+            alert("Error in Updating Quotation");
+          }
+
+        }
+
+      }
+    }
+    else{
+
+
+      var ddreferno = this.newddEntry.ddNumber;
     var ddreferdate = this.newddEntry.ddDate;
     var ddreferbank = this.newddEntry.bank;
 
@@ -288,6 +377,8 @@ export class ProspectusComponent implements OnInit {
       this.resetForm();
 
     }
+    }    
+    
   }
 
   ddentryForm = new FormGroup({

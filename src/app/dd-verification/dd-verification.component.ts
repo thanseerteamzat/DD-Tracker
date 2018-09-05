@@ -120,4 +120,18 @@ export class DdVerificationComponent implements OnInit {
     });
   }
 
+  entrySelection(ddlastId,ddentry:ddEntry){
+
+    console.log('inside functionl entry selection',ddlastId)
+    console.log(ddentry.entryPros);
+    console.log(ddentry.ddlastId)
+    if(ddentry.entryPros==false){
+      this.router.navigate(['/ddentry-details/'+ddlastId])
+    }
+    else{
+      this.router.navigate(['ddentrypros-details/'+ddlastId])
+    }
+  }
+  
+
 }
