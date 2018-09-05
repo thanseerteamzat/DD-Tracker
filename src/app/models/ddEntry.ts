@@ -25,6 +25,7 @@ export class ddEntry {
     despatchNo: string;
     despatchDate :string;
     dbaNo: string;
+    entryPros:boolean;
 
 }
 export class ddList {
