@@ -146,7 +146,7 @@ export class DespatchNoEntryComponent implements OnInit {
       try {
 
         let up = this.db.database.ref().update(updates);
-        this.router.navigate(['/dba-no-entry'])
+        this.router.navigate(['/despatch-no-entry'])
       }
       catch (e) {
 

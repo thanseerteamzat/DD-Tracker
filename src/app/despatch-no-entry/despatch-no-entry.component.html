@@ -22,9 +22,9 @@
             <label>Despatch Date</label>&nbsp;
             <input type="date" [(ngModel)]="newddEntry.despatchDate" class="form-control">
         </div>
-        
-        
-        
+
+
+
         <div class="form-group col-md-3">
 
             <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> --><br>
@@ -61,7 +61,7 @@
                 <tbody>
                     <ng-container *ngFor='let ddenter of selectedData '>
                         <tr>
-                            <tr *ngIf="ddenter.ddenter?.isVerified  == true ">
+                            <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null">
                                 <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
                                 <td>{{ddenter.ddenter?.ddlastId}}</td>
 
@@ -84,8 +84,7 @@
                                 <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
 
                                 <td>
-                                    <input type="checkbox"  (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter)"
-                                        name="">
+                                    <input type="checkbox" (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter)" name="">
                                 </td>
 
 
