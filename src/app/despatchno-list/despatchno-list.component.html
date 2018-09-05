@@ -1,3 +1,61 @@
-<p>
-  despatchno-list works!
-</p>
+<h1>Despatch No List</h1>
+<table class="table table-hover table-responsive table-bordered">
+  <thead class="thead-dark">
+      <tr>
+          <th>DD SL.No</th>
+          <th style="min-width: 90px;">Date</th>
+          <th>Application No</th>
+
+          <th style="min-width: 200px;">Centre Name</th>
+          <th style="min-width: 100px;">Course Name</th>
+          <th style="min-width: 150px;">Student Name</th>
+          <th>DD No</th>
+          <th style="min-width: 120px;">Bank</th>
+
+          <th style="min-width: 90px;">DD Date</th>
+
+          <th>DD Amount</th>
+
+          <th>Entered By</th>
+          <th style="min-width: 100px;">Fees Item</th>
+          <th></th>
+
+
+      </tr>
+  </thead>
+  <tbody>
+      <ng-container *ngFor='let ddenter of selectedData '>
+          <tr>
+              <tr *ngIf="ddenter.ddenter?.isVerified  == true ">
+                  <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
+                  <td>{{ddenter.ddenter?.ddlastId}}</td>
+
+                  <td>{{ddenter.ddenter?.dDate}}</td>
+                  <td>{{ddenter.ddenter?.appNo}}</td>
+
+                  <td>{{ddenter.center?.CenterName}}</td>
+                  <td>{{ddenter.ddenter?.courseName}}</td>
+
+                  <td>{{ddenter.ddenter?.studentName}}</td>
+                  <td>{{ddenter.ddenter?.ddNumber}}</td>
+                  <td>{{ddenter.ddenter?.bank}}</td>
+
+                  <td>{{ddenter.ddenter?.ddDate}}</td>
+
+                  <td>{{ddenter.ddenter?.Amount}}</td>
+
+                  <td>{{ddenter.ddenter?.enteredBy}}</td>
+                  <td>{{ddenter.ddenter?.feesItem}}</td>
+                  <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
+
+                  <td>
+                      <input type="checkbox"  (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter)"
+                          name="">
+                  </td>
+
+
+              </tr>
+      </ng-container>
+  </tbody>
+
+</table>
