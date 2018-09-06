@@ -1,4 +1,4 @@
-<div style="margin-left: 50px;" class="wrapper " >
+<div style="margin-left: 50px;" class="wrapper ">
 
     <!-- Page Content Holder -->
     <div id="content" class="createcontent">
@@ -22,39 +22,40 @@
 
                         <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
                     </div>
+
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                            <label for="feesItem">Fees Item</label>
-    
-                            <select (change)="getResult($event.target.value)" [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control"
-                                formControlName="feesItem">
-                                <option value="" disabled [selected]>--Choose--</option>
-                                <ng-container>
-                                    <option>Course Fee</option>
-                                    <option>Prospectus</option>
-                                    <option>Re exam</option>
-                                    <option>Renewal Fee</option>
-    
-                                    <option>Affiliation</option>
-                                    <option>Inspection</option>
-                                    <option>Duplicate Certificate/Marklist</option>
-    
-    
-                                </ng-container>
-    
-                            </select>
-                            <div *ngIf="feesItem.invalid && (feesItem.dirty || feesItem.touched)" class="alert-danger">
-                                <div *ngIf="feesItem.errors.required">
-                                    Please select fees item
-                                </div>
-    
+                        <label for="feesItem">Fees Item</label>
+
+                        <select (change)="getResult($event.target.value)" [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control"
+                            formControlName="feesItem">
+                            <option value="" disabled [selected]>--Choose--</option>
+                            <ng-container>
+                                <option>Course Fee</option>
+                                <option>Prospectus</option>
+                                <option>Re exam</option>
+                                <option>Renewal Fee</option>
+
+                                <option>Affiliation</option>
+                                <option>Inspection</option>
+                                <option>Duplicate Certificate/Marklist</option>
+
+
+                            </ng-container>
+
+                        </select>
+                        <div *ngIf="feesItem.invalid && (feesItem.dirty || feesItem.touched)" class="alert-danger">
+                            <div *ngIf="feesItem.errors.required">
+                                Please select fees item
                             </div>
+
                         </div>
+                    </div>
                     <div class="form-group col-md-3">
                         <label for="date">Date</label>
                         <input type="date" [(ngModel)]="newddEntry.dDate" name="dDate" class="form-control">
 
                     </div>
-                   
+
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="appno">Application No</label>
                         <input type="text" bsDatepicker [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control" formControlName="applicationNo">
@@ -74,6 +75,24 @@
                 </div>
 
                 <div class="row">
+
+
+                    <div class="form-group col-md-3">
+                        <label for="District">District</label>
+
+                        <select (change)="district($event.target.value)" name="district" class="form-control">
+                            <option value="" disabled [selected]>--Choose--</option>
+                            <ng-container *ngFor="let d of districts">
+                                <option [value]="d.name">{{d.name}}</option>
+
+                                <!-- <option [ngValue]="district" >Kannur</option>
+                                        <option [ngValue]="district">Kozhikode</option>
+                                        <option [ngValue]="district">Malappuram</option> -->
+                            </ng-container>
+
+                        </select>
+                    </div>
+
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="center">Centre Name</label>
 
@@ -129,6 +148,19 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+
+
+
+
+                </div>
+                <div class="row">
+
+
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="ddNo">DD Number</label>
                         <input type="text" class="form-control" [(ngModel)]="newddEntry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
@@ -146,15 +178,6 @@
                     </div>
 
 
-
-
-
-
-
-
-
-                </div>
-                <div class="row">
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="bank">Bank</label>
 
@@ -167,7 +190,7 @@
                                 <option>CANARA BANK</option>
                                 <option>CENTRAL BANK OF INDIA</option>
                                 <option>CHALLAN BANK OF INDIA</option>
-                             <option>CO-OPERATIVE BANK</option>   
+                                <option>CO-OPERATIVE BANK</option>
                                 <option>CORPORATION BANK</option>
                                 <option>DHANALAXMI
                                 </option>
@@ -221,14 +244,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3">
-                        <label for="enteredby">Entered By </label>
-                        <input readonly type="text" [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control">
-                    </div>
-
+    
 
 
                 </div>
+
+<div class="row">
+        <div class="form-group col-md-3">
+                <label for="enteredby">Entered By </label>
+                <input readonly type="text" [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control">
+            </div>
+
+
+</div>
+
 
                 <div class="row">
                     <div class="form-group col-md-12" [formGroup]="ddentryForm">
@@ -238,7 +267,8 @@
                         <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Update</button>
 
                         <!-- <button  type="submit" class="btn btn-primary">Update</button> -->
-                        &nbsp; <button type="reset" class="btn btn-primary">Cancel</button>
+                        &nbsp;
+                        <button type="reset" class="btn btn-primary">Cancel</button>
 
 
                     </div>

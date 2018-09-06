@@ -31,6 +31,9 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'course?centername=' + centerName)
 
   }
+  GetCenterbyDist = (district):Observable<any>=>{
+    return this.http.get(this.config.apiUrl + 'center?district='+ district)
+  }
 
   getCookie(cookievalue) {
     return this.cookieService.get(cookievalue);

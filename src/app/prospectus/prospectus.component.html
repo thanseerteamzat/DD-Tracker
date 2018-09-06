@@ -32,36 +32,56 @@
             <label for="enteredby">Fees Item </label>
             <input type="text" readonly [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
           </div>
-         
-          <div class="form-group col-md-3" [formGroup]="ddentryForm">
-            <label for="center">Centre Name</label>
+          <div class="form-group col-md-3">
+              <label for="District">District</label>
 
-            <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
-              <option value="">--Choose--</option>
-              <ng-container *ngFor="let s of centers">
-                <option [ngValue]="s.Id">{{s.CenterName}}</option>
-              </ng-container>
+              <select (change)="district($event.target.value)" name="district" class="form-control">
+                  <option value="" disabled [selected]>--Choose--</option>
+                  <ng-container *ngFor="let d of districts">
+                      <option [value]="d.name">{{d.name}}</option>
 
-            </select>
-            <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
-              <div *ngIf="centerName.errors.required">
-                Please select a center
-              </div>
+                      <!-- <option [ngValue]="district" >Kannur</option>
+                              <option [ngValue]="district">Kozhikode</option>
+                              <option [ngValue]="district">Malappuram</option> -->
+                  </ng-container>
 
-            </div>
-
-
-            <!-- <label for="centerName">Center Name</label>
-                  <input type="text" class="form-control" placeholder="Center Name"> -->
+              </select>
           </div>
-
-
 
 
         </div>
 
         <div class="row">
          
+
+
+            <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                <label for="center">Centre Name</label>
+    
+                <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
+                  <option value="">--Choose--</option>
+                  <ng-container *ngFor="let s of centers">
+                    <option [ngValue]="s.Id">{{s.CenterName}}</option>
+                  </ng-container>
+    
+                </select>
+                <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+                  <div *ngIf="centerName.errors.required">
+                    Please select a center
+                  </div>
+    
+                </div>
+    
+    
+                <!-- <label for="centerName">Center Name</label>
+                      <input type="text" class="form-control" placeholder="Center Name"> -->
+              </div>
+    
+    
+    
+    
+    
+
           <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="ddNo">DD Number</label>
             <input type="text" class="form-control" [(ngModel)]="newddEntry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
@@ -136,22 +156,22 @@
           </div>
 
 
-          <div class="form-group col-md-3" [formGroup]="ddentryForm">
-            <label for="ddAmount">DD Amount</label>
-            <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
-            <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
-              <div *ngIf="ddAmount.errors.required">
-                DD Amount is Required
-              </div>
-              <div *ngIf="ddAmount.errors.pattern">
-                Please enter digit format
-              </div>
-
-            </div>
           </div>
-        </div>
         <div class="row">
-         
+            <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                <label for="ddAmount">DD Amount</label>
+                <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
+                <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
+                  <div *ngIf="ddAmount.errors.required">
+                    DD Amount is Required
+                  </div>
+                  <div *ngIf="ddAmount.errors.pattern">
+                    Please enter digit format
+                  </div>
+    
+                </div>
+              </div>
+            
 
           <div class="form-group col-md-3">
             <label for="enteredby">Entered By </label>

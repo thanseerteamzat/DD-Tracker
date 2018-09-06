@@ -23,7 +23,29 @@ import { CookieService } from 'ngx-cookie-service';
 export class DdEntryComponent implements OnInit {
 
   //api url and center variable
-  centers: Center[];
+
+  districts = [
+    {id:'1', name:'KANNUR'},
+    {id:'2', name:'KOZHIKODE'},
+    {id:'3', name:'MALAPPURAM'},
+    {id:'4', name:'PALAKKAD'},
+    {id:'5', name:'THRISSUR'},
+    {id:'6', name:'ERNAKULAM'},
+    {id:'7', name:'KOTTAYAM'},
+    {id:'8', name:'PATHANAMTHITTA'},
+    {id:'9', name:'ALAPPUZHA'},
+    {id:'10', name:'KOLLAM'},
+    {id:'11', name:'THIRUVANANTHAPURAM'},
+    
+    
+    
+    
+    
+    
+  ];
+
+temp2:string;
+     centers: Center[];
   courses: Course[];
   ddLists: ddList[] = [];
   //variable four count
@@ -461,6 +483,28 @@ export class DdEntryComponent implements OnInit {
     )
   }
 
+  district(district){
+    console.log('district**********************',district);
+    // console.log(district);
+    // console.log('*************');
+    this.temp2=district;
+    console.log(this.temp2);
+    let that = this;
+    this.ets.GetCenterbyDist(this.temp2).subscribe(data => {
+      that.centers = data;
+      console.log(this.centers)
+
+    },
+      error => console.log(error),
+      () => console.log('courses'));
+    // // console.log(this.split1);
+    // return this.split1;
+
+    
+
+  }
+
+
   callType(value) {
     console.log(value);
     this.selectedcenterr = value;
@@ -492,6 +536,7 @@ export class DdEntryComponent implements OnInit {
     let that = this;
     this.ets.GetAllCourses(this.vtemp).subscribe(data => {
       that.courses = data;
+      
       this.ets.courseList = this.courses;
 
 

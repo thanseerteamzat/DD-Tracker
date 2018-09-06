@@ -18,6 +18,23 @@ import { Common } from '../models/common';
   styleUrls: ['./prospectus.component.css']
 })
 export class ProspectusComponent implements OnInit {
+
+
+  districts = [
+    {id:'1', name:'KANNUR'},
+    {id:'2', name:'KOZHIKODE'},
+    {id:'3', name:'MALAPPURAM'},
+    {id:'4', name:'PALAKKAD'},
+    {id:'5', name:'THRISSUR'},
+    {id:'6', name:'ERNAKULAM'},
+    {id:'7', name:'KOTTAYAM'},
+    {id:'8', name:'PATHANAMTHITTA'},
+    {id:'9', name:'ALAPPUZHA'},
+    {id:'10', name:'KOLLAM'},
+    {id:'11', name:'THIRUVANANTHAPURAM'},
+    
+  ];
+  temp2:string;
   check :string;
   centers: Center[];
   courses: Course[];
@@ -444,4 +461,24 @@ export class ProspectusComponent implements OnInit {
     )
   }
 
+  district(district){
+    console.log('district**********************',district);
+    // console.log(district);
+    // console.log('*************');
+    this.temp2=district;
+    console.log(this.temp2);
+    let that = this;
+    this.ets.GetCenterbyDist(this.temp2).subscribe(data => {
+      that.centers = data;
+      console.log(this.centers)
+
+    },
+      error => console.log(error),
+      () => console.log('courses'));
+    // // console.log(this.split1);
+    // return this.split1;
+
+    
+
+  }
 }
