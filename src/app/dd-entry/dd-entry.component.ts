@@ -23,6 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class DdEntryComponent implements OnInit {
 
   //api url and center variable
+    d = new Date();
 
   districts = [
     {id:'1', name:'KANNUR'},
@@ -93,6 +94,36 @@ temp2:string;
     console.log(id);
     // console.log()
   
+
+    let itemReff = db.object('ddEntry');
+    itemReff.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new ddList();
+        let qobj: ddEntry = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.ddlastId != undefined) {
+          qobj.ddlastId = qobj.ddlastId.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+
+        let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        console.log('2222222222222222222222222222',custList)
+        if (custList.length > 0) {
+          ddListItem.center = custList[0];
+        }
+
+        this.ddLists.push(ddListItem);
+
+      });
+
+    });
+
+
+    
     if (id != undefined) {
       this.qIdEditMode = id;
       this.isEditMode = true;
@@ -190,6 +221,8 @@ temp2:string;
 
 
   ngOnInit() {
+
+    // console.log('***********************',ddList)
 
     console.log('cokieeeeeeeee name',this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;

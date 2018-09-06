@@ -79,6 +79,41 @@ export class ProspectusComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('ddlastId');
     console.log('**********************************')
     console.log(id);
+
+
+
+
+    let itemReff = db.object('ddEntry');
+    itemReff.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new ddList();
+        let qobj: ddEntry = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.ddlastId != undefined) {
+          qobj.ddlastId = qobj.ddlastId.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+
+        let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        console.log('2222222222222222222222222222',custList)
+        if (custList.length > 0) {
+          ddListItem.center = custList[0];
+        }
+
+        this.ddLists.push(ddListItem);
+
+      });
+
+    });
+
+
+    
+
+
     if (id != undefined) {
       this.qIdEditMode = id;
       this.isEditMode = true;
