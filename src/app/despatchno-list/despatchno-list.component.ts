@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ddList, ddEntry } from '../models/ddEntry';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
+import { despatchList, Despatch } from '../models/despatch';
 
 @Component({
   selector: 'app-despatchno-list',
@@ -13,13 +14,19 @@ import { Common } from '../models/common';
 })
 export class DespatchnoListComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
-  ddLists: ddList[] = [];
+  ddLists: despatchList[] = [];
   centerList: Center[] = [];
   centers: Center[] = [];
   selectedCenter: string = "";
-  selectedData;
+  selectedData: despatchList[] = [];
   filteredData;
-  temp;
+  temp: despatchList[] = [];
+  total = 0;
+  total1;
+  taxtotal = 0;
+  taxttotal1;
+  feewtTotal = 0;
+  feewTotal1;
   centerData: ddList[] = [];
   constructor(
     private db: AngularFireDatabase,
@@ -47,20 +54,20 @@ export class DespatchnoListComponent implements OnInit {
 
 
 
-    let itemRef = db.object('ddEntry');
+    let itemRef = db.object('Despatch');
     itemRef.snapshotChanges().subscribe(action => {
       this.ddLists = [];
       var quatationsList = action.payload.val();
       let quotationobj = Common.snapshotToArray(action.payload);
       quotationobj.forEach(element => {
-        let ddListItem = new ddList();
-        let qobj: ddEntry = JSON.parse(element);
+        let ddListItem = new despatchList();
+        let qobj: Despatch = JSON.parse(element);
         // console.log("****" + element);
-        if (qobj.dduId != undefined) {
-          qobj.dduId = qobj.dduId.replace("/", "");
+        if (qobj.despatchNo != undefined) {
+          qobj.despatchNo = qobj.despatchNo.replace("/", "");
         }
-        this.newddEntry = qobj;
-        ddListItem.ddenter = qobj;
+
+        ddListItem.despatchList = qobj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
 
@@ -82,14 +89,31 @@ export class DespatchnoListComponent implements OnInit {
   ngOnInit() {
   }
   filterCenter(key) {
+    console.log('data**********', this.ddLists)
 
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.despatchNo != null);
+    this.selectedData = this.ddLists.filter(s => s.center.Id == key);
     // this.centerData = this.selectedData;
 
-    console.log('........', this.selectedData)
+    for (let i = 0; i <= this.selectedData.length; i++) {
+      var temp = this.selectedData[i];
+      console.log('tempvalue****', temp)
+      this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+      this.total1 = this.total.toFixed(2);
+      this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+      this.taxttotal1 = this.taxtotal.toFixed(2);
+      this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+      this.feewTotal1 = this.feewtTotal.toFixed(2);
+      console.log('loooop***', this.total)
+
+      this.temp.push(this.selectedData[i]);
+
+    }
+
+
 
 
 
   }
+
 
 }
