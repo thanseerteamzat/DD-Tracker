@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ddList, ddEntry, CheckTemp } from '../models/ddEntry';
+import { ddList, ddEntry, CheckTemp, temp } from '../models/ddEntry';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from "src/app/services/ets.service";
 import { Router } from '@angular/router';
 import { registerContentQuery } from '@angular/core/src/render3/instructions';
+import { desptchLastid } from '../models/despatchlastId';
+import { Despatch } from '../models/despatch';
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -22,7 +24,15 @@ export class DespatchNoEntryComponent implements OnInit {
   selectedData;
   centerData;
   checklist: CheckTemp[] = [];
-  public temp: string;
+
+  despatchLastids: desptchLastid[] = [];
+  newddLastId: desptchLastid = new desptchLastid();
+  despatch: Despatch = new Despatch();
+  count;
+  fromLastId;
+  ddtotal = 0;
+  sum;
+  // temp: string
 
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
@@ -81,6 +91,23 @@ export class DespatchNoEntryComponent implements OnInit {
 
     });
 
+    //code for listing ddLastid
+    let dlRef = db.object('despatchLastId');
+    dlRef.snapshotChanges().subscribe(action => {
+      var quatationsList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.despatchLastids = [];
+      obj.forEach(element => {
+        let obj: desptchLastid = JSON.parse(element);
+        this.newddLastId = obj;
+        this.despatchLastids.push(obj as desptchLastid);
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+        this.count = obj.lastId;
+        this.fromLastId = obj.Id;
+
+      });
+    });
+
 
   }
   formatDate(date) {
@@ -130,25 +157,56 @@ export class DespatchNoEntryComponent implements OnInit {
 
     }
   }
-  register() {
+  register(key) {
 
+    console.log('chcklist*********', this.checklist)
 
     for (let i = 0; i <= this.checklist.length; i++) {
+
       var temp = this.checklist[i];
-      var tempid = temp.ddlastId;
-      var despref = this.newddEntry.despatchNo;
-      var despdate = this.formatDate(this.newddEntry.despatchDate);
-      temp.despatchNo = despref;
-      temp.despatchDate = despdate
+      this.ddtotal = this.ddtotal + parseInt(temp.Amount);
+      console.log('total*****', this.ddtotal)
+      temp.despatchNo = this.newddEntry.despatchNo;
+      temp.despatchDate = this.formatDate(this.newddEntry.despatchDate);
       var updates = {}
 
-      updates['/ddEntry/' + tempid] = JSON.stringify(temp);
+      updates['/ddEntry/' + temp.ddlastId] = JSON.stringify(temp);
       try {
 
         let up = this.db.database.ref().update(updates);
         this.router.navigate(['/despatch-no-entry'])
       }
       catch (e) {
+
+      }
+      //despatch new 
+
+
+
+
+      var counter = parseInt(this.count) + 1;
+      var updates = {};
+      this.newddLastId.lastId = counter;
+      updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
+      let up = this.db.database.ref().update(updates);
+      let taxamount = (this.ddtotal * 18) / 100;
+      let feeWT = this.ddtotal - taxamount;
+
+      this.despatch.centerId = this.newddEntry.centerId;
+      this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+      this.despatch.despatchNo = this.newddEntry.despatchNo;
+      this.despatch.totalAmount = this.ddtotal;
+      this.despatch.taxAmount = taxamount;
+      this.despatch.FWT = feeWT;
+      let ddEntryJson = JSON.stringify(this.despatch);
+
+      console.log(ddEntryJson);
+      try {
+        this.db.database.ref('Despatch').child(counter.toString()).set(ddEntryJson);
+        // alert("DD Entry added successfully!!.");
+        // this.router.navigate(['/dd-entry']);
+      }
+      catch (ex) {
 
       }
 

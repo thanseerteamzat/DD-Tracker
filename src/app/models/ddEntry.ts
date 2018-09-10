@@ -60,4 +60,35 @@ export class CheckTemp
     despatchNo: string;
     despatchDate :string;
     dbaNo: string;
+    entryPros:boolean;
+
+}
+
+export class temp
+{
+    dduId: string; //guid
+    ddlastId: string; //ddId updation
+
+    dDate: string;
+    centerId: string;
+    centerName:string;
+    courseName:string;
+    
+    ddNumber: string;
+    appNo:string;
+    studentName: string;
+    ddDate: string;
+    Amount: string;
+    bank: string;
+    enteredBy: string;
+    feesItem: string;
+    isVerified: boolean; //use for dd verification
+    isidVerified:boolean; //used for dd id verification
+    isddIdentered: boolean; //used for ddId entry
+    ddId: string; //dd Id entry 
+    ddRollNo: string;
+    despatchNo: string;
+    despatchDate :string;
+    dbaNo: string;
+    entryPros:boolean;
 }
