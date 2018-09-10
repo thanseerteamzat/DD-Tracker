@@ -104,7 +104,7 @@ export class DespatchNoEntryComponent implements OnInit {
     // }
   }
   filterCenter(key) {
-
+    console.log('key',key)
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
 
     console.log('........', this.selectedData)

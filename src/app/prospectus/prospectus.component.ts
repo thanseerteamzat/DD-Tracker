@@ -250,6 +250,7 @@ export class ProspectusComponent implements OnInit {
 
 
 
+      this.newddEntry.prosvalue=true;
 
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
@@ -301,6 +302,9 @@ export class ProspectusComponent implements OnInit {
         }
 
         else {
+
+      this.newddEntry.prosvalue=true;
+          
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;

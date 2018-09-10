@@ -37,6 +37,7 @@ import { ErrorComponent } from './error/error.component';
 import { ProspectusDetailsComponent } from './prospectus-details/prospectus-details.component';
 import { DespatchnoListComponent } from './despatchno-list/despatchno-list.component';
 import { DdentryProsDetailsComponent } from './ddentry-pros-details/ddentry-pros-details.component';
+import { DdentryappComponent } from './ddentryapp/ddentryapp.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -55,7 +56,7 @@ const appRoutes: Routes = [
   { path: 'ddentry-details/:ddlastId', component: DdentryDetailsComponent },
   { path: 'prospectus', component: ProspectusComponent },
   { path: 'prospectus/:ddlastId', component: ProspectusComponent },
-
+ { path:'ddentry-app',component:DdentryappComponent},
   { path: 'error', component: ErrorComponent },
   { path: 'despatchno-list', component: DespatchnoListComponent },
   { path: 'ddentrypros-details/:ddlastId', component: DdentryProsDetailsComponent },
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     ErrorComponent,
     ProspectusDetailsComponent,
     DespatchnoListComponent,
-    DdentryProsDetailsComponent
+    DdentryProsDetailsComponent,
+    DdentryappComponent
   ],
   imports: [
     FormsModule,

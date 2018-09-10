@@ -26,7 +26,7 @@ export class ddEntry {
     despatchDate :string;
     dbaNo: string;
     entryPros:boolean;
-
+    prosvalue :boolean;
 }
 export class ddList {
     ddenter: ddEntry = new ddEntry();

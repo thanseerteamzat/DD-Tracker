@@ -257,7 +257,7 @@ temp2:string;
      this.newddEntry.entryPros=false;
 
     if (this.isEditMode) {
-
+    this.newddEntry.prosvalue=false;
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
       var ddreferbank = this.newddEntry.bank;
@@ -337,7 +337,7 @@ temp2:string;
 
 
     else {
-
+      this.newddEntry.prosvalue=false;
       console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
