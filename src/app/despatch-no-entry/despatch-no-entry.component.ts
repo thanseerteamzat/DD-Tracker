@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { registerContentQuery } from '@angular/core/src/render3/instructions';
 import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
+import { ddentryTemp } from '../models/ddentryTemp';
+import { ArrayType } from '@angular/compiler';
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -20,8 +22,8 @@ export class DespatchNoEntryComponent implements OnInit {
   ddLists: ddList[] = [];
   centerList: Center[] = [];
   centers: Center[] = [];
-  selectedCenter: string = "";
-  selectedData;
+  selectedcenter: string = "";
+  selectedData: ddList[] = [];
   centerData;
   checklist: CheckTemp[] = [];
 
@@ -33,7 +35,21 @@ export class DespatchNoEntryComponent implements OnInit {
   ddtotal = 0;
   sum;
   // temp: string
+  feesItems = [
+    { id: '1', name: 'Course Fee' },
+    { id: '2', name: 'Prospectus' },
+    { id: '3', name: 'Re exam' },
+    { id: '4', name: 'Renewal Fee' },
+    { id: '5', name: 'Affiliation' },
+    { id: '6', name: 'Inspection' },
+    { id: '7', name: 'Duplicate Certificate/Marklist' },
 
+
+
+
+  ];
+  selectedFeee;
+  selectedFee;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router
@@ -80,7 +96,7 @@ export class DespatchNoEntryComponent implements OnInit {
         if (centList.length > 0) {
           ddListItem.center = centList[0];
 
-          console.log('selected****', this.selectedCenter)
+          // console.log('selected****', this.selectedCenter)
         }
 
         this.ddLists.push(ddListItem);
@@ -131,7 +147,7 @@ export class DespatchNoEntryComponent implements OnInit {
     // }
   }
   filterCenter(key) {
-    console.log('key',key)
+
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
 
     console.log('........', this.selectedData)
@@ -139,16 +155,20 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   }
+  filterFee(key) {
+    console.log('key....', key)
+    this.selectedFeee = this.selectedData.filter(s => s.ddenter.feesItem == key)
+  }
   onClick(event, temp, ddEntry: ddEntry) {
-    console.log(event)
+    console.log('id', temp)
 
     if (event == true) {
-      for (let i = 0; i < temp.length; i++) {
+      // for (let i = 0; i != temp.length; i++) {
 
         this.checklist.push(ddEntry);
 
 
-      }
+      // }
       console.log('event****', this.checklist)
     }
     else if (event == false) {
@@ -159,7 +179,7 @@ export class DespatchNoEntryComponent implements OnInit {
   }
   register(key) {
 
-    console.log('chcklist*********', this.checklist)
+    // console.log('chcklist*********', this.selectedcenter)
 
     for (let i = 0; i <= this.checklist.length; i++) {
 
@@ -192,9 +212,11 @@ export class DespatchNoEntryComponent implements OnInit {
       let taxamount = (this.ddtotal * 18) / 100;
       let feeWT = this.ddtotal - taxamount;
 
-      this.despatch.centerId = this.newddEntry.centerId;
+      this.despatch.centerId = this.selectedcenter;
       this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
       this.despatch.despatchNo = this.newddEntry.despatchNo;
+      this.despatch.feeItem = this.selectedFee
+
       this.despatch.totalAmount = this.ddtotal;
       this.despatch.taxAmount = taxamount;
       this.despatch.FWT = feeWT;
