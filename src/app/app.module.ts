@@ -37,7 +37,6 @@ import { ErrorComponent } from './error/error.component';
 import { ProspectusDetailsComponent } from './prospectus-details/prospectus-details.component';
 import { DespatchnoListComponent } from './despatchno-list/despatchno-list.component';
 import { DdentryProsDetailsComponent } from './ddentry-pros-details/ddentry-pros-details.component';
-import { GroupByPipe } from './groupby.pipe';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -69,7 +68,6 @@ const appRoutes: Routes = [
     LoginComponent,
     SidebarComponent,
     DdEntryComponent,
-    GroupByPipe,
     DdVerificationComponent,
 
     // CentercompComponent,

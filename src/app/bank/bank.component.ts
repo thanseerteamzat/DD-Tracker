@@ -3,6 +3,7 @@ import { ddLastid } from '../models/ddLastid';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
 import { ActivatedRoute, Params } from '@angular/router';
+import { desptchLastid } from '../models/despatchlastId';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class BankComponent implements OnInit {
 
-  newddLastid: ddLastid = new ddLastid();
+  newddLastid: desptchLastid = new desptchLastid();
   order: string;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute) { }
 
@@ -38,20 +39,20 @@ export class BankComponent implements OnInit {
   register() {
 
 
-    // let uniqueId = "/DD" + Common.newGuid();
-    // this.newddLastid.Id = uniqueId;
+    let uniqueId = "/DD" + Common.newGuid();
+    this.newddLastid.Id = uniqueId;
 
 
-    // let ddEntryJson = JSON.stringify(this.newddLastid);
-    // console.log(ddEntryJson);
-    // try {
-    //   this.db.database.ref('ddLastId').child(uniqueId).set(ddEntryJson);
-    //   alert("DD Entry added successfully!!.");
+    let ddEntryJson = JSON.stringify(this.newddLastid);
+    console.log(ddEntryJson);
+    try {
+      this.db.database.ref('despatchLastId').child(uniqueId).set(ddEntryJson);
+      alert("DD Entry added successfully!!.");
 
-    // }
-    // catch (ex) {
+    }
+    catch (ex) {
 
-    // }
+    }
 
   }
 

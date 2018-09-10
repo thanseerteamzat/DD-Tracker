@@ -38,10 +38,7 @@ export class DdEntryComponent implements OnInit {
     {id:'10', name:'KOLLAM'},
     {id:'11', name:'THIRUVANANTHAPURAM'},
     
-    
-    
-    
-    
+     
     
   ];
 
