@@ -18,7 +18,9 @@ export class DespatchnoListComponent implements OnInit {
   centers: Center[] = [];
   selectedCenter: string = "";
   selectedData;
-  centerData;
+  filteredData;
+  temp;
+  centerData: ddList[] = [];
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -81,7 +83,8 @@ export class DespatchnoListComponent implements OnInit {
   }
   filterCenter(key) {
 
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
+    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.despatchNo != null);
+    // this.centerData = this.selectedData;
 
     console.log('........', this.selectedData)
 
