@@ -4,7 +4,7 @@
   <div id="content" class="createcontent">
       <div class="form-row">
               <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-              <h1 *ngIf='!isEditMode'>DD Entry</h1>
+              <h1 *ngIf='!isEditMode'>Phase Two Entry</h1>
               <h1 *ngIf='isEditMode'>Edit Entry</h1>
 
       </div>
@@ -29,7 +29,7 @@
                           <option value="" disabled [selected]>--Choose--</option>
                           <ng-container>
                               <option>Course Fee</option>
-                              <option>Prospectus</option>
+                              <!-- <option>Prospectus</option> -->
                               <option>Re exam</option>
                               <option>Renewal Fee</option>
 
@@ -58,25 +58,26 @@
 
                   </div>
 
-                  <div class="form-group col-md-3" [formGroup]="ddentryForm">
+
+
+
+
+
+                
+                  <!-- <div class="form-group col-md-3" [formGroup]="ddentryForm">
                       <label for="appno">Application No</label>
-                      <input  type="text" bsDatepicker [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control" formControlName="applicationNo">
+                 
 
-                      <div *ngIf="applicationNo.invalid && (applicationNo.dirty || applicationNo.touched)" class="alert-danger">
-                          <div *ngIf="applicationNo.errors.required">
-                              Application number is required
-                          </div>
-
-                      </div>
-                  </div>
-
-
-
+                      <select  [(ngModel)]="newddEntry.appNo" name="selectedappNo"   class="form-control">
+                          <ng-container *ngFor="let ddenter of newselectedData">
+                              <option>{{ddenter.ddenter?.appNo}}</option>
+                          </ng-container>
+  </select>
+                       
+                      
+                  </div> -->
 
 
-              </div>
-
-              <div class="row">
 
 
                   <div class="form-group col-md-3">
@@ -95,6 +96,12 @@
                       </select>
                   </div>
 
+              </div>
+
+              <div class="row">
+
+
+                 
                   <div class="form-group col-md-3" [formGroup]="ddentryForm">
                       <label for="center">Centre Name</label>
 
@@ -139,17 +146,22 @@
 
 
 
+
+               
+
                   <div class="form-group col-md-3" >
                     <label for="course">Student Name</label>
 
-                    <select (change)="loadApp(selectedstudent)" class="form-control" name="selectedstudent">
+                    <select (change)="loadApp(selectedstudent)" [(ngModel)]="selectedstudent" class="form-control" name="selectedstudent">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let ddenter of selectedData">
-                            <option *ngIf="ddenter.ddenter?.prosvalue == false">{{ddenter.ddenter?.studentName}}</option>
+                            <option *ngIf="ddenter.ddenter?.feesItem !='Prospectus'">{{ddenter.ddenter?.studentName}}</option>
                         </ng-container>
 
                     </select>
                     
+
+                  
 
                     <!-- <label for="centerName">Center Name</label>
                 <input type="text" class="form-control" placeholder="Center Name"> -->
@@ -171,7 +183,23 @@
 
 
 
-
+                  <div class="form-group col-md-3" >
+                      <label for="app">Application Number</label>
+  
+                      <select  [(ngModel)]="newddEntry.appNo" class="form-control" name="selectedstudent">
+                          <option value="">--Choose--</option>
+                          <ng-container *ngFor="let ddenter of newselectedData">
+                              <option >{{ddenter.ddenter?.appNo}}</option>
+                          </ng-container>
+  
+                      </select>
+                      
+  
+                    
+  
+                      <!-- <label for="centerName">Center Name</label>
+                  <input type="text" class="form-control" placeholder="Center Name"> -->
+                  </div>
 
 
 

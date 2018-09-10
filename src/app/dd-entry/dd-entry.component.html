@@ -60,7 +60,7 @@
 
                     <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="appno">Application No</label>
-                        <input type="text" bsDatepicker [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control" formControlName="applicationNo">
+                        <input type="text"  [(ngModel)]="newddEntry.appNo" name="appNo" class="form-control" formControlName="applicationNo">
 
                         <div *ngIf="applicationNo.invalid && (applicationNo.dirty || applicationNo.touched)" class="alert-danger">
                             <div *ngIf="applicationNo.errors.required">

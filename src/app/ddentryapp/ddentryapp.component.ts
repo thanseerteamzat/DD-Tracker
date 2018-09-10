@@ -26,6 +26,7 @@ export class DdentryappComponent implements OnInit {
 //api url and center variable
 d = new Date();
 selectedData ;
+newselectedData ;
 
 districts = [
   {id:'1', name:'KANNUR'},
@@ -58,8 +59,10 @@ centerList: Center[] = [];
 courseList: Course[] = [];
 centerhelp: Center[];
 selectedcenter: string = "";
+selectedstudent:string="";
 selectedcenterr: string = "";
 selectedcourse: string = "";
+selectedappNo :string = "";
 newddLastId: ddLastid = new ddLastid();
 ddLastids: ddLastid[] = [];
 ddtempentries: ddentryTemp[] = [];
@@ -254,9 +257,14 @@ formatDate(date) {
   return [day, month, year].join('-');
 }
 
-register(key, dlastid: ddLastid) {
+register(key, dlastid: ddLastid ) {
+console.log('appno**************************',this.newddEntry.appNo);
+console.log(this.newddEntry.dDate);
+console.log(this.selectedcenter);
 
    this.newddEntry.entryPros=false;
+
+
 
   if (this.isEditMode) {
 
@@ -313,7 +321,7 @@ register(key, dlastid: ddLastid) {
         var updates = {};
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
-        
+        this.newddEntry.studentName = this.selectedstudent;
 
         updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
         try {
@@ -344,7 +352,7 @@ register(key, dlastid: ddLastid) {
     var ddreferno = this.newddEntry.ddNumber;
     var ddreferdate = this.newddEntry.ddDate;
     var ddreferbank = this.newddEntry.bank;
-
+    this.newddEntry.secondphase = true;
     for (let i = 0; i < this.ddtempentries.length; i++) {
       //variable for check reference
       var temp = this.ddtempentries[i];
@@ -352,7 +360,7 @@ register(key, dlastid: ddLastid) {
 
     }
     if (temp != null) {
-      console.log('888888888888888888888888888888888888888 kayari')
+      // console.log('888888888888888888888888888888888888888 ')
       if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
 
         alert('DD details  already exists')
@@ -367,7 +375,7 @@ register(key, dlastid: ddLastid) {
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
-       
+        this.newddEntry.studentName = this.selectedstudent;
 
         // let uniqueId = "/DD" + Common.newGuid();
         // this.newddEntry.dduId = uniqueId;
@@ -457,13 +465,13 @@ ddentryForm = new FormGroup({
   // currentDate: new FormControl(),
   centerName: new FormControl(),
   courseName: new FormControl(),
-  studentName: new FormControl(),
+  // studentName: new FormControl(),
   ddNumber: new FormControl(),
   bank: new FormControl(),
   // ddDate: new FormControl(),
   ddAmount: new FormControl(),
   feesItem: new FormControl(),
-  applicationNo: new FormControl()
+  // applicationNo: new FormControl()
 
 })
 
@@ -474,13 +482,13 @@ ddcreateForm() {
       centerName: [null, Validators.required],
       courseName: [null, Validators.required],
 
-      studentName: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z \-\']+')])],
+      // studentName: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z \-\']+')])],
       ddNumber: [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*')])],
       bank: [null, Validators.required],
       // ddDate: [null, Validators.required],
       ddAmount: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
       feesItem: [null, Validators.required],
-      applicationNo: [null, Validators.required]
+      // applicationNo: [null, Validators.required]
 
     }
   )
@@ -490,13 +498,13 @@ ddcreateForm() {
 get centerName() { return this.ddentryForm.get('centerName'); }
 get courseName() { return this.ddentryForm.get('courseName'); }
 
-get studentName() { return this.ddentryForm.get('studentName'); }
+// get studentName() { return this.ddentryForm.get('studentName'); }
 get ddNumber() { return this.ddentryForm.get('ddNumber'); }
 get bank() { return this.ddentryForm.get('bank'); }
 get ddAmount() { return this.ddentryForm.get('ddAmount'); }
 // get ddDate() { return this.ddentryForm.get('ddDate'); }
 get feesItem() { return this.ddentryForm.get('feesItem'); }
-get applicationNo() { return this.ddentryForm.get('applicationNo'); }
+// get applicationNo() { return this.ddentryForm.get('applicationNo'); }
 
 resetForm() {
   this.ddentryForm.reset(
@@ -504,13 +512,13 @@ resetForm() {
       // currentDate: null,
       centerName: null,
       courseName: null,
-      studentName: null,
+      // studentName: null,
       ddNumber: null,
       bank: null,
       ddAmount: null,
       // ddDate: null,
       feesItem: null,
-      applicationNo: null
+      // applicationNo: null
     }
   )
 }
@@ -591,7 +599,14 @@ callType(value,key) {
 
 }
 loadApp(selectedstudent){
-console.log('8888888888888888888888',selectedstudent)
+  this.newselectedData = this.selectedData.filter(s => s.ddenter.studentName== selectedstudent);
+    
+  console.log('........filter', this.newselectedData);
+  
+  // console.log('8888888888888888888888',selectedstudent)
+
+
+
 
 }
 getResult(event) {

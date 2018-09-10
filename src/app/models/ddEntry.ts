@@ -27,6 +27,7 @@ export class ddEntry {
     dbaNo: string;
     entryPros:boolean;
     prosvalue :boolean;
+    secondphase:boolean;
 }
 export class ddList {
     ddenter: ddEntry = new ddEntry();
