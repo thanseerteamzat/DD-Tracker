@@ -87,7 +87,15 @@ export class DespatchnoListComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+
+
+  }}
   filterCenter(key) {
     console.log('data**********', this.ddLists)
 

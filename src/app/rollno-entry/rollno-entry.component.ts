@@ -10,6 +10,7 @@ export class RollnoEntryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

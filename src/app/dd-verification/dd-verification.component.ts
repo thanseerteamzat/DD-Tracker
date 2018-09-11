@@ -56,7 +56,7 @@ export class DdVerificationComponent implements OnInit {
         ddListItem.ddenter = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        console.log('2222222222222222222222222222',custList)
+        // console.log('2222222222222222222222222222',custList)
         if (custList.length > 0) {
           ddListItem.center = custList[0];
         }
