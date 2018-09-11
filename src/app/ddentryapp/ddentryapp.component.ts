@@ -27,7 +27,7 @@ export class DdentryappComponent implements OnInit {
 d = new Date();
 selectedData ;
 newselectedData ;
-
+nameselectedData ;
 districts = [
   {id:'1', name:'KANNUR'},
   {id:'2', name:'KOZHIKODE'},
@@ -603,9 +603,11 @@ loadApp(selectedstudent){
     
   console.log('........filter', this.newselectedData);
   
+  
   // console.log('8888888888888888888888',selectedstudent)
 
-
+  // this.nameselectedData = this.nameselectedData.filter(s => s.ddenter.courseName == selectedstudent);
+  // console.log('course')
 
 
 }

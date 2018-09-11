@@ -76,8 +76,8 @@ export class DdVerificationComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3" || this.ets.cookievalue =="1") {
-      this.router.navigate(['/dd-verification'])
+    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+      // this.router.navigate(['/dd-verification'])
     }
     else {
       this.router.navigate(['/error']);

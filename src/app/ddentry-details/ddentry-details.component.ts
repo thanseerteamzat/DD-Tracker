@@ -113,10 +113,18 @@ export class DdentryDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-  
+    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+      // this.router.navigate(['/dd-verification'])
+    }
+    else {
+      this.router.navigate(['/error']);
     // console.log('***************************************************111111',this.newddentry.ddlastId);
     
-  }
+
+
+
+
+  }}
 
   ddentryForm = new FormGroup({
 

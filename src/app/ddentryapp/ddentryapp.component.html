@@ -123,7 +123,7 @@
                       <!-- <label for="centerName">Center Name</label>
                           <input type="text" class="form-control" placeholder="Center Name"> -->
                   </div>
-                  <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                  <!-- <div class="form-group col-md-3" [formGroup]="ddentryForm">
                       <label for="course">Course Name</label>
 
                       <select [(ngModel)]="selectedcourse" class="form-control" name="selectedcourse" formControlName="courseName">
@@ -140,9 +140,8 @@
 
                       </div>
 
-                      <!-- <label for="centerName">Center Name</label>
-                  <input type="text" class="form-control" placeholder="Center Name"> -->
-                  </div>
+
+                  </div> -->
 
 
 
@@ -166,6 +165,31 @@
                     <!-- <label for="centerName">Center Name</label>
                 <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
+
+
+
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="course">Course Name</label>
+
+                    <select [(ngModel)]="selectedcourse" class="form-control"  name="selectedcourse" formControlName="courseName">
+                        <option value="">--Choose--</option>
+                        <ng-container *ngFor="let ddenter of newselectedData" >
+                            <option>{{ddenter.ddenter?.courseName}}</option>
+                        </ng-container>
+
+                    </select>
+                    <div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert-danger">
+                        <div *ngIf="courseName.errors.required">
+                            Please select a center
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
 
                   <!-- <div class="form-group col-md-3" [formGroup]="ddentryForm">
                       <label for="studentName">Student Name</label>
