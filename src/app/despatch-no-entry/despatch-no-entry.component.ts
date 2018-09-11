@@ -26,13 +26,13 @@ export class DespatchNoEntryComponent implements OnInit {
   selectedData: ddList[] = [];
   centerData;
   checklist: CheckTemp[] = [];
+  ddtotal;
 
   despatchLastids: desptchLastid[] = [];
   newddLastId: desptchLastid = new desptchLastid();
   despatch: Despatch = new Despatch();
   count;
   fromLastId;
-  ddtotal = 0;
   sum;
   // temp: string
   feesItems = [
@@ -43,13 +43,10 @@ export class DespatchNoEntryComponent implements OnInit {
     { id: '5', name: 'Affiliation' },
     { id: '6', name: 'Inspection' },
     { id: '7', name: 'Duplicate Certificate/Marklist' },
-
-
-
-
   ];
   selectedFeee;
   selectedFee;
+  entered: string;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router
@@ -139,25 +136,37 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+    // if (this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
     //   this.router.navigate(['/despatch-no-entry'])
     // }
     // else {
     //   this.router.navigate(['/error']);
     // }
+    this.entered = this.ets.cookiename;
+    this.despatch.enteredBy = this.entered;
+    console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
 
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
 
-    console.log('........', this.selectedData)
-
-
+    for (let i = 0; i <= this.checklist.length; i++) {
+      this.checklist.pop();
+    }
+    console.log('........', this.checklist);
 
   }
+
+
+
+
   filterFee(key) {
     console.log('key....', key)
     this.selectedFeee = this.selectedData.filter(s => s.ddenter.feesItem == key)
+    for (let i = 0; i <= this.checklist.length; i++) {
+      this.checklist = null;
+    }
+    console.log('........', this.checklist);
   }
   onClick(event, temp, ddEntry: ddEntry) {
     console.log('id', temp)
@@ -165,7 +174,7 @@ export class DespatchNoEntryComponent implements OnInit {
     if (event == true) {
       // for (let i = 0; i != temp.length; i++) {
 
-        this.checklist.push(ddEntry);
+      this.checklist.push(ddEntry);
 
 
       // }
@@ -176,10 +185,12 @@ export class DespatchNoEntryComponent implements OnInit {
       this.checklist.pop();
 
     }
+    console.log('chcklist*********', this.checklist.length)
   }
   register(key) {
 
-    // console.log('chcklist*********', this.selectedcenter)
+
+    this.ddtotal = 0;
 
     for (let i = 0; i <= this.checklist.length; i++) {
 
@@ -188,6 +199,7 @@ export class DespatchNoEntryComponent implements OnInit {
       console.log('total*****', this.ddtotal)
       temp.despatchNo = this.newddEntry.despatchNo;
       temp.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+      temp.isdespatchEntered = true;
       var updates = {}
 
       updates['/ddEntry/' + temp.ddlastId] = JSON.stringify(temp);
@@ -216,7 +228,7 @@ export class DespatchNoEntryComponent implements OnInit {
       this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
       this.despatch.despatchNo = this.newddEntry.despatchNo;
       this.despatch.feeItem = this.selectedFee
-
+      this.despatch.isdespatchEntered = true;
       this.despatch.totalAmount = this.ddtotal;
       this.despatch.taxAmount = taxamount;
       this.despatch.FWT = feeWT;
@@ -232,7 +244,12 @@ export class DespatchNoEntryComponent implements OnInit {
 
       }
 
+
     }
+    for (let i = 0; i <= this.checklist.length; i++) {
+      this.checklist.pop();
+    }
+    console.log('clearedlist', this.checklist)
 
 
 
