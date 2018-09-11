@@ -221,7 +221,7 @@ temp2:string;
 
     // console.log('***********************',ddList)
 
-    console.log('cokieeeeeeeee name',this.ets.cookiename)
+    console.log('cokieeeeeeeee name..',this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
     
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3" || this.ets.cookievalue == "2") {
