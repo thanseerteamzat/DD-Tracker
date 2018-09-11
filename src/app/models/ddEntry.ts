@@ -6,11 +6,11 @@ export class ddEntry {
 
     dDate: string;
     centerId: string;
-    centerName:string;
-    courseName:string;
-    
+    centerName: string;
+    courseName: string;
+
     ddNumber: string;
-    appNo:string;
+    appNo: string;
     studentName: string;
     ddDate: string;
     Amount: string;
@@ -18,35 +18,35 @@ export class ddEntry {
     enteredBy: string;
     feesItem: string;
     isVerified: boolean; //use for dd verification
-    isidVerified:boolean; //used for dd id verification
+    isidVerified: boolean; //used for dd id verification
     isddIdentered: boolean; //used for ddId entry
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
-    despatchDate :string;
+    despatchDate: string;
     dbaNo: string;
-    entryPros:boolean;
-    prosvalue :boolean;
-    secondphase:boolean;
+    entryPros: boolean;
+    prosvalue: boolean;
+    secondphase: boolean;
+    isdespatchEntered: boolean;
 }
 export class ddList {
     ddenter: ddEntry = new ddEntry();
     center: Center = new Center();
-    
+
 
 }
-export class CheckTemp
-{
+export class CheckTemp {
     dduId: string; //guid
     ddlastId: string; //ddId updation
 
     dDate: string;
     centerId: string;
-    centerName:string;
-    courseName:string;
-    
+    centerName: string;
+    courseName: string;
+
     ddNumber: string;
-    appNo:string;
+    appNo: string;
     studentName: string;
     ddDate: string;
     Amount: string;
@@ -54,29 +54,30 @@ export class CheckTemp
     enteredBy: string;
     feesItem: string;
     isVerified: boolean; //use for dd verification
-    isidVerified:boolean; //used for dd id verification
+    isidVerified: boolean; //used for dd id verification
     isddIdentered: boolean; //used for ddId entry
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
-    despatchDate :string;
+    despatchDate: string;
     dbaNo: string;
-    entryPros:boolean;
+    entryPros: boolean;
+    secondphase: boolean;
+    isdespatchEntered: boolean;
 
 }
 
-export class temp
-{
+export class temp {
     dduId: string; //guid
     ddlastId: string; //ddId updation
 
     dDate: string;
     centerId: string;
-    centerName:string;
-    courseName:string;
-    
+    centerName: string;
+    courseName: string;
+
     ddNumber: string;
-    appNo:string;
+    appNo: string;
     studentName: string;
     ddDate: string;
     Amount: string;
@@ -84,12 +85,14 @@ export class temp
     enteredBy: string;
     feesItem: string;
     isVerified: boolean; //use for dd verification
-    isidVerified:boolean; //used for dd id verification
+    isidVerified: boolean; //used for dd id verification
     isddIdentered: boolean; //used for ddId entry
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
-    despatchDate :string;
+    despatchDate: string;
     dbaNo: string;
-    entryPros:boolean;
+    entryPros: boolean;
+    secondphase: boolean;
+    isdespatchEntered: boolean;
 }
