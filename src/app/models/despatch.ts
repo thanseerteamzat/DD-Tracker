@@ -16,4 +16,9 @@ export class Despatch {
 export class despatchList {
     center: Center = new Center();
     despatchList: Despatch = new Despatch();
+    taxlist: taxtemp = new taxtemp();
+}
+export class taxtemp {
+    Id:string;
+    taxamount: string;
 }
