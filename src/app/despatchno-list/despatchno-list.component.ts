@@ -16,9 +16,11 @@ export class DespatchnoListComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
   ddLists: despatchList[] = [];
   centerList: Center[] = [];
+  newsoneselectedData;
   centers: Center[] = [];
   // selectedCenter: string = "";
   selectedData: despatchList[] = [];
+  selectedDatatemp; 
   filteredData;
   temp:despatchList[]=[];
   total = 0;
@@ -26,6 +28,7 @@ export class DespatchnoListComponent implements OnInit {
   taxtotal = 0;
   taxttotal1;
   feewtTotal = 0;
+  
   feewTotal1;
   centerData: ddList[] = [];
   constructor(
@@ -99,6 +102,13 @@ export class DespatchnoListComponent implements OnInit {
   }
   filterCenter(key) {
     console.log('data**********', this.ddLists)
+     
+
+  
+      
+  
+
+
 
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
     // this.centerData = this.selectedData;
@@ -123,6 +133,7 @@ export class DespatchnoListComponent implements OnInit {
       this.temp.push(this.selectedData[i]);
 
     }
+    this.selectedDatatemp = this.selectedData;
 
 
 
@@ -130,5 +141,14 @@ export class DespatchnoListComponent implements OnInit {
 
   }
 
+  filterDespatch(key) {
+    console.log('key....', key)
+    console.log(this.selectedDatatemp);
+    this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key)
+    // for (let i = 0; i <= this.checklist.length; i++) {
+    //   this.checklist = null;
+    // }
+ 
 
+}
 }
