@@ -111,7 +111,7 @@ export class DespatchnoListComponent implements OnInit {
    
     for (let i = 0; i <= this.selectedData.length; i++) {
       var temp = this.selectedData[i];
-      console.log('tempvalue****', temp)
+      console.log('tempvalue*****', temp)
       this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
       this.total1 = this.total.toFixed(2);
       this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
