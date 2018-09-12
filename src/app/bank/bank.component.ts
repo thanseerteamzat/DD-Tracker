@@ -4,6 +4,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
 import { ActivatedRoute, Params } from '@angular/router';
 import { desptchLastid } from '../models/despatchlastId';
+import { ddEntry } from '../models/ddEntry';
+import { element } from 'protractor';
 
 
 @Component({
@@ -15,13 +17,28 @@ export class BankComponent implements OnInit {
 
   newddLastid: desptchLastid = new desptchLastid();
   order: string;
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) { 
+  ddLastids: ddEntry[] = [];
+
+  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {
+
+    let itemRef = db.object('ddEntry');
+    itemRef.snapshotChanges().subscribe(action => {
+      var quatationsList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.ddLastids = [];
+      obj.forEach(element => {
+        let obj: ddEntry = JSON.parse(element);
+        // this.newddLastId = obj;
+        this.ddLastids.push(obj);
 
 
-    
+      });
+    });
+
   }
 
   ngOnInit() {
+
 
 
     // this.route.queryParams.subscribe(params => {
@@ -42,6 +59,26 @@ export class BankComponent implements OnInit {
 
   register() {
 
+    //code for 
+    // this.ddLastids.forEach(element => {
+
+    //   let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
+    //   let total1 = total.toFixed(2);
+    //   console.log('tax', total)
+
+    //   var updates = {}
+    //   element.feeWT = total1;
+    //   updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
+    //   try {
+
+    //     let up = this.db.database.ref().update(updates);
+    //     // this.router.navigate(['/despatch-no-entry'])
+    //   }
+    //   catch (e) {
+
+    //   }
+    // })
+    // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
     // let uniqueId = "/DD" + Common.newGuid();
     // this.newddLastid.Id = uniqueId;

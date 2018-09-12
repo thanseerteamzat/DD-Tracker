@@ -29,6 +29,8 @@ export class ddEntry {
     prosvalue: boolean;
     secondphase: boolean;
     isdespatchEntered: boolean;
+    taxValue: string;
+    feeWT: string;
 }
 export class ddList {
     ddenter: ddEntry = new ddEntry();

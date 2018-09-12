@@ -28,13 +28,11 @@ export class DespatchNoEntryComponent implements OnInit {
   centerData;
   checklist: CheckTemp[] = [];
   ddtotal;
-
   despatchLastids: desptchLastid[] = [];
   newddLastId: desptchLastid = new desptchLastid();
   despatch: Despatch = new Despatch();
   count;
   fromLastId;
-  sum;
   temp: temp[] = []
   feesItems = [
     { id: '1', name: 'Course Fee' },
@@ -225,9 +223,7 @@ export class DespatchNoEntryComponent implements OnInit {
       catch (e) {
 
       }
-      //despatch new 
-
-
+      //despatch table entry code 
 
 
       var counter = parseInt(this.count) + 1;
