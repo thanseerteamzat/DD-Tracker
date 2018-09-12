@@ -20,7 +20,7 @@ export class DespatchnoListComponent implements OnInit {
   selectedCenter: string = "";
   selectedData: despatchList[] = [];
   filteredData;
-  temp: despatchList[] = [];
+  temp:despatchList[]=[];
   total = 0;
   total1;
   taxtotal = 0;
@@ -110,7 +110,7 @@ export class DespatchnoListComponent implements OnInit {
     this.feewtTotal = 0;
    
     for (let i = 0; i <= this.selectedData.length; i++) {
-      var temp = this.selectedData[i];
+        var temp  = this.selectedData[i];
       console.log('tempvalue*****', temp)
       this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
       this.total1 = this.total.toFixed(2);

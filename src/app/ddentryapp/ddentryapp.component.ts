@@ -22,7 +22,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./ddentryapp.component.css']
 })
 export class DdentryappComponent implements OnInit {
-
+code;
 //api url and center variable
 d = new Date();
 selectedData ;
@@ -547,6 +547,8 @@ district(district){
 
 callType(value,key) {
   this.selectedcenterr = value;
+this.code = 'Code:';
+  
   this.split1 = this.selectedcenterr.split(" ")[1];
   console.log(this.split1)
 

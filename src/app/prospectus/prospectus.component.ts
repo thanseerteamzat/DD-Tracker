@@ -19,7 +19,7 @@ import { Common } from '../models/common';
 })
 export class ProspectusComponent implements OnInit {
 
-
+code;
   districts = [
     {id:'1', name:'KANNUR'},
     {id:'2', name:'KOZHIKODE'},
@@ -520,4 +520,12 @@ export class ProspectusComponent implements OnInit {
     
 
   }
+
+  callType(value,key) {
+    this.selectedcenterr = value;
+  this.code = 'Code:';
+    
+    this.split1 = this.selectedcenterr.split(" ")[1];
+    console.log(this.split1)
+}
 }
