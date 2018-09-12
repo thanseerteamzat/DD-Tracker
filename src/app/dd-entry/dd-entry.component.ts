@@ -344,7 +344,7 @@ export class DdEntryComponent implements OnInit {
       }
     }
 
-
+    //new ddentry adding code
 
     else {
       this.newddEntry.prosvalue = false;
@@ -375,7 +375,8 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-
+          this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+          this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;
