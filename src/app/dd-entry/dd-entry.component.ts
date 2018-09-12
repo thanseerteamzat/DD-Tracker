@@ -24,7 +24,7 @@ export class DdEntryComponent implements OnInit {
 
   //api url and center variable
     d = new Date();
-
+    code;
   districts = [
     {id:'1', name:'KANNUR'},
     {id:'2', name:'KOZHIKODE'},
@@ -536,10 +536,11 @@ temp2:string;
 
 
   callType(value) {
-    console.log(value);
+    console.log('value',value);
+this.code = 'Code:';
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
-    console.log(this.split1)
+    console.log(this.split1);
 
     // this.split1 = value.substring( 0, value.indexOf(":"));
     //  console.log(this.split1)
@@ -555,7 +556,7 @@ temp2:string;
         // this.selectedcenterr=value;
         console.log(this.vtemp);
 
-
+      
       }
     }
 
