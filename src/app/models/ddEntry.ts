@@ -33,7 +33,7 @@ export class ddEntry {
 export class ddList {
     ddenter: ddEntry = new ddEntry();
     center: Center = new Center();
-
+    tempentry: CheckTemp = new CheckTemp();
 
 }
 export class CheckTemp {
