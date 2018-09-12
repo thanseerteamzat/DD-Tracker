@@ -20,8 +20,7 @@ export class DespStudListComponent implements OnInit {
   selectedCenter: string = "";
   ddLists: ddList[] = [];
   ddentrylist: ddEntry[] = [];
-  selectedData;
-  newselectedData:ddEntry[];
+  selectedData: ddEntry[];
   temp: ddEntry;
   total; totalTemp;
   tax; taxTotal;
@@ -86,13 +85,6 @@ export class DespStudListComponent implements OnInit {
   }
 
   filterCenter(key) {
-
-    
-  //  this.newselectedData = this.ddentrylist.filter(s => s.despatchNo ==key);
-   
-  //  console.log('new selected data************************************',this.newselectedData)
-
-
     this.temp = null
     this.selectedData = this.ddentrylist.filter(s => s.centerId == key && s.despatchNo != null);
     this.total = 0
@@ -112,6 +104,7 @@ export class DespStudListComponent implements OnInit {
       this.feeWTtemp = this.feeWtax.toFixed(2);
 
     }
+
 
 
 
