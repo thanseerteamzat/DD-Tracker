@@ -23,8 +23,8 @@ export class DespStudListComponent implements OnInit {
   selectedData: ddEntry[];
   temp: ddEntry;
   total; totalTemp;
-  tax; taxTemp: Array<{ taxamount: Number }> = []; taxlist;
-  feeWtax = 0; feeWTtemp;
+  tax; taxTotal;
+  feeWtax; feeWTtemp;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -92,14 +92,16 @@ export class DespStudListComponent implements OnInit {
     this.feeWtax = 0;
     this.feeWTtemp = 0;
     this.tax = 0;
+    this.taxTotal = 0;
     for (var i = 0; i <= this.selectedData.length; i++) {
       this.temp = this.selectedData[i];
 
       this.total = this.total + parseFloat(this.temp.Amount.toString());
       this.totalTemp = this.total.toFixed(2);
-      this.tax = (parseFloat(this.temp.Amount.toString()) * 18) / 100;
-      this.taxTemp.push(this.tax)
-      console.log('taxxx', JSON.stringify(this.taxTemp))
+      this.tax = this.tax + parseFloat(this.temp.taxValue);
+      this.taxTotal = this.tax.toFixed(2);
+      this.feeWtax = this.feeWtax + parseFloat(this.temp.feeWT);
+      this.feeWTtemp = this.feeWtax.toFixed(2);
 
     }
 

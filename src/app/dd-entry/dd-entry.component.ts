@@ -23,27 +23,27 @@ import { CookieService } from 'ngx-cookie-service';
 export class DdEntryComponent implements OnInit {
 
   //api url and center variable
-    d = new Date();
-    code;
+  d = new Date();
+  code;
   districts = [
-    {id:'1', name:'KANNUR'},
-    {id:'2', name:'KOZHIKODE'},
-    {id:'3', name:'MALAPPURAM'},
-    {id:'4', name:'PALAKKAD'},
-    {id:'5', name:'THRISSUR'},
-    {id:'6', name:'ERNAKULAM'},
-    {id:'7', name:'KOTTAYAM'},
-    {id:'8', name:'PATHANAMTHITTA'},
-    {id:'9', name:'ALAPPUZHA'},
-    {id:'10', name:'KOLLAM'},
-    {id:'11', name:'THIRUVANANTHAPURAM'},
-    
-     
-    
+    { id: '1', name: 'KANNUR' },
+    { id: '2', name: 'KOZHIKODE' },
+    { id: '3', name: 'MALAPPURAM' },
+    { id: '4', name: 'PALAKKAD' },
+    { id: '5', name: 'THRISSUR' },
+    { id: '6', name: 'ERNAKULAM' },
+    { id: '7', name: 'KOTTAYAM' },
+    { id: '8', name: 'PATHANAMTHITTA' },
+    { id: '9', name: 'ALAPPUZHA' },
+    { id: '10', name: 'KOLLAM' },
+    { id: '11', name: 'THIRUVANANTHAPURAM' },
+
+
+
   ];
 
-temp2:string;
-     centers: Center[];
+  temp2: string;
+  centers: Center[];
   courses: Course[];
   ddLists: ddList[] = [];
   //variable four count
@@ -71,7 +71,7 @@ temp2:string;
   ddentries: ddEntry[] = [];
   newddentry: ddEntry = new ddEntry();
   qIdEditMode: string = undefined;
-  check : string;
+  check: string;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -87,10 +87,10 @@ temp2:string;
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
     console.log('this is id ********************************');
-    
+
     console.log(id);
     // console.log()
-  
+
 
     let itemReff = db.object('ddEntry');
     itemReff.snapshotChanges().subscribe(action => {
@@ -108,7 +108,7 @@ temp2:string;
         ddListItem.ddenter = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        console.log('2222222222222222222222222222',custList)
+        console.log('2222222222222222222222222222', custList)
         if (custList.length > 0) {
           ddListItem.center = custList[0];
         }
@@ -120,7 +120,7 @@ temp2:string;
     });
 
 
-    
+
     if (id != undefined) {
       this.qIdEditMode = id;
       this.isEditMode = true;
@@ -157,7 +157,7 @@ temp2:string;
           if (obj.ddlastId != undefined && (obj.ddlastId) == id) {
             obj.ddlastId = obj.ddlastId.replace("/", "");
             this.newddEntry = obj;
-            
+
             // let center = this.centerList.filter(s => s.Id==(obj.centerId));
             // // console.log('000000000000000',center)
             // if (center.length > 0) {
@@ -221,9 +221,9 @@ temp2:string;
 
     // console.log('***********************',ddList)
 
-    console.log('cokieeeeeeeee name..',this.ets.cookiename)
+    console.log('cokieeeeeeeee name..', this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
-    
+
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
       // this.router.navigate(['/dd-entry'])
     }
@@ -231,12 +231,12 @@ temp2:string;
       this.router.navigate(['/error']);
     }
 
-     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name',this.ets.cookiename)
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
     this.check = this.ets.cookiename;
     this.newddEntry.enteredBy = this.check;
-    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check',this.newddEntry.enteredBy)
-     
-    
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check', this.newddEntry.enteredBy)
+
+
   }
 
   //date format
@@ -254,10 +254,10 @@ temp2:string;
 
   register(key, dlastid: ddLastid) {
 
-     this.newddEntry.entryPros=false;
+    this.newddEntry.entryPros = false;
 
     if (this.isEditMode) {
-    this.newddEntry.prosvalue=false;
+      this.newddEntry.prosvalue = false;
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
       var ddreferbank = this.newddEntry.bank;
@@ -274,7 +274,12 @@ temp2:string;
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          
+          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
+          let tottalfloat = total.toFixed(2);
+          this.newddEntry.taxValue = tottalfloat;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
           if (confirm('Are you sure to update details')) {
             updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
             try {
@@ -311,8 +316,13 @@ temp2:string;
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          
 
+          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
+          let tottalfloat = total.toFixed(2);
+          this.newddEntry.taxValue = tottalfloat;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
           try {
             if (confirm('Are you sure to update details')) {
@@ -337,7 +347,7 @@ temp2:string;
 
 
     else {
-      this.newddEntry.prosvalue=false;
+      this.newddEntry.prosvalue = false;
       console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
@@ -365,7 +375,7 @@ temp2:string;
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-         
+
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;
@@ -384,7 +394,12 @@ temp2:string;
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
-          
+          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
+          let tottalfloat = total.toFixed(2);
+          this.newddEntry.taxValue = tottalfloat;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
 
           let ddEntryJson = JSON.stringify(this.newddEntry);
           console.log(ddEntryJson);
@@ -409,7 +424,7 @@ temp2:string;
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
-        
+
 
         // let uniqueId = "/DD" + Common.newGuid();
         // this.newddEntry.dduId = uniqueId;
@@ -428,7 +443,12 @@ temp2:string;
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
-        
+        let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
+        let tottalfloat = total.toFixed(2);
+        this.newddEntry.taxValue = tottalfloat;
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+        let fwtFloat = feewithoutTax.toFixed(2);
+        this.newddEntry.feeWT = fwtFloat;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);
@@ -513,11 +533,11 @@ temp2:string;
     )
   }
 
-  district(district){
-    console.log('district**********************',district);
+  district(district) {
+    console.log('district**********************', district);
     // console.log(district);
     // console.log('*************');
-    this.temp2=district;
+    this.temp2 = district;
     console.log(this.temp2);
     let that = this;
     this.ets.GetCenterbyDist(this.temp2).subscribe(data => {
@@ -530,14 +550,14 @@ temp2:string;
     // // console.log(this.split1);
     // return this.split1;
 
-    
+
 
   }
 
 
   callType(value) {
-    console.log('value',value);
-this.code = 'Code:';
+    console.log('value', value);
+    this.code = 'Code:';
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
     console.log(this.split1);
@@ -556,7 +576,7 @@ this.code = 'Code:';
         // this.selectedcenterr=value;
         console.log(this.vtemp);
 
-      
+
       }
     }
 
@@ -567,7 +587,7 @@ this.code = 'Code:';
     let that = this;
     this.ets.GetAllCourses(this.vtemp).subscribe(data => {
       that.courses = data;
-      
+
       this.ets.courseList = this.courses;
 
 

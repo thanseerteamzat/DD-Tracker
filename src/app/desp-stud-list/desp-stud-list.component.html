@@ -54,8 +54,8 @@
                 <td>{{ddenter?.despatchDate}}</td>
                 <td>{{ddenter?.feesItem}}</td>
                 <td>{{ddenter?.Amount}}</td>
-                <td >{{tax}}</td>
-                 <td>{{feeWTtemp}}</td>
+                <td >{{ddenter?.taxValue}}</td>
+                 <td>{{ddenter?.feeWT}}</td>
                 <!-- <td>{{ddenter.despatchList?.FWT}}</td> -->
 
 
@@ -71,8 +71,8 @@
             <td>
               {{totalTemp}}
             </td>
-            <td>{{taxtotalTemp}}</td>
-            <td>{{t}}</td>
+            <td>{{taxTotal}}</td>
+            <td>{{feeWTtemp}}</td>
             <!-- <td></td> -->
           </tr>
         </tbody>
@@ -81,15 +81,3 @@
     </div>
   </div>
 </div>
-<table>
-  <tr>
-    <td>
-      hello
-    </td>
-  </tr>
-  <tr *ngFor="let tax of taxTemp">
-    <td>
-{{tax}}
-    </td>
-  </tr>
-</table>
