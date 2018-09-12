@@ -34,7 +34,7 @@ export class DespatchNoEntryComponent implements OnInit {
   count;
   fromLastId;
   sum;
-  temp: temp[] = []
+  temp;
   feesItems = [
     { id: '1', name: 'Course Fee' },
     { id: '2', name: 'Prospectus' },
@@ -146,35 +146,7 @@ export class DespatchNoEntryComponent implements OnInit {
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
   }
-  filterCenter(key) {
-
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
-    console.log('tempppppp', this.checklist)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
-    }
-    // this.checklist.forEach(element => {
-    //   this.checklist.pop();
-    // })
-
-    console.log('........', this.checklist);
-
-  }
-
-
-
-
-  filterFee(key) {
-    console.log('key....', key)
-    this.selectedFeee = this.selectedData.filter(s => s.ddenter.feesItem == key)
-    // for (let i = 0; i <= this.checklist.length; i++) {
-    //   this.checklist = null;
-    // }
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
-    }
-    console.log('........', this.checklist);
-  }
+  
   onClick(event, temp, ddEntry: ddEntry) {
     console.log('id', temp)
 
