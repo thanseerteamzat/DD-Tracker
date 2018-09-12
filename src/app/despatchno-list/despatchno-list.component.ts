@@ -102,7 +102,12 @@ export class DespatchnoListComponent implements OnInit {
 
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
     // this.centerData = this.selectedData;
+    this.taxtotal = 0;
+    this.taxttotal1 = 0;
     this.total = 0;
+    this.total1 = 0;
+    this.feewTotal1 = 0;
+    this.feewtTotal = 0;
     for (let i = 0; i <= this.selectedData.length; i++) {
       var temp = this.selectedData[i];
       console.log('tempvalue****', temp)
