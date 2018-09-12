@@ -202,11 +202,11 @@ export class DdEntryComponent implements OnInit {
     });
 
 
-    //dates of ddentry
-    // let todayDate = (new Date(Date.now()));
-    // let dddate = new Date();
-    // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
-    // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+    // dates of ddentry
+    let todayDate = (new Date(Date.now()));
+    let dddate = new Date();
+    this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+    this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
 
   }
@@ -375,8 +375,8 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
-          this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+          // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+          // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;
