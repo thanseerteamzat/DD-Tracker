@@ -18,7 +18,7 @@ import { ArrayType } from '@angular/compiler';
 })
 export class DespatchNoEntryComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
-
+  selectedDatatemp;
   ddLists: ddList[] = [];
   centerList: Center[] = [];
   centers: Center[] = [];
@@ -34,7 +34,7 @@ export class DespatchNoEntryComponent implements OnInit {
   count;
   fromLastId;
   sum;
-  temp;
+  temp: temp[] = []
   feesItems = [
     { id: '1', name: 'Course Fee' },
     { id: '2', name: 'Prospectus' },
@@ -146,10 +146,17 @@ export class DespatchNoEntryComponent implements OnInit {
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
   }
-<<<<<<< .mine
+  filterCenter(key) {
+   this.selectedData=null;
+    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
+    console.log('tempppppp', this.checklist)
+    for (let i = 0; i <= this.checklist.length; i++) {
+      this.checklist.splice(i, this.checklist.length);
+    }
+    // this.checklist.forEach(element => {
     //   this.checklist.pop();
     // })
-
+    this.selectedDatatemp=this.selectedData;
     console.log('........', this.checklist);
 
   }
@@ -159,7 +166,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
   filterFee(key) {
     console.log('key....', key)
-    this.selectedData = this.selectedData.filter(s => s.ddenter.feesItem == key)
+    this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.feesItem == key)
     // for (let i = 0; i <= this.checklist.length; i++) {
     //   this.checklist = null;
     // }
@@ -167,30 +174,10 @@ export class DespatchNoEntryComponent implements OnInit {
       this.checklist.splice(i, this.checklist.length);
     }
     console.log('........', this.checklist);
+    // this.selectedData=null;
   }
-=======
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
   onClick(event, temp, ddEntry: ddEntry) {
     console.log('id', temp)
 
