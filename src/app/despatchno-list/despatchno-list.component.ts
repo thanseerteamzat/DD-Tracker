@@ -95,13 +95,14 @@ export class DespatchnoListComponent implements OnInit {
       this.router.navigate(['/error']);
 
 
-  }}
+    }
+  }
   filterCenter(key) {
     console.log('data**********', this.ddLists)
 
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
     // this.centerData = this.selectedData;
-
+    this.total = 0;
     for (let i = 0; i <= this.selectedData.length; i++) {
       var temp = this.selectedData[i];
       console.log('tempvalue****', temp)

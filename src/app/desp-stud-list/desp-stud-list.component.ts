@@ -6,6 +6,7 @@ import { Center } from '../models/Center';
 import { despatchList, Despatch, taxtemp } from '../models/despatch';
 import { Common } from '../models/common';
 import { ddEntry, ddList } from '../models/ddEntry';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-desp-stud-list',
@@ -18,10 +19,11 @@ export class DespStudListComponent implements OnInit {
   // ddLists: despatchList[] = [];
   selectedCenter: string = "";
   ddLists: ddList[] = [];
-  selectedData: ddList[];
-  temp: ddList;
+  ddentrylist: ddEntry[] = [];
+  selectedData: ddEntry[];
+  temp: ddEntry;
   total; totalTemp;
-  tax = 0; taxTemp: taxtemp[]=[]; taxTotal; taxtotalTemp; tax1: taxtemp = new taxtemp(); taxtemp1; taxlist;
+  tax; taxTemp: Array<{ taxamount: Number }> = []; taxlist;
   feeWtax = 0; feeWTtemp;
   constructor(
     private db: AngularFireDatabase,
@@ -54,13 +56,15 @@ export class DespStudListComponent implements OnInit {
       let quotationobj = Common.snapshotToArray(action.payload);
       quotationobj.forEach(element => {
         let ddListItem = new ddList();
+        let ddentryitem = new ddEntry();
         let qobj: ddEntry = JSON.parse(element);
         // console.log("****" + element);
         if (qobj.ddlastId != undefined) {
           qobj.ddlastId = qobj.ddlastId.replace("/", "");
         }
 
-        ddListItem.ddenter = qobj;
+        ddListItem.ddenter;
+        ddentryitem = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
         // console.log('2222222222222222222222222222',custList)
@@ -69,6 +73,7 @@ export class DespStudListComponent implements OnInit {
         }
 
         this.ddLists.push(ddListItem);
+        this.ddentrylist.push(ddentryitem);
 
       });
 
@@ -80,34 +85,25 @@ export class DespStudListComponent implements OnInit {
   }
 
   filterCenter(key) {
-    this.selectedData = this.ddLists.filter(s => s.center.Id == key && s.ddenter.despatchNo != null);
+    this.temp = null
+    this.selectedData = this.ddentrylist.filter(s => s.centerId == key && s.despatchNo != null);
     this.total = 0
-    this.totalTemp = 0;
-    // this.taxTemp = 0;
-    this.taxTotal = 0;
-
+    this.totalTemp = 0
     this.feeWtax = 0;
     this.feeWTtemp = 0;
+    this.tax = 0;
     for (var i = 0; i <= this.selectedData.length; i++) {
       this.temp = this.selectedData[i];
-      var tempdata = this.temp.ddenter.Amount;
-      this.total = this.total + parseFloat(this.temp.ddenter.Amount.toString());
+
+      this.total = this.total + parseFloat(this.temp.Amount.toString());
       this.totalTemp = this.total.toFixed(2);
-      this.tax = (parseFloat(this.temp.ddenter.Amount.toString()) * 18) / 100;
-      this.tax1.taxamount = this.tax.toString();
-      // console.log('tax amount **********',parseFloat(this.tax1.taxamount));
-      this.taxtemp1 = parseFloat(this.tax1.taxamount);
-
-      // this.taxTotal = parseFloat(this.taxTotal) + parseFloat(this.taxTemp);
-      this.taxtotalTemp = this.taxTotal.toFixed(2);
-      // this.feeWtax = parseFloat(tempdata) - this.taxTemp
-      this.feeWTtemp = this.feeWtax.toFixed(2);
-      this.taxTemp.push(this.taxtemp1)
-
-      // console.log('filter', tempdata)
-      console.log('taxtemp', this.taxTemp)
+      this.tax = (parseFloat(this.temp.Amount.toString()) * 18) / 100;
+      this.taxTemp.push(this.tax)
+      console.log('taxxx', JSON.stringify(this.taxTemp))
 
     }
+
+
 
 
   }

@@ -15,17 +15,21 @@ export class BankComponent implements OnInit {
 
   newddLastid: desptchLastid = new desptchLastid();
   order: string;
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) { }
+  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) { 
+
+
+    
+  }
 
   ngOnInit() {
 
 
-    this.route.queryParams.subscribe(params => {
-      let userId = params['userId'];
-      let password = params['password'];
-      console.log(atob(userId), atob(password));
-      console.log(btoa(userId), btoa(password));
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   let userId = params['userId'];
+    //   let password = params['password'];
+    //   console.log(atob(userId), atob(password));
+    //   console.log(btoa(userId), btoa(password));
+    // });
 
 
 

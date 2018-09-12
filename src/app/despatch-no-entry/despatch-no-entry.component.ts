@@ -10,6 +10,7 @@ import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
 import { ddentryTemp } from '../models/ddentryTemp';
 import { ArrayType } from '@angular/compiler';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -136,18 +137,18 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
-   this.selectedData=null;
+    this.selectedData = null;
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
     console.log('tempppppp', this.checklist)
     for (let i = 0; i <= this.checklist.length; i++) {
@@ -156,7 +157,7 @@ export class DespatchNoEntryComponent implements OnInit {
     // this.checklist.forEach(element => {
     //   this.checklist.pop();
     // })
-    this.selectedDatatemp=this.selectedData;
+    this.selectedDatatemp = this.selectedData;
     console.log('........', this.checklist);
 
   }
@@ -262,6 +263,7 @@ export class DespatchNoEntryComponent implements OnInit {
     for (let i = 0; i <= this.checklist.length; i++) {
       this.checklist.pop();
     }
+    alert('despatch added')
     console.log('clearedlist', this.checklist)
 
 
