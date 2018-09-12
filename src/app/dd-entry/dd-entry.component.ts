@@ -205,8 +205,8 @@ export class DdEntryComponent implements OnInit {
     //dates of ddentry
     // let todayDate = (new Date(Date.now()));
     // let dddate = new Date();
-    this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
-    this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+    // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+    // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
 
   }
