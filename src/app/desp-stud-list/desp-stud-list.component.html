@@ -1,0 +1,95 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>DespatchNo List</h2>
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
+        <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of centers">
+          <option [ngValue]="s.Id">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+
+
+
+
+
+    <div style="padding-top: 50px;">
+
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
+
+
+            <th>DD.Sl.No:</th>
+            <!-- <th>Centre Name</th> -->
+            <th>Student Name</th>
+            <th>Application No:</th>
+            <th>Despatch No</th>
+            <th>Despatch Date</th>
+            <th>Fees Item</th>
+            <td>DD Amount</td>
+            <th>Tax</th>
+            <th>Fee Without Tax</th>
+
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of selectedData; let tax of taxTemp">
+            
+
+            <tr>
+              <tr>
+
+                <td>{{ddenter.ddenter?.ddlastId}}</td>
+                <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+                <td>{{ddenter.ddenter?.studentName}}</td>
+                <td>{{ddenter.ddenter?.appNo}}</td>
+                <td>{{ddenter.ddenter?.despatchNo}}</td>
+                <td>{{ddenter.ddenter?.despatchDate}}</td>
+                <td>{{ddenter.ddenter?.feesItem}}</td>
+                <td>{{ddenter.ddenter?.Amount}}</td>
+                <td >{{tax}}</td>
+                 <td>{{feeWTtemp}}</td>
+                <!-- <td>{{ddenter.despatchList?.FWT}}</td> -->
+
+
+
+
+
+
+              </tr>
+            
+          </ng-container>
+          <tr>
+            <td colspan="6" style="text-align: right">Total</td>
+            <td>
+              {{totalTemp}}
+            </td>
+            <td>{{taxtotalTemp}}</td>
+            <td>{{t}}</td>
+            <!-- <td></td> -->
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+<table>
+  <tr>
+    <td>
+      hello
+    </td>
+  </tr>
+  <tr *ngFor="let tax of taxTemp">
+    <td>
+{{tax}}
+    </td>
+  </tr>
+</table>
