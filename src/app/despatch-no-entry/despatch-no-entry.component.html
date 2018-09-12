@@ -77,7 +77,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor='let ddenter of selectedData'>
+                    <ng-container *ngFor='let ddenter of selectedData || selectedFeee '>
                         <tr>
                             <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null">
                                 <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
