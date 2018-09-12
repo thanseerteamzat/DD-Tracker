@@ -106,10 +106,9 @@ export class DespatchnoListComponent implements OnInit {
     this.taxttotal1 = 0;
     this.total = 0;
     this.total1 = 0;
-    // this.feewTotal1 = 0;
-    // this.feewtTotal = 0;
     this.feewTotal1 = 0;
     this.feewtTotal = 0;
+   
     for (let i = 0; i <= this.selectedData.length; i++) {
       var temp = this.selectedData[i];
       console.log('tempvalue****', temp)
