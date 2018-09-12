@@ -105,7 +105,7 @@ export class BankComponent implements OnInit {
     // catch (ex) {
 
     // }
-//
+
   }
 
 }
