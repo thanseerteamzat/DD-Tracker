@@ -40,20 +40,20 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let ddenter of selectedData; let tax of taxTemp">
+          <ng-container *ngFor="let ddenter of selectedData  ; let tax of taxTemp">
             
 
             <tr>
               <tr>
 
-                <td>{{ddenter.ddenter?.ddlastId}}</td>
+                <td>{{ddenter?.ddlastId}}</td>
                 <!-- <td>{{ddenter.center?.CenterName}}</td> -->
-                <td>{{ddenter.ddenter?.studentName}}</td>
-                <td>{{ddenter.ddenter?.appNo}}</td>
-                <td>{{ddenter.ddenter?.despatchNo}}</td>
-                <td>{{ddenter.ddenter?.despatchDate}}</td>
-                <td>{{ddenter.ddenter?.feesItem}}</td>
-                <td>{{ddenter.ddenter?.Amount}}</td>
+                <td>{{ddenter?.studentName}}</td>
+                <td>{{ddenter?.appNo}}</td>
+                <td>{{ddenter?.despatchNo}}</td>
+                <td>{{ddenter?.despatchDate}}</td>
+                <td>{{ddenter?.feesItem}}</td>
+                <td>{{ddenter?.Amount}}</td>
                 <td >{{tax}}</td>
                  <td>{{feeWTtemp}}</td>
                 <!-- <td>{{ddenter.despatchList?.FWT}}</td> -->
