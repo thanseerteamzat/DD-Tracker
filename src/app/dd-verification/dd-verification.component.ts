@@ -5,6 +5,7 @@ import { Common } from '../models/common';
 import { Center } from '../models/Center';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtsService } from '../services/ets.service';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-dd-verification',
   templateUrl: './dd-verification.component.html',
@@ -16,11 +17,11 @@ export class DdVerificationComponent implements OnInit {
   centerList: Center[] = [];
 
   count;
-  
+  format;
 
-  constructor(private route : ActivatedRoute,private db: AngularFireDatabase, private router: Router, private ets: EtsService) {
+  constructor(private route: ActivatedRoute, private db: AngularFireDatabase, private router: Router, private ets: EtsService) {
 
-  
+
     this.ets.GetAllCenters().subscribe(data => {
 
       this.ets.centerList = data;
@@ -34,7 +35,7 @@ export class DdVerificationComponent implements OnInit {
     for (let cent of centerResponse) {
 
       this.centerList.push(cent);
-      
+
 
     }
 
@@ -66,9 +67,9 @@ export class DdVerificationComponent implements OnInit {
       });
 
     });
-  
 
 
+    // this.format = formatDate();
 
 
 
@@ -76,7 +77,7 @@ export class DdVerificationComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue == "2"|| this.ets.cookievalue == "3") {
+    if (this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
       // this.router.navigate(['/dd-verification'])
     }
     else {
@@ -89,10 +90,23 @@ export class DdVerificationComponent implements OnInit {
     //   this.router.navigate(['/error']);
     // }
 
-    
 
-    
+
+
   }
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
+  }
+
+
   verify(key, ddentry: ddEntry) {
     this.db.database.ref(`ddEntry/${key}`).once("value", snapshot => {
 
@@ -120,18 +134,18 @@ export class DdVerificationComponent implements OnInit {
     });
   }
 
-  entrySelection(ddlastId,ddentry:ddEntry){
+  entrySelection(ddlastId, ddentry: ddEntry) {
 
-    console.log('inside functionl entry selection',ddlastId)
+    console.log('inside functionl entry selection', ddlastId)
     console.log(ddentry.entryPros);
     console.log(ddentry.ddlastId)
-    if(ddentry.entryPros==false){
-      this.router.navigate(['/ddentry-details/'+ddlastId])
+    if (ddentry.entryPros == false) {
+      this.router.navigate(['/ddentry-details/' + ddlastId])
     }
-    else{
-      this.router.navigate(['ddentrypros-details/'+ddlastId])
+    else {
+      this.router.navigate(['ddentrypros-details/' + ddlastId])
     }
   }
-  
+
 
 }
