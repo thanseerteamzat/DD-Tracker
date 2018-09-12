@@ -95,6 +95,7 @@ export class DespStudListComponent implements OnInit {
 
     this.temp = null
     this.selectedData = this.ddentrylist.filter(s => s.centerId == key && s.despatchNo != null);
+
     this.total = 0
     this.totalTemp = 0
     this.feeWtax = 0;
