@@ -166,7 +166,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
   filterFee(key) {
     console.log('key....', key)
-    this.selectedFeee = this.selectedData.filter(s => s.ddenter.feesItem == key)
+    this.selectedData = this.selectedData.filter(s => s.ddenter.feesItem == key)
     // for (let i = 0; i <= this.checklist.length; i++) {
     //   this.checklist = null;
     // }
