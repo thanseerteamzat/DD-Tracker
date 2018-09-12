@@ -55,19 +55,30 @@ export class BankComponent implements OnInit {
 
 
 
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
+  }
 
   register() {
 
     //code for 
     // this.ddLastids.forEach(element => {
 
-    //   let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
-    //   let total1 = total.toFixed(2);
-    //   console.log('tax', total)
+      // let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
+      // let total1 = total.toFixed(2);
+      // console.log('tax', total)
 
-    //   var updates = {}
-    //   element.feeWT = total1;
+      // var updates = {}
+      // element.feeWT = total1;
+    //   element.ddDate = this.formatDate(element.ddDate)
     //   updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
     //   try {
 
@@ -78,7 +89,7 @@ export class BankComponent implements OnInit {
 
     //   }
     // })
-    // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //  console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
     // let uniqueId = "/DD" + Common.newGuid();
     // this.newddLastid.Id = uniqueId;
