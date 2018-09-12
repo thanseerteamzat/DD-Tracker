@@ -4,7 +4,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter DD's with Centre Name : </label>&nbsp;
-      <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
+      <select  class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
         <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
         <ng-container *ngFor="let s of centers">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>

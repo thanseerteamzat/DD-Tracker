@@ -72,13 +72,13 @@ export class BankComponent implements OnInit {
     //code for 
     // this.ddLastids.forEach(element => {
 
-      // let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
-      // let total1 = total.toFixed(2);
-      // console.log('tax', total)
+    //   let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
+    //   let total1 = total.toFixed(2);
+    //   // console.log('tax', total)
 
-      // var updates = {}
-      // element.feeWT = total1;
-    //   element.ddDate = this.formatDate(element.ddDate)
+    //   var updates = {}
+    //   element.feeWT = total1;
+    //   // element.ddDate = this.formatDate(element.ddDate)
     //   updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
     //   try {
 

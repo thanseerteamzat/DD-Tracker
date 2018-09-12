@@ -18,7 +18,7 @@ export class DespatchnoListComponent implements OnInit {
   centerList: Center[] = [];
   newsoneselectedData;
   centers: Center[] = [];
-  selectedCenter: string = "";
+  // selectedCenter: string = "";
   selectedData: despatchList[] = [];
   selectedDatatemp; 
   filteredData;
@@ -77,7 +77,7 @@ export class DespatchnoListComponent implements OnInit {
         if (centList.length > 0) {
           ddListItem.center = centList[0];
 
-          console.log('selected****', this.selectedCenter)
+          // console.log('selected****', this.selectedCenter)
         }
 
         this.ddLists.push(ddListItem);
