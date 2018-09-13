@@ -86,12 +86,7 @@ export class DdEntryComponent implements OnInit {
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
-    console.log('this is id ********************************');
-
-    console.log(id);
-    // console.log()
-
-
+  
     let itemReff = db.object('ddEntry');
     itemReff.snapshotChanges().subscribe(action => {
       this.ddLists = [];
@@ -108,7 +103,7 @@ export class DdEntryComponent implements OnInit {
         ddListItem.ddenter = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        console.log('2222222222222222222222222222', custList)
+        // console.log('2222222222222222222222222222', custList)
         if (custList.length > 0) {
           ddListItem.center = custList[0];
         }
@@ -129,9 +124,7 @@ export class DdEntryComponent implements OnInit {
     this.ets.GetAllCenters().subscribe(data => {
       that.centers = data;
       this.ets.centerList = this.centers;
-      // console.log('testtttttttt', this.ets.centerList)
-      // var result =this.ets.centerList.map(x =>x.CenterName)
-      // console.log('cnet',result)
+    
     },
       error => console.log(error),
       () => console.log('Get all complete'));
@@ -265,12 +258,12 @@ export class DdEntryComponent implements OnInit {
       for (let i = 0; i < this.ddtempentries.length; i++) {
         //variable for check reference
         var temp = this.ddtempentries[i];
-        console.log('tttttttttttttttttttttt', temp)
+        // console.log('tttttttttttttttttttttt', temp)
 
       }
       if (temp != null) {
         if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
-          console.log('******************************************************  Edit mode')
+          // console.log('******************************************************  Edit mode')
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
@@ -363,7 +356,7 @@ export class DdEntryComponent implements OnInit {
 
     else {
       this.newddEntry.prosvalue = false;
-      console.log('******************************************* Not Edit Mode')
+      // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
       var ddreferbank = this.newddEntry.bank;
@@ -375,7 +368,6 @@ export class DdEntryComponent implements OnInit {
 
       }
       if (temp != null) {
-        console.log('888888888888888888888888888888888888888 kayari')
         if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
 
           alert('DD details  already exists')
@@ -399,7 +391,7 @@ export class DdEntryComponent implements OnInit {
           this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
           this.newddentryTemp.bank = this.newddEntry.bank;
           let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-          console.log(ddentryTempJson);
+        
           try {
             this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
 
@@ -423,7 +415,7 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.taxValue = taxfloat;
 
           let ddEntryJson = JSON.stringify(this.newddEntry);
-          console.log(ddEntryJson);
+       
           try {
             this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
             alert("DD Entry added successfully!!.");
@@ -453,7 +445,7 @@ export class DdEntryComponent implements OnInit {
         this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
         this.newddentryTemp.bank = this.newddEntry.bank;
         let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-        console.log(ddentryTempJson);
+      
         try {
           this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
 
@@ -477,7 +469,7 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.taxValue = taxfloat;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
-        console.log(ddEntryJson);
+        
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
           alert("DD Entry added successfully!!.");
@@ -560,15 +552,15 @@ export class DdEntryComponent implements OnInit {
   }
 
   district(district) {
-    console.log('district**********************', district);
+    // console.log('district**********************', district);
     // console.log(district);
     // console.log('*************');
     this.temp2 = district;
-    console.log(this.temp2);
+    // console.log(this.temp2);
     let that = this;
     this.ets.GetCenterbyDist(this.temp2).subscribe(data => {
       that.centers = data;
-      console.log(this.centers)
+      // console.log(this.centers)
 
     },
       error => console.log(error),

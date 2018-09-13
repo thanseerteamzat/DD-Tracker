@@ -17,7 +17,7 @@ export class DespStudListComponent implements OnInit {
   centerList: Center[] = [];
   centers: Center[] = [];
   // ddLists: despatchList[] = [];
-  selectedCenter: string = "";
+  selectedcenter;
   ddLists: ddList[] = [];
   ddentrylist: ddEntry[] = [];
   selectedData: ddEntry[];
@@ -25,6 +25,7 @@ export class DespStudListComponent implements OnInit {
   total; totalTemp;
   tax; taxTotal;
   feeWtax; feeWTtemp;
+  
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -82,14 +83,14 @@ export class DespStudListComponent implements OnInit {
 
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
 
 
-    // }
+    }
   }
 
   filterCenter(key) {
