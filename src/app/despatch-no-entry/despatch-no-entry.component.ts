@@ -233,7 +233,7 @@ export class DespatchNoEntryComponent implements OnInit {
         let feeWT = parseFloat(this.ddtotal) / 1.18;
         let feewtfloat = feeWT.toFixed(2);
         let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
-        let taxfloat = taxamount;
+        let taxfloat = taxamount.toFixed(2);
         this.despatch.centerId = this.selectedcenter;
         this.despatch.despId = counter.toString();
         this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
@@ -241,7 +241,7 @@ export class DespatchNoEntryComponent implements OnInit {
         this.despatch.feeItem = this.selectedFee
         this.despatch.isdespatchEntered = true;
         this.despatch.totalAmount = this.ddtotal;
-        this.despatch.taxAmount = taxfloat;
+        this.despatch.taxAmount = parseFloat(taxfloat);
         this.despatch.FWT = parseFloat(feewtfloat);
         let ddEntryJson = JSON.stringify(this.despatch);
 
