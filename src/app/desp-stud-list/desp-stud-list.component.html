@@ -4,7 +4,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter DD's with Centre Name : </label>&nbsp;
-      <select  class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
+      <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
         <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
         <ng-container *ngFor="let s of centers">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>
@@ -12,8 +12,13 @@
 
       </select>
     </div>
+<<<<<<< .mine
     <div class="form-group col-md-3">
+=======
 
+>>>>>>> .theirs
+
+<<<<<<< .mine
         <label>Filter DD's Despatch No : </label>&nbsp;
         <select [(ngModel)]="selecteddespatch" class="form-control" name="selecteddespatch" (change)="filterDespatch(selecteddespatch)">
           <option value="" disabled>--Choose--</option>
@@ -24,6 +29,18 @@
         </select>
       </div>
   
+=======
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
 
 
 
