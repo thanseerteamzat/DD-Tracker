@@ -5,12 +5,9 @@ import { Common } from '../models/common';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from "src/app/services/ets.service";
 import { Router } from '@angular/router';
-import { registerContentQuery, element } from '@angular/core/src/render3/instructions';
 import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
-import { ddentryTemp } from '../models/ddentryTemp';
-import { ArrayType } from '@angular/compiler';
-import { Alert } from 'selenium-webdriver';
+
 
 @Component({
   selector: 'app-despatch-no-entry',
@@ -27,6 +24,7 @@ export class DespatchNoEntryComponent implements OnInit {
   selectedData: Array<any>;
   centerData;
   checklist: CheckTemp[] = [];
+  tempentry
   ddtotal;
   despatchLastids: desptchLastid[] = [];
   newddLastId: desptchLastid = new desptchLastid();
@@ -135,15 +133,15 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
-    this.entered = this.ets.cookiename;
-    this.despatch.enteredBy = this.entered;
-    console.log('cookiename****', this.despatch.enteredBy)
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
+    // this.entered = this.ets.cookiename;
+    // this.despatch.enteredBy = this.entered;
+    // console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
     this.selectedData = null;
@@ -198,70 +196,77 @@ export class DespatchNoEntryComponent implements OnInit {
   }
   register(key) {
 
+    if (key != null) {
+      this.ddtotal = 0;
 
-    this.ddtotal = 0;
+      // this.checklist.forEach(element => {
+      //   this.temp.push(element)
+      // })
+      for (let i = 0; i <= this.checklist.length; i++) {
 
-    // this.checklist.forEach(element => {
-    //   this.temp.push(element)
-    // })
-    for (let i = 0; i <= this.checklist.length; i++) {
+        this.tempentry = this.checklist[i];
+        this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
+        console.log('total*****', this.ddtotal)
+        this.tempentry.despatchNo = this.newddEntry.despatchNo;
+        this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+        this.tempentry.isdespatchEntered = true;
+        // this.tempentry.despId = key;
+        var updates = {}
 
-      var temp = this.checklist[i];
-      this.ddtotal = this.ddtotal + parseInt(temp.Amount);
-      console.log('total*****', this.ddtotal)
-      temp.despatchNo = this.newddEntry.despatchNo;
-      temp.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-      temp.isdespatchEntered = true;
-      var updates = {}
+        updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+        try {
 
-      updates['/ddEntry/' + temp.ddlastId] = JSON.stringify(temp);
-      try {
+          let up = this.db.database.ref().update(updates);
+          this.router.navigate(['/despatch-no-entry'])
+        }
+        catch (e) {
 
+        }
+        //despatch table entry code 
+
+
+        var counter = parseInt(this.count) + 1;
+        var updates = {};
+        this.newddLastId.lastId = counter;
+        updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
         let up = this.db.database.ref().update(updates);
-        this.router.navigate(['/despatch-no-entry'])
-      }
-      catch (e) {
+        let feeWT = parseFloat(this.ddtotal) / 1.18;
+        let feewtfloat = feeWT.toFixed(2);
+        let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
+        let taxfloat = taxamount;
+        this.despatch.centerId = this.selectedcenter;
+        this.despatch.despId = counter.toString();
+        this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+        this.despatch.despatchNo = this.newddEntry.despatchNo;
+        this.despatch.feeItem = this.selectedFee
+        this.despatch.isdespatchEntered = true;
+        this.despatch.totalAmount = this.ddtotal;
+        this.despatch.taxAmount = taxfloat;
+        this.despatch.FWT = parseFloat(feewtfloat);
+        let ddEntryJson = JSON.stringify(this.despatch);
 
-      }
-      //despatch table entry code 
+        console.log(ddEntryJson);
+        try {
+          this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+          // alert("DD Entry added successfully!!.");
+          // this.router.navigate(['/dd-entry']);
+        }
+        catch (ex) {
 
+        }
 
-      var counter = parseInt(this.count) + 1;
-      var updates = {};
-      this.newddLastId.lastId = counter;
-      updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
-      let up = this.db.database.ref().update(updates);
-      let taxamount = (this.ddtotal * 18) / 100;
-      let feeWT = this.ddtotal - taxamount;
-
-      this.despatch.centerId = this.selectedcenter;
-      this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-      this.despatch.despatchNo = this.newddEntry.despatchNo;
-      this.despatch.feeItem = this.selectedFee
-      this.despatch.isdespatchEntered = true;
-      this.despatch.totalAmount = this.ddtotal;
-      this.despatch.taxAmount = taxamount;
-      this.despatch.FWT = feeWT;
-      let ddEntryJson = JSON.stringify(this.despatch);
-
-      console.log(ddEntryJson);
-      try {
-        this.db.database.ref('Despatch').child(counter.toString()).set(ddEntryJson);
-        // alert("DD Entry added successfully!!.");
-        // this.router.navigate(['/dd-entry']);
-      }
-      catch (ex) {
 
       }
-
-
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+      alert('despatch added')
+      console.log('clearedlist', this.checklist)
     }
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.pop();
+    else {
+      alert('Error in updating details');
+      // this.router.navigate
     }
-    alert('despatch added')
-    console.log('clearedlist', this.checklist)
-
 
 
   }

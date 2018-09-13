@@ -1,6 +1,7 @@
 import { Center } from "./Center";
 
 export class Despatch {
+    despId: string
     despatchNo: string; // unique id
     despatchDate: string;
     centerId: string;
@@ -19,6 +20,6 @@ export class despatchList {
     taxlist: taxtemp = new taxtemp();
 }
 export class taxtemp {
-    Id:string;
+    Id: string;
     taxamount: string;
 }

@@ -35,9 +35,9 @@ export class ddEntry {
 export class ddList {
     ddenter: ddEntry = new ddEntry();
     center: Center = new Center();
-    tempentry: CheckTemp = new CheckTemp();
 
 }
+
 export class CheckTemp {
     dduId: string; //guid
     ddlastId: string; //ddId updation
@@ -64,8 +64,11 @@ export class CheckTemp {
     despatchDate: string;
     dbaNo: string;
     entryPros: boolean;
+    prosvalue: boolean;
     secondphase: boolean;
     isdespatchEntered: boolean;
+    taxValue: string;
+    feeWT: string;
 
 }
 
@@ -95,6 +98,9 @@ export class temp {
     despatchDate: string;
     dbaNo: string;
     entryPros: boolean;
+    prosvalue: boolean;
     secondphase: boolean;
     isdespatchEntered: boolean;
+    taxValue: string;
+    feeWT: string;
 }

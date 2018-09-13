@@ -19,23 +19,23 @@ import { Common } from '../models/common';
 })
 export class ProspectusComponent implements OnInit {
 
-code;
+  code;
   districts = [
-    {id:'1', name:'KANNUR'},
-    {id:'2', name:'KOZHIKODE'},
-    {id:'3', name:'MALAPPURAM'},
-    {id:'4', name:'PALAKKAD'},
-    {id:'5', name:'THRISSUR'},
-    {id:'6', name:'ERNAKULAM'},
-    {id:'7', name:'KOTTAYAM'},
-    {id:'8', name:'PATHANAMTHITTA'},
-    {id:'9', name:'ALAPPUZHA'},
-    {id:'10', name:'KOLLAM'},
-    {id:'11', name:'THIRUVANANTHAPURAM'},
-    
+    { id: '1', name: 'KANNUR' },
+    { id: '2', name: 'KOZHIKODE' },
+    { id: '3', name: 'MALAPPURAM' },
+    { id: '4', name: 'PALAKKAD' },
+    { id: '5', name: 'THRISSUR' },
+    { id: '6', name: 'ERNAKULAM' },
+    { id: '7', name: 'KOTTAYAM' },
+    { id: '8', name: 'PATHANAMTHITTA' },
+    { id: '9', name: 'ALAPPUZHA' },
+    { id: '10', name: 'KOLLAM' },
+    { id: '11', name: 'THIRUVANANTHAPURAM' },
+
   ];
-  temp2:string;
-  check :string;
+  temp2: string;
+  check: string;
   centers: Center[];
   courses: Course[];
   ddLists: ddList[] = [];
@@ -62,7 +62,7 @@ code;
   vtemp: string;
   split1: string;
   ddentries: ddEntry[] = [];
-  newddentry: ddEntry = new ddEntry();
+  // newddentry: ddEntry = new ddEntry();
   qIdEditMode: string = undefined;
   cookienametodb;
   constructor(
@@ -99,7 +99,7 @@ code;
         ddListItem.ddenter = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        console.log('2222222222222222222222222222',custList)
+        console.log('2222222222222222222222222222', custList)
         if (custList.length > 0) {
           ddListItem.center = custList[0];
         }
@@ -111,7 +111,7 @@ code;
     });
 
 
-    
+
 
 
     if (id != undefined) {
@@ -192,7 +192,7 @@ code;
       });
     });
     this.newddEntry.feesItem = "Prospectus";
-    this.newddentry.enteredBy = this.ets.cookiename;
+    this.newddEntry.enteredBy = this.ets.cookiename;
     //dates of ddentry;
     let todayDate = (new Date(Date.now()));
     let dddate = new Date();
@@ -221,9 +221,9 @@ code;
     // }
     // this.cookienametodb = this.ets.cookiename
 
-    console.log('cokieeeeeeeee name',this.ets.cookiename)
-    this.newddentry.enteredBy = this.ets.cookiename;
-    
+    console.log('cokieeeeeeeee name', this.ets.cookiename)
+    this.newddEntry.enteredBy = this.ets.cookiename;
+
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "3" || this.ets.cookievalue == "2") {
       // this.router.navigate(['/dd-entry'])
     }
@@ -231,26 +231,26 @@ code;
       this.router.navigate(['/error']);
     }
 
-     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name',this.ets.cookiename)
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
     this.check = this.ets.cookiename;
     this.newddEntry.enteredBy = this.check;
-    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check',this.newddEntry.enteredBy)
-     
-    
+    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check', this.newddEntry.enteredBy)
+
+
   }
   register(key, dlastid: ddLastid) {
 
 
 
-    this.newddEntry.entryPros= true;
-    console.log('entry pros **************************************** ',this.newddEntry.entryPros)
+    this.newddEntry.entryPros = true;
+    console.log('entry pros **************************************** ', this.newddEntry.entryPros)
 
     console.log('******************************************* Not Edit Mode')
     if (this.isEditMode) {
 
 
 
-      this.newddEntry.prosvalue=true;
+      this.newddEntry.prosvalue = true;
 
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
@@ -268,7 +268,18 @@ code;
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          
+          //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
+
           if (confirm('Are you sure to update details')) {
             updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
             try {
@@ -278,9 +289,9 @@ code;
             catch (ex) {
               alert("Error in Updating details");
             }
-            this.newddentryTemp.bank = this.newddentry.bank;
-            this.newddentryTemp.ddDate = this.newddentry.ddDate;
-            this.newddentryTemp.ddNumber = this.newddentry.ddNumber;
+            this.newddentryTemp.bank = this.newddEntry.bank;
+            this.newddentryTemp.ddDate = this.newddEntry.ddDate;
+            this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
 
             updates['/ddentryTemp/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddentryTemp);
             try {
@@ -303,13 +314,23 @@ code;
 
         else {
 
-      this.newddEntry.prosvalue=true;
-          
+          this.newddEntry.prosvalue = true;
+
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          
 
+          //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
           try {
             if (confirm('Are you sure to update details')) {
@@ -330,24 +351,76 @@ code;
 
       }
     }
-    else{
+    else {
 
 
       var ddreferno = this.newddEntry.ddNumber;
-    var ddreferdate = this.newddEntry.ddDate;
-    var ddreferbank = this.newddEntry.bank;
+      var ddreferdate = this.newddEntry.ddDate;
+      var ddreferbank = this.newddEntry.bank;
 
-    for (let i = 0; i < this.ddtempentries.length; i++) {
-      //variable for check reference
-      var temp = this.ddtempentries[i];
-      // console.log('tttttttttttttttttttttt', temp)
+      for (let i = 0; i < this.ddtempentries.length; i++) {
+        //variable for check reference
+        var temp = this.ddtempentries[i];
+        // console.log('tttttttttttttttttttttt', temp)
 
-    }
-    if (temp != null) {
+      }
+      if (temp != null) {
 
-      if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
+        if (temp.ddNumber == ddreferno && temp.ddDate == ddreferdate && temp.bank == ddreferbank) {
 
-        alert('DD details  already exists')
+          alert('DD details  already exists')
+        }
+        else {
+          var counter = parseInt(this.count) + 1;
+          //updating lastid
+          var updates = {};
+          dlastid.lastId = counter;
+          updates['/ddLastId/' + key] = JSON.stringify(dlastid);
+          let up = this.db.database.ref().update(updates);
+          this.newddEntry.ddlastId = counter.toString();
+          this.newddEntry.centerId = this.selectedcenter;
+          this.newddEntry.feesItem = "Prospectus";
+          this.newddEntry.enteredBy = this.ets.cookiename;
+
+          this.newddentryTemp.ddDate = this.newddEntry.ddDate;
+          this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
+          this.newddentryTemp.bank = this.newddEntry.bank;
+          let ddentryTempJson = JSON.stringify(this.newddentryTemp);
+          console.log(ddentryTempJson);
+          try {
+            this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
+
+          }
+          catch (ex) {
+
+          }
+          this.newddEntry.isVerified = false;
+          this.newddEntry.isddIdentered = false;
+          this.newddEntry.isidVerified = false;
+          this.newddEntry.enteredBy = this.cookienametodb;
+          //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let fwtFloat = feewithoutTax.toFixed(2);
+          this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
+          let ddEntryJson = JSON.stringify(this.newddEntry);
+          console.log(ddEntryJson);
+          try {
+            this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
+            alert("DD Entry added successfully!!.");
+            this.router.navigate(['/dd-entry']);
+          }
+          catch (ex) {
+
+          }
+        }
+        this.resetForm();
       }
       else {
         var counter = parseInt(this.count) + 1;
@@ -359,7 +432,7 @@ code;
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.feesItem = "Prospectus";
-        this.newddentry.enteredBy = this.ets.cookiename;
+        this.newddEntry.enteredBy = this.ets.cookiename;
 
         this.newddentryTemp.ddDate = this.newddEntry.ddDate;
         this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
@@ -376,8 +449,18 @@ code;
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
-        this.newddentry.enteredBy = this.cookienametodb;
+        this.newddEntry.enteredBy = this.cookienametodb;
+        //Fee without tax equation : ddamount /1.18
 
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+        let fwtFloat = feewithoutTax.toFixed(2);
+        this.newddEntry.feeWT = fwtFloat;
+
+        //tax calculation equation : ddamount -feewithouttax
+
+        let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+        let taxfloat = tax.toFixed(2);
+        this.newddEntry.taxValue = taxfloat;
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);
         try {
@@ -388,53 +471,11 @@ code;
         catch (ex) {
 
         }
+        this.resetForm();
+
       }
-      this.resetForm();
     }
-    else {
-      var counter = parseInt(this.count) + 1;
-      //updating lastid
-      var updates = {};
-      dlastid.lastId = counter;
-      updates['/ddLastId/' + key] = JSON.stringify(dlastid);
-      let up = this.db.database.ref().update(updates);
-      this.newddEntry.ddlastId = counter.toString();
-      this.newddEntry.centerId = this.selectedcenter;
-      this.newddEntry.feesItem = "Prospectus";
-      this.newddentry.enteredBy = this.ets.cookiename;
 
-      this.newddentryTemp.ddDate = this.newddEntry.ddDate;
-      this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
-      this.newddentryTemp.bank = this.newddEntry.bank;
-      let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-      console.log(ddentryTempJson);
-      try {
-        this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
-
-      }
-      catch (ex) {
-
-      }
-      this.newddEntry.isVerified = false;
-      this.newddEntry.isddIdentered = false;
-      this.newddEntry.isidVerified = false;
-      this.newddentry.enteredBy = this.cookienametodb;
-
-      let ddEntryJson = JSON.stringify(this.newddEntry);
-      console.log(ddEntryJson);
-      try {
-        this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-        alert("DD Entry added successfully!!.");
-        this.router.navigate(['/dd-entry']);
-      }
-      catch (ex) {
-
-      }
-      this.resetForm();
-
-    }
-    }    
-    
   }
 
   ddentryForm = new FormGroup({
@@ -500,11 +541,11 @@ code;
     )
   }
 
-  district(district){
-    console.log('district**********************',district);
+  district(district) {
+    console.log('district**********************', district);
     // console.log(district);
     // console.log('*************');
-    this.temp2=district;
+    this.temp2 = district;
     console.log(this.temp2);
     let that = this;
     this.ets.GetCenterbyDist(this.temp2).subscribe(data => {
@@ -517,15 +558,15 @@ code;
     // // console.log(this.split1);
     // return this.split1;
 
-    
+
 
   }
 
-  callType(value,key) {
+  callType(value, key) {
     this.selectedcenterr = value;
-  this.code = 'Code:';
-    
+    this.code = 'Code:';
+
     this.split1 = this.selectedcenterr.split(" ")[1];
     console.log(this.split1)
-}
+  }
 }

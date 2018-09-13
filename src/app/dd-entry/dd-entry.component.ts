@@ -274,12 +274,21 @@ export class DdEntryComponent implements OnInit {
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
-          let tottalfloat = total.toFixed(2);
-          this.newddEntry.taxValue = tottalfloat;
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+
+          //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
+
+          //update query
+
           if (confirm('Are you sure to update details')) {
             updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
             try {
@@ -317,12 +326,18 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
 
-          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
-          let tottalfloat = total.toFixed(2);
-          this.newddEntry.taxValue = tottalfloat;
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+          //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
+
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
           try {
             if (confirm('Are you sure to update details')) {
@@ -395,12 +410,17 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
-          let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
-          let tottalfloat = total.toFixed(2);
-          this.newddEntry.taxValue = tottalfloat;
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+           //Fee without tax equation : ddamount /1.18
+
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
+
+          //tax calculation equation : ddamount -feewithouttax
+
+          let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+          let taxfloat = tax.toFixed(2);
+          this.newddEntry.taxValue = taxfloat;
 
           let ddEntryJson = JSON.stringify(this.newddEntry);
           console.log(ddEntryJson);
@@ -444,12 +464,17 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
-        let total = (parseFloat(this.newddEntry.Amount) * 18) / 100;
-        let tottalfloat = total.toFixed(2);
-        this.newddEntry.taxValue = tottalfloat;
-        let feewithoutTax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.taxValue);
+        //Fee without tax equation : ddamount /1.18
+
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
         let fwtFloat = feewithoutTax.toFixed(2);
         this.newddEntry.feeWT = fwtFloat;
+
+        //tax calculation equation : ddamount -feewithouttax
+
+        let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+        let taxfloat = tax.toFixed(2);
+        this.newddEntry.taxValue = taxfloat;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);

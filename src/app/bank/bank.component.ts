@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { desptchLastid } from '../models/despatchlastId';
 import { ddEntry } from '../models/ddEntry';
 import { element } from 'protractor';
+import { Despatch } from '../models/despatch';
 
 
 @Component({
@@ -17,17 +18,17 @@ export class BankComponent implements OnInit {
 
   newddLastid: desptchLastid = new desptchLastid();
   order: string;
-  ddLastids: ddEntry[] = [];
+  ddLastids: Despatch[] = [];
 
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {
 
-    let itemRef = db.object('ddEntry');
+    let itemRef = db.object('Despatch');
     itemRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
       let obj = Common.snapshotToArray(action.payload);
       this.ddLastids = [];
       obj.forEach(element => {
-        let obj: ddEntry = JSON.parse(element);
+        let obj: Despatch = JSON.parse(element);
         // this.newddLastId = obj;
         this.ddLastids.push(obj);
 
@@ -68,28 +69,33 @@ export class BankComponent implements OnInit {
   }
 
   register() {
+    
 
     //code for 
-    // this.ddLastids.forEach(element => {
+    this.ddLastids.forEach(element => {
 
-    //   let total = parseFloat(element.Amount) - parseFloat(element.taxValue)
-    //   let total1 = total.toFixed(2);
-    //   // console.log('tax', total)
+      // let total = parseFloat(element.Amount) / 1.18;
+      // let total1 = total.toFixed(2);
+      // let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
+      // let total1 = total.toFixed(2);
+      // console.log('tax', total)
+      let total = parseFloat(element.totalAmount.toString()) / 1.18;
+      let total1 = total.toFixed(2);
+      console.log('feee without tax', total1)
+      var updates = {}
+      element.FWT = parseFloat(total1);
+      // element.ddDate = this.formatDate(element.ddDate)
+      updates['/Despatch/'] = JSON.stringify(element);
+      try {
 
-    //   var updates = {}
-    //   element.feeWT = total1;
-    //   // element.ddDate = this.formatDate(element.ddDate)
-    //   updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
-    //   try {
+        let up = this.db.database.ref().update(updates);
+        // this.router.navigate(['/despatch-no-entry'])
+      }
+      catch (e) {
 
-    //     let up = this.db.database.ref().update(updates);
-    //     // this.router.navigate(['/despatch-no-entry'])
-    //   }
-    //   catch (e) {
-
-    //   }
-    // })
-    //  console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+      }
+    })
+    console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
     // let uniqueId = "/DD" + Common.newGuid();
     // this.newddLastid.Id = uniqueId;
@@ -105,7 +111,7 @@ export class BankComponent implements OnInit {
     // catch (ex) {
 
     // }
-//
+    //
   }
 
 }
