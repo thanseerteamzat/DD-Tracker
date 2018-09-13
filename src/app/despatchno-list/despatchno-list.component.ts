@@ -19,7 +19,8 @@ export class DespatchnoListComponent implements OnInit {
   newsoneselectedData;
   centers: Center[] = [];
   // selectedCenter: string = "";
-  selectedData: despatchList[] = [];
+  selectedData;
+despatchList;
   selectedDatatemp; 
   filteredData;
   temp:despatchList[]=[];
@@ -91,17 +92,18 @@ export class DespatchnoListComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
   }
   filterCenter(key) {
     console.log('data**********', this.ddLists)
+    this.selectedData = null;
      
 
   
@@ -111,6 +113,8 @@ export class DespatchnoListComponent implements OnInit {
 
 
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
+    this.despatchList = this.ddLists.filter(s => s.center.Id == key);
+
     // this.centerData = this.selectedData;
     this.taxtotal = 0;
     this.taxttotal1 = 0;
@@ -133,9 +137,10 @@ export class DespatchnoListComponent implements OnInit {
       this.temp.push(this.selectedData[i]);
 
     }
-    this.selectedDatatemp = this.selectedData;
+    
+    
 
-
+console.log('dat*******************a',this.selectedDatatemp);
 
 
 
@@ -143,12 +148,37 @@ export class DespatchnoListComponent implements OnInit {
 
   filterDespatch(key) {
     console.log('key....', key)
-    console.log(this.selectedDatatemp);
-    this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key)
-    // for (let i = 0; i <= this.checklist.length; i++) {
-    //   this.checklist = null;
-    // }
- 
+    console.log(this.selectedData);
+    this.selectedDatatemp = this.selectedData;
+   console.log('temp********',this.selectedDatatemp);
+  
+    this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key);
+ console.log(this.selectedData);
+
+ this.taxtotal = 0;
+    this.taxttotal1 = 0;
+    this.total = 0;
+    this.total1 = 0;
+    this.feewTotal1 = 0;
+    this.feewtTotal = 0;
+   
+    for (let i = 0; i <= this.selectedData.length; i++) {
+        var temp  = this.selectedData[i];
+      console.log('tempvalue*****', temp)
+      this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+      this.total1 = this.total.toFixed(2);
+      this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+      this.taxttotal1 = this.taxtotal.toFixed(2);
+      this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+      this.feewTotal1 = this.feewtTotal.toFixed(2);
+      console.log('loooop***', this.total)
+
+      this.temp.push(this.selectedData[i]);
+
+    }
+   
+
 
 }
+
 }

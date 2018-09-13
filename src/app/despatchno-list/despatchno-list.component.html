@@ -13,6 +13,22 @@
             </select>
         </div>
 
+        <div class="form-group col-md-3">
+
+            <label>Filter with Despatch No : </label>&nbsp;
+            <select [(ngModel)]="selectedDespatch" class="form-control" name="selectedDespatch" (change)="filterDespatch(selectedDespatch)">
+                <option value="">--Choose--</option>
+                <ng-container *ngFor="let ddenter of selectedDatatemp">
+                    <option>{{ddenter.despatchList?.despatchNo}}</option>
+                </ng-container>
+
+            </select>
+        </div>
+
+
+
+
+
         <!-- <div class="form-group col-md-3">
 
                 <label>Filter DD's Despatch No : </label>&nbsp;
