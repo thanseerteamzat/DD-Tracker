@@ -18,14 +18,15 @@ export class DespStudListComponent implements OnInit {
   centers: Center[] = [];
   // ddLists: despatchList[] = [];
   selectedcenter;
+  selectedDespatch;
   ddLists: ddList[] = [];
   ddentrylist: ddEntry[] = [];
-  selectedData: ddEntry[];
+  selectedData: Array<any>;
   temp: ddEntry;
   total; totalTemp;
   tax; taxTotal;
   feeWtax; feeWTtemp;
-  
+  selectedDatatemp;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -64,7 +65,7 @@ export class DespStudListComponent implements OnInit {
           qobj.ddlastId = qobj.ddlastId.replace("/", "");
         }
 
-        ddListItem.ddenter;
+        ddListItem.ddenter = qobj;
         ddentryitem = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
@@ -95,7 +96,37 @@ export class DespStudListComponent implements OnInit {
 
   filterCenter(key) {
     this.temp = null
-    this.selectedData = this.ddentrylist.filter(s => s.centerId == key && s.despatchNo != null);
+    this.selectedData = null;
+
+    this.selectedData = this.ddLists.filter(s => s.center.Id == key && s.ddenter.despatchNo != null);
+    this.selectedDatatemp = this.selectedData;
+    console.log('data**********', this.selectedDatatemp)
+    this.total = 0
+    this.totalTemp = 0
+    this.feeWtax = 0;
+    this.feeWTtemp = 0;
+    this.tax = 0;
+    this.taxTotal = 0;
+    for (var i = 0; i <= this.selectedData.length; i++) {
+      var temp = this.selectedData[i];
+
+      this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
+      this.totalTemp = this.total.toFixed(2);
+      this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
+      this.taxTotal = this.tax.toFixed(2);
+      this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
+      this.feeWTtemp = this.feeWtax.toFixed(2);
+
+    }
+
+
+  }
+
+  filterDespatch(key) {
+     console.log('temp********', this.selectedDatatemp);
+    console.log('key', key)
+    this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.despatchNo == key);
+    console.log(this.selectedData);
 
     this.total = 0
     this.totalTemp = 0
@@ -104,13 +135,13 @@ export class DespStudListComponent implements OnInit {
     this.tax = 0;
     this.taxTotal = 0;
     for (var i = 0; i <= this.selectedData.length; i++) {
-      this.temp = this.selectedData[i];
+      var temp = this.selectedData[i];
 
-      this.total = this.total + parseFloat(this.temp.Amount.toString());
+      this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
       this.totalTemp = this.total.toFixed(2);
-      this.tax = this.tax + parseFloat(this.temp.taxValue);
+      this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
       this.taxTotal = this.tax.toFixed(2);
-      this.feeWtax = this.feeWtax + parseFloat(this.temp.feeWT);
+      this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
       this.feeWTtemp = this.feeWtax.toFixed(2);
 
     }

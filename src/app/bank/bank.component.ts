@@ -18,17 +18,17 @@ export class BankComponent implements OnInit {
 
   newddLastid: desptchLastid = new desptchLastid();
   order: string;
-  ddLastids: Despatch[] = [];
+  ddLastids: ddEntry[] = [];
 
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {
 
-    let itemRef = db.object('Despatch');
+    let itemRef = db.object('ddEntry');
     itemRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
       let obj = Common.snapshotToArray(action.payload);
       this.ddLastids = [];
       obj.forEach(element => {
-        let obj: Despatch = JSON.parse(element);
+        let obj: ddEntry = JSON.parse(element);
         // this.newddLastId = obj;
         this.ddLastids.push(obj);
 
@@ -69,23 +69,23 @@ export class BankComponent implements OnInit {
   }
 
   register() {
-    
+
 
     //code for 
     this.ddLastids.forEach(element => {
 
       // let total = parseFloat(element.Amount) / 1.18;
       // let total1 = total.toFixed(2);
-      // let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
-      // let total1 = total.toFixed(2);
-      // console.log('tax', total)
-      let total = parseFloat(element.totalAmount.toString()) / 1.18;
+      let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
       let total1 = total.toFixed(2);
+      // console.log('tax', total)
+      // let total = parseFloat(element.totalAmount.toString()) / 1.18;
+      // let total1 = total.toFixed(2);
       console.log('feee without tax', total1)
       var updates = {}
-      element.FWT = parseFloat(total1);
+      element.taxValue = total1.toString();
       // element.ddDate = this.formatDate(element.ddDate)
-      updates['/Despatch/'] = JSON.stringify(element);
+      updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
       try {
 
         let up = this.db.database.ref().update(updates);

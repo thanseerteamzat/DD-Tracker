@@ -6,6 +6,7 @@ import { ddList, ddEntry } from '../models/ddEntry';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
 import { despatchList, Despatch } from '../models/despatch';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-despatchno-list',
@@ -18,10 +19,12 @@ export class DespatchnoListComponent implements OnInit {
   centerList: Center[] = [];
   newsoneselectedData;
   centers: Center[] = [];
+  tempcenter;
   // selectedCenter: string = "";
-  selectedData;
+  selectedData: Array<any>;
   despatchList;
   selectedDatatemp;
+  selectedDespatch;
   filteredData;
   temp: despatchList[] = [];
   total = 0;
@@ -102,20 +105,23 @@ export class DespatchnoListComponent implements OnInit {
     }
   }
   filterCenter(key) {
-    console.log('data**********', this.ddLists)
+
+    // this.ddLists.forEach(element => {
+    //   this.tempcenter = element.center.Id;
+    //   if (key == this.tempcenter) {
+    //     this.selectedData = null;
+    //     console.log('succes...........', this.tempcenter)
+    //   }
+    // })
+
+
     this.selectedData = null;
 
 
-
-
-
-
-
-
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
-    this.despatchList = this.ddLists.filter(s => s.center.Id == key);
-
-    // this.centerData = this.selectedData;
+    this.selectedDatatemp = this.selectedData;
+ 
+    console.log('dat*******************a', this.selectedDatatemp);
     this.taxtotal = 0;
     this.taxttotal1 = 0;
     this.total = 0;
@@ -140,17 +146,11 @@ export class DespatchnoListComponent implements OnInit {
 
 
 
-    console.log('dat*******************a', this.selectedDatatemp);
-
-
 
   }
 
   filterDespatch(key) {
-    console.log('key....', key)
-    console.log(this.selectedData);
-    this.selectedDatatemp = this.selectedData;
-    console.log('temp********', this.selectedDatatemp);
+       console.log('temp********', this.selectedDatatemp);
 
     this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key);
     console.log(this.selectedData);
