@@ -270,7 +270,7 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.courseName = this.selectedcourse;
           //Fee without tax equation : ddamount /1.18
 
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
 
@@ -322,7 +322,7 @@ export class ProspectusComponent implements OnInit {
 
           //Fee without tax equation : ddamount /1.18
 
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
 
@@ -400,7 +400,7 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.enteredBy = this.cookienametodb;
           //Fee without tax equation : ddamount /1.18
 
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
 
@@ -452,7 +452,7 @@ export class ProspectusComponent implements OnInit {
         this.newddEntry.enteredBy = this.cookienametodb;
         //Fee without tax equation : ddamount /1.18
 
-        let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
         let fwtFloat = feewithoutTax.toFixed(2);
         this.newddEntry.feeWT = fwtFloat;
 

@@ -284,6 +284,15 @@ console.log(this.selectedcenter);
         var updates = {};
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
+        let fwtFloat = feewithoutTax.toFixed(2);
+        this.newddEntry.feeWT = fwtFloat;
+
+        //tax calculation equation : ddamount -feewithouttax
+
+        let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+        let taxfloat = tax.toFixed(2);
+        this.newddEntry.taxValue = taxfloat;
         
         if (confirm('Are you sure to update details')) {
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
@@ -322,6 +331,15 @@ console.log(this.selectedcenter);
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
         this.newddEntry.studentName = this.selectedstudent;
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
+        let fwtFloat = feewithoutTax.toFixed(2);
+        this.newddEntry.feeWT = fwtFloat;
+
+        //tax calculation equation : ddamount -feewithouttax
+
+        let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+        let taxfloat = tax.toFixed(2);
+        this.newddEntry.taxValue = taxfloat;
 
         updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
         try {
@@ -394,7 +412,15 @@ console.log(this.selectedcenter);
         this.newddEntry.isVerified = false;
         this.newddEntry.isddIdentered = false;
         this.newddEntry.isidVerified = false;
-        
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
+        let fwtFloat = feewithoutTax.toFixed(2);
+        this.newddEntry.feeWT = fwtFloat;
+
+        //tax calculation equation : ddamount -feewithouttax
+
+        let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+        let taxfloat = tax.toFixed(2);
+        this.newddEntry.taxValue = taxfloat;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
         console.log(ddEntryJson);
@@ -439,7 +465,15 @@ console.log(this.selectedcenter);
       this.newddEntry.isddIdentered = false;
       this.newddEntry.isidVerified = false;
       
+      let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
+      let fwtFloat = feewithoutTax.toFixed(2);
+      this.newddEntry.feeWT = fwtFloat;
 
+      //tax calculation equation : ddamount -feewithouttax
+
+      let tax = parseFloat(this.newddEntry.Amount) - parseFloat(this.newddEntry.feeWT);
+      let taxfloat = tax.toFixed(2);
+      this.newddEntry.taxValue = taxfloat;
       let ddEntryJson = JSON.stringify(this.newddEntry);
       console.log(ddEntryJson);
       try {
