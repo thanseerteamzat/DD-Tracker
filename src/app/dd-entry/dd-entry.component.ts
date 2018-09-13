@@ -328,7 +328,7 @@ export class DdEntryComponent implements OnInit {
 
           //Fee without tax equation : ddamount /1.18
 
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
 
@@ -412,7 +412,7 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.isidVerified = false;
            //Fee without tax equation : ddamount /1.18
 
-          let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+          let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
           this.newddEntry.feeWT = fwtFloat;
 
@@ -466,7 +466,7 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.isidVerified = false;
         //Fee without tax equation : ddamount /1.18
 
-        let feewithoutTax = parseFloat(this.newddEntry.Amount) * 1.18;
+        let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
         let fwtFloat = feewithoutTax.toFixed(2);
         this.newddEntry.feeWT = fwtFloat;
 
