@@ -45,10 +45,16 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3" [formGroup]="despatchform">
 
                 <label>Despatch Date</label>&nbsp;
-                <input type="date" [(ngModel)]="newddEntry.despatchDate" class="form-control">
+                <input type="date" [(ngModel)]="newddEntry.despatchDate" class="form-control" formControlName="despatchdate">
+                <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
+                    <div *ngIf="despatchdate.errors.required">
+                     Please Select Date
+                    </div>
+                   
+                </div>
             </div>
 
 
@@ -112,9 +118,15 @@
                                 <td>{{ddenter.ddenter?.feesItem}}</td>
                                 <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
 
-                                <td>
+                                <td [formGroup]="despatchform">
                                     <input type="checkbox" (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter)"
-                                        name="">
+                                        name="" formControlName="despatchbox">
+                                        <div *ngIf="despatchbox.invalid && (despatchbox.dirty || despatchbox.touched)" class="alert-danger">
+                                            <div *ngIf="despatchbox.errors.required">
+                                             Please Select(Any)
+                                            </div>
+                                           
+                                        </div>
                                 </td>
 
 
