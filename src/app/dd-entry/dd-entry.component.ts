@@ -21,7 +21,8 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./dd-entry.component.css']
 })
 export class DdEntryComponent implements OnInit {
-
+  tempcenter;
+  tempcentercode;
   //api url and center variable
   d = new Date();
   code;
@@ -574,11 +575,12 @@ export class DdEntryComponent implements OnInit {
 
 
   callType(value) {
-    console.log('value', value);
-    this.code = 'Code:';
+
+    
+
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
-    console.log(this.split1);
+    // console.log(this.split1);
 
     // this.split1 = value.substring( 0, value.indexOf(":"));
     //  console.log(this.split1)
@@ -592,10 +594,37 @@ export class DdEntryComponent implements OnInit {
         this.vtemp = temp.CenterName;
 
         // this.selectedcenterr=value;
-        console.log(this.vtemp);
+        // console.log(this.vtemp);
 
 
       }
+
+
+      let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+
+    this.code = 'Code:';
+    try {
+
+      for (let i = 0; i <= this.centerList.length; i++) {
+        this.tempcenter = this.centerList[i];
+        if (this.tempcenter.Id == this.split1) {
+          this.tempcentercode = this.tempcenter.CenterCode;
+
+        }
+      }
+
+    }
+    catch (e) {
+
+    }
+   
+
     }
 
 
