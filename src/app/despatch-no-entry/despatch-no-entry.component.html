@@ -38,7 +38,7 @@
                 <input type="text" [(ngModel)]="newddEntry.despatchNo" class="form-control" formControlName="despatchNo">
                 <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
                     <div *ngIf="despatchNo.errors.required">
-                        Despatch No is Requires
+                        Despatch No is Required
                     </div>
                     <div *ngIf="despatchNo.errors.pattern">
                         Please enter valid input(number)

@@ -227,6 +227,7 @@ export class DespatchNoEntryComponent implements OnInit {
   }
   register(key) {
 
+    
     if (key != null) {
       this.ddtotal = 0;
 
