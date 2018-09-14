@@ -18,7 +18,8 @@ import { Common } from '../models/common';
   styleUrls: ['./prospectus.component.css']
 })
 export class ProspectusComponent implements OnInit {
-
+  tempcentercode;
+  tempcenter;
   code;
   districts = [
     { id: '1', name: 'KANNUR' },
@@ -99,7 +100,7 @@ export class ProspectusComponent implements OnInit {
         ddListItem.ddenter = qobj;
 
         let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        console.log('2222222222222222222222222222', custList)
+        // console.log('2222222222222222222222222222', custList)
         if (custList.length > 0) {
           ddListItem.center = custList[0];
         }
@@ -568,5 +569,32 @@ export class ProspectusComponent implements OnInit {
 
     this.split1 = this.selectedcenterr.split(" ")[1];
     console.log(this.split1)
+ 
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+
+    this.code = 'Code:';
+    try {
+
+      for (let i = 0; i <= this.centerList.length; i++) {
+        this.tempcenter = this.centerList[i];
+        if (this.tempcenter.Id == this.split1) {
+          this.tempcentercode = this.tempcenter.CenterCode;
+
+        }
+      }
+
+    }
+    catch (e) {
+
+    }
+   
+
+
   }
 }

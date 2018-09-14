@@ -99,8 +99,7 @@
                         <label style="color: black" for="center">Centre Name</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <!-- <label for="centercode">Code :</label> -->
-                     {{selectedcenterr}}
-                <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
+{{tempcentercode}}                <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
                             <option value="">--Choose--</option>
                             <ng-container *ngFor="let s of centers">
                                 <option [ngValue]="s.Id">{{s.CenterName}}</option>

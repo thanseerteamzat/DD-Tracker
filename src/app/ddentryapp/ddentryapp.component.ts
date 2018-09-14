@@ -23,6 +23,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DdentryappComponent implements OnInit {
 code;
+tempcentercode;
+tempcenter;
 //api url and center variable
 d = new Date();
 selectedData ;
@@ -600,6 +602,30 @@ this.code = 'Code:';
       // this.selectedcenterr=value;
       console.log(this.vtemp);
 
+
+    }
+
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+
+    this.code = 'Code:';
+    try {
+
+      for (let i = 0; i <= this.centerList.length; i++) {
+        this.tempcenter = this.centerList[i];
+        if (this.tempcenter.Id == this.split1) {
+          this.tempcentercode = this.tempcenter.CenterCode;
+
+        }
+      }
+
+    }
+    catch (e) {
 
     }
 
