@@ -27,6 +27,24 @@ export class DespStudListComponent implements OnInit {
   tax; taxTotal;
   feeWtax; feeWTtemp;
   selectedDatatemp;
+  datetemp;
+  Months = [
+    { id: '01', name: 'Jan' },
+    { id: '02', name: 'Feb' },
+    { id: '03', name: 'Mar' },
+    { id: '04', name: 'Apr' },
+    { id: '05', name: 'May' },
+    { id: '06', name: 'Jun' },
+    { id: '07', name: 'Jul' },
+    { id: '08', name: 'Aug' },
+    { id: '09', name: 'Sep' },
+    { id: '10', name: 'Oct' },
+    { id: '11', name: 'Nov' },
+    { id: '12', name: 'Dec' },
+
+  ];
+  tempsplit;
+  selectedMonth;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -84,14 +102,14 @@ export class DespStudListComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
   }
 
   filterCenter(key) {
@@ -107,43 +125,51 @@ export class DespStudListComponent implements OnInit {
     this.feeWTtemp = 0;
     this.tax = 0;
     this.taxTotal = 0;
-    for (var i = 0; i <= this.selectedData.length; i++) {
-      var temp = this.selectedData[i];
+    try {
+      for (var i = 0; i <= this.selectedData.length; i++) {
+        var temp = this.selectedData[i];
 
-      this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
-      this.totalTemp = this.total.toFixed(2);
-      this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
-      this.taxTotal = this.tax.toFixed(2);
-      this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
-      this.feeWTtemp = this.feeWtax.toFixed(2);
+        this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
+        this.totalTemp = this.total.toFixed(2);
+        this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
+        this.taxTotal = this.tax.toFixed(2);
+        this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
+        this.feeWTtemp = this.feeWtax.toFixed(2);
 
+      }
+    }
+    catch (e) {
+      console.log('Exception***', e)
     }
 
 
   }
 
-  filterDespatch(key) {
-     console.log('temp********', this.selectedDatatemp);
-    console.log('key', key)
-    this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.despatchNo == key);
-    console.log(this.selectedData);
+  filterMonth(key) {
 
-    this.total = 0
-    this.totalTemp = 0
-    this.feeWtax = 0;
-    this.feeWTtemp = 0;
-    this.tax = 0;
-    this.taxTotal = 0;
-    for (var i = 0; i <= this.selectedData.length; i++) {
-      var temp = this.selectedData[i];
+    try {
+      this.selectedData = this.selectedDatatemp.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == key)
+      console.log('date', this.selectedData);
+      this.total = 0
+      this.totalTemp = 0
+      this.feeWtax = 0;
+      this.feeWTtemp = 0;
+      this.tax = 0;
+      this.taxTotal = 0;
+      for (var i = 0; i <= this.selectedData.length; i++) {
+        var temp = this.selectedData[i];
 
-      this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
-      this.totalTemp = this.total.toFixed(2);
-      this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
-      this.taxTotal = this.tax.toFixed(2);
-      this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
-      this.feeWTtemp = this.feeWtax.toFixed(2);
+        this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
+        this.totalTemp = this.total.toFixed(2);
+        this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
+        this.taxTotal = this.tax.toFixed(2);
+        this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
+        this.feeWTtemp = this.feeWtax.toFixed(2);
 
+      }
+    }
+    catch (e) {
+      console.log('Exception..', e)
     }
 
 

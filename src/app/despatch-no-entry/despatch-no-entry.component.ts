@@ -138,12 +138,12 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
@@ -174,7 +174,6 @@ export class DespatchNoEntryComponent implements OnInit {
     }
     console.log('successs****', this.tempcenter);
 
-
     this.selectedData = null;
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
     console.log('tempppppp', this.checklist)
@@ -195,14 +194,11 @@ export class DespatchNoEntryComponent implements OnInit {
   filterFee(key) {
     console.log('key....', key)
     this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.feesItem == key)
-    // for (let i = 0; i <= this.checklist.length; i++) {
-    //   this.checklist = null;
-    // }
     for (let i = 0; i <= this.checklist.length; i++) {
       this.checklist.splice(i, this.checklist.length);
     }
-    console.log('........', this.checklist);
-    // this.selectedData=null;
+    // console.log('........', this.checklist);
+
   }
 
 
@@ -227,7 +223,7 @@ export class DespatchNoEntryComponent implements OnInit {
   }
   register(key) {
 
-    
+
     if (key != null) {
       this.ddtotal = 0;
 
@@ -327,17 +323,23 @@ export class DespatchNoEntryComponent implements OnInit {
   //validation codes 
 
   despatchform = new FormGroup({
-    despatchno: new FormControl()
+    despatchno: new FormControl(),
+    despatchbox: new FormControl()
   })
 
   despatchcreateForm() {
     this.despatchform = this.fb.group(
       {
-        despatchNo: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 //]*')])]
+
+        despatchNo: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 //]*')])],
+        despatchbox: [false, Validators.requiredTrue],
+        despatchdate: [false, Validators.required]
       }
     )
   }
   get despatchNo() { return this.despatchform.get('despatchNo'); }
+  get despatchbox() { return this.despatchform.get('despatchbox'); }
+  get despatchdate() { return this.despatchform.get('despatchdate'); }
 
 
 }
