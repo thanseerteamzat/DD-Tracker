@@ -357,7 +357,7 @@ export class DdEntryComponent implements OnInit {
 
     else {
 
-      if(confirm('are sure want to add.')){
+      
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
@@ -489,7 +489,7 @@ export class DdEntryComponent implements OnInit {
 
 
   }
-  }
+
   //validation codes 
 
   ddentryForm = new FormGroup({
@@ -604,7 +604,7 @@ export class DdEntryComponent implements OnInit {
 
 
       let centerResponse = this.ets.centerList;
-    //  Iterate throw all keys..
+    //  Iterate throw all keys.
     for (let cent of centerResponse) {
 
       this.centerList.push(cent);
