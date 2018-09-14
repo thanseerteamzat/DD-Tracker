@@ -356,6 +356,8 @@ export class DdEntryComponent implements OnInit {
     //new ddentry adding code
 
     else {
+
+      if(confirm('are sure want to add')){
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
@@ -473,6 +475,7 @@ export class DdEntryComponent implements OnInit {
 
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
+
           alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
           this.router.navigate(['/dd-entry']);
         }
@@ -486,7 +489,7 @@ export class DdEntryComponent implements OnInit {
 
 
   }
-
+  }
   //validation codes 
 
   ddentryForm = new FormGroup({
