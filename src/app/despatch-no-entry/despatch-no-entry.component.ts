@@ -266,7 +266,7 @@ export class DespatchNoEntryComponent implements OnInit {
           //inserting despatch to despatch table
 
           this.despatch.centerCode = this.tempcentercode;
-          console.log('centercode ....', this.despatch.centerCode)
+          console.log('centercode .....', this.despatch.centerCode)
           let todaydate = new Date();
           this.year = todaydate.getFullYear();
           let nextyear = this.year + 1;
