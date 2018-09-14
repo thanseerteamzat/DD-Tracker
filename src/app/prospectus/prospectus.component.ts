@@ -564,6 +564,7 @@ export class ProspectusComponent implements OnInit {
   }
 
   callType(value, key) {
+ this.tempcentercode=null;
     this.selectedcenterr = value;
     this.code = 'Code:';
 

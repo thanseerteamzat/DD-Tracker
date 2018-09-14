@@ -577,7 +577,7 @@ export class DdEntryComponent implements OnInit {
   callType(value) {
 
     
-
+    this.tempcentercode = null;
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
     // console.log(this.split1);
