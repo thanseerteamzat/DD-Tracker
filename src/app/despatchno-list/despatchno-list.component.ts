@@ -34,6 +34,7 @@ export class DespatchnoListComponent implements OnInit {
   feewtTotal = 0;
   selectedCenter;
   feewTotal1;
+  selectedMonth;
   centerData: ddList[] = [];
   Months = [
     { id: '1', name: 'Jan' },
