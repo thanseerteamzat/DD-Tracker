@@ -86,7 +86,7 @@ export class DdEntryComponent implements OnInit {
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
-  
+
     let itemReff = db.object('ddEntry');
     itemReff.snapshotChanges().subscribe(action => {
       this.ddLists = [];
@@ -124,7 +124,7 @@ export class DdEntryComponent implements OnInit {
     this.ets.GetAllCenters().subscribe(data => {
       that.centers = data;
       this.ets.centerList = this.centers;
-    
+
     },
       error => console.log(error),
       () => console.log('Get all complete'));
@@ -391,7 +391,7 @@ export class DdEntryComponent implements OnInit {
           this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
           this.newddentryTemp.bank = this.newddEntry.bank;
           let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-        
+
           try {
             this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
 
@@ -402,7 +402,7 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
-           //Fee without tax equation : ddamount /1.18
+          //Fee without tax equation : ddamount /1.18
 
           let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
           let fwtFloat = feewithoutTax.toFixed(2);
@@ -415,10 +415,10 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.taxValue = taxfloat;
 
           let ddEntryJson = JSON.stringify(this.newddEntry);
-       
+
           try {
             this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!!.");
+            alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
             this.router.navigate(['/dd-entry']);
           }
           catch (ex) {
@@ -445,7 +445,7 @@ export class DdEntryComponent implements OnInit {
         this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
         this.newddentryTemp.bank = this.newddEntry.bank;
         let ddentryTempJson = JSON.stringify(this.newddentryTemp);
-      
+
         try {
           this.db.database.ref('ddentryTemp').child(counter.toString()).set(ddentryTempJson);
 
@@ -469,10 +469,10 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.taxValue = taxfloat;
 
         let ddEntryJson = JSON.stringify(this.newddEntry);
-        
+
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-          alert("DD Entry added successfully!!.");
+          alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
           this.router.navigate(['/dd-entry']);
         }
         catch (ex) {

@@ -7,6 +7,7 @@ import { EtsService } from "src/app/services/ets.service";
 import { Router } from '@angular/router';
 import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -46,9 +47,11 @@ export class DespatchNoEntryComponent implements OnInit {
   entered: string;
   tempcenter;
   tempcentercode;
+  year
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
 
     let centerResponse = this.ets.centerList;
@@ -169,20 +172,20 @@ export class DespatchNoEntryComponent implements OnInit {
     catch (e) {
 
     }
-    // console.log('successs****', this.tempcenter);
+    console.log('successs****', this.tempcenter);
 
 
-    // this.selectedData = null;
-    // this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
-    // console.log('tempppppp', this.checklist)
-    // for (let i = 0; i <= this.checklist.length; i++) {
-    //   this.checklist.splice(i, this.checklist.length);
-    // }
-    // // this.checklist.forEach(element => {
-    // //   this.checklist.pop();
-    // // })
-    // this.selectedDatatemp = this.selectedData;
-    // console.log('........', this.checklist);
+    this.selectedData = null;
+    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
+    console.log('tempppppp', this.checklist)
+    for (let i = 0; i <= this.checklist.length; i++) {
+      this.checklist.splice(i, this.checklist.length);
+    }
+    // this.checklist.forEach(element => {
+    //   this.checklist.pop();
+    // })
+    this.selectedDatatemp = this.selectedData;
+    console.log('........', this.checklist);
 
   }
 
@@ -230,65 +233,86 @@ export class DespatchNoEntryComponent implements OnInit {
       // this.checklist.forEach(element => {
       //   this.temp.push(element)
       // })
-      for (let i = 0; i <= this.checklist.length; i++) {
+      try {
+        for (let i = 0; i <= this.checklist.length; i++) {
 
-        this.tempentry = this.checklist[i];
-        this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
-        console.log('total*****', this.ddtotal)
-        this.tempentry.despatchNo = this.newddEntry.despatchNo;
-        this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-        this.tempentry.isdespatchEntered = true;
-        // this.tempentry.despId = key;
-        var updates = {}
+          this.tempentry = this.checklist[i];
+          this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
+          console.log('total*****', this.ddtotal)
+          this.tempentry.despatchNo = this.newddEntry.despatchNo;
+          this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+          this.tempentry.isdespatchEntered = true;
+          // this.tempentry.despId = key;
+          var updates = {}
 
-        updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
-        try {
+          updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+          try {
 
+            let up = this.db.database.ref().update(updates);
+            this.router.navigate(['/despatch-no-entry'])
+          }
+          catch (e) {
+
+          }
+          //despatch table entry code 
+
+
+          var counter = parseInt(this.count) + 1;
+          var updates = {};
+          this.newddLastId.lastId = counter;
+          updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
           let up = this.db.database.ref().update(updates);
-          this.router.navigate(['/despatch-no-entry'])
-        }
-        catch (e) {
+
+          //inserting despatch to despatch table
+
+          this.despatch.centerCode = this.tempcentercode;
+          console.log('centercode ....', this.despatch.centerCode)
+          let todaydate = new Date();
+          this.year = todaydate.getFullYear();
+          let nextyear = this.year + 1;
+          let stnextyear = nextyear.toString();
+          let styear = this.year.toString()
+          var splityear = styear.slice(-2)
+          var splitnextyear = stnextyear.slice(-2);
+          console.log('split ....', splitnextyear)
+          var despformat = "IDE/" + this.despatch.centerCode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+
+
+          let feeWT = parseFloat(this.ddtotal) / 1.18;
+          let feewtfloat = feeWT.toFixed(2);
+          let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
+          let taxfloat = taxamount.toFixed(2);
+          this.despatch.centerId = this.selectedcenter;
+          this.despatch.despId = counter.toString();
+          this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+          this.despatch.despatchNo = despformat;
+          this.despatch.feeItem = this.selectedFee
+          this.despatch.isdespatchEntered = true;
+          this.despatch.totalAmount = this.ddtotal;
+          this.despatch.taxAmount = parseFloat(taxfloat);
+          this.despatch.FWT = parseFloat(feewtfloat);
+          let ddEntryJson = JSON.stringify(this.despatch);
+          console.log(ddEntryJson);
+          try {
+            this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+            // alert("DD Entry added successfully!!.");
+            // this.router.navigate(['/dd-entry']);
+          }
+          catch (ex) {
+
+          }
+
 
         }
-        //despatch table entry code 
-
-
-        var counter = parseInt(this.count) + 1;
-        var updates = {};
-        this.newddLastId.lastId = counter;
-        updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
-        let up = this.db.database.ref().update(updates);
-        let feeWT = parseFloat(this.ddtotal) / 1.18;
-        let feewtfloat = feeWT.toFixed(2);
-        let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
-        let taxfloat = taxamount.toFixed(2);
-        this.despatch.centerId = this.selectedcenter;
-        this.despatch.despId = counter.toString();
-        this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-        this.despatch.despatchNo = this.newddEntry.despatchNo;
-        this.despatch.feeItem = this.selectedFee
-        this.despatch.isdespatchEntered = true;
-        this.despatch.totalAmount = this.ddtotal;
-        this.despatch.taxAmount = parseFloat(taxfloat);
-        this.despatch.FWT = parseFloat(feewtfloat);
-        let ddEntryJson = JSON.stringify(this.despatch);
-
-        console.log(ddEntryJson);
-        try {
-          this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
-          // alert("DD Entry added successfully!!.");
-          // this.router.navigate(['/dd-entry']);
-        }
-        catch (ex) {
-
-        }
-
-
       }
+      catch (e) {
+        console.log('Exception..', e);
+      }
+      alert('despatch Added :' + this.despatch.despatchNo);
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
-      alert('despatch added')
+
       console.log('clearedlist', this.checklist)
     }
     else {
@@ -298,5 +322,13 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   }
+
+  //validation codes 
+
+  despatchform = new FormGroup({
+    despatchno: new FormControl()
+  })
+
+
 
 }

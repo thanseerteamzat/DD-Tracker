@@ -426,7 +426,7 @@ console.log(this.selectedcenter);
         console.log(ddEntryJson);
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-          alert("DD Entry added successfully!!.");
+          alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
           this.router.navigate(['/dd-entry']);
         }
         catch (ex) {
@@ -478,7 +478,7 @@ console.log(this.selectedcenter);
       console.log(ddEntryJson);
       try {
         this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-        alert("DD Entry added successfully!!.");
+        alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
         this.router.navigate(['/dd-entry']);
       }
       catch (ex) {
