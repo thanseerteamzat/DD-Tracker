@@ -32,10 +32,18 @@
 
         <div class="row">
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3" [formGroup]="despatchform">
 
                 <label>Note : Select DD's and Enter Despatch No here </label>&nbsp;
-                <input type="text" [(ngModel)]="newddEntry.despatchNo" class="form-control">
+                <input type="text" [(ngModel)]="newddEntry.despatchNo" class="form-control" formControlName="despatchNo">
+                <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
+                    <div *ngIf="despatchNo.errors.required">
+                        Despatch No is Requires
+                    </div>
+                    <div *ngIf="despatchNo.errors.pattern">
+                        Please enter valid input(number)
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-3">
 
@@ -45,10 +53,10 @@
 
 
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3" [formGroup]="despatchform">
 
                 <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> --><br>
-                <button type="submit" class="btn btn-primary" (click)=" register(lstid.Id)">Submit</button>
+                <button type="submit" class="btn btn-primary" [disabled]="despatchform.invalid" (click)=" register(lstid.Id)">Submit</button>
 
             </div>
 

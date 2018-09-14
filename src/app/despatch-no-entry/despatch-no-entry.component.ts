@@ -53,7 +53,7 @@ export class DespatchNoEntryComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
-
+    this.despatchcreateForm();
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
     for (let cent of centerResponse) {
@@ -239,7 +239,7 @@ export class DespatchNoEntryComponent implements OnInit {
           this.tempentry = this.checklist[i];
           this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
           console.log('total*****', this.ddtotal)
-          this.tempentry.despatchNo = this.newddEntry.despatchNo;
+          this.tempentry.despatchNo = despformat;
           this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
           this.tempentry.isdespatchEntered = true;
           // this.tempentry.despId = key;
@@ -329,6 +329,14 @@ export class DespatchNoEntryComponent implements OnInit {
     despatchno: new FormControl()
   })
 
+  despatchcreateForm() {
+    this.despatchform = this.fb.group(
+      {
+        despatchNo: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 //]*')])]
+      }
+    )
+  }
+  get despatchNo() { return this.despatchform.get('despatchNo'); }
 
 
 }
