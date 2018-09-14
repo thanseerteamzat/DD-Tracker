@@ -357,7 +357,7 @@ export class DdEntryComponent implements OnInit {
 
     else {
 
-      if(confirm('are sure want to add')){
+      if(confirm('are sure want to add.')){
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
