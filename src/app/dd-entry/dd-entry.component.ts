@@ -552,7 +552,7 @@ export class DdEntryComponent implements OnInit {
   }
 
   district(district) {
-    // console.log('district**********************', district);
+    // console.log('district******=****************', district);
     // console.log(district);
     // console.log('*************');
     this.temp2 = district;
