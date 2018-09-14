@@ -414,7 +414,7 @@ export class ProspectusComponent implements OnInit {
           console.log(ddEntryJson);
           try {
             this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
+            alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
             this.router.navigate(['/dd-entry']);
           }
           catch (ex) {
@@ -466,7 +466,7 @@ export class ProspectusComponent implements OnInit {
         console.log(ddEntryJson);
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-          alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
+          alert("DD Entry added successfully!! Please note DD Serial No: " + this.newddEntry.ddlastId);
           this.router.navigate(['/dd-entry']);
         }
         catch (ex) {

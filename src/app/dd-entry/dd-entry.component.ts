@@ -201,7 +201,7 @@ export class DdEntryComponent implements OnInit {
     let dddate = new Date();
     this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
     this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
-
+    
 
   }
 
@@ -334,7 +334,7 @@ export class DdEntryComponent implements OnInit {
 
           updates['/ddEntry/' + this.newddEntry.ddlastId] = JSON.stringify(this.newddEntry);
           try {
-            if (confirm('Are you sure to update details')) {
+            if (confirm('Are you sure to update details ')) {
               let up = this.db.database.ref().update(updates);
               this.router.navigate(['/dd-verification']);
 
@@ -419,7 +419,7 @@ export class DdEntryComponent implements OnInit {
 
           try {
             this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
+            alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
             this.router.navigate(['/dd-entry']);
           }
           catch (ex) {
@@ -473,7 +473,7 @@ export class DdEntryComponent implements OnInit {
 
         try {
           this.db.database.ref('ddEntry').child(counter.toString()).set(ddEntryJson);
-          alert("DD Entry added successfully!!." + this.newddEntry.ddlastId);
+          alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
           this.router.navigate(['/dd-entry']);
         }
         catch (ex) {
