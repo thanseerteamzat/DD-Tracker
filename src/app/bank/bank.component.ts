@@ -72,30 +72,30 @@ export class BankComponent implements OnInit {
 
 
     //code for 
-    this.ddLastids.forEach(element => {
+    // this.ddLastids.forEach(element => {
 
-      // let total = parseFloat(element.Amount) / 1.18;
-      // let total1 = total.toFixed(2);
-      let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
-      let total1 = total.toFixed(2);
-      // console.log('tax', total)
-      // let total = parseFloat(element.totalAmount.toString()) / 1.18;
-      // let total1 = total.toFixed(2);
-      console.log('feee without tax', total1)
-      var updates = {}
-      element.taxValue = total1.toString();
-      // element.ddDate = this.formatDate(element.ddDate)
-      updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
-      try {
+    //   // let total = parseFloat(element.Amount) / 1.18;
+    //   // let total1 = total.toFixed(2);
+    //   let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
+    //   let total1 = total.toFixed(2);
+    //   // console.log('tax', total)
+    //   // let total = parseFloat(element.totalAmount.toString()) / 1.18;
+    //   // let total1 = total.toFixed(2);
+    //   console.log('feee without tax', total1)
+    //   var updates = {}
+    //   element.taxValue = total1.toString();
+    //   // element.ddDate = this.formatDate(element.ddDate)
+    //   updates['/ddEntry/' + element.ddlastId] = JSON.stringify(element);
+    //   try {
 
-        let up = this.db.database.ref().update(updates);
-        // this.router.navigate(['/despatch-no-entry'])
-      }
-      catch (e) {
+    //     let up = this.db.database.ref().update(updates);
+    //     // this.router.navigate(['/despatch-no-entry'])
+    //   }
+    //   catch (e) {
 
-      }
-    })
-    console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //   }
+    // })
+    // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
     // let uniqueId = "/DD" + Common.newGuid();
     // this.newddLastid.Id = uniqueId;

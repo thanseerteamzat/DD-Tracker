@@ -44,6 +44,8 @@ export class DespatchNoEntryComponent implements OnInit {
   selectedFeee;
   selectedFee;
   entered: string;
+  tempcenter;
+  tempcentercode;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router
@@ -133,28 +135,54 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
-    this.selectedData = null;
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
-    console.log('tempppppp', this.checklist)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
+
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
     }
-    // this.checklist.forEach(element => {
-    //   this.checklist.pop();
-    // })
-    this.selectedDatatemp = this.selectedData;
-    console.log('........', this.checklist);
+    try {
+
+      for (let i = 0; i <= this.centerList.length; i++) {
+        this.tempcenter = this.centerList[i];
+        if (this.tempcenter.Id == key) {
+          this.tempcentercode = this.tempcenter.CenterCode;
+          console.log('successs****', this.tempcentercode);
+
+        }
+      }
+
+    }
+    catch (e) {
+
+    }
+    // console.log('successs****', this.tempcenter);
+
+
+    // this.selectedData = null;
+    // this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
+    // console.log('tempppppp', this.checklist)
+    // for (let i = 0; i <= this.checklist.length; i++) {
+    //   this.checklist.splice(i, this.checklist.length);
+    // }
+    // // this.checklist.forEach(element => {
+    // //   this.checklist.pop();
+    // // })
+    // this.selectedDatatemp = this.selectedData;
+    // console.log('........', this.checklist);
 
   }
 
