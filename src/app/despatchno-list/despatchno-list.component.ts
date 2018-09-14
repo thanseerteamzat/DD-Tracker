@@ -23,7 +23,7 @@ export class DespatchnoListComponent implements OnInit {
   // selectedCenter: string = "";
   selectedData: Array<any>;
   despatchList;
-  selectedDatatemp;
+
   selectedDespatch;
   filteredData;
   temp: despatchList[] = [];
@@ -35,6 +35,24 @@ export class DespatchnoListComponent implements OnInit {
   selectedCenter;
   feewTotal1;
   centerData: ddList[] = [];
+  Months = [
+    { id: '1', name: 'Jan' },
+    { id: '2', name: 'Feb' },
+    { id: '3', name: 'Mar' },
+    { id: '4', name: 'Apr' },
+    { id: '5', name: 'May' },
+    { id: '6', name: 'Jun' },
+    { id: '7', name: 'Jul' },
+    { id: '8', name: 'Aug' },
+    { id: '9', name: 'Sep' },
+    { id: '10', name: 'Oct' },
+    { id: '11', name: 'Nov' },
+    { id: '12', name: 'Dec' },
+
+  ];
+
+  selectedDatatemp;
+  selectedMonthtemp;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -95,24 +113,18 @@ export class DespatchnoListComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
   }
   filterCenter(key) {
 
-    // this.ddLists.forEach(element => {
-    //   this.tempcenter = element.center.Id;
-    //   if (key == this.tempcenter) {
-    //     this.selectedData = null;
-    //     console.log('succes...........', this.tempcenter)
-    //   }
-    // })
+
 
 
     this.selectedData = null;
@@ -120,7 +132,7 @@ export class DespatchnoListComponent implements OnInit {
 
     this.selectedData = this.ddLists.filter(s => s.center.Id == key);
     this.selectedDatatemp = this.selectedData;
- 
+
     console.log('dat*******************a', this.selectedDatatemp);
     this.taxtotal = 0;
     this.taxttotal1 = 0;
@@ -128,29 +140,33 @@ export class DespatchnoListComponent implements OnInit {
     this.total1 = 0;
     this.feewTotal1 = 0;
     this.feewtTotal = 0;
+    try {
 
-    for (let i = 0; i <= this.selectedData.length; i++) {
-      var temp = this.selectedData[i];
-      console.log('tempvalue*****', temp)
-      this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
-      this.total1 = this.total.toFixed(2);
-      this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
-      this.taxttotal1 = this.taxtotal.toFixed(2);
-      this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
-      this.feewTotal1 = this.feewtTotal.toFixed(2);
-      console.log('loooop***', this.total)
+      for (let i = 0; i <= this.selectedData.length; i++) {
+        var temp = this.selectedData[i];
+        console.log('tempvalue*****', temp)
+        this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+        this.total1 = this.total.toFixed(2);
+        this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+        this.taxttotal1 = this.taxtotal.toFixed(2);
+        this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+        this.feewTotal1 = this.feewtTotal.toFixed(2);
+        console.log('loooop***', this.total)
 
-      this.temp.push(this.selectedData[i]);
+        this.temp.push(this.selectedData[i]);
 
+      }
     }
-
+    catch (e) {
+      console.log('Exception..', e);
+    }
 
 
 
   }
 
   filterDespatch(key) {
-       console.log('temp********', this.selectedDatatemp);
+    console.log('temp********', this.selectedDatatemp);
 
     this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key);
     console.log(this.selectedData);
@@ -161,24 +177,32 @@ export class DespatchnoListComponent implements OnInit {
     this.total1 = 0;
     this.feewTotal1 = 0;
     this.feewtTotal = 0;
+    try {
+      for (let i = 0; i <= this.selectedData.length; i++) {
+        var temp = this.selectedData[i];
+        console.log('tempvalue*****', temp)
+        this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+        this.total1 = this.total.toFixed(2);
+        this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+        this.taxttotal1 = this.taxtotal.toFixed(2);
+        this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+        this.feewTotal1 = this.feewtTotal.toFixed(2);
+        console.log('loooop***', this.total)
 
-    for (let i = 0; i <= this.selectedData.length; i++) {
-      var temp = this.selectedData[i];
-      console.log('tempvalue*****', temp)
-      this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
-      this.total1 = this.total.toFixed(2);
-      this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
-      this.taxttotal1 = this.taxtotal.toFixed(2);
-      this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
-      this.feewTotal1 = this.feewtTotal.toFixed(2);
-      console.log('loooop***', this.total)
+        this.temp.push(this.selectedData[i]);
 
-      this.temp.push(this.selectedData[i]);
-
+      }
     }
+    catch (e) {
+      console.log('Exception..', e);
+    }
+    this.selectedMonthtemp = this.selectedData;
 
 
-
+  }
+  filterMonth(key) {
+    console.log('month key****', key)
+    console.log('month temp***', this.selectedMonthtemp)
   }
 
 }
