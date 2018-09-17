@@ -32,6 +32,7 @@ export class DespatchNoEntryComponent implements OnInit {
   despatch: Despatch = new Despatch();
   count;
   fromLastId;
+  checklisttotal;
   temp: temp[] = []
   feesItems = [
     { id: '1', name: 'Course Fee' },
@@ -210,13 +211,15 @@ export class DespatchNoEntryComponent implements OnInit {
 
       this.checklist.push(ddEntry);
 
-
+      this.checklisttotal = this.checklist.length;
       // }
       console.log('event****', this.checklist)
     }
     else if (event == false) {
 
       this.checklist.pop();
+      this.checklisttotal = this.checklist.length;
+
 
     }
     console.log('chcklist*********', this.checklist.length)
@@ -232,7 +235,7 @@ export class DespatchNoEntryComponent implements OnInit {
       // })
       try {
         for (let i = 0; i <= this.checklist.length; i++) {
-          var despformat = "IDE/" + this.despatch.centerCode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+          var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
 
           this.tempentry = this.checklist[i];
           this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
