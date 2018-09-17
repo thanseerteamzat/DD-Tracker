@@ -45,6 +45,7 @@ export class DespStudListComponent implements OnInit {
   ];
   tempsplit;
   selectedMonth;
+  selectlisttotal;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -125,9 +126,11 @@ export class DespStudListComponent implements OnInit {
     this.feeWTtemp = 0;
     this.tax = 0;
     this.taxTotal = 0;
+    this.selectlisttotal = 0;
     try {
       for (var i = 0; i <= this.selectedData.length; i++) {
         var temp = this.selectedData[i];
+        this.selectlisttotal = this.selectedData.length;
 
         this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
         this.totalTemp = this.total.toFixed(2);
@@ -156,8 +159,10 @@ export class DespStudListComponent implements OnInit {
       this.feeWTtemp = 0;
       this.tax = 0;
       this.taxTotal = 0;
+      this.selectlisttotal = 0;
       for (var i = 0; i <= this.selectedData.length; i++) {
         var temp = this.selectedData[i];
+        this.selectlisttotal = this.selectedData.length;
 
         this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
         this.totalTemp = this.total.toFixed(2);
