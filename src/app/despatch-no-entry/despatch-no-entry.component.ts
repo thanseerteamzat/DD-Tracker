@@ -246,7 +246,7 @@ export class DespatchNoEntryComponent implements OnInit {
           try {
 
             let up = this.db.database.ref().update(updates);
-            this.router.navigate(['/despatch-no-entry'])
+            // this.router.navigate(['/despatch-no-entry'])
           }
           catch (e) {
 
@@ -311,6 +311,8 @@ export class DespatchNoEntryComponent implements OnInit {
       }
 
       console.log('clearedlist', this.checklist)
+      this.resetForm();
+
     }
     else {
       alert('Error in updating details');
@@ -341,5 +343,15 @@ export class DespatchNoEntryComponent implements OnInit {
   get despatchbox() { return this.despatchform.get('despatchbox'); }
   get despatchdate() { return this.despatchform.get('despatchdate'); }
 
+  resetForm() {
+    this.despatchform.reset(
+      {
+        despatchNo: null,
+        despatchbox: null,
+        despatchdate: null
+
+      }
+    )
+  }
 
 }
