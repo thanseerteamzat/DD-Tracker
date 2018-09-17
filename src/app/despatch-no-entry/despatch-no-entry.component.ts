@@ -139,12 +139,12 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
@@ -235,6 +235,14 @@ export class DespatchNoEntryComponent implements OnInit {
       // })
       try {
         for (let i = 0; i <= this.checklist.length; i++) {
+          let todaydate = new Date();
+          this.year = todaydate.getFullYear();
+          let nextyear = this.year + 1;
+          let stnextyear = nextyear.toString();
+          let styear = this.year.toString()
+          var splityear = styear.slice(-2)
+          var splitnextyear = stnextyear.slice(-2);
+          console.log('split ....', splitnextyear)
           var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
 
           this.tempentry = this.checklist[i];
@@ -268,16 +276,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
           this.despatch.centerCode = this.tempcentercode;
           console.log('centercode .....', this.despatch.centerCode)
-          let todaydate = new Date();
-          this.year = todaydate.getFullYear();
-          let nextyear = this.year + 1;
-          let stnextyear = nextyear.toString();
-          let styear = this.year.toString()
-          var splityear = styear.slice(-2)
-          var splitnextyear = stnextyear.slice(-2);
-          console.log('split ....', splitnextyear)
-
-
+          
           let feeWT = parseFloat(this.ddtotal) / 1.18;
           let feewtfloat = feeWT.toFixed(2);
           let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
