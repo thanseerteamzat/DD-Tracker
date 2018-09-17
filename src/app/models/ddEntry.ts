@@ -31,6 +31,7 @@ export class ddEntry {
     isdespatchEntered: boolean;
     taxValue: string;
     feeWT: string;
+    isddCanceled:boolean;
 }
 export class ddList {
     ddenter: ddEntry = new ddEntry();
