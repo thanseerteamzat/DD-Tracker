@@ -37,7 +37,7 @@ export class DbaNoEntryComponent implements OnInit {
     selectedCenter;
     feewTotal1;
     centerData: ddList[] = [];
-
+    tempmonth;
     selectedDatatemp;
     selectedMonthtemp;
     selectedMonth;
@@ -54,8 +54,8 @@ export class DbaNoEntryComponent implements OnInit {
         { id: '10', name: 'Oct' },
         { id: '11', name: 'Nov' },
         { id: '12', name: 'Dec' },
-    
-      ];
+
+    ];
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
@@ -120,23 +120,22 @@ export class DbaNoEntryComponent implements OnInit {
 
 
 
-        if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+        // if (this.ets.cookievalue == "3") {
+        //     // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //     this.router.navigate(['/error']);
 
 
-        }
+        // }
     }
     filterCenter(key) {
 
 
-        this.selectedData = null;
 
 
-        this.selectedData = this.ddLists.filter(s => s.center.Id == key);
-        this.selectedDatatemp = this.selectedData;
+
+        this.selectedData = this.selectedDatatemp.filter(s => s.center.Id == key);
 
         console.log('dat*******************a', this.selectedDatatemp);
         this.taxtotal = 0;
@@ -148,8 +147,10 @@ export class DbaNoEntryComponent implements OnInit {
         try {
 
             for (let i = 0; i <= this.selectedData.length; i++) {
+
                 var temp = this.selectedData[i];
                 console.log('tempvalue*****', temp)
+                this.tempmonth = temp.despatchList.despatchDate;
                 this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
                 this.total1 = this.total.toFixed(2);
                 this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
@@ -173,7 +174,7 @@ export class DbaNoEntryComponent implements OnInit {
     filterDespatch(key) {
         console.log('temp********', this.selectedDatatemp);
 
-        this.selectedData = this.selectedDatatemp.filter(s => s.despatchList.despatchNo == key);
+        this.selectedData = this.ddLists.filter(s => s.despatchList.despatchNo == key);
         console.log(this.selectedData);
 
         this.taxtotal = 0;
@@ -207,10 +208,12 @@ export class DbaNoEntryComponent implements OnInit {
     }
 
     filterMonth(key) {
+        this.selectedData = null;
+        this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == key)
+        console.log('date', this.selectedData);
 
         try {
-            this.selectedData = this.selectedDatatemp.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == key)
-            console.log('date', this.selectedData);
+
             this.taxtotal = 0;
             this.taxttotal1 = 0;
             this.total = 0;
@@ -221,6 +224,8 @@ export class DbaNoEntryComponent implements OnInit {
             for (let i = 0; i <= this.selectedData.length; i++) {
                 var temp = this.selectedData[i];
                 console.log('tempvalue*****', temp)
+                this.tempmonth = temp.despatchList.despatchDate;
+
                 this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
                 this.total1 = this.total.toFixed(2);
                 this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
@@ -236,6 +241,8 @@ export class DbaNoEntryComponent implements OnInit {
         catch (e) {
             console.log('Exception..', e)
         }
+        this.selectedDatatemp = this.selectedData;
+
 
 
 
