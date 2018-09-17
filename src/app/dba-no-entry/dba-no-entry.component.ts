@@ -3,9 +3,11 @@ import { Center } from "src/app/models/Center";
 import { EtsService } from "src/app/services/ets.service";
 import { Router } from '@angular/router';
 import { ddList, ddEntry } from '../models/ddEntry';
-import { despatchList, Despatch } from '../models/despatch';
+import { despatchList, Despatch, despatchtemp } from '../models/despatch';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
+import { dbaLastid } from '../models/dbalastId';
+import { dbaEntry } from '../models/dbaEntry';
 
 @Component({
     selector: 'app-dba-no-entry',
@@ -41,6 +43,7 @@ export class DbaNoEntryComponent implements OnInit {
     selectedDatatemp;
     selectedMonthtemp;
     selectedMonth;
+    temprate;
     Months = [
         { id: '01', name: 'Jan' },
         { id: '02', name: 'Feb' },
@@ -56,6 +59,14 @@ export class DbaNoEntryComponent implements OnInit {
         { id: '12', name: 'Dec' },
 
     ];
+    desplist: despatchtemp[] = [];
+    dbaLastids: dbaLastid[] = [];
+    newddLastId: dbaLastid = new dbaLastid();
+    newdba: dbaEntry = new dbaEntry();
+    typedtext;
+    entered;
+    count;
+    tempentry;
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
@@ -91,12 +102,14 @@ export class DbaNoEntryComponent implements OnInit {
                 let ddListItem = new despatchList();
                 let qobj: Despatch = JSON.parse(element);
                 // console.log("****" + element);
+                let dobj: dbaEntry = JSON.parse(element);
                 if (qobj.despatchNo != undefined) {
                     qobj.despatchNo = qobj.despatchNo.replace("/", "");
                 }
 
                 ddListItem.despatchList = qobj;
-
+                this.newdba = dobj;
+                // this.newdba = qobj;
                 let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
 
                 if (centList.length > 0) {
@@ -111,6 +124,21 @@ export class DbaNoEntryComponent implements OnInit {
 
             });
 
+        });
+        let dlRef = db.object('dbaLastId');
+        dlRef.snapshotChanges().subscribe(action => {
+            var quatationsList = action.payload.val();
+            let obj = Common.snapshotToArray(action.payload);
+            this.dbaLastids = [];
+            obj.forEach(element => {
+                let obj: dbaLastid = JSON.parse(element);
+                this.newddLastId = obj;
+                this.dbaLastids.push(obj as dbaLastid);
+                console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaLastids)
+                this.count = obj.lastid;
+
+
+            });
         });
 
     }
@@ -128,6 +156,9 @@ export class DbaNoEntryComponent implements OnInit {
 
 
         }
+        this.entered = this.ets.cookiename;
+        this.newdba.enteredBy = this.entered;
+        console.log('cookiename****', this.newdba.enteredBy)
     }
     filterCenter(key) {
 
@@ -136,6 +167,7 @@ export class DbaNoEntryComponent implements OnInit {
 
 
         this.selectedData = this.selectedDatatemp.filter(s => s.center.Id == key);
+        // this.tempmonth = this.selectedData.filter(s => s.despatchList.despatchDate)
 
         console.log('dat*******************a', this.selectedDatatemp);
         this.taxtotal = 0;
@@ -146,11 +178,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.feewtTotal = 0;
         try {
 
+            for (let i = 0; i <= this.desplist.length; i++) {
+                this.desplist.splice(i, this.desplist.length);
+            }
+
             for (let i = 0; i <= this.selectedData.length; i++) {
 
                 var temp = this.selectedData[i];
                 console.log('tempvalue*****', temp)
-                this.tempmonth = temp.despatchList.despatchDate;
                 this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
                 this.total1 = this.total.toFixed(2);
                 this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
@@ -210,6 +245,8 @@ export class DbaNoEntryComponent implements OnInit {
     filterMonth(key) {
         this.selectedData = null;
         this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == key)
+
+
         console.log('date', this.selectedData);
 
         try {
@@ -220,11 +257,16 @@ export class DbaNoEntryComponent implements OnInit {
             this.total1 = 0;
             this.feewTotal1 = 0;
             this.feewtTotal = 0;
+            this.temprate = 0;
+
+            for (let i = 0; i <= this.desplist.length; i++) {
+                this.desplist.splice(i, this.desplist.length);
+            }
 
             for (let i = 0; i <= this.selectedData.length; i++) {
                 var temp = this.selectedData[i];
-                console.log('tempvalue*****', temp)
-                this.tempmonth = temp.despatchList.despatchDate;
+                // console.log('tempvalue*****', temp)
+                // this.tempmonth = temp.despatchList.despatchDate;
 
                 this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
                 this.total1 = this.total.toFixed(2);
@@ -232,9 +274,11 @@ export class DbaNoEntryComponent implements OnInit {
                 this.taxttotal1 = this.taxtotal.toFixed(2);
                 this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
                 this.feewTotal1 = this.feewtTotal.toFixed(2);
-                console.log('loooop***', this.total)
+                // console.log('loooop***', this.total)
 
-                this.temp.push(this.selectedData[i]);
+
+
+                // this.temp.push(this.selectedData[i]);
 
             }
         }
@@ -246,6 +290,55 @@ export class DbaNoEntryComponent implements OnInit {
 
 
 
+
+    }
+
+    onchange(event, temp, despatch: Despatch) {
+
+        if (event.length > 0) {
+
+            this.desplist.push(despatch );
+
+        }
+        else {
+
+            this.desplist.pop();
+
+        }
+        console.log('data****', this.desplist)
+
+
+    }
+    register(lastid) {
+        // var text = this.typedtext;
+        // console.log('lastid****', text)
+
+        // try {
+        //     for (let i = 0; i < this.desplist.length; i++) {
+        //         this.tempentry = this.desplist[i];
+
+
+        //         // this.tempentry.dbaNo =
+        //         //   this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+        //         //   this.tempentry.isdespatchEntered = true;
+        //         // this.tempentry.despId = key;
+        //         var updates = {};
+
+        //         updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+        //         try {
+
+        //             let up = this.db.database.ref().update(updates);
+        //             // this.router.navigate(['/despatch-no-entry'])
+        //         }
+        //         catch (e) {
+
+        //         }
+        //     }
+
+        // }
+        // catch (e) {
+
+        // }
 
     }
 

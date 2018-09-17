@@ -276,7 +276,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
           this.despatch.centerCode = this.tempcentercode;
           console.log('centercode .....', this.despatch.centerCode)
-          
+
           let feeWT = parseFloat(this.ddtotal) / 1.18;
           let feewtfloat = feeWT.toFixed(2);
           let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
@@ -290,6 +290,31 @@ export class DespatchNoEntryComponent implements OnInit {
           this.despatch.totalAmount = this.ddtotal;
           this.despatch.taxAmount = parseFloat(taxfloat);
           this.despatch.FWT = parseFloat(feewtfloat);
+          //calculating dba rate and amount
+
+          if (this.tempentry.feesItem == "Course Fee") {
+
+            this.despatch.Rate = 65;
+            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+            let frate = rate.toFixed(2);
+            this.despatch.Amount = parseFloat(frate);
+          }
+          else if (this.tempentry.feesItem == 'Inspection') {
+            this.despatch.Rate = 60;
+            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+            let frate = rate.toFixed(2);
+            this.despatch.Amount = parseFloat(frate);
+
+          }
+          else {
+            this.despatch.Rate = 80;
+            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+            let frate = rate.toFixed(2);
+            this.despatch.Amount = parseFloat(frate);
+
+          }
+
+
           let ddEntryJson = JSON.stringify(this.despatch);
           console.log(ddEntryJson);
           try {
