@@ -54,6 +54,7 @@ export class DespatchnoListComponent implements OnInit {
 
   selectedDatatemp;
   selectedMonthtemp;
+  selectlisttotal
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -141,10 +142,12 @@ export class DespatchnoListComponent implements OnInit {
     this.total1 = 0;
     this.feewTotal1 = 0;
     this.feewtTotal = 0;
+    this.selectlisttotal = 0;
     try {
 
       for (let i = 0; i <= this.selectedData.length; i++) {
         var temp = this.selectedData[i];
+        this.selectlisttotal = this.selectedData.length;
         console.log('tempvalue*****', temp)
         this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
         this.total1 = this.total.toFixed(2);
@@ -178,9 +181,12 @@ export class DespatchnoListComponent implements OnInit {
     this.total1 = 0;
     this.feewTotal1 = 0;
     this.feewtTotal = 0;
+    this.selectlisttotal = 0;
     try {
       for (let i = 0; i <= this.selectedData.length; i++) {
         var temp = this.selectedData[i];
+        this.selectlisttotal = this.selectedData.length;
+
         console.log('tempvalue*****', temp)
         this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
         this.total1 = this.total.toFixed(2);

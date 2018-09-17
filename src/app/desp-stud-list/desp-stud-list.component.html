@@ -16,14 +16,19 @@
 
       <label>Filter with Month : </label>&nbsp;
       <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
-          <option value="">--Choose--</option>
-          <ng-container *ngFor="let month of Months">
-              <option [ngValue]="month.id">{{month.name}}</option>
-          </ng-container>
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.id">{{month.name}}</option>
+        </ng-container>
 
       </select>
-  </div>
 
+    </div>
+    <div class="form-group col-md-3">
+      <label>Count:</label>
+      <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
+
+    </div>
     <div style="padding-top: 50px;">
 
       <table class="table table-hover table-responsive table-bordered">
@@ -48,30 +53,30 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let ddenter of selectedData">
-            
+
 
             <tr>
-              <tr>
+            <tr>
 
-                <td>{{ddenter.ddenter?.ddlastId}}</td>
-                <!-- <td>{{ddenter.center?.CenterName}}</td> -->
-                <td>{{ddenter.ddenter?.studentName}}</td>
-                <td>{{ddenter.ddenter?.appNo}}</td>
-                <td>{{ddenter.ddenter?.despatchNo}}</td>
-                <td>{{ddenter.ddenter?.despatchDate}}</td>
-                <td>{{ddenter.ddenter?.feesItem}}</td>
-                <td>{{ddenter.ddenter?.Amount}}</td>
-                <td >{{ddenter.ddenter?.taxValue}}</td>
-                 <td>{{ddenter.ddenter?.feeWT}}</td>
-                <!-- <td>{{ddenter.despatchList?.FWT}}</td> -->
-
-
+              <td>{{ddenter.ddenter?.ddlastId}}</td>
+              <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+              <td>{{ddenter.ddenter?.studentName}}</td>
+              <td>{{ddenter.ddenter?.appNo}}</td>
+              <td>{{ddenter.ddenter?.despatchNo}}</td>
+              <td>{{ddenter.ddenter?.despatchDate}}</td>
+              <td>{{ddenter.ddenter?.feesItem}}</td>
+              <td>{{ddenter.ddenter?.Amount}}</td>
+              <td>{{ddenter.ddenter?.taxValue}}</td>
+              <td>{{ddenter.ddenter?.feeWT}}</td>
+              <!-- <td>{{ddenter.despatchList?.FWT}}</td> -->
 
 
 
 
-              </tr>
-            
+
+
+            </tr>
+
           </ng-container>
           <tr>
             <td colspan="6" style="text-align: right">Total</td>
