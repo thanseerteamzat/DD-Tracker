@@ -2,24 +2,25 @@
 
     <!-- Page Content Holder -->
     <div id="content" class="createcontent">
-        <form name="form"  #f="ngForm" novalidate>
+        <form name="form" #f="ngForm" novalidate>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <div style="float:left">
-                                              <h2>DD Entry Prospectus Details</h2>
-                    </div>                   
-                    <div *ngIf='!isEditable' style="float:left;margin-left: 35%;margin-top: 4%">
-                            
+                        <h2>DD Entry Prospectus Details</h2>
+                    </div>
+                    <div *ngIf='!isEditable' style="float:left;margin-left: 20%;margin-top: 4%">
+
                         <button type="button" class="btn btn-primary">
-                            <a style="color: white"    [routerLink]="['/prospectus', newddentry.ddlastId]">Edit</a>
+                            <a style="color: white" [routerLink]="['/prospectus', newddentry.ddlastId]">Edit</a>
                         </button>&nbsp;&nbsp;
-                                <button type="submit" class="btn btn-primary" (click)="verify(newddentry.ddlastId,newddentry)">Verify</button>
-                       &nbsp;
-                       &nbsp;
+                        <button type="submit" class="btn btn-primary" (click)="verify(newddentry.ddlastId,newddentry)">Verify</button>
+                        &nbsp; &nbsp;
                         <button type="button" class="btn btn-primary">
-                                <a style="color: white" [routerLink]="['/dd-verification']">Cancel</a>
-                            </button>
+                            <a style="color: white" [routerLink]="['/dd-verification']">Cancel</a>
+                        </button>
+                        &nbsp;&nbsp;
+
                     </div>
                 </div>
                 <br>
@@ -30,26 +31,26 @@
                 <div class="form-group col-md-2">
                     <br>
                     <label for="ddid"> DD Serial No : &nbsp;</label>
-                    <span  style="color: red">{{newddentry.ddlastId}}</span>
+                    <span style="color: red">{{newddentry.ddlastId}}</span>
 
                     <!-- <input readonly type="hidden" disabled [(ngModel)]="newddEntry.ddlastId" name="lastId" class="form-control"> -->
                 </div>
 
-                <div class="form-group col-md-2"  >
+                <div class="form-group col-md-2">
                     <label for="date">Date</label>
-                    <input readonly type="date" [(ngModel)]="newddentry.dDate" name="dDate" class="form-control"  >
-                    
+                    <input readonly type="date" [(ngModel)]="newddentry.dDate" name="dDate" class="form-control">
+
                 </div>
 
-                
+
 
 
 
 
                 <div class="form-group col-md-2" [formGroup]="ddentryForm">
                     <label for="feesItem">Fees Item</label>
-                    <input readonly type="text"  [(ngModel)]="newddentry.feesItem" class="form-control" name="feesItem" formControlName="feesItem">
-                    
+                    <input readonly type="text" [(ngModel)]="newddentry.feesItem" class="form-control" name="feesItem" formControlName="feesItem">
+
                     <!-- <select readonly [(ngModel)]="newddentry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
                         <option value="" disabled [selected]>--Choose--</option>
                         <ng-container readonly>
@@ -70,10 +71,10 @@
                         <div *ngIf="feesItem.errors.required">
                             Please select fees item
                         </div>
-        
+
                     </div>
                 </div>
-        
+
 
 
 
@@ -81,7 +82,7 @@
 
                 <div class="form-group col-md-2" [formGroup]="ddentryForm">
                     <label for="center">Centre Name</label>
-                   <select disabled="true" [(ngModel)]="newddentry.centerId" class="form-control" name="selectedcenter" formControlName="centerName">
+                    <select disabled="true" [(ngModel)]="newddentry.centerId" class="form-control" name="selectedcenter" formControlName="centerName">
                         <option value="">--Choose--</option>
                         <ng-container readonly *ngFor="let s of centers">
                             <option [ngValue]="s.Id">{{s.CenterName}}</option>
@@ -99,16 +100,17 @@
                     <!-- <label for="centerName">Center Name</label>
                 <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
-             
-                
+
+
             </div>
 
             <div class="row">
-                  
-              
+
+
                 <div class="form-group col-md-2" [formGroup]="ddentryForm">
                     <label for="ddNo">DD Number</label>
-                    <input readonly type="text" class="form-control" [(ngModel)]="newddentry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
+                    <input readonly type="text" class="form-control" [(ngModel)]="newddentry.ddNumber" name="ddNumber" placeholder="DD Number"
+                        formControlName="ddNumber">
                     <div *ngIf="ddNumber.invalid && (ddNumber.dirty || ddNumber.touched)" class="alert-danger">
                         <div *ngIf="ddNumber.errors.required">
                             DD Number is Required
@@ -127,8 +129,8 @@
 
                 <div class="form-group col-md-2" [formGroup]="ddentryForm">
                     <label for="bank">Bank</label>
-                    <input readonly type="text"  [(ngModel)]="newddentry.bank" class="form-control" name="bank" formControlName="bank">
-                    
+                    <input readonly type="text" [(ngModel)]="newddentry.bank" class="form-control" name="bank" formControlName="bank">
+
 
                     <!-- <select readonly [(ngModel)]="newddentry.bank" class="form-control" name="bank" formControlName="bank">
                         <option value="" disabled [selected]>--Choose--</option>
@@ -173,26 +175,26 @@
                     </div>
                 </div>
 
-                
+
                 <div class="form-group col-md-2">
                     <label for="ddDate">DD Date</label>
                     <input readonly type="date" [(ngModel)]="newddentry.ddDate" name="ddDate" class="form-control">
                 </div>
-        <div class="form-group col-md-2" [formGroup]="ddentryForm">
-            <label for="ddAmount">DD Amount</label>
-            <input readonly type="text" [(ngModel)]="newddentry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
-            <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
-                <div *ngIf="ddAmount.errors.required">
-                    DD Amount is Required
-                </div>
-                <div *ngIf="ddAmount.errors.pattern">
-                    Please enter digit format
+                <div class="form-group col-md-2" [formGroup]="ddentryForm">
+                    <label for="ddAmount">DD Amount</label>
+                    <input readonly type="text" [(ngModel)]="newddentry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
+                    <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
+                        <div *ngIf="ddAmount.errors.required">
+                            DD Amount is Required
+                        </div>
+                        <div *ngIf="ddAmount.errors.pattern">
+                            Please enter digit format
+                        </div>
+
+                    </div>
                 </div>
 
-            </div>
-        </div>
 
-      
 
 
 
@@ -204,10 +206,20 @@
                     <label for="enteredby">Entered By </label>
                     <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="enteredBy" class="form-control" placeholder="Entered By">
                 </div>
-        
+
             </div>
 
-           
+            <div class="row">
+                    <div  class="form-group col-md-3"></div>
+                    <div  class="form-group col-md-3"></div>
+                    <!-- <div  class="form-group col-md-3"></div> -->
+                    <div  class="form-group col-md-3">
+                    
+                    
+    
+                        <button type="submit" class="btn btn-primary" (click)="cancelDd(newddentry.ddlastId,newddentry)">Cancel DD</button>
+                        
+                    </div></div>
 
         </form>
 

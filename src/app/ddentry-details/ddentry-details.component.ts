@@ -236,5 +236,35 @@ export class DdentryDetailsComponent implements OnInit {
       }
     });
   }
+  cancelDd(key,ddentry:ddEntry){
+
+    // console.log('Canceled DD')
+    this.db.database.ref(`ddEntry/${key}`).once("value", snapshot => {
+
+      let sid = snapshot.key;
+      if (snapshot.exists()) {
+
+
+        if (confirm('Are you sure want to cancel this dd entry')) {
+
+          this.newddentry.isddCanceled = true;
+          ddentry.isddCanceled = true;
+
+          var updates = {};
+          updates['/ddEntry/' + sid] = JSON.stringify(ddentry);
+          try {
+            let up = this.db.database.ref().update(updates);
+            this.router.navigate(['/dd-verification']);
+          }
+          catch (ex) {
+            alert("Error in candel dd");
+          }
+        }
+        // console.log('ddddd', ddentry)
+
+      }
+    });
+
+  }
 
 }

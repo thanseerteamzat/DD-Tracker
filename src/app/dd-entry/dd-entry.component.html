@@ -311,7 +311,7 @@
         </thead>
         <tbody>
             <ng-container *ngFor='let ddenter of ddLists '>
-                <tr *ngIf="(ddenter.ddenter.isVerified  == false)">
+                <tr *ngIf="(ddenter.ddenter.isVerified  == false && ddenter.ddenter.isddCanceled == null)">
                     <td>{{ddLists.indexOf(ddenter) + 1}}</td>
                     <td>{{ddenter.ddenter.ddlastId}}</td>
                     <td>{{ddenter.ddenter.dDate}}</td>
