@@ -232,6 +232,7 @@ export class DespatchNoEntryComponent implements OnInit {
       // })
       try {
         for (let i = 0; i <= this.checklist.length; i++) {
+          var despformat = "IDE/" + this.despatch.centerCode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
 
           this.tempentry = this.checklist[i];
           this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
@@ -272,7 +273,6 @@ export class DespatchNoEntryComponent implements OnInit {
           var splityear = styear.slice(-2)
           var splitnextyear = stnextyear.slice(-2);
           console.log('split ....', splitnextyear)
-          var despformat = "IDE/" + this.despatch.centerCode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
 
 
           let feeWT = parseFloat(this.ddtotal) / 1.18;
@@ -326,7 +326,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
   despatchform = new FormGroup({
     despatchno: new FormControl(),
-    despatchbox: new FormControl()
+    // despatchbox: new FormControl()
   })
 
   despatchcreateForm() {
@@ -334,20 +334,20 @@ export class DespatchNoEntryComponent implements OnInit {
       {
 
         despatchNo: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 //]*')])],
-        despatchbox: [false, Validators.requiredTrue],
+        // despatchbox: [null, Validators.requiredTrue],
         despatchdate: [false, Validators.required]
       }
     )
   }
   get despatchNo() { return this.despatchform.get('despatchNo'); }
-  get despatchbox() { return this.despatchform.get('despatchbox'); }
+  // get despatchbox() { return this.despatchform.get('despatchbox'); }
   get despatchdate() { return this.despatchform.get('despatchdate'); }
 
   resetForm() {
     this.despatchform.reset(
       {
         despatchNo: null,
-        despatchbox: null,
+        // despatchbox: null,
         despatchdate: null
 
       }

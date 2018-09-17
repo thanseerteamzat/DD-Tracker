@@ -118,15 +118,15 @@
                                 <td>{{ddenter.ddenter?.feesItem}}</td>
                                 <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
 
-                                <td [formGroup]="despatchform">
+                                <td >
                                     <input type="checkbox" (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter)"
-                                        name="" formControlName="despatchbox">
-                                        <div *ngIf="despatchbox.invalid && (despatchbox.dirty || despatchbox.touched)" class="alert-danger">
+                                        name="" >
+                                        <!-- <div *ngIf="despatchbox.invalid && (despatchbox.dirty || despatchbox.touched)" class="alert-danger">
                                             <div *ngIf="despatchbox.errors.required">
                                              Please Select(Any)
-                                            </div>
-                                           
-                                        </div>
+                                            </div> 
+                                            
+                                        </div> -->
                                 </td>
 
 
