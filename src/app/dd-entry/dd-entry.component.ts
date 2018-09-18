@@ -22,7 +22,13 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DdEntryComponent implements OnInit {
 tempdate;
-  minDate: Date;
+tempcheck;
+minDate: Date;
+  bsValue = new Date();
+
+  minDateDD: Date;
+  maxDateDD: Date;
+
   maxDate: Date;
   todaydate = new Date();
 
@@ -91,8 +97,18 @@ selecteddate;
     // console.log('new *********************************',this.newddEntry.dDate);
     this.minDate = new Date();
     this.maxDate = new Date();
+
+    this.minDateDD = new Date();
+    this.maxDateDD = new Date();
+
     this.minDate.setDate(this.minDate.getDate() - 4);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
+    
+    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
+  // this.tempcheck = new Date ;  
+  // this.newddEntry.ddDate = this.tempcheck;
+  // console.log(this.newddEntry.ddDate,'********************************CHECK')
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
@@ -266,6 +282,8 @@ selecteddate;
       this.tempdate = this.newddentry.dDate;
       this.todaydate = this.tempdate;
       this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+      this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+
       this.newddEntry.prosvalue = false;
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
@@ -404,6 +422,8 @@ selecteddate;
           this.selecteddate =this.todaydate;
 
          this.newddEntry.dDate =this.formatDate(this.selecteddate);
+    this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+         
           // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
           // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
