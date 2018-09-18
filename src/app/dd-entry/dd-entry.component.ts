@@ -31,8 +31,9 @@ minDate: Date;
 
   maxDate: Date;
   todaydate = new Date();
-
+  todaydatee = new Date();
 selecteddate;
+selecteddatee;
   tempcenter;
   tempcentercode;
   //api url and center variable
@@ -420,7 +421,8 @@ selecteddate;
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
           this.selecteddate =this.todaydate;
-
+          this.selecteddatee = this.todaydatee;
+          this.newddEntry.ddDate= this.formatDate(this.selecteddatee);
          this.newddEntry.dDate =this.formatDate(this.selecteddate);
     this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
          

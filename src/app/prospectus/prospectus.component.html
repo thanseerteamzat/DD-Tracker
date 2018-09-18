@@ -201,10 +201,62 @@
 
 
 
-          <div class="form-group col-md-3">
+          <div *ngIf='!isEditMode' class="form-group col-md-3">
+            <label for="date">DD Date</label>
+
+
+            <div class="form-group">
+                    <input type="text"
+                           name="todaydatee"
+                           [(ngModel)]="todaydatee"
+                    class="form-control"
+                           #dp="bsDatepicker"
+                           bsDatepicker
+                           
+                           [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                           [minDate]="minDateDD"
+                           [maxDate]="maxDateDD">
+                           
+                           
+
+                  </div>
+
+
+            <!-- <input type="text" id="datepicker"> -->
+            <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+        </div>
+
+        <div *ngIf='isEditMode' class="form-group col-md-3">
+            <label for="date">DD Date</label>
+
+
+            <div class="form-group">
+                    <input type="text"
+                    name="newddEntry.ddDate"       
+                    [(ngModel)]="newddEntry.ddDate"
+                    class="form-control"
+                           #dp="bsDatepicker"
+                           bsDatepicker
+                         
+                           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                          >
+                           
+                           
+
+                  </div>
+
+
+            <!-- <input type="text" id="datepicker"> -->
+            <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+        </div>
+
+
+          <!-- <div class="form-group col-md-3">
             <label for="ddDate">DD Date</label>
             <input type="date" [(ngModel)]="newddEntry.ddDate" name="ddDate" class="form-control">
-          </div>
+          </div> -->
 
 
           </div>

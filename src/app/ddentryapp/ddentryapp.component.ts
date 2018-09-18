@@ -26,9 +26,15 @@ export class DdentryappComponent implements OnInit {
   tempdate;
   minDate: Date;
   maxDate: Date;
+  minDateDD: Date;
+  maxDateDD: Date;
+  todaydatee = new Date();
+  
   todaydate = new Date();
 
 selecteddate;
+selecteddatee;
+
 
   code;
   tempcentercode;
@@ -102,6 +108,12 @@ selecteddate;
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 4);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
+
+
+    this.minDateDD = new Date();
+    this.maxDateDD = new Date();
+    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
@@ -410,8 +422,9 @@ selecteddate;
           this.newddEntry.studentName = this.selectedstudent;
          
           this.selecteddate =this.todaydate;
-
+          this.selecteddatee=this.todaydatee;
          this.newddEntry.dDate =this.formatDate(this.selecteddate);
+         this.newddEntry.ddDate =this.formatDate(this.selecteddatee);
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;

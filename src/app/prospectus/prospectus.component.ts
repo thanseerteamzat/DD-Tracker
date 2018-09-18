@@ -19,11 +19,15 @@ import { Common } from '../models/common';
 })
 export class ProspectusComponent implements OnInit {
  selecteddate;
+ selecteddatee;
   tempdate;
   minDate: Date;
   maxDate: Date;
   todaydate = new Date();
 
+  minDateDD: Date;
+  maxDateDD: Date;
+  todaydatee = new Date();
 
   tempcentercode;
   tempcenter;
@@ -86,6 +90,10 @@ export class ProspectusComponent implements OnInit {
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 4);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
+    this.minDateDD = new Date();
+    this.maxDateDD = new Date();
+    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
@@ -264,6 +272,7 @@ export class ProspectusComponent implements OnInit {
       this.tempdate = this.newddEntry.dDate;
       this.todaydate = this.tempdate;
       this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+      this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
 
       this.newddEntry.prosvalue = true;
 
@@ -397,7 +406,8 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.feesItem = "Prospectus";
           this.newddEntry.enteredBy = this.ets.cookiename;
           this.selecteddate =this.todaydate;
-
+         this.selecteddatee = this.todaydatee;
+         this.newddEntry.ddDate=this.formatDate(this.selecteddatee);
          this.newddEntry.dDate =this.formatDate(this.selecteddate);
 
           this.newddentryTemp.ddDate = this.newddEntry.ddDate;
