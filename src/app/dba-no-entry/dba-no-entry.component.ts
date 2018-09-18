@@ -67,7 +67,7 @@ export class DbaNoEntryComponent implements OnInit {
         { id: '5', name: 'Affiliation' },
         { id: '6', name: 'Inspection' },
         { id: '7', name: 'Duplicate Certificate/Marklist' },
-      ];
+    ];
     desplist: despatchtemp[] = [];
     dbaLastids: dbaLastid[] = [];
     newddLastId: dbaLastid = new dbaLastid();
@@ -216,12 +216,37 @@ export class DbaNoEntryComponent implements OnInit {
 
     }
     filterFee(key) {
-        console.log('key....', key)
-        this.selectedData = this.selectedMonthtemp.filter(s => s.ddenter.feesItem == key)
-        // for (let i = 0; i <= this.checklist.length; i++) {
-        //   this.checklist.splice(i, this.checklist.length);
-        // }
-        // console.log('........', this.checklist);
+        console.log('key....', this.selectedMonthtemp)
+        this.selectedData = this.selectedMonthtemp.filter(s => s.despatchList.feeItem == key)
+
+        for (let i = 0; i <= this.desplist.length; i++) {
+            this.desplist.splice(i, this.desplist.length);
+        }
+        this.taxtotal = 0;
+        this.taxttotal1 = 0;
+        this.total = 0;
+        this.total1 = 0;
+        this.feewTotal1 = 0;
+        this.feewtTotal = 0;
+        try {
+            for (let i = 0; i <= this.selectedData.length; i++) {
+                var temp = this.selectedData[i];
+                console.log('tempvalue*****', temp)
+                this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+                this.total1 = this.total.toFixed(2);
+                this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+                this.taxttotal1 = this.taxtotal.toFixed(2);
+                this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+                this.feewTotal1 = this.feewtTotal.toFixed(2);
+                console.log('loooop***', this.total)
+
+                this.temp.push(this.selectedData[i]);
+
+            }
+        }
+        catch (e) {
+            console.log('Exception..', e);
+        }
 
     }
 
@@ -262,7 +287,7 @@ export class DbaNoEntryComponent implements OnInit {
     }
 
 
-    
+
 
     filterMonth(key) {
         this.selectedData = null;
@@ -334,35 +359,49 @@ export class DbaNoEntryComponent implements OnInit {
 
     }
     register(lastid) {
-        // var text = this.typedtext;
-        // console.log('lastid****', text)
-
-        // try {
-        //     for (let i = 0; i < this.desplist.length; i++) {
-        //         this.tempentry = this.desplist[i];
 
 
-        //         // this.tempentry.dbaNo =
-        //         //   this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-        //         //   this.tempentry.isdespatchEntered = true;
-        //         // this.tempentry.despId = key;
-        //         var updates = {};
+        try {
+            for (let i = 0; i < this.desplist.length; i++) {
+                this.tempentry = this.desplist[i];
 
-        //         updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
-        //         try {
 
-        //             let up = this.db.database.ref().update(updates);
-        //             // this.router.navigate(['/despatch-no-entry'])
-        //         }
-        //         catch (e) {
+                // this.tempentry.dbaNo =
+                //   this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+                //   this.tempentry.isdespatchEntered = true;
+                // this.tempentry.despId = key;
+                var updates = {};
+                this.tempentry.dbaNo = this.newdba.dbaNo;
+                this.tempentry.isdbaEntered = true;
+                updates['/Despatch/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+                try {
 
-        //         }
-        //     }
+                    let up = this.db.database.ref().update(updates);
+                    // this.router.navigate(['/despatch-no-entry'])
+                }
+                catch (e) {
 
-        // }
-        // catch (e) {
+                }
 
-        // }
+                var counter = parseInt(this.count) + 1;
+                var updates = {};
+                this.newddLastId.lastid = counter;
+                updates['/dbaLastId/' + this.newddLastId.lastid] = JSON.stringify(this.newddLastId);
+                let up = this.db.database.ref().update(updates);
+
+
+
+
+
+
+            }
+
+        }
+        catch (e) {
+
+            console.log('Exception***', e)
+
+        }
 
     }
 

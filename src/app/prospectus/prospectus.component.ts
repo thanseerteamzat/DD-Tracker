@@ -398,7 +398,7 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
-          // this.newddEntry.enteredBy = this.cookienametodb;
+          this.newddEntry.enteredBy = this.cookienametodb;
           //Fee without tax equation : ddamount /1.18
 
           let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;

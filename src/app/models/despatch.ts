@@ -15,6 +15,7 @@ export class Despatch {
     enteredBy: string;
     isdespatchEntered: boolean;
     dbaNo: string;
+    isdbaEntered: boolean;
 
 
 }
@@ -42,7 +43,7 @@ export class despatchtemp {
     enteredBy: string;
     isdespatchEntered: boolean;
     dbaNo: string;
-}
+    isdbaEntered: boolean;}
 
 export class dbatemp {
     dbano: string;
