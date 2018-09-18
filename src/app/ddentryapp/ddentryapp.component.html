@@ -51,13 +51,57 @@
 
 
 
-                  
-                  <div class="form-group col-md-3">
-                      <label for="date">Date</label>
-                      <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control">
 
-                  </div>
+                  <div *ngIf='!isEditMode' class="form-group col-md-3">
+                    <label for="date">Date</label>
 
+
+                    <div class="form-group">
+                            <input type="text"
+                                   name="todaydate"
+                                   [(ngModel)]="todaydate"
+                            class="form-control"
+                                   #dp="bsDatepicker"
+                                   bsDatepicker
+                                   
+                                   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                                   [minDate]="minDate"
+                                   [maxDate]="maxDate">
+                                   
+                                   
+
+                          </div>
+
+
+                    <!-- <input type="text" id="datepicker"> -->
+                    <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+                </div>
+
+                <div *ngIf='isEditMode' class="form-group col-md-3">
+                    <label for="date">Date</label>
+
+
+                    <div class="form-group">
+                            <input type="text"
+                            name="newddEntry.dDate"       
+                            [(ngModel)]="newddEntry.dDate"
+                            class="form-control"
+                                   #dp="bsDatepicker"
+                                   bsDatepicker
+                                 
+                                   [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                                  >
+                                   
+                                   
+
+                          </div>
+
+
+                    <!-- <input type="text" id="datepicker"> -->
+                    <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+                </div>
 
 
 
