@@ -18,6 +18,17 @@ import { Common } from '../models/common';
   styleUrls: ['./prospectus.component.css']
 })
 export class ProspectusComponent implements OnInit {
+ selecteddate;
+ selecteddatee;
+  tempdate;
+  minDate: Date;
+  maxDate: Date;
+  todaydate = new Date();
+
+  minDateDD: Date;
+  maxDateDD: Date;
+  todaydatee = new Date();
+
   tempcentercode;
   tempcenter;
   code;
@@ -58,8 +69,6 @@ export class ProspectusComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
   newddentryTemp: ddentryTemp = new ddentryTemp();
   newLastid: ddLastid = new ddLastid();
-  minDate: Date;
-  maxDate: Date;
   vtemp: string;
   split1: string;
   ddentries: ddEntry[] = [];
@@ -75,6 +84,16 @@ export class ProspectusComponent implements OnInit {
     private ets: EtsService,
     private fb: FormBuilder,
   ) {
+
+
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 4);
+    this.maxDate.setDate(this.maxDate.getDate() + 0);
+    this.minDateDD = new Date();
+    this.maxDateDD = new Date();
+    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
@@ -209,7 +228,7 @@ export class ProspectusComponent implements OnInit {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [day, month, year].join('-');
+    return [year, month, day].join('-');
   }
   ngOnInit() {
     // console.log('cokieeeeeeeee name', this.ets.cookiename)
@@ -250,6 +269,10 @@ export class ProspectusComponent implements OnInit {
     if (this.isEditMode) {
 
 
+      this.tempdate = this.newddEntry.dDate;
+      this.todaydate = this.tempdate;
+      this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
+      this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
 
       this.newddEntry.prosvalue = true;
 
@@ -382,6 +405,10 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.feesItem = "Prospectus";
           this.newddEntry.enteredBy = this.ets.cookiename;
+          this.selecteddate =this.todaydate;
+         this.selecteddatee = this.todaydatee;
+         this.newddEntry.ddDate=this.formatDate(this.selecteddatee);
+         this.newddEntry.dDate =this.formatDate(this.selecteddate);
 
           this.newddentryTemp.ddDate = this.newddEntry.ddDate;
           this.newddentryTemp.ddNumber = this.newddEntry.ddNumber;
@@ -398,7 +425,8 @@ export class ProspectusComponent implements OnInit {
           this.newddEntry.isVerified = false;
           this.newddEntry.isddIdentered = false;
           this.newddEntry.isidVerified = false;
-          this.newddEntry.enteredBy = this.cookienametodb;
+          
+          // this.newddEntry.enteredBy = this.cookienametodb;
           //Fee without tax equation : ddamount /1.18
 
           let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;

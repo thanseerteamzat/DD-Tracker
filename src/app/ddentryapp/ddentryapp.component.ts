@@ -22,6 +22,20 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./ddentryapp.component.css']
 })
 export class DdentryappComponent implements OnInit {
+
+  tempdate;
+  minDate: Date;
+  maxDate: Date;
+  minDateDD: Date;
+  maxDateDD: Date;
+  todaydatee = new Date();
+  
+  todaydate = new Date();
+
+selecteddate;
+selecteddatee;
+
+
   code;
   tempcentercode;
   tempcenter;
@@ -71,8 +85,6 @@ export class DdentryappComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
   newddentryTemp: ddentryTemp = new ddentryTemp();
   newLastid: ddLastid = new ddLastid();
-  minDate: Date;
-  maxDate: Date;
   vtemp: string;
   split1: string;
   ddentries: ddEntry[] = [];
@@ -90,6 +102,18 @@ export class DdentryappComponent implements OnInit {
     private cookieservice: CookieService
 
   ) {
+
+
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 4);
+    this.maxDate.setDate(this.maxDate.getDate() + 0);
+
+
+    this.minDateDD = new Date();
+    this.maxDateDD = new Date();
+    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
@@ -256,7 +280,7 @@ export class DdentryappComponent implements OnInit {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [day, month, year].join('-');
+    return [year, month, day].join('-');
   }
 
   register(key, dlastid: ddLastid) {
@@ -397,6 +421,10 @@ export class DdentryappComponent implements OnInit {
           this.newddEntry.courseName = this.selectedcourse;
           this.newddEntry.studentName = this.selectedstudent;
          
+          this.selecteddate =this.todaydate;
+          this.selecteddatee=this.todaydatee;
+         this.newddEntry.dDate =this.formatDate(this.selecteddate);
+         this.newddEntry.ddDate =this.formatDate(this.selecteddatee);
 
           // let uniqueId = "/DD" + Common.newGuid();
           // this.newddEntry.dduId = uniqueId;
