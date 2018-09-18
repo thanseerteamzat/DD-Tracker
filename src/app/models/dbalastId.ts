@@ -1,4 +1,4 @@
 export class dbaLastid {
     id: string;
-    lastid: Number;
+    lastId: Number;
 }

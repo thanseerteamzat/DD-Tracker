@@ -8,6 +8,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
 import { dbaLastid } from '../models/dbalastId';
 import { dbaEntry } from '../models/dbaEntry';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-dba-no-entry',
@@ -72,15 +74,20 @@ export class DbaNoEntryComponent implements OnInit {
     dbaLastids: dbaLastid[] = [];
     newddLastId: dbaLastid = new dbaLastid();
     newdba: dbaEntry = new dbaEntry();
+    newdespatch: Despatch = new Despatch();
     typedtext;
     entered;
     count;
     tempentry;
+    checklisttotal;
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
-        private router: Router
+        private router: Router,
+        private fb: FormBuilder
     ) {
+        this.dbacreateForm();
+        this.resetform();
         let centerResponse = this.ets.centerList;
         //  Iterate throw all keys.
         for (let cent of centerResponse) {
@@ -117,7 +124,7 @@ export class DbaNoEntryComponent implements OnInit {
                 }
 
                 ddListItem.despatchList = qobj;
-                this.newdba = dobj;
+                // this.newdespatch = qobj;
                 // this.newdba = qobj;
                 let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
 
@@ -144,30 +151,41 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newddLastId = obj;
                 this.dbaLastids.push(obj as dbaLastid);
                 console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaLastids)
-                this.count = obj.lastid;
+                this.count = obj.lastId;
 
 
             });
         });
 
     }
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [day, month, year].join('-');
+    }
 
     ngOnInit() {
 
+        this.resetform();
 
 
+        if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
 
-
-        // }
+        }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
-        console.log('cookiename****', this.newdba.enteredBy)
+        console.log('cookiename****', this.entered)
     }
     filterCenter(key) {
 
@@ -344,14 +362,17 @@ export class DbaNoEntryComponent implements OnInit {
 
     onchange(event, temp, despatch: Despatch) {
 
-        if (event.length > 0) {
+        if (event == true) {
 
             this.desplist.push(despatch);
+            // this.checklisttotal = this.desplist.length;
 
         }
         else {
 
             this.desplist.pop();
+            // this.checklisttotal = this.desplist.length;
+
 
         }
         console.log('data****', this.desplist)
@@ -361,19 +382,18 @@ export class DbaNoEntryComponent implements OnInit {
     register(lastid) {
 
 
+        console.log('lastid***', lastid)
         try {
             for (let i = 0; i < this.desplist.length; i++) {
                 this.tempentry = this.desplist[i];
 
 
-                // this.tempentry.dbaNo =
-                //   this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-                //   this.tempentry.isdespatchEntered = true;
-                // this.tempentry.despId = key;
+
                 var updates = {};
-                this.tempentry.dbaNo = this.newdba.dbaNo;
+                this.tempentry.dbaNo = this.newdespatch.dbaNo;
+                this.tempentry.dbaDate = this.formatDate(this.newdespatch.dbaDate);
                 this.tempentry.isdbaEntered = true;
-                updates['/Despatch/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+                updates['/Despatch/' + this.tempentry.despId] = JSON.stringify(this.tempentry);
                 try {
 
                     let up = this.db.database.ref().update(updates);
@@ -385,17 +405,48 @@ export class DbaNoEntryComponent implements OnInit {
 
                 var counter = parseInt(this.count) + 1;
                 var updates = {};
-                this.newddLastId.lastid = counter;
-                updates['/dbaLastId/' + this.newddLastId.lastid] = JSON.stringify(this.newddLastId);
+                this.newddLastId.lastId = counter;
+                updates['/dbaLastId/' + lastid] = JSON.stringify(this.newddLastId);
                 let up = this.db.database.ref().update(updates);
 
+                this.newdba.dbaId = counter.toString();
+                this.newdba.dbaNo = this.newdespatch.dbaNo;
+                this.newdba.dbaDate = this.formatDate(this.newdespatch.dbaDate);
+                this.newdba.centerId = this.tempentry.centerId;
+                this.newdba.centerCode = this.tempentry.centerCode;
+                this.newdba.despatchNo = this.tempentry.despatchNo;
+                this.Months.forEach(element => {
+
+                    if (element.id == (this.tempentry.despatchDate.slice(3, -5))) {
+                        this.newdba.despatchMonth = element.name + '-' + this.tempentry.despatchDate.slice(8);
+                    }
+                });
+                this.desplist.forEach(element => {
+                    this.newdba.feesItem = element.feeItem;
+                }
+                )
+                // this.newdba.despatchMonth = this.tempentry.;
+                this.newdba.despatchDate = this.tempentry.despatchDate;
+                this.newdba.despatchAmount = this.tempentry.totalAmount;
+                this.newdba.tax = this.tempentry.taxAmount;
+                this.newdba.fwt = this.tempentry.FWT;
+                this.newdba.stkAmount = this.tempentry.Amount;
+                this.newdba.stkRate = this.tempentry.Rate;
+                this.newdba.isdbaEntered = true;
 
 
 
+                let dbaEntryJson = JSON.stringify(this.newdba);
+                console.log(dbaEntryJson);
+                try {
+                    this.db.database.ref('dbaEntry').child(this.newdba.dbaId).set(dbaEntryJson);
+                    // alert("DD Entry added successfully!!.");
+                    // this.router.navigate(['/dd-entry']);
+                }
+                catch (ex) {
 
-
+                }
             }
-
         }
         catch (e) {
 
@@ -403,6 +454,43 @@ export class DbaNoEntryComponent implements OnInit {
 
         }
 
-    }
+        alert('dba Added :' + this.newdba.dbaNo);
+        this.router.navigate(['/dba-no-entry']);
+        this.selectedData = null;
+        this.taxttotal1 = 0;
+        this.total1 = 0;
+        this.feewTotal1 = 0;
+        this.resetform();
+        for (let i = 0; i <= this.desplist.length; i++) {
+            this.desplist.splice(i, this.desplist.length);
+        }
 
+    }
+    //validation
+    dbaForm = new FormGroup(
+        {
+            dbaNum: new FormControl(),
+            dbaDate: new FormControl()
+        }
+    );
+    dbacreateForm() {
+        this.dbaForm = this.fb.group(
+            {
+                dbaNum: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
+
+                dbaDate: [null, Validators.required]
+            }
+        )
+    };
+    get dbaNum() { return this.dbaForm.get('dbaNum'); }
+    get dbaDate() { return this.dbaForm.get('dbaDate'); }
+
+    resetform() {
+        this.dbaForm.reset(
+            {
+                dbaNum: null,
+                dbaDate: null
+            }
+        )
+    }
 }

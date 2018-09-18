@@ -5,17 +5,6 @@
         <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
 
-            <!-- <div class="form-group col-md-3">
-
-            <label>Filter with Despatch No : </label>&nbsp;
-            <select [(ngModel)]="selectedDespatch" class="form-control" name="selectedDespatch" (change)="filterDespatch(selectedDespatch)">
-                <option value="">--Choose--</option>
-                <ng-container *ngFor="let ddenter of selectedDatatemp">
-                    <option>{{ddenter.despatchList?.despatchNo}}</option>
-                </ng-container>
-
-            </select>
-        </div> -->
             <div class="form-group col-md-3">
 
                 <label>Filter with Month : </label>&nbsp;
@@ -70,44 +59,44 @@
         </div>
         <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
-            <div class="form-group col-md-3" >
+            <div class="form-group col-md-3" [formGroup]="dbaForm">
 
-                <label>Note : Select DD's and Enter Dba No here </label>&nbsp;
-                <input type="text" [(ngModel)]="newdba.dbaNo" class="form-control" >
-                <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
-                    <div *ngIf="despatchNo.errors.required">
-                        Despatch No is Required
+                <label>Note : Select and Enter Dba No here </label>&nbsp;
+                <input type="text" [(ngModel)]="newdespatch.dbaNo" name="dbaNo" class="form-control" formControlName="dbaNum">
+                <div *ngIf="dbaNum.invalid && (dbaNum.dirty || dbaNum.touched)" class="alert-danger">
+                    <div *ngIf="dbaNum.errors.required">
+                        Dba No is Required
                     </div>
-                    <div *ngIf="despatchNo.errors.pattern">
+                    <div *ngIf="dbaNum.errors.pattern">
                         Please enter valid input(number)
                     </div>
-                </div> -->
+                </div>
             </div>
-            <div class="form-group col-md-3" >
+            <div class="form-group col-md-3" [formGroup]="dbaForm">
 
-                <label>Despatch Date</label>&nbsp;
-                <input type="date" [(ngModel)]="newdba.dbaDate" class="form-control" >
-                <!-- <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
-                    <div *ngIf="despatchdate.errors.required">
+                <label>Dba Date</label>&nbsp;
+                <input type="date" [(ngModel)]="newdespatch.dbaDate" name="dbaDate" class="form-control" formControlName="dbaDate">
+                <div *ngIf="dbaDate.invalid && (dbaDate.dirty || dbaDate.touched)" class="alert-danger">
+                    <div *ngIf="dbaDate.errors.required">
                         Please Select Date
                     </div>
 
-                </div> -->
+                </div>
             </div>
 
 
 
-            <div class="form-group col-md-3" >
+            <div class="form-group col-md-3">
 
                 <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> --><br>
-                <button type="submit" class="btn btn-primary"  (click)=" register(lstid.id)">Submit</button>
+                <button type="submit" class="btn btn-primary" (click)=" register(lstid.id)">Submit</button>
             </div>
-            <div class="form-group col-md-3">
+            <!-- <div class="form-group col-md-3">
                 <label>Count:</label>
 
-                <!-- <span style="color: red;padding-left: 20px">{{checklisttotal}}</span> -->
+                <span style="color: red;padding-left: 20px">{{checklisttotal}}</span>
 
-            </div>
+            </div> -->
         </div>
 
         <div style="padding-top: 50px;">
@@ -118,6 +107,7 @@
                     <tr>
 
                         <!-- <th>Month</th> -->
+                        <th>Desp.Sl.No</th>
                         <th>Centre Name</th>
 
 
@@ -139,9 +129,10 @@
                 <tbody>
                     <ng-container *ngFor="let ddenter of selectedData;let lstid of dbaLastids">
                         <tr>
-                        <tr>
+                        <tr *ngIf="ddenter.despatchList?.isdespatchEntered  == true && ddenter.despatchList?.isdbaEntered == null">
 
                             <!-- <td>{{(ddenter.despatchList?.despatchDate).slice(3)}}</td> -->
+                            <th>{{ddenter.despatchList?.despId}}</th>
                             <td>{{ddenter.center?.CenterName}}</td>
 
                             <td>{{ddenter.despatchList?.despatchNo}}</td>
@@ -157,7 +148,7 @@
 
                     </ng-container>
                     <tr>
-                        <td colspan="4" style="text-align: right">Total</td>
+                        <td colspan="5" style="text-align: right">Total</td>
                         <td>
                             {{total1}}
                         </td>
@@ -165,7 +156,7 @@
                         <td>{{feewTotal1}}</td>
                         <td></td>
                         <td></td>
-                        <td> <button type="submit" (click)="register(lstid.id)" class="btn btn-primary">Submit</button></td>
+
                     </tr>
                 </tbody>
 
