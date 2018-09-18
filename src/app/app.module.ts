@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     HttpClientModule,
     MatDatepickerModule,
+    BsDatepickerModule.forRoot(),
     BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,

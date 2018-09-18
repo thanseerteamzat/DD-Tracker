@@ -21,6 +21,12 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./dd-entry.component.css']
 })
 export class DdEntryComponent implements OnInit {
+tempdate;
+  minDate: Date;
+  maxDate: Date;
+  todaydate = new Date();
+
+selecteddate;
   tempcenter;
   tempcentercode;
   //api url and center variable
@@ -65,8 +71,6 @@ export class DdEntryComponent implements OnInit {
   newddEntry: ddEntry = new ddEntry();
   newddentryTemp: ddentryTemp = new ddentryTemp();
   newLastid: ddLastid = new ddLastid();
-  minDate: Date;
-  maxDate: Date;
   vtemp: string;
   split1: string;
   ddentries: ddEntry[] = [];
@@ -84,10 +88,15 @@ export class DdEntryComponent implements OnInit {
     private cookieservice: CookieService
 
   ) {
+    // console.log('new *********************************',this.newddEntry.dDate);
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 4);
+    this.maxDate.setDate(this.maxDate.getDate() + 0);
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
-
+  //  console.log('id***********************',id)
     let itemReff = db.object('ddEntry');
     itemReff.snapshotChanges().subscribe(action => {
       this.ddLists = [];
@@ -212,9 +221,10 @@ export class DdEntryComponent implements OnInit {
 
 
   ngOnInit() {
+ 
 
     // console.log('***********************',ddList)
-
+    
     console.log('cokieeeeeeeee name..', this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
 
@@ -222,7 +232,7 @@ export class DdEntryComponent implements OnInit {
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      this.router.navigate(['/error']);
+      // this.router.navigate(['/error']);
     }
 
     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
@@ -243,14 +253,19 @@ export class DdEntryComponent implements OnInit {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [day, month, year].join('-');
+    return [year, month, day].join('-');
   }
 
   register(key, dlastid: ddLastid) {
-
+    
+    console.log('selected date', this.selecteddate);
     this.newddEntry.entryPros = false;
 
     if (this.isEditMode) {
+      console.log('editedit',this.newddEntry.dDate)
+      this.tempdate = this.newddentry.dDate;
+      this.todaydate = this.tempdate;
+      this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
       this.newddEntry.prosvalue = false;
       var ddreferno = this.newddEntry.ddNumber;
       var ddreferdate = this.newddEntry.ddDate;
@@ -268,6 +283,7 @@ export class DdEntryComponent implements OnInit {
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
+         
 
           //Fee without tax equation : ddamount /1.18
 
@@ -319,7 +335,7 @@ export class DdEntryComponent implements OnInit {
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-
+         
           //Fee without tax equation : ddamount /1.18
 
           let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
@@ -357,7 +373,7 @@ export class DdEntryComponent implements OnInit {
 
     else {
 
-      
+      console.log('date**********************************',this.todaydate);      
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
@@ -385,6 +401,9 @@ export class DdEntryComponent implements OnInit {
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
+          this.selecteddate =this.todaydate;
+
+         this.newddEntry.dDate =this.formatDate(this.selecteddate);
           // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
           // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
@@ -440,7 +459,7 @@ export class DdEntryComponent implements OnInit {
         this.newddEntry.ddlastId = counter.toString();
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
-
+        this.newddEntry.ddDate = this.formatDate(this.selecteddate);
 
         // let uniqueId = "/DD" + Common.newGuid();
         // this.newddEntry.dduId = uniqueId;
