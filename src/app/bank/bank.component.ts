@@ -7,6 +7,7 @@ import { desptchLastid } from '../models/despatchlastId';
 import { ddEntry } from '../models/ddEntry';
 import { element } from 'protractor';
 import { Despatch } from '../models/despatch';
+import { dbaLastid } from '../models/dbalastId';
 
 
 @Component({
@@ -16,25 +17,25 @@ import { Despatch } from '../models/despatch';
 })
 export class BankComponent implements OnInit {
 
-  newddLastid: desptchLastid = new desptchLastid();
-  order: string;
-  ddLastids: ddEntry[] = [];
+  // newddLastid: dbaLastid = new dbaLastid();
+  // order: string;
+  // ddLastids: Despatch[] = [];
 
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {
 
-    let itemRef = db.object('ddEntry');
-    itemRef.snapshotChanges().subscribe(action => {
-      var quatationsList = action.payload.val();
-      let obj = Common.snapshotToArray(action.payload);
-      this.ddLastids = [];
-      obj.forEach(element => {
-        let obj: ddEntry = JSON.parse(element);
-        // this.newddLastId = obj;
-        this.ddLastids.push(obj);
+    // let itemRef = db.object('Despatch');
+    // itemRef.snapshotChanges().subscribe(action => {
+    //   var quatationsList = action.payload.val();
+    //   let obj = Common.snapshotToArray(action.payload);
+    //   this.ddLastids = [];
+    //   obj.forEach(element => {
+    //     let obj: Despatch = JSON.parse(element);
+    //     // this.newddLastId = obj;
+    //     this.ddLastids.push(obj);
 
 
-      });
-    });
+    //   });
+    // });
 
   }
 
@@ -74,6 +75,67 @@ export class BankComponent implements OnInit {
     //code for 
     // this.ddLastids.forEach(element => {
 
+    //   if (element.feeItem == "Course Fee") {
+    //     element.Rate = 65;
+
+    //     let rate = (parseFloat(element.FWT.toString()) * parseFloat(element.Rate.toString())) / 100;
+    //     let frate = rate.toFixed(2);
+
+    //     var updates = {}
+    //     element.Amount = parseFloat(frate);
+    //     updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //     try {
+
+    //       let up = this.db.database.ref().update(updates);
+
+    //     }
+    //     catch (e) {
+
+    //     } console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //   }
+    //   else if (element.feeItem == "Inspection") {
+    //     element.Rate = 60;
+
+    //     let rate = (parseFloat(element.FWT.toString()) * 65) / 100;
+    //     let frate = rate.toFixed(2);
+
+    //     var updates = {}
+    //     element.Amount = parseFloat(frate);
+
+    //     updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //     try {
+
+    //       let up = this.db.database.ref().update(updates);
+
+    //     }
+    //     catch (e) {
+
+    //     } console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //   }
+    //   else{
+    //     element.Rate = 80;
+
+    //     let rate = (parseFloat(element.FWT.toString()) * 65) / 100;
+    //     let frate = rate.toFixed(2);
+
+    //     var updates = {}
+    //     element.Amount = parseFloat(frate);
+
+    //     updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //     try {
+
+    //       let up = this.db.database.ref().update(updates);
+
+    //     }
+    //     catch (e) {
+
+    //     }
+    //     console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //   }
+
+    // })
+
+
     //   // let total = parseFloat(element.Amount) / 1.18;
     //   // let total1 = total.toFixed(2);
     //   let total = parseFloat(element.Amount) - parseFloat(element.feeWT);
@@ -98,13 +160,13 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
     // let uniqueId = "/DD" + Common.newGuid();
-    // this.newddLastid.Id = uniqueId;
+    // this.newddLastid.id = uniqueId;
 
 
     // let ddEntryJson = JSON.stringify(this.newddLastid);
     // console.log(ddEntryJson);
     // try {
-    //   this.db.database.ref('despatchLastId').child(uniqueId).set(ddEntryJson);
+    //   this.db.database.ref('dbaLastId').child(uniqueId).set(ddEntryJson);
     //   alert("DD Entry added successfully!!.");
 
     // }

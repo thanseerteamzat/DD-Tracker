@@ -35,8 +35,8 @@
         <thead class="thead-dark">
           <tr>
 
-
-            <th>DD.Sl.No:</th>
+            <th>Sl.No </th>
+            <th>DD.Sl.No</th>
             <!-- <th>Centre Name</th> -->
             <th>Student Name</th>
             <th>Application No:</th>
@@ -57,7 +57,7 @@
 
             <tr>
             <tr>
-
+              <td>{{selectedData.indexOf(ddenter) + 1}}</td>
               <td>{{ddenter.ddenter?.ddlastId}}</td>
               <!-- <td>{{ddenter.center?.CenterName}}</td> -->
               <td>{{ddenter.ddenter?.studentName}}</td>
@@ -79,7 +79,7 @@
 
           </ng-container>
           <tr>
-            <td colspan="6" style="text-align: right">Total</td>
+            <td colspan="7" style="text-align: right">Total</td>
             <td>
               {{totalTemp}}
             </td>

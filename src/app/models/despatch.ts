@@ -10,8 +10,11 @@ export class Despatch {
     totalAmount: Number; //total of dd's of despatch number of a center
     taxAmount: Number; // 18% tax from total amount
     FWT: Number //fee without tax
+    Amount: Number;
+    Rate: Number;
     enteredBy: string;
     isdespatchEntered: boolean;
+    dbaNo: string;
 
 
 }
@@ -23,4 +26,24 @@ export class despatchList {
 export class taxtemp {
     Id: string;
     taxamount: string;
+}
+export class despatchtemp {
+    despId: string
+    despatchNo: string; // unique id
+    despatchDate: string;
+    centerId: string;
+    centerCode: string;
+    feeItem: string;
+    totalAmount: Number; //total of dd's of despatch number of a center
+    taxAmount: Number; // 18% tax from total amount
+    FWT: Number //fee without tax
+    Amount: Number;
+    Rate: Number;
+    enteredBy: string;
+    isdespatchEntered: boolean;
+    dbaNo: string;
+}
+
+export class dbatemp {
+    dbano: string;
 }
