@@ -37,9 +37,20 @@
                     </ng-container>
 
                 </select>
+               
             </div>
 
+            <div class="form-group col-md-3">
 
+                <label>Filter DD's with Fee Type: </label>&nbsp;
+                <select [(ngModel)]="selectedFee" class="form-control" name="selectedFee" (change)="filterFee(selectedFee)">
+                    <option value="" [selected]="selectedFee !=0" disabled>--Choose--</option>
+                    <ng-container *ngFor="let s of feesItems">
+                        <option [ngValue]="s.name">{{s.name}}</option>
+                    </ng-container>
+
+                </select>
+            </div>
 
 
 

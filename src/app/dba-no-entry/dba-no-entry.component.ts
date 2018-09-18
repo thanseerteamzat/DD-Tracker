@@ -59,6 +59,15 @@ export class DbaNoEntryComponent implements OnInit {
         { id: '12', name: 'Dec' },
 
     ];
+    feesItems = [
+        { id: '1', name: 'Course Fee' },
+        { id: '2', name: 'Prospectus' },
+        { id: '3', name: 'Re exam' },
+        { id: '4', name: 'Renewal Fee' },
+        { id: '5', name: 'Affiliation' },
+        { id: '6', name: 'Inspection' },
+        { id: '7', name: 'Duplicate Certificate/Marklist' },
+      ];
     desplist: despatchtemp[] = [];
     dbaLastids: dbaLastid[] = [];
     newddLastId: dbaLastid = new dbaLastid();
@@ -148,14 +157,14 @@ export class DbaNoEntryComponent implements OnInit {
 
 
 
-        if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+        // if (this.ets.cookievalue == "3") {
+        //     // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //     this.router.navigate(['/error']);
 
 
-        }
+        // }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         console.log('cookiename****', this.newdba.enteredBy)
@@ -201,8 +210,18 @@ export class DbaNoEntryComponent implements OnInit {
         catch (e) {
             console.log('Exception..', e);
         }
+        this.selectedMonthtemp = this.selectedData;
 
 
+
+    }
+    filterFee(key) {
+        console.log('key....', key)
+        this.selectedData = this.selectedMonthtemp.filter(s => s.ddenter.feesItem == key)
+        // for (let i = 0; i <= this.checklist.length; i++) {
+        //   this.checklist.splice(i, this.checklist.length);
+        // }
+        // console.log('........', this.checklist);
 
     }
 
@@ -241,6 +260,9 @@ export class DbaNoEntryComponent implements OnInit {
 
 
     }
+
+
+    
 
     filterMonth(key) {
         this.selectedData = null;
@@ -293,11 +315,13 @@ export class DbaNoEntryComponent implements OnInit {
 
     }
 
+
+
     onchange(event, temp, despatch: Despatch) {
 
         if (event.length > 0) {
 
-            this.desplist.push(despatch );
+            this.desplist.push(despatch);
 
         }
         else {
