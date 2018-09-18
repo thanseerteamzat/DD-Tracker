@@ -26,6 +26,7 @@ export class DbaDetailsComponent implements OnInit {
   ftotal;
   samount;
   selectlisttotal;
+  selectedcenter
   constructor(
 
     private db: AngularFireDatabase,

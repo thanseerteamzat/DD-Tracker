@@ -249,7 +249,7 @@ selecteddatee;
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      // this.router.navigate(['/error']);
+       this.router.navigate(['/error']);
     }
 
     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
