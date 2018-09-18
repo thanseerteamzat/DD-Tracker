@@ -2,6 +2,7 @@ export class dbaEntry {
 
     dbaId: string;
     dbaNo: string;
+    dbaDate:string;
     centerId: string;
     centerCode: string;
     courseCode: string;
