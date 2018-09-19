@@ -469,6 +469,7 @@ export class DbaNoEntryComponent implements OnInit {
                         let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
                         this.newInvoice.shareAmount = tot.toFixed(2);
                     }
+                    
                 })
                 this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
                 let invoiceEntryJson = JSON.stringify(this.newInvoice);
