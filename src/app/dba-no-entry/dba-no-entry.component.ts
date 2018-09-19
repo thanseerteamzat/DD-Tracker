@@ -10,6 +10,7 @@ import { dbaLastid } from '../models/dbalastId';
 import { dbaEntry } from '../models/dbaEntry';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { element } from 'protractor';
+import { Invoice } from '../models/invoice ';
 
 @Component({
     selector: 'app-dba-no-entry',
@@ -75,6 +76,7 @@ export class DbaNoEntryComponent implements OnInit {
     newddLastId: dbaLastid = new dbaLastid();
     newdba: dbaEntry = new dbaEntry();
     newdespatch: Despatch = new Despatch();
+    newInvoice: Invoice = new Invoice();
     typedtext;
     entered;
     count;
@@ -222,16 +224,17 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+        // if (this.ets.cookievalue == "3") {
+        //     // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //     this.router.navigate(['/error']);
 
 
-        }
+        // }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
+        this.newInvoice.enteredby = this.entered;
         console.log('cookiename****', this.entered)
     }
 
@@ -445,6 +448,38 @@ export class DbaNoEntryComponent implements OnInit {
                 catch (ex) {
 
                 }
+
+                //code for saving to invoice
+
+                this.newInvoice.invoiceId = counter.toString();
+                this.newInvoice.dbaNo = this.newdba.dbaNo;
+                this.newInvoice.CourseCode = this.newdba.courseCode;
+                this.newInvoice.CenterCode = this.newdba.centerCode;
+                this.newInvoice.CenterId = this.newdba.centerId;
+                this.newInvoice.dbaAmount = this.newdba.despatchAmount;
+                this.newInvoice.feeAmount = this.newdba.fwt;
+                this.desplist.forEach(element => {
+                    if (element.feeItem == 'Course Fee') {
+                        this.newInvoice.share = 0.15;
+                        let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
+                        this.newInvoice.shareAmount = tot.toFixed(2);
+                    }
+                    else if (element.feeItem == 'Prospectus') {
+                        this.newInvoice.share = 0.80;
+                        let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
+                        this.newInvoice.shareAmount = tot.toFixed(2);
+                    }
+                })
+                this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
+                let invoiceEntryJson = JSON.stringify(this.newInvoice);
+                console.log(invoiceEntryJson);
+                try {
+                    this.db.database.ref('invoice').child(this.newdba.dbaId).set(invoiceEntryJson);
+                }
+                catch (ex) {
+
+                }
+
             }
         }
         catch (e) {

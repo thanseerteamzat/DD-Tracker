@@ -41,6 +41,7 @@ import { DdentryProsDetailsComponent } from './ddentry-pros-details/ddentry-pros
 import { DdentryappComponent } from './ddentryapp/ddentryapp.component';
 import { DespStudListComponent } from './desp-stud-list/desp-stud-list.component';
 import { DbaDetailsComponent } from './dba-details/dba-details.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
   { path: 'despatchno-list', component: DespatchnoListComponent },
   { path: 'ddentrypros-details/:ddlastId', component: DdentryProsDetailsComponent },
   { path: 'despstudlist', component: DespStudListComponent },
-  { path: 'dba-details', component: DbaDetailsComponent }
+  { path: 'dba-details', component: DbaDetailsComponent },
+  { path: 'invoice', component: InvoiceComponent }
 ];
 
 
@@ -92,7 +94,8 @@ const appRoutes: Routes = [
     DdentryProsDetailsComponent,
     DdentryappComponent,
     DespStudListComponent,
-    DbaDetailsComponent
+    DbaDetailsComponent,
+    InvoiceComponent
   ],
   imports: [
     FormsModule,
