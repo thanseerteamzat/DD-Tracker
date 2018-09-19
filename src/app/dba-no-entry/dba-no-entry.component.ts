@@ -224,14 +224,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
+        if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
 
 
-        // }
+        }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         this.newInvoice.enteredby = this.entered;
@@ -469,7 +469,7 @@ export class DbaNoEntryComponent implements OnInit {
                         let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
                         this.newInvoice.shareAmount = tot.toFixed(2);
                     }
-                    
+
                 })
                 this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
                 let invoiceEntryJson = JSON.stringify(this.newInvoice);

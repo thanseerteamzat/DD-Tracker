@@ -147,6 +147,14 @@ export class InvoiceComponent implements OnInit {
 
 
   ngOnInit() {
+     if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
+
+
+        }
   }
   filterFee(key) {
     this.selectedfee = key;
