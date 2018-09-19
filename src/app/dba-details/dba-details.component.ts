@@ -29,6 +29,9 @@ export class DbaDetailsComponent implements OnInit {
   selectedcenter;
   selectmonth;
   selectedfee;
+  selectedFee;
+  selectedMonth;
+  selectedCenter;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
