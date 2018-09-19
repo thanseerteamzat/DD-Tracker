@@ -35,6 +35,10 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district='+ district)
   }
 
+  GetddfromTtc = () : Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC+'payment.php')
+
+  }
   getCookie(cookievalue) {
     return this.cookieService.get(cookievalue);
 

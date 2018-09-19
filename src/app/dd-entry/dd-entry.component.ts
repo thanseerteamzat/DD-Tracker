@@ -21,9 +21,10 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./dd-entry.component.css']
 })
 export class DdEntryComponent implements OnInit {
-tempdate;
-tempcheck;
-minDate: Date;
+  tempdate;
+  tempcheck;
+  tempapplist;
+  minDate: Date;
   bsValue = new Date();
 
   minDateDD: Date;
@@ -32,8 +33,8 @@ minDate: Date;
   maxDate: Date;
   todaydate = new Date();
   todaydatee = new Date();
-selecteddate;
-selecteddatee;
+  selecteddate;
+  selecteddatee;
   tempcenter;
   tempcentercode;
   //api url and center variable
@@ -104,16 +105,16 @@ selecteddatee;
 
     this.minDate.setDate(this.minDate.getDate() - 4);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
-    
+
     this.minDateDD.setDate(this.minDateDD.getDate() - 50);
     this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
-  // this.tempcheck = new Date ;  
-  // this.newddEntry.ddDate = this.tempcheck;
-  // console.log(this.newddEntry.ddDate,'********************************CHECK')
+    // this.tempcheck = new Date ;  
+    // this.newddEntry.ddDate = this.tempcheck;
+    // console.log(this.newddEntry.ddDate,'********************************CHECK')
     this.ddcreateForm();
 
     let id = this.route.snapshot.paramMap.get('ddlastId');
-  //  console.log('id***********************',id)
+    //  console.log('id***********************',id)
     let itemReff = db.object('ddEntry');
     itemReff.snapshotChanges().subscribe(action => {
       this.ddLists = [];
@@ -227,7 +228,7 @@ selecteddatee;
     let dddate = new Date();
     this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
     this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
-    
+
 
   }
 
@@ -238,10 +239,10 @@ selecteddatee;
 
 
   ngOnInit() {
- 
+
 
     // console.log('***********************',ddList)
-    
+
     console.log('cokieeeeeeeee name..', this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
 
@@ -249,7 +250,7 @@ selecteddatee;
       // this.router.navigate(['/dd-entry'])
     }
     else {
-       this.router.navigate(['/error']);
+      this.router.navigate(['/error']);
     }
 
     console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
@@ -273,13 +274,38 @@ selecteddatee;
     return [year, month, day].join('-');
   }
 
+
+
+  beforeregister(key, dlastid: ddLastid) {
+    var setflag;
+    try {
+          for (let i = 0; i <= this.ddLists.length; i++) {
+          this.tempapplist = this.ddLists[i];
+          if (this.tempapplist.ddenter.appNo == this.newddEntry.appNo) 
+          {
+             alert('Application number duplication');
+             break;
+             var a;
+             a = 1;
+          }
+        }
+      if (a == 1) {
+        this.register(key, dlastid);
+          }
+       }
+    catch (x) {
+    }
+  }
+
+
+  
   register(key, dlastid: ddLastid) {
-    
+
     console.log('selected date', this.selecteddate);
     this.newddEntry.entryPros = false;
 
     if (this.isEditMode) {
-      console.log('editedit',this.newddEntry.dDate)
+      console.log('editedit', this.newddEntry.dDate)
       this.tempdate = this.newddentry.dDate;
       this.todaydate = this.tempdate;
       this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
@@ -302,7 +328,7 @@ selecteddatee;
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-         
+
 
           //Fee without tax equation : ddamount /1.18
 
@@ -354,7 +380,7 @@ selecteddatee;
           var updates = {};
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-         
+
           //Fee without tax equation : ddamount /1.18
 
           let feewithoutTax = parseFloat(this.newddEntry.Amount) / 1.18;
@@ -392,7 +418,7 @@ selecteddatee;
 
     else {
 
-      console.log('date**********************************',this.todaydate);      
+      console.log('date**********************************', this.todaydate);
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;
@@ -420,12 +446,12 @@ selecteddatee;
           this.newddEntry.ddlastId = counter.toString();
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
-          this.selecteddate =this.todaydate;
+          this.selecteddate = this.todaydate;
           this.selecteddatee = this.todaydatee;
-          this.newddEntry.ddDate= this.formatDate(this.selecteddatee);
-         this.newddEntry.dDate =this.formatDate(this.selecteddate);
-    this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
-         
+          this.newddEntry.ddDate = this.formatDate(this.selecteddatee);
+          this.newddEntry.dDate = this.formatDate(this.selecteddate);
+          this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
+
           // this.newddEntry.ddDate = this.formatDate(this.newddEntry.ddDate);
           // this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
 
@@ -620,7 +646,7 @@ selecteddatee;
 
   callType(value) {
 
-    
+
     this.tempcentercode = null;
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
@@ -645,29 +671,29 @@ selecteddatee;
 
 
       let centerResponse = this.ets.centerList;
-    //  Iterate throw all keys.
-    for (let cent of centerResponse) {
+      //  Iterate throw all keys.
+      for (let cent of centerResponse) {
 
-      this.centerList.push(cent);
+        this.centerList.push(cent);
 
-    }
-
-    this.code = 'Code:';
-    try {
-
-      for (let i = 0; i <= this.centerList.length; i++) {
-        this.tempcenter = this.centerList[i];
-        if (this.tempcenter.Id == this.split1) {
-          this.tempcentercode = this.tempcenter.CenterCode;
-
-        }
       }
 
-    }
-    catch (e) {
+      this.code = 'Code:';
+      try {
 
-    }
-   
+        for (let i = 0; i <= this.centerList.length; i++) {
+          this.tempcenter = this.centerList[i];
+          if (this.tempcenter.Id == this.split1) {
+            this.tempcentercode = this.tempcenter.CenterCode;
+
+          }
+        }
+
+      }
+      catch (e) {
+
+      }
+
 
     }
 

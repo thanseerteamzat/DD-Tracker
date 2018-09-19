@@ -318,3 +318,6 @@ min-width: 400px;
 .but{
     color: white
 }
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button{
+    color: white!important;
+}
