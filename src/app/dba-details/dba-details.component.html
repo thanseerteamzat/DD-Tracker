@@ -28,8 +28,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter DD's with Centre Name : </label>&nbsp;
-      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)"
-        disabled>
+      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
         <ng-container *ngFor="let s of centers">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>
@@ -103,7 +102,7 @@
 
           </ng-container>
           <tr>
-            <td colspan="5" style="text-align: right">Total</td>
+            <td colspan="6" style="text-align: right">Total</td>
             <td>
               {{desptotal}}
             </td>

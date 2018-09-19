@@ -152,17 +152,28 @@ export class DbaDetailsComponent implements OnInit {
   filterFee(key) {
     this.selectedfee = key;
     this.selectedData = null;
-    if (this.selectmonth == null) {
+    if (this.selectmonth == null && this.selectedcenter == null) {
 
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
       this.selectData(this.selectedData)
     }
-    else {
+    else if (this.selectmonth == null) {
 
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
       console.log('with month filter******')
       this.selectData(this.selectedData)
 
+    }
+    else if (this.selectedcenter == null) {
+
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      console.log('with month filter******')
+      this.selectData(this.selectedData)
+
+    }
+    else {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
     }
   }
 
@@ -170,52 +181,58 @@ export class DbaDetailsComponent implements OnInit {
     this.selectmonth = key;
     this.selectedData = null;
 
-    if (this.selectedfee == null) {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+    if (this.selectedfee == null && this.selectedcenter == null) {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
       this.selectData(this.selectedData)
 
     }
-    else {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.feesItem == this.selectedfee)
+    else if (this.selectedfee == null) {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
+    else if (this.selectmonth == null) {
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
+
+    }
+    else {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
+    }
 
   }
 
-  // filterCenter(key) {
-
-  //   console.log('center****', key)
-  //   // this.temp = null
-  //   //  this.selectedData = null;
-
-  //   this.selectedData = this.dbaList.filter(s => s.center.Id == key);
-  //   this.selectlisttotal = this.selectedData.length;
-
-  //   // this.selectedDatatemp = this.selectedData;
-  //   console.log('data**********', this.selectedData)
-  //   try {
-  //     this.dtotal = 0;
-  //     this.ttotal = 0;
-  //     this.ftotal = 0;
-  //     this.samount = 0;
-  //     for (let i = 0; i < this.selectedData.length; i++) {
-  //       this.temp = this.selectedData[i];
-  //       this.dtotal = parseFloat(this.dtotal) + parseFloat(this.temp.dbaenter.despatchAmount);
-  //       this.desptotal = this.dtotal.toFixed(2);
-  //       this.ttotal = parseFloat(this.ttotal) + parseFloat(this.temp.dbaenter.tax);
-  //       this.taxtotal = this.ttotal.toFixed(2);
-  //       this.ftotal = parseFloat(this.ftotal) + parseFloat(this.temp.dbaenter.fwt);
-  //       this.fwtTotal = this.ftotal.toFixed(2);
-  //       this.samount = parseFloat(this.samount) + parseFloat(this.temp.dbaenter.stkAmount);
-  //       this.amountTotal = this.samount.toFixed(2);
-  //     }
-  //   }
-  //   catch (e) {
-
-  //   }
+  filterCenter(key) {
 
 
-  // }
+    this.selectedcenter = key;
+    this.selectedData = null;
+
+    if (this.selectedfee == null && this.selectmonth == null) {
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
+
+    }
+    else if (this.selectedfee == null) {
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
+
+    }
+    else if (this.selectmonth == null) {
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
+
+    }
+    else {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
+    }
+
+
+  }
 }

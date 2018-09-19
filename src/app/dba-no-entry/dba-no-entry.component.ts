@@ -190,9 +190,6 @@ export class DbaNoEntryComponent implements OnInit {
 
             for (let i = 0; i <= data.length; i++) {
                 var temp = data[i];
-                // console.log('tempvalue*****', temp)
-                // this.tempmonth = temp.despatchList.despatchDate;
-
                 this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
                 // console.log('tempvalue*****', temp)
                 this.total1 = this.total.toFixed(2);
@@ -238,15 +235,18 @@ export class DbaNoEntryComponent implements OnInit {
         this.selectedData = null;
         if (this.selectmonth == null) {
 
-            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee)
+            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
             this.selectData(this.selectedData)
+            console.log('data*/**', this.selectedData)
 
         }
         else {
 
-            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
             console.log('with month filter******')
             this.selectData(this.selectedData)
+            console.log('data*/**', this.selectedData)
+
         }
     }
 
@@ -255,12 +255,12 @@ export class DbaNoEntryComponent implements OnInit {
         this.selectedData = null;
 
         if (this.selectedfee == null) {
-            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
             this.selectData(this.selectedData)
 
         }
         else {
-            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.feeItem == this.selectedfee)
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
             console.log('with fee filter******')
             this.selectData(this.selectedData)
 
@@ -449,11 +449,9 @@ export class DbaNoEntryComponent implements OnInit {
         }
 
         alert('dba Added :' + this.newdba.dbaNo);
-        this.router.navigate(['/dba-no-entry']);
-        this.selectedData = null;
-        this.taxttotal1 = 0;
-        this.total1 = 0;
-        this.feewTotal1 = 0;
+        // this.router.navigate(['/dba-no-entry']);
+        // this.selectedData = null;
+
         this.resetform();
         for (let i = 0; i <= this.desplist.length; i++) {
             this.desplist.splice(i, this.desplist.length);
