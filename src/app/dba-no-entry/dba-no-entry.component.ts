@@ -82,6 +82,8 @@ export class DbaNoEntryComponent implements OnInit {
     checklisttotal;
     selectedfee;
     selectmonth;
+    totalamount;
+    tot;
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
@@ -183,7 +185,8 @@ export class DbaNoEntryComponent implements OnInit {
             this.feewTotal1 = 0;
             this.feewtTotal = 0;
             this.temprate = 0;
-
+            this.tot = 0;
+            this.totalamount = 0;
             for (let i = 0; i <= this.desplist.length; i++) {
                 this.desplist.splice(i, this.desplist.length);
             }
@@ -199,6 +202,8 @@ export class DbaNoEntryComponent implements OnInit {
                 this.taxttotal1 = this.taxtotal.toFixed(2);
                 this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
                 this.feewTotal1 = this.feewtTotal.toFixed(2);
+                this.tot = this.tot + parseFloat(temp.despatchList.Amount);
+                this.totalamount = this.tot.toFixed(2);
                 // console.log('loooop***', this.total)
 
 
@@ -217,14 +222,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
+        if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
 
 
-        // }
+        }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         console.log('cookiename****', this.entered)
