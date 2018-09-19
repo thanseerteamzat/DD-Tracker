@@ -64,7 +64,7 @@
                                        #dp="bsDatepicker"
                                        bsDatepicker
                                        
-                                       [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                                       [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }"
                                        [minDate]="minDate"
                                        [maxDate]="maxDate">
                                        
@@ -90,7 +90,7 @@
                                        #dp="bsDatepicker"
                                        bsDatepicker
                                      
-                                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }"
                                       >
                                        
                                        
@@ -307,8 +307,8 @@
                                 class="form-control"
                                        #dp="bsDatepicker"
                                        bsDatepicker
-                                       
-                                       [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                                       containerClass="theme-red"
+                                       [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}"
                                        [minDate]="minDateDD"
                                        [maxDate]="maxDateDD">
                                        
@@ -323,7 +323,7 @@
                     </div>
 
                     <div *ngIf='isEditMode' class="form-group col-md-3">
-                        <label for="date">Date</label>
+                        <label for="date">DD Date</label>
 
 
                         <div class="form-group">
@@ -334,7 +334,7 @@
                                        #dp="bsDatepicker"
                                        bsDatepicker
                                      
-                                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }"
                                       >
                                        
                                        
