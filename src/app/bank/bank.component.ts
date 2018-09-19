@@ -8,6 +8,9 @@ import { ddEntry } from '../models/ddEntry';
 import { element } from 'protractor';
 import { Despatch } from '../models/despatch';
 import { dbaLastid } from '../models/dbalastId';
+import { Dddetails } from '../models/dddetails';
+
+import { EtsService } from '../services/ets.service';
 
 
 @Component({
@@ -16,12 +19,12 @@ import { dbaLastid } from '../models/dbalastId';
   styleUrls: ['./bank.component.css']
 })
 export class BankComponent implements OnInit {
-
+  ddktc:Dddetails[];
   // newddLastid: dbaLastid = new dbaLastid();
   // order: string;
   // ddLastids: Despatch[] = [];
 
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {
+  constructor(private db: AngularFireDatabase, private route: ActivatedRoute ,private ets:EtsService) {
 
     // let itemRef = db.object('Despatch');
     // itemRef.snapshotChanges().subscribe(action => {
@@ -48,7 +51,17 @@ export class BankComponent implements OnInit {
     //   let password = params['password'];
     //   console.log(atob(userId), atob(password));
     //   console.log(btoa(userId), btoa(password));
-    // });
+    // });  let that = this;
+    let that=this;
+    this.ets.GetddfromTtc().subscribe(data => {
+      that.ddktc = data;
+     console.log(this.ddktc);
+      
+      // this.ets.centerList = this.centers;
+
+    },
+      error => console.log(error),
+      () => console.log('Get all complete'));
 
 
 
