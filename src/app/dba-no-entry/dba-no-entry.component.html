@@ -16,18 +16,7 @@
 
                 </select>
             </div>
-            <div class="form-group col-md-3">
-
-                <label>Filter DD's with Centre Name : </label>&nbsp;
-                <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
-                    <option value="" [selected]="" disabled>--Choose--</option>
-                    <ng-container *ngFor="let s of centers">
-                        <option [ngValue]="s.Id">{{s.CenterName}}</option>
-                    </ng-container>
-
-                </select>
-
-            </div>
+           
 
             <div class="form-group col-md-3">
 
@@ -39,6 +28,18 @@
                     </ng-container>
 
                 </select>
+            </div>
+            <div class="form-group col-md-3">
+
+                <label>Filter DD's with Centre Name : </label>&nbsp;
+                <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)" disabled>
+                    <option value="" [selected]="" disabled>--Choose--</option>
+                    <ng-container *ngFor="let s of centers">
+                        <option [ngValue]="s.Id">{{s.CenterName}}</option>
+                    </ng-container>
+
+                </select>
+
             </div>
 
 
@@ -109,10 +110,7 @@
                         <!-- <th>Month</th> -->
                         <th>Desp.Sl.No</th>
                         <th>Centre Name</th>
-
-
-
-                        <th>Despatch No</th>
+                       <th>Despatch No</th>
                         <th>Despatch Date</th>
                         <th>Fees Item</th>
                         <th>Total</th>

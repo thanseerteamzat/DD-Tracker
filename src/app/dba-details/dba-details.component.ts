@@ -26,7 +26,33 @@ export class DbaDetailsComponent implements OnInit {
   ftotal;
   samount;
   selectlisttotal;
-  selectedcenter
+  selectedcenter;
+  selectmonth;
+  selectedfee;
+  Months = [
+    { id: '01', name: 'Jan' },
+    { id: '02', name: 'Feb' },
+    { id: '03', name: 'Mar' },
+    { id: '04', name: 'Apr' },
+    { id: '05', name: 'May' },
+    { id: '06', name: 'Jun' },
+    { id: '07', name: 'Jul' },
+    { id: '08', name: 'Aug' },
+    { id: '09', name: 'Sep' },
+    { id: '10', name: 'Oct' },
+    { id: '11', name: 'Nov' },
+    { id: '12', name: 'Dec' },
+
+  ];
+  feesItems = [
+    { id: '1', name: 'Course Fee' },
+    { id: '2', name: 'Prospectus' },
+    { id: '3', name: 'Re exam' },
+    { id: '4', name: 'Renewal Fee' },
+    { id: '5', name: 'Affiliation' },
+    { id: '6', name: 'Inspection' },
+    { id: '7', name: 'Duplicate Certificate/Marklist' },
+  ];
   constructor(
 
     private db: AngularFireDatabase,
@@ -78,37 +104,22 @@ export class DbaDetailsComponent implements OnInit {
       });
     });
   }
+  selectData(data) {
 
-  ngOnInit() {
-
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-
-
-    }
-  }
-
-  filterCenter(key) {
-
-    console.log('center****', key)
-    // this.temp = null
-    //  this.selectedData = null;
-
-    this.selectedData = this.dbaList.filter(s => s.center.Id == key);
-    this.selectlisttotal = this.selectedData.length;
-
-    // this.selectedDatatemp = this.selectedData;
-    console.log('data**********', this.selectedData)
     try {
       this.dtotal = 0;
       this.ttotal = 0;
       this.ftotal = 0;
       this.samount = 0;
-      for (let i = 0; i < this.selectedData.length; i++) {
-        this.temp = this.selectedData[i];
+      this.desptotal = 0;
+      this.taxtotal = 0;
+      this.fwtTotal = 0;
+      this.amountTotal = 0;
+      this.selectlisttotal = data.length;
+
+      for (let i = 0; i < data.length; i++) {
+        this.temp = data[i];
+
         this.dtotal = parseFloat(this.dtotal) + parseFloat(this.temp.dbaenter.despatchAmount);
         this.desptotal = this.dtotal.toFixed(2);
         this.ttotal = parseFloat(this.ttotal) + parseFloat(this.temp.dbaenter.tax);
@@ -123,6 +134,88 @@ export class DbaDetailsComponent implements OnInit {
 
     }
 
+  }
+
+  ngOnInit() {
+
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+
+
+    // }
+  }
+
+
+  filterFee(key) {
+    this.selectedfee = key;
+    this.selectedData = null;
+    if (this.selectmonth == null) {
+
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee)
+      this.selectData(this.selectedData)
+    }
+    else {
+
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+      console.log('with month filter******')
+      this.selectData(this.selectedData)
+
+    }
+  }
+
+  filterMonth(key) {
+    this.selectmonth = key;
+    this.selectedData = null;
+
+    if (this.selectedfee == null) {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth)
+      this.selectData(this.selectedData)
+
+    }
+    else {
+      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.feesItem == this.selectedfee)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
+
+    }
 
   }
+
+  // filterCenter(key) {
+
+  //   console.log('center****', key)
+  //   // this.temp = null
+  //   //  this.selectedData = null;
+
+  //   this.selectedData = this.dbaList.filter(s => s.center.Id == key);
+  //   this.selectlisttotal = this.selectedData.length;
+
+  //   // this.selectedDatatemp = this.selectedData;
+  //   console.log('data**********', this.selectedData)
+  //   try {
+  //     this.dtotal = 0;
+  //     this.ttotal = 0;
+  //     this.ftotal = 0;
+  //     this.samount = 0;
+  //     for (let i = 0; i < this.selectedData.length; i++) {
+  //       this.temp = this.selectedData[i];
+  //       this.dtotal = parseFloat(this.dtotal) + parseFloat(this.temp.dbaenter.despatchAmount);
+  //       this.desptotal = this.dtotal.toFixed(2);
+  //       this.ttotal = parseFloat(this.ttotal) + parseFloat(this.temp.dbaenter.tax);
+  //       this.taxtotal = this.ttotal.toFixed(2);
+  //       this.ftotal = parseFloat(this.ftotal) + parseFloat(this.temp.dbaenter.fwt);
+  //       this.fwtTotal = this.ftotal.toFixed(2);
+  //       this.samount = parseFloat(this.samount) + parseFloat(this.temp.dbaenter.stkAmount);
+  //       this.amountTotal = this.samount.toFixed(2);
+  //     }
+  //   }
+  //   catch (e) {
+
+  //   }
+
+
+  // }
 }

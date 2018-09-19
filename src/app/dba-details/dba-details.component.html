@@ -1,18 +1,7 @@
 <div class="wrapper" style="margin-left: 50px">
-  <h2>DespatchNo Student List</h2>
+  <h2>DBA(Share Release Note) List</h2>
   <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
     <div class="form-group col-md-3">
-
-      <label>Filter DD's with Centre Name : </label>&nbsp;
-      <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
-        <option value="" [selected]="selectedcenter !=0" disabled>--Choose--</option>
-        <ng-container *ngFor="let s of centers">
-          <option [ngValue]="s.Id">{{s.CenterName}}</option>
-        </ng-container>
-
-      </select>
-    </div>
-    <!-- <div class="form-group col-md-3">
 
       <label>Filter with Month : </label>&nbsp;
       <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
@@ -22,8 +11,33 @@
         </ng-container>
 
       </select>
+    </div>
 
-    </div> -->
+
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Fee Type: </label>&nbsp;
+      <select [(ngModel)]="selectedFee" class="form-control" name="selectedFee" (change)="filterFee(selectedFee)">
+        <option value="" [selected]="selectedFee !=0" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of feesItems">
+          <option [ngValue]="s.name">{{s.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)"
+        disabled>
+        <option value="" [selected]="" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of centers">
+          <option [ngValue]="s.Id">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+
+    </div>
     <div class="form-group col-md-3">
       <label>Count:</label>
       <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
@@ -39,10 +53,11 @@
             <th>Month</th>
             <!-- <th>Centre Name</th> -->
             <th>Center Name</th>
+            <th>Fees Item</th>
+
             <!-- <th>Application No:</th> -->
             <th>Despatch No</th>
             <th>Despatch Date</th>
-            <!-- <th>Fees Item</th> -->
             <th>Despatch Amount</th>
             <th>Tax</th>
             <th>Fee Without Tax</th>
@@ -60,16 +75,17 @@
           <ng-container *ngFor="let ddenter of selectedData">
 
 
-            
+
             <tr>
               <td>{{selectedData.indexOf(ddenter) + 1}}</td>
               <td>{{ddenter.dbaenter?.despatchMonth}}</td>
               <!-- <td>{{ddenter.center?.CenterName}}</td> -->
               <td>{{ddenter.center?.CenterName}}</td>
+              <td>{{ddenter.dbaenter?.feesItem}}</td>
+
               <td>{{ddenter.dbaenter?.despatchNo}}</td>
               <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
               <td>{{ddenter.dbaenter?.despatchDate}}</td>
-              <!-- <td>{{ddenter.dbaenter?.feesItem}}</td> -->
               <td>{{ddenter.dbaenter?.despatchAmount}}</td>
               <td>{{ddenter.dbaenter?.tax}}</td>
               <td>{{ddenter.dbaenter?.fwt}}</td>
