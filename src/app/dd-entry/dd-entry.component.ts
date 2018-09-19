@@ -277,28 +277,39 @@ export class DdEntryComponent implements OnInit {
 
 
   beforeregister(key, dlastid: ddLastid) {
-    var setflag;
     try {
-          for (let i = 0; i <= this.ddLists.length; i++) {
-          this.tempapplist = this.ddLists[i];
-          if (this.tempapplist.ddenter.appNo == this.newddEntry.appNo) 
-          {
-             alert('Application number duplication');
-             break;
-             var a;
-             a = 1;
-          }
+      var applicationNoExists = false;
+      for (let i = 0; i <= this.ddLists.length; i++) {
+        this.tempapplist = this.ddLists[i];
+        if (this.tempapplist != null && this.tempapplist.ddenter.appNo == this.newddEntry.appNo) {
+          applicationNoExists = true;
+          break;
         }
-      if (a == 1) {
+      }
+      console.log('fdf', applicationNoExists);
+      //   if(applicationNoExists)
+      // {
+      //   console.log(applicationNoExists);
+      //   alert('Application number duplication');
+      // }
+      if (applicationNoExists === false) {
+        console.log(applicationNoExists);
         this.register(key, dlastid);
-          }
-       }
+      }
+      else{
+        alert('application number duplication')
+      }
+      // if (a != 1) {
+      //   this.register(key, dlastid);
+      //     }
+    }
     catch (x) {
+      console.log(x);
     }
   }
 
 
-  
+
   register(key, dlastid: ddLastid) {
 
     console.log('selected date', this.selecteddate);
