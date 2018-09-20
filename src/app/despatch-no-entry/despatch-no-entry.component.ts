@@ -88,7 +88,7 @@ export class DespatchNoEntryComponent implements OnInit {
         if (qobj.dduId != undefined) {
           qobj.dduId = qobj.dduId.replace("/", "");
         }
-        this.newddEntry = qobj;
+        // this.newddEntry = qobj;
         ddListItem.ddenter = qobj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
@@ -139,12 +139,12 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)

@@ -224,14 +224,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+        // if (this.ets.cookievalue == "3") {
+        //     // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //     this.router.navigate(['/error']);
 
 
-        }
+        // }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         this.newInvoice.enteredby = this.entered;
@@ -465,6 +465,17 @@ export class DbaNoEntryComponent implements OnInit {
                         this.newInvoice.shareAmount = tot.toFixed(2);
                     }
                     else if (element.feeItem == 'Prospectus') {
+                        this.newInvoice.share = 0.80;
+                        let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
+                        this.newInvoice.shareAmount = tot.toFixed(2);
+                    }
+
+                    else if (element.feeItem == 'Inspection') {
+                        this.newInvoice.share = 0.60;
+                        let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
+                        this.newInvoice.shareAmount = tot.toFixed(2);
+                    }
+                    else if (element.feeItem == 'Affilication' || element.feeItem == 'Renewal Fee') {
                         this.newInvoice.share = 0.80;
                         let tot = parseFloat(element.FWT.toString()) * parseFloat(this.newInvoice.share.toString());
                         this.newInvoice.shareAmount = tot.toFixed(2);
