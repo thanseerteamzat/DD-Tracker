@@ -458,6 +458,7 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newInvoice.CenterId = this.newdba.centerId;
                 this.newInvoice.dbaAmount = this.newdba.despatchAmount;
                 this.newInvoice.feeAmount = this.newdba.fwt;
+                this.newInvoice.despatchDate = this.newdba.despatchDate;
                 this.desplist.forEach(element => {
                     if (element.feeItem == 'Course Fee') {
                         this.newInvoice.share = 0.15;
