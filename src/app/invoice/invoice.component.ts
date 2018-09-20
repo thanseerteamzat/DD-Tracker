@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Common } from '../models/common';
 import { dbaList, dbaEntry } from '../models/dbaEntry';
 import { Center } from '../models/Center';
+import { invoiceList, Invoice } from '../models/invoice ';
 
 @Component({
   selector: 'app-invoice',
@@ -12,7 +13,7 @@ import { Center } from '../models/Center';
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent implements OnInit {
-  dbaList: dbaList[] = [];
+  invoiceList: invoiceList[] = [];
   centerList: Center[] = []
   selectedData;
   temp;
@@ -81,24 +82,24 @@ export class InvoiceComponent implements OnInit {
       () => console.log('Get all complete'));
 
 
-    let dlRef = db.object('dbaEntry');
+    let dlRef = db.object('invoice');
     dlRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
       let obj = Common.snapshotToArray(action.payload);
       // this.dbaList = [];
       obj.forEach(element => {
-        let ddListItem = new dbaList();
+        let ddListItem = new invoiceList();
 
-        let obj: dbaEntry = JSON.parse(element);
-        ddListItem.dbaenter = obj;
+        let obj: Invoice = JSON.parse(element);
+        ddListItem.invoiceenter = obj;
 
-        let centList = this.ets.centerList.filter(s => s.Id == (obj.centerId));
+        let centList = this.ets.centerList.filter(s => s.Id == (obj.CenterId));
         // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
-        this.dbaList.push(ddListItem);
-        console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
+        this.invoiceList.push(ddListItem);
+        console.log('aaaaaaaaaaaaaaaaaaaa', this.invoiceList)
 
 
 
@@ -147,39 +148,39 @@ export class InvoiceComponent implements OnInit {
 
 
   ngOnInit() {
-     if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-        }
+    // }
   }
   filterFee(key) {
     this.selectedfee = key;
     this.selectedData = null;
     if (this.selectmonth == null && this.selectedcenter == null) {
 
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
     }
     else if (this.selectmonth == null) {
 
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with month filter******')
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
 
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       console.log('with month filter******')
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
     }
   }
@@ -189,24 +190,24 @@ export class InvoiceComponent implements OnInit {
     this.selectedData = null;
 
     if (this.selectedfee == null && this.selectedcenter == null) {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else if (this.selectmonth == null) {
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
     }
 
@@ -219,24 +220,24 @@ export class InvoiceComponent implements OnInit {
     this.selectedData = null;
 
     if (this.selectedfee == null && this.selectmonth == null) {
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else if (this.selectmonth == null) {
-      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.dbaList.filter(s => ((s.dbaenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectedData = this.invoiceList.filter(s => ((s.invoiceenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
     }
 

@@ -1,3 +1,5 @@
+import { Center } from "./Center";
+
 export class Invoice {
 
     invoiceId: string;
@@ -7,9 +9,15 @@ export class Invoice {
     CenterCode: string;
     CenterId: string;
     dbaAmount: string;
+    despatchDate: string;
     feeAmount: string;
     share: Number;
     shareAmount: string;
-    isdbaEntered :boolean;
-    enteredby :string;
+    isdbaEntered: boolean;
+    enteredby: string;
+}
+
+export class invoiceList {
+    invoiceenter: Invoice = new Invoice();
+    center: Center = new Center();
 }
