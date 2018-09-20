@@ -416,7 +416,7 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newdba.dbaDate = this.formatDate(this.newdespatch.dbaDate);
                 this.newdba.centerId = this.tempentry.centerId;
                 this.newdba.centerCode = this.tempentry.centerCode;
-                this.newdba.despatchNo = this.tempentry.despatchNo;
+                // this.newdba.despatchNo = this.tempentry.despatchNo;
                 this.Months.forEach(element => {
 
                     if (element.id == (this.tempentry.despatchDate.slice(3, -5))) {
