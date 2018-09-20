@@ -43,9 +43,12 @@ export class DespStudListComponent implements OnInit {
     { id: '12', name: 'Dec' },
 
   ];
+  selectedCenter;
   tempsplit;
   selectedMonth;
   selectlisttotal;
+  selectmonth
+  selectedfee
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -103,23 +106,20 @@ export class DespStudListComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+
+    var date = '25-07-2018';
+    var slice = date.slice(3, -5);
+    console.log('slice data***', slice)
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
   }
-
-  filterCenter(key) {
-    this.temp = null
-    this.selectedData = null;
-
-    this.selectedData = this.ddLists.filter(s => s.center.Id == key && s.ddenter.despatchNo != null);
-    this.selectedDatatemp = this.selectedData;
-    console.log('data**********', this.selectedDatatemp)
+  selectData(data) {
     this.total = 0
     this.totalTemp = 0
     this.feeWtax = 0;
@@ -128,58 +128,63 @@ export class DespStudListComponent implements OnInit {
     this.taxTotal = 0;
     this.selectlisttotal = 0;
     try {
-      for (var i = 0; i <= this.selectedData.length; i++) {
-        var temp = this.selectedData[i];
-        this.selectlisttotal = this.selectedData.length;
+      for (var i = 0; i <= data.length; i++) {
+        var temp = data[i];
+        if (data.ddenter != null) {
+          this.selectlisttotal = data.length;
 
-        this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
-        this.totalTemp = this.total.toFixed(2);
-        this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
-        this.taxTotal = this.tax.toFixed(2);
-        this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
-        this.feeWTtemp = this.feeWtax.toFixed(2);
-
+          this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
+          this.totalTemp = this.total.toFixed(2);
+          this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
+          this.taxTotal = this.tax.toFixed(2);
+          this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
+          this.feeWTtemp = this.feeWtax.toFixed(2);
+        }
       }
     }
     catch (e) {
       console.log('Exception***', e)
     }
 
-
   }
 
   filterMonth(key) {
 
-    try {
-      this.selectedData = this.selectedDatatemp.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == key)
-      console.log('date', this.selectedData);
-      this.total = 0
-      this.totalTemp = 0
-      this.feeWtax = 0;
-      this.feeWTtemp = 0;
-      this.tax = 0;
-      this.taxTotal = 0;
-      this.selectlisttotal = 0;
-      for (var i = 0; i <= this.selectedData.length; i++) {
-        var temp = this.selectedData[i];
-        this.selectlisttotal = this.selectedData.length;
+    this.selectmonth = key;
+    this.selectedData = null;
+    console.log('dd list data***', this.ddLists)
 
-        this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
-        this.totalTemp = this.total.toFixed(2);
-        this.tax = this.tax + parseFloat(temp.ddenter.taxValue);
-        this.taxTotal = this.tax.toFixed(2);
-        this.feeWtax = this.feeWtax + parseFloat(temp.ddenter.feeWT);
-        this.feeWTtemp = this.feeWtax.toFixed(2);
+    if (this.selectedcenter == null) {
+      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.isdespatchEntered == true)
+      this.selectData(this.selectedData)
 
-      }
-    }
-    catch (e) {
-      console.log('Exception..', e)
     }
 
+    else {
+      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
+      this.selectData(this.selectedData)
+    }
 
 
 
   }
+  filterCenter(key) {
 
+
+    this.selectedcenter = key;
+    this.selectedData = null;
+
+    if (this.selectmonth == null) {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
+      this.selectData(this.selectedData)
+
+    }
+
+    else {
+      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
+      this.selectData(this.selectedData)
+    }
+
+
+  }
 }
