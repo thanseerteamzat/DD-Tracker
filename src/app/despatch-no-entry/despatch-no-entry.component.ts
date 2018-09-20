@@ -88,7 +88,7 @@ export class DespatchNoEntryComponent implements OnInit {
         if (qobj.dduId != undefined) {
           qobj.dduId = qobj.dduId.replace("/", "");
         }
-        this.newddEntry = qobj;
+        // this.newddEntry = qobj;
         ddListItem.ddenter = qobj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
