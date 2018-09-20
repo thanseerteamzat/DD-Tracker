@@ -181,7 +181,7 @@ export class BankComponent implements OnInit {
     console.log(ddEntryJson);
     try {
       this.db.database.ref('adjddlastId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!.");
+      alert("DD Entry added successfully!!..");
 
     }
     catch (ex) {
