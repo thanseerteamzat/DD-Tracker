@@ -11,7 +11,7 @@ import { adjdbaEntry } from '../models/adjlastid';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { element } from 'protractor';
 import { adjInvoice } from '../models/adjlastid';
-
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-adjdba-no-entry',
@@ -20,7 +20,6 @@ import { adjInvoice } from '../models/adjlastid';
 })
 export class AdjdbaNoEntryComponent implements OnInit {
 
-  
   selectedcenter;
   newddEntry: adjddEntry = new adjddEntry();
   ddLists: adjdespatchList[] = [];
@@ -87,6 +86,7 @@ export class AdjdbaNoEntryComponent implements OnInit {
   selectmonth;
   totalamount;
   tot;
+  elementdata;
   constructor(
       private db: AngularFireDatabase,
       private ets: EtsService,
@@ -157,7 +157,6 @@ export class AdjdbaNoEntryComponent implements OnInit {
               let obj: adjdbaLastid = JSON.parse(element);
               this.newddLastId = obj;
               this.dbaLastids.push(obj as adjdbaLastid);
-              console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaLastids)
               this.count = obj.lastId;
 
 
@@ -208,17 +207,12 @@ export class AdjdbaNoEntryComponent implements OnInit {
                   this.feewTotal1 = this.feewtTotal.toFixed(2);
                   this.tot = this.tot + parseFloat(temp.despatchList.Amount);
                   this.totalamount = this.tot.toFixed(2);
-                  // console.log('loooop***', this.total)
-
-
-
-                  // this.temp.push(this.selectedData[i]);
 
               }
           }
       }
       catch (e) {
-          // console.log('Exception..', e)
+          console.log('Exception..', e)
       }
 
   }
@@ -227,14 +221,14 @@ export class AdjdbaNoEntryComponent implements OnInit {
       this.resetform();
 
 
-      // if (this.ets.cookievalue == "3") {
-      //     // this.router.navigate(['/despatch-no-entry'])
-      // }
-      // else {
-      //     this.router.navigate(['/error']);
+      if (this.ets.cookievalue == "3") {
+          // this.router.navigate(['/despatch-no-entry'])
+      }
+      else {
+          this.router.navigate(['/error']);
 
 
-      // }
+      }
       this.entered = this.ets.cookiename;
       this.newdba.enteredBy = this.entered;
       this.newInvoice.enteredby = this.entered;
@@ -244,6 +238,9 @@ export class AdjdbaNoEntryComponent implements OnInit {
   filterFee(key) {
       this.selectedfee = key;
       this.selectedData = null;
+      for (let i = 0; i <= this.desplist.length; i++) {
+          this.desplist.splice(i, this.desplist.length);
+      }
       if (this.selectmonth == null && this.selectedcenter == null) {
 
           this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
@@ -252,19 +249,17 @@ export class AdjdbaNoEntryComponent implements OnInit {
       else if (this.selectmonth == null) {
 
           this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
-          console.log('with month filter******')
           this.selectData(this.selectedData)
 
       }
       else if (this.selectedcenter == null) {
 
-          this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
-          console.log('with month filter******')
+          this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
 
       }
       else {
-          this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+          this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
       }
   }
@@ -272,26 +267,27 @@ export class AdjdbaNoEntryComponent implements OnInit {
   filterMonth(key) {
       this.selectmonth = key;
       this.selectedData = null;
-
+      for (let i = 0; i <= this.desplist.length; i++) {
+          this.desplist.splice(i, this.desplist.length);
+      }
       if (this.selectedfee == null && this.selectedcenter == null) {
-          this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
+          this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
 
       }
       else if (this.selectedfee == null) {
-          this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
-          console.log('with fee filter******')
+          this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
 
       }
       else if (this.selectedcenter == null) {
-          this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
-          console.log('with fee filter******')
+          this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
 
       }
       else {
-          this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+          this.selectedData = this.ddLists.filter(
+              s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
       }
 
@@ -302,14 +298,16 @@ export class AdjdbaNoEntryComponent implements OnInit {
 
       this.selectedcenter = key;
       this.selectedData = null;
-
+      for (let i = 0; i <= this.desplist.length; i++) {
+          this.desplist.splice(i, this.desplist.length);
+      }
       if (this.selectedfee == null && this.selectmonth == null) {
           this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
 
       }
       else if (this.selectedfee == null) {
-          this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
+          this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
           console.log('with fee filter******')
           this.selectData(this.selectedData)
 
@@ -321,51 +319,20 @@ export class AdjdbaNoEntryComponent implements OnInit {
 
       }
       else {
-          this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+          this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
           this.selectData(this.selectedData)
       }
 
 
   }
 
-  filterDespatch(key) {
-      console.log('temp********', this.selectedDatatemp);
-
-      this.selectedData = this.ddLists.filter(s => s.despatchList.despatchNo == key);
-      console.log(this.selectedData);
-
-      this.taxtotal = 0;
-      this.taxttotal1 = 0;
-      this.total = 0;
-      this.total1 = 0;
-      this.feewTotal1 = 0;
-      this.feewtTotal = 0;
-      try {
-          for (let i = 0; i <= this.selectedData.length; i++) {
-              var temp = this.selectedData[i];
-              console.log('tempvalue*****', temp)
-              this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
-              this.total1 = this.total.toFixed(2);
-              this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
-              this.taxttotal1 = this.taxtotal.toFixed(2);
-              this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
-              this.feewTotal1 = this.feewtTotal.toFixed(2);
-              console.log('loooop***', this.total)
-
-              this.temp.push(this.selectedData[i]);
-
-          }
+  getMothFromDate(dateData) {
+      if (dateData != null) {
+          var month = dateData.toString().slice(3, -5)
+          // console.log('month**',month)
+          return month;
       }
-      catch (e) {
-          console.log('Exception..', e);
-      }
-      this.selectedMonthtemp = this.selectedData;
-
-
   }
-
-
-
 
 
 
@@ -375,13 +342,13 @@ export class AdjdbaNoEntryComponent implements OnInit {
       if (event == true) {
 
           this.desplist.push(despatch);
-          // this.checklisttotal = this.desplist.length;
+          this.checklisttotal = this.desplist.length;
 
       }
       else {
 
           this.desplist.pop();
-          // this.checklisttotal = this.desplist.length;
+          this.checklisttotal = this.desplist.length;
 
 
       }
@@ -436,6 +403,7 @@ export class AdjdbaNoEntryComponent implements OnInit {
               }
               )
               // this.newdba.despatchMonth = this.tempentry.;
+              this.newdba.despatchNo = this.tempentry.despatchNo;
               this.newdba.despatchDate = this.tempentry.despatchDate;
               this.newdba.despatchAmount = this.tempentry.totalAmount;
               this.newdba.tax = this.tempentry.taxAmount;
@@ -469,39 +437,81 @@ export class AdjdbaNoEntryComponent implements OnInit {
               this.newInvoice.despatchDate = this.newdba.despatchDate;
               this.newInvoice.feesItem = this.newdba.feesItem;
 
-              this.desplist.forEach(element => {
-                  if (element.feeItem == 'Course Fee') {
-                      this.newInvoice.share = 15;
-                      let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                      let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-                      this.newInvoice.shareAmount = tot.toFixed(2);
-                  }
-                  else if (element.feeItem == 'Prospectus') {
-                      this.newInvoice.share = 80;
-                      let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                      let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-                      this.newInvoice.shareAmount = tot.toFixed(2);
-                  }
+              // this.desplist.forEach(element => {
+              try {
+                  for (let i = 0; i <= this.desplist.length; i++) {
+                      this.elementdata = this.desplist[i];
+                      if (this.elementdata.Amount != 0) {
+                          if (this.elementdata.feeItem == 'Course Fee') {
+                              this.newInvoice.share = 15;
+                              let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                              let tot = parseFloat(this.elementdata.FWT.toString()) * parseFloat(percentage.toString());
+                              this.newInvoice.shareAmount = tot.toFixed(2);
+                          }
+                          else if (this.elementdata.feeItem == 'Prospectus') {
+                              this.newInvoice.share = 80;
+                              let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                              let tot = parseFloat(this.elementdata.FWT.toString()) * parseFloat(percentage.toString());
+                              this.newInvoice.shareAmount = tot.toFixed(2);
+                          }
 
-                  else if (element.feeItem == 'Inspection') {
-                      this.newInvoice.share = 60;
-                      let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                      let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-                      this.newInvoice.shareAmount = tot.toFixed(2);
-                  }
-                  else if (element.feeItem == 'Affilication' || element.feeItem == 'Renewal Fee') {
-                      this.newInvoice.share = 80;
-                      let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                      let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-                      this.newInvoice.shareAmount = tot.toFixed(2);
-                  }
+                          else if (this.elementdata.feeItem == 'Inspection') {
+                              this.newInvoice.share = 60;
+                              let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                              let tot = parseFloat(this.elementdata.FWT.toString()) * parseFloat(percentage.toString());
+                              this.newInvoice.shareAmount = tot.toFixed(2);
+                          }
+                          else if (this.elementdata.feeItem == 'Affilication' || this.elementdata.feeItem == 'Renewal Fee') {
+                              this.newInvoice.share = 80;
+                              let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                              let tot = parseFloat(this.elementdata.FWT.toString()) * parseFloat(percentage.toString());
+                              this.newInvoice.shareAmount = tot.toFixed(2);
+                          }
+                      }
+                      else {
+                          for (let i = 0; i <= this.desplist.length; i++) {
+                              this.elementdata = this.desplist[i];
+                              if (this.elementdata.feeItem == 'Course Fee') {
+                                  this.newInvoice.share = 0;
+                                  // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                                  // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                                  this.newInvoice.shareAmount = '0';
+                              }
+                              else if (this.elementdata.feeItem == 'Prospectus') {
+                                  this.newInvoice.share = 0;
+                                  // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                                  // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                                  this.newInvoice.shareAmount = '0';
+                              }
 
-              })
+                              else if (this.elementdata.feeItem == 'Inspection') {
+                                  this.newInvoice.share = 0;
+                                  // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                                  // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                                  this.newInvoice.shareAmount = '0';
+                              }
+                              else if (this.elementdata.feeItem == 'Affilication' || this.elementdata.feeItem == 'Renewal Fee') {
+                                  this.newInvoice.share = 0;
+                                  // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                                  // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                                  this.newInvoice.shareAmount = '0';
+                              }
+                          }
+                      }
+
+
+
+                  }
+              }
+              catch (e) {
+                  console.log('Exception', e)
+              }
+              // })
               this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
               let invoiceEntryJson = JSON.stringify(this.newInvoice);
               console.log(invoiceEntryJson);
               try {
-                  this.db.database.ref('invoice').child(this.newdba.dbaId).set(invoiceEntryJson);
+                  this.db.database.ref('adjinvoice').child(this.newdba.dbaId).set(invoiceEntryJson);
               }
               catch (ex) {
 
@@ -553,4 +563,3 @@ export class AdjdbaNoEntryComponent implements OnInit {
       )
   }
 }
-
