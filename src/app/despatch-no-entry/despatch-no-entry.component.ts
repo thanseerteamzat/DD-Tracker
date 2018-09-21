@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { element } from 'protractor';
 
 
 @Component({
@@ -179,7 +180,7 @@ export class DespatchNoEntryComponent implements OnInit {
     this.selectedcenter = key;
     this.selectedData = null;
     if (this.selectfee == null) {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null);
+      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
 
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
@@ -187,7 +188,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
     }
     else {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null)
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null)
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
@@ -202,7 +203,7 @@ export class DespatchNoEntryComponent implements OnInit {
     this.selectfee = key;
     this.selectedData = null;
     if (this.selectedcenter == null) {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null);
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
 
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
@@ -210,7 +211,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
     }
     else {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null)
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null)
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
@@ -302,7 +303,10 @@ export class DespatchNoEntryComponent implements OnInit {
             this.despatch.despId = counter.toString();
             this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
             this.despatch.despatchNo = despformat;
-            this.despatch.feeItem = this.tempentry.feeItem;
+            this.checklist.forEach(element => {
+              this.despatch.feeItem = element.feesItem;
+
+            });
             this.despatch.isdespatchEntered = true;
             this.despatch.totalAmount = this.ddtotal;
             this.despatch.taxAmount = parseFloat(taxfloat);
@@ -350,7 +354,10 @@ export class DespatchNoEntryComponent implements OnInit {
             this.despatch.despId = counter.toString();
             this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
             this.despatch.despatchNo = despformat;
-            this.despatch.feeItem = this.tempentry.feeItem;
+            this.checklist.forEach(element => {
+              this.despatch.feeItem = element.feesItem;
+
+            });
             this.despatch.isdespatchEntered = true;
             this.despatch.totalAmount = this.ddtotal;
             this.despatch.taxAmount = 0;
