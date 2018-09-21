@@ -182,3 +182,62 @@ export class adjdespatchtemp {
 export class adjdbatemp {
     dbano: string;
 }
+
+
+
+
+
+export class adjdbaEntry {
+
+    dbaId: string;
+    dbaNo: string;
+    dbaDate: string;
+    centerId: string;
+    centerCode: string;
+    courseCode: string;
+    feesItem: string;
+    despatchNo: string;
+    despatchMonth: string;
+    despatchDate: string;
+    despatchAmount: string;
+    tax: string;
+    fwt: string;
+    stkAmount: string;
+    stkRate: string;
+    enteredBy: string;
+    isdbaEntered: boolean;
+
+
+}
+
+export class adjdbaList {
+    dbaenter: adjdbaEntry = new adjdbaEntry();
+    center: Center = new Center();
+}
+
+export class adjdbaLastid {
+    id: string;
+    lastId: Number;
+}
+
+export class adjInvoice {
+
+    invoiceId: string;
+    dbaNo: string;
+    CourseCode: string;
+    feesItem: string;
+    CenterCode: string;
+    CenterId: string;
+    dbaAmount: string;
+    despatchDate: string;
+    feeAmount: string;
+    share: Number;
+    shareAmount: string;
+    isdbaEntered: boolean;
+    enteredby: string;
+}
+
+export class adjinvoiceList {
+    invoiceenter: adjInvoice = new adjInvoice();
+    center: Center = new Center();
+}

@@ -1,0 +1,169 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Adjustment DBA(Share Release Note)</h2>
+  <ng-container *ngFor="let lstid of dbaLastids">
+
+      <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+
+
+          <div class="form-group col-md-3">
+
+              <label>Filter with Month : </label>&nbsp;
+              <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+                <option value="">--Choose--</option>
+                <ng-container *ngFor="let month of Months">
+                  <option [ngValue]="month.id">{{month.name}}</option>
+                </ng-container>
+        
+              </select>
+            </div>
+         
+
+          <div class="form-group col-md-3">
+
+              <label>Filter DD's with Fee Type: </label>&nbsp;
+              <select [(ngModel)]="selectedFee" class="form-control" name="selectedFee" (change)="filterFee(selectedFee)">
+                  <option value="" [selected]="selectedFee !=0" disabled>--Choose--</option>
+                  <ng-container *ngFor="let s of feesItems">
+                      <option [ngValue]="s.name">{{s.name}}</option>
+                  </ng-container>
+
+              </select>
+          </div>
+          <div class="form-group col-md-3">
+
+              <label>Filter DD's with Centre Name : </label>&nbsp;
+              <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)" >
+                  <option value="" [selected]="" disabled>--Choose--</option>
+                  <ng-container *ngFor="let s of centers">
+                      <option [ngValue]="s.Id">{{s.CenterName}}</option>
+                  </ng-container>
+
+              </select>
+
+          </div>
+
+
+
+          <!-- <div class="form-group col-md-3">
+
+              <label>Filter DD's Despatch No : </label>&nbsp;
+              <select [(ngModel)]="selecteddespatch" class="form-control" name="selecteddespatch" (change)="filterDespatch(selecteddespatch)">
+                <option value="" disabled>--Choose--</option>
+                <ng-container *ngFor="let despatch of selectedData" >
+                  <option >{{despatch.despatchList.despatchNo}}</option>
+                </ng-container>
+        
+              </select>
+            </div>
+         -->
+
+      </div>
+      <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+
+          <div class="form-group col-md-3" [formGroup]="dbaForm">
+
+              <label>Note : Select and Enter Dba No here </label>&nbsp;
+              <input type="text" [(ngModel)]="newdespatch.dbaNo" name="dbaNo" class="form-control" formControlName="dbaNum">
+              <div *ngIf="dbaNum.invalid && (dbaNum.dirty || dbaNum.touched)" class="alert-danger">
+                  <div *ngIf="dbaNum.errors.required">
+                      Dba No is Required
+                  </div>
+                  <div *ngIf="dbaNum.errors.pattern">
+                      Please enter valid input(number)
+                  </div>
+              </div>
+          </div>
+          <div class="form-group col-md-3" [formGroup]="dbaForm">
+
+              <label>Dba Date</label>&nbsp;
+              <input type="date" [(ngModel)]="newdespatch.dbaDate" name="dbaDate" class="form-control" formControlName="dbaDate">
+              <div *ngIf="dbaDate.invalid && (dbaDate.dirty || dbaDate.touched)" class="alert-danger">
+                  <div *ngIf="dbaDate.errors.required">
+                      Please Select Date
+                  </div>
+
+              </div>
+          </div>
+
+
+
+          <div class="form-group col-md-3">
+
+              <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> --><br>
+              <button type="submit" class="btn btn-primary" (click)=" register(lstid.id)">Submit</button>
+          </div>
+          <!-- <div class="form-group col-md-3">
+              <label>Count:</label>
+
+              <span style="color: red;padding-left: 20px">{{checklisttotal}}</span>
+
+          </div> -->
+      </div>
+
+      <div style="padding-top: 50px;">
+
+
+          <table class="table table-hover table-responsive table-bordered">
+              <thead class="thead-dark">
+                  <tr>
+
+                      <!-- <th>Month</th> -->
+                      <th>Desp.Sl.No</th>
+                      <th>Centre Name</th>
+                     <th>Despatch No</th>
+                      <th>Despatch Date</th>
+                      <th>Fees Item</th>
+                      <th>Total</th>
+                      <th>Tax</th>
+                      <th>Fee Without Tax</th>
+                      <th>Amount</th>
+                      <th>Rate</th>
+                      <th>DBA No :Entry</th>
+
+
+
+                  </tr>
+              </thead>
+              <tbody>
+                  <ng-container *ngFor="let ddenter of selectedData;let lstid of dbaLastids">
+                      <tr>
+                      <tr *ngIf="ddenter.despatchList?.isdespatchEntered  == true && ddenter.despatchList?.isdbaEntered == null">
+
+                          <!-- <td>{{(ddenter.despatchList?.despatchDate).slice(3)}}</td> -->
+                          <th>{{ddenter.despatchList?.despId}}</th>
+                          <td>{{ddenter.center?.CenterName}}</td>
+
+                          <td>{{ddenter.despatchList?.despatchNo}}</td>
+                          <td>{{ddenter.despatchList?.despatchDate}}</td>
+                          <td>{{ddenter.despatchList?.feeItem}}</td>
+                          <td>{{ddenter.despatchList?.totalAmount}}</td>
+                          <td>{{ddenter.despatchList?.taxAmount}}</td>
+                          <td>{{ddenter.despatchList?.FWT}}</td>
+                          <td>{{ddenter.despatchList?.Amount}}</td>
+                          <td>{{ddenter.despatchList?.Rate}}%</td>
+                          <td><input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)"></td>
+                      </tr>
+
+                  </ng-container>
+                  <tr>
+                      <td colspan="5" style="text-align: right">Total</td>
+                      <td>
+                          {{total1}}
+                      </td>
+                      <td>{{taxttotal1}}</td>
+                      <td>{{feewTotal1}}</td>
+                      <td>{{totalamount}}</td>
+                      <td></td>
+
+                  </tr>
+              </tbody>
+
+          </table>
+
+      </div>
+
+
+  </ng-container>
+
+
+</div>

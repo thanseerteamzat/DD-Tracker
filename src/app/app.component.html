@@ -123,9 +123,28 @@
       
         
         <!-- <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button>  -->
-        <button class="but" mat-button ><a routerLink="/despstudlist">Despatch No List</a></button> 
         
-        <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button> 
+        <div class="dropdown">
+          <button class="dropbtn">Despatch No List</button>
+          <div class="dropdown-content">
+            <a routerLink="/despstudlist">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/adjdespstudlist">Adj Entry</a>
+          </div>
+        </div>
+        
+        
+        <div class="dropdown">
+          <button class="dropbtn">DBA(Share Release Note)</button>
+          <div class="dropdown-content">
+            <a routerLink="/dba-no-entry">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/adjdba-no-entry">Adj Entry</a>
+          </div>
+        </div>
+        
+        
+        <!-- <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button>  -->
         <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button> 
         <button class="but" mat-button ><a routerLink="/invoice">Invoice</a></button> 
 

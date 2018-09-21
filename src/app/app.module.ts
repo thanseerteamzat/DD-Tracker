@@ -46,6 +46,8 @@ import { AdjEntryComponent } from './adj-entry/adj-entry.component';
 import { AdjverificationComponent } from './adjverification/adjverification.component';
 import { AdjentryDetailsComponent } from './adjentry-details/adjentry-details.component';
 import { AdjdespatchComponent } from './adjdespatch/adjdespatch.component';
+import { AdjDespstudlistComponent } from './adj-despstudlist/adj-despstudlist.component';
+import { AdjdbaNoEntryComponent } from './adjdba-no-entry/adjdba-no-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -73,10 +75,12 @@ const appRoutes: Routes = [
   { path: 'invoice', component: InvoiceComponent },
   { path: 'adjustment',component:AdjEntryComponent  },
   { path: 'adjustment/:adjddlastId',component:AdjEntryComponent  },  
-  {path:'adjverification',component:AdjverificationComponent},
-  {path:'adjdetails',component:AdjentryDetailsComponent},
-  {path:'adjdetails/:adjddlastId',component:AdjentryDetailsComponent},
-  {path:'adjdespatch-no-entry',component:AdjdespatchComponent},
+  { path:'adjverification',component:AdjverificationComponent},
+  { path:'adjdetails',component:AdjentryDetailsComponent},
+  { path:'adjdetails/:adjddlastId',component:AdjentryDetailsComponent},
+  { path:'adjdespatch-no-entry',component:AdjdespatchComponent},
+  {path :'adjdespstudlist',component:AdjDespstudlistComponent},
+  { path: 'adjdba-no-entry',component:AdjdbaNoEntryComponent},
 ];
 
 
@@ -110,6 +114,8 @@ const appRoutes: Routes = [
     AdjverificationComponent,
     AdjentryDetailsComponent,
     AdjdespatchComponent,
+    AdjDespstudlistComponent,
+    AdjdbaNoEntryComponent,
   ],
   imports: [
     FormsModule,
