@@ -11,6 +11,7 @@ import { dbaEntry } from '../models/dbaEntry';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { element } from 'protractor';
 import { Invoice } from '../models/invoice ';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
     selector: 'app-dba-no-entry',
@@ -220,14 +221,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
+        if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
 
 
-        // }
+        }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         this.newInvoice.enteredby = this.entered;
@@ -436,6 +437,8 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newInvoice.feesItem = this.newdba.feesItem;
 
                 this.desplist.forEach(element => {
+                    if(element.Amount!=0)
+                    {
                     if (element.feeItem == 'Course Fee') {
                         this.newInvoice.share = 15;
                         let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
@@ -461,7 +464,35 @@ export class DbaNoEntryComponent implements OnInit {
                         let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = tot.toFixed(2);
                     }
+                }
+                else{
 
+                    if (element.feeItem == 'Course Fee') {
+                        this.newInvoice.share = 0;
+                        // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                        // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                        this.newInvoice.shareAmount = '0';
+                    }
+                    else if (element.feeItem == 'Prospectus') {
+                        this.newInvoice.share = 0;
+                        // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                        // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                        this.newInvoice.shareAmount = '0';
+                    }
+
+                    else if (element.feeItem == 'Inspection') {
+                        this.newInvoice.share = 0;
+                        // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                        // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                        this.newInvoice.shareAmount = '0';
+                    }
+                    else if (element.feeItem == 'Affilication' || element.feeItem == 'Renewal Fee') {
+                        this.newInvoice.share = 0;
+                        // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                        // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+                        this.newInvoice.shareAmount = '0';
+                    }
+                }
                 })
                 this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
                 let invoiceEntryJson = JSON.stringify(this.newInvoice);

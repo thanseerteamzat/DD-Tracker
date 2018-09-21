@@ -249,7 +249,7 @@ export class AdjEntryComponent implements OnInit {
 
     // console.log('***********************',ddList)
 
-    console.log('cokieeeeeeeee name..', this.ets.cookiename)
+   
     this.newddentry.enteredBy = this.ets.cookiename;
 
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
@@ -259,10 +259,8 @@ export class AdjEntryComponent implements OnInit {
       this.router.navigate(['/error']);
     }
 
-    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name', this.ets.cookiename)
     this.check = this.ets.cookiename;
     this.newddEntry.enteredBy = this.check;
-    console.log('cokieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee name check', this.newddEntry.enteredBy)
 
 
   }
@@ -292,14 +290,12 @@ export class AdjEntryComponent implements OnInit {
           break;
         }
       }
-      console.log('fdf', applicationNoExists);
       //   if(applicationNoExists)
       // {
       //   console.log(applicationNoExists);
       //   alert('Application number duplication');
       // }
       if (applicationNoExists === false) {
-        console.log(applicationNoExists);
         this.register(key, dlastid);
       }
       else{
@@ -318,11 +314,9 @@ export class AdjEntryComponent implements OnInit {
 
   register(key, dlastid: adjddLastid) {
 
-    console.log('selected date', this.selecteddate);
     this.newddEntry.entryPros = false;
 
     if (this.isEditMode) {
-      console.log('editedit', this.newddEntry.dDate)
       this.tempdate = this.newddentry.dDate;
       this.todaydate = this.tempdate;
       this.newddEntry.dDate = this.formatDate(this.newddEntry.dDate);
@@ -435,7 +429,6 @@ export class AdjEntryComponent implements OnInit {
 
     else {
 
-      console.log('date**********************************', this.todaydate);
       this.newddEntry.prosvalue = false;
       // console.log('******************************************* Not Edit Mode')
       var ddreferno = this.newddEntry.ddNumber;

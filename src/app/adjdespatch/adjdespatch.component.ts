@@ -47,7 +47,8 @@ export class AdjdespatchComponent implements OnInit {
   entered: string;
   tempcenter;
   tempcentercode;
-  year
+  year;
+  selectfee;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -146,7 +147,6 @@ export class AdjdespatchComponent implements OnInit {
     }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
-    console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
 
@@ -174,17 +174,22 @@ export class AdjdespatchComponent implements OnInit {
     }
     console.log('successs**/**', this.tempcenter);
 
+    this.selectedcenter = key;
     this.selectedData = null;
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key );
-    console.log('tempppppp', this.checklist)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
+    if (this.selectfee == null) {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
+
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+
     }
-    // this.checklist.forEach(element => {
-    //   this.checklist.pop();
-    // })
-    this.selectedDatatemp = this.selectedData;
-    console.log('........', this.checklist);
+    else {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null)
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+    }
 
   }
 
@@ -192,10 +197,22 @@ export class AdjdespatchComponent implements OnInit {
 
 
   filterFee(key) {
-    console.log('key....', key)
-    this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.feesItem == key)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
+
+    this.selectfee = key;
+    this.selectedData = null;
+    if (this.selectedcenter == null) {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
+
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+
+    }
+    else {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null)
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
     }
     // console.log('........', this.checklist);
 
@@ -276,53 +293,103 @@ export class AdjdespatchComponent implements OnInit {
           this.despatch.centerCode = this.tempcentercode;
           console.log('centercode .....', this.despatch.centerCode)
 
-          let feeWT = parseFloat(this.ddtotal) / 1.18;
-          let feewtfloat = feeWT.toFixed(2);
-          let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
-          let taxfloat = taxamount.toFixed(2);
-          this.despatch.centerId = this.selectedcenter;
-          this.despatch.despId = counter.toString();
-          this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-          this.despatch.despatchNo = despformat;
-          this.despatch.feeItem = this.selectedFee
-          this.despatch.isdespatchEntered = true;
-          this.despatch.totalAmount = this.ddtotal;
-          this.despatch.taxAmount = parseFloat(taxfloat);
-          this.despatch.FWT = parseFloat(feewtfloat);
-          //calculating dba rate and amount
+          if (this.ddtotal != 0) {
 
-          if (this.tempentry.feesItem == "Course Fee") {
+            let feeWT = parseFloat(this.ddtotal) / 1.18;
+            let feewtfloat = feeWT.toFixed(2);
+            let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
+            let taxfloat = taxamount.toFixed(2);
+            this.despatch.centerId = this.selectedcenter;
+            this.despatch.despId = counter.toString();
+            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+            this.despatch.despatchNo = despformat;
+            this.despatch.feeItem = this.selectedFee
+            this.despatch.isdespatchEntered = true;
+            this.despatch.totalAmount = this.ddtotal;
+            this.despatch.taxAmount = parseFloat(taxfloat);
+            this.despatch.FWT = parseFloat(feewtfloat);
+            //calculating dba rate and amount
 
-            this.despatch.Rate = 65;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
+            if (this.tempentry.feesItem == "Course Fee") {
+
+              this.despatch.Rate = 65;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+            }
+            else if (this.tempentry.feesItem == 'Inspection') {
+              this.despatch.Rate = 60;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+
+            }
+            else {
+              this.despatch.Rate = 80;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+
+            }
+
+
+            let ddEntryJson = JSON.stringify(this.despatch);
+            // console.log(ddEntryJson);
+            try {
+              this.db.database.ref('adjDespatch').child(this.despatch.despId).set(ddEntryJson);
+              // alert("DD Entry added successfully!!.");
+              // this.router.navigate(['/dd-entry']);
+            }
+            catch (ex) {
+
+            }
           }
-          else if (this.tempentry.feesItem == 'Inspection') {
-            this.despatch.Rate = 60;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
-
-          }
+          //code for zero amount
           else {
-            this.despatch.Rate = 80;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
+            this.despatch.centerId = this.selectedcenter;
+            this.despatch.despId = counter.toString();
+            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+            this.despatch.despatchNo = despformat;
+            this.despatch.feeItem = this.selectedFee;
+            this.despatch.isdespatchEntered = true;
+            this.despatch.totalAmount = this.ddtotal;
+            this.despatch.taxAmount = 0;
+            this.despatch.FWT = 0;
+            //calculating dba rate and amount
 
-          }
+            if (this.tempentry.feesItem == "Course Fee") {
+
+              // this.despatch.Rate = 65;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+            }
+            else if (this.tempentry.feesItem == 'Inspection') {
+              // this.despatch.Rate = 60;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+
+            }
+            else {
+              // this.despatch.Rate = 80;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+
+            }
 
 
-          let ddEntryJson = JSON.stringify(this.despatch);
-          console.log(ddEntryJson);
-          try {
-            this.db.database.ref('adjDespatch').child(this.despatch.despId).set(ddEntryJson);
-            // alert("DD Entry added successfully!!.");
-            // this.router.navigate(['/dd-entry']);
-          }
-          catch (ex) {
+            let ddEntryJson = JSON.stringify(this.despatch);
+            // console.log(ddEntryJson);
+            try {
+              this.db.database.ref('adjDespatch').child(this.despatch.despId).set(ddEntryJson);
+              // alert("DD Entry added successfully!!.");
+              // this.router.navigate(['/dd-entry']);
+            }
+            catch (ex) {
 
+            }
           }
 
 
@@ -331,6 +398,7 @@ export class AdjdespatchComponent implements OnInit {
       catch (e) {
         console.log('Exception..', e);
       }
+
       alert('despatch Added :' + this.despatch.despatchNo);
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
@@ -382,5 +450,5 @@ export class AdjdespatchComponent implements OnInit {
 
 }
 
- 
+
 

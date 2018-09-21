@@ -107,17 +107,14 @@ export class DespStudListComponent implements OnInit {
 
   ngOnInit() {
 
-    var date = '25-07-2018';
-    var slice = date.slice(3, -5);
-    console.log('slice data***', slice)
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
 
 
-    // }
+    }
   }
   selectData(data) {
     this.total = 0
@@ -164,7 +161,7 @@ export class DespStudListComponent implements OnInit {
       )
       // console.log(this.selectedData);
       // console.log(this.ddLists);
-       this.selectData(this.selectedData)
+      this.selectData(this.selectedData)
       console.log('success with center***')
 
     }
@@ -183,10 +180,10 @@ export class DespStudListComponent implements OnInit {
   }
   getMothFromDate(dateData) {
     if (dateData != null) {
-    var month = dateData.toString().slice(3, -5)
-    // console.log('month**',month)
-    return month;
-  }
+      var month = dateData.toString().slice(3, -5)
+      // console.log('month**',month)
+      return month;
+    }
 
   }
   filterCenter(key) {
