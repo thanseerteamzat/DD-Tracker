@@ -21,7 +21,7 @@ export class DespStudListComponent implements OnInit {
   selectedDespatch;
   ddLists: ddList[] = [];
   ddentrylist: ddEntry[] = [];
-  selectedData: Array<any>;
+  selectedData: Array<ddList>;
   temp: ddEntry;
   total; totalTemp;
   tax; taxTotal;
@@ -88,16 +88,16 @@ export class DespStudListComponent implements OnInit {
         }
 
         ddListItem.ddenter = qobj;
-        ddentryitem = qobj;
+        // ddentryitem = qobj;
 
-        let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        let centList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
         // console.log('2222222222222222222222222222',custList)
-        if (custList.length > 0) {
-          ddListItem.center = custList[0];
+        if (centList.length > 0) {
+          ddListItem.center = centList[0];
         }
 
         this.ddLists.push(ddListItem);
-        this.ddentrylist.push(ddentryitem);
+        // this.ddentrylist.push(ddentryitem);
 
       });
 
@@ -128,9 +128,10 @@ export class DespStudListComponent implements OnInit {
     this.taxTotal = 0;
     this.selectlisttotal = 0;
     try {
-      for (var i = 0; i <= data.length; i++) {
-        var temp = data[i];
-        if (data.ddenter != null) {
+      if (data != null) {
+        for (var i = 0; i <= data.length; i++) {
+          var temp = data[i];
+
           this.selectlisttotal = data.length;
 
           this.total = this.total + parseFloat(temp.ddenter.Amount.toString());
@@ -151,21 +152,41 @@ export class DespStudListComponent implements OnInit {
   filterMonth(key) {
 
     this.selectmonth = key;
-    this.selectedData = null;
-    console.log('dd list data***', this.ddLists)
+    // this.selectedData = null;
+    // console.log('dd list data***', this.ddLists)
+    console.log('dd list data***', this.selectmonth)
 
     if (this.selectedcenter == null) {
-      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.isdespatchEntered == true)
-      this.selectData(this.selectedData)
+      // this.selectedData = this.ddLists
+      this.selectedData = this.ddLists.filter(
+
+        s => this.getMothFromDate(s.ddenter.despatchDate) == this.selectmonth
+      )
+      // console.log(this.selectedData);
+      // console.log(this.ddLists);
+       this.selectData(this.selectedData)
+      console.log('success with center***')
 
     }
 
     else {
-      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
+      this.selectedData = this.ddLists.filter(
+        s => (this.getMothFromDate(s.ddenter.despatchDate)) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true
+      )
       this.selectData(this.selectedData)
+      console.log('success with month***')
+
     }
 
 
+
+  }
+  getMothFromDate(dateData) {
+    if (dateData != null) {
+    var month = dateData.toString().slice(3, -5)
+    // console.log('month**',month)
+    return month;
+  }
 
   }
   filterCenter(key) {
@@ -181,7 +202,7 @@ export class DespStudListComponent implements OnInit {
     }
 
     else {
-      this.selectedData = this.ddLists.filter(s => ((s.ddenter.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
+      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.ddenter.despatchDate) == this.selectmonth && s.ddenter.centerId == this.selectedcenter && s.ddenter.isdespatchEntered == true)
       this.selectData(this.selectedData)
     }
 

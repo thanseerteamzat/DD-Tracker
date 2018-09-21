@@ -195,27 +195,26 @@ export class DbaNoEntryComponent implements OnInit {
 
             for (let i = 0; i <= data.length; i++) {
                 var temp = data[i];
-                if(temp!=null)
-                {
-                this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
-                // console.log('tempvalue*****', temp)
-                this.total1 = this.total.toFixed(2);
-                // console.log('desplist*****', this.temp)
+                if (temp != null) {
+                    this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
+                    // console.log('tempvalue*****', temp)
+                    this.total1 = this.total.toFixed(2);
+                    // console.log('desplist*****', this.temp)
 
-                this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
-                this.taxttotal1 = this.taxtotal.toFixed(2);
-                this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
-                this.feewTotal1 = this.feewtTotal.toFixed(2);
-                this.tot = this.tot + parseFloat(temp.despatchList.Amount);
-                this.totalamount = this.tot.toFixed(2);
-                // console.log('loooop***', this.total)
-
+                    this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
+                    this.taxttotal1 = this.taxtotal.toFixed(2);
+                    this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
+                    this.feewTotal1 = this.feewtTotal.toFixed(2);
+                    this.tot = this.tot + parseFloat(temp.despatchList.Amount);
+                    this.totalamount = this.tot.toFixed(2);
+                    // console.log('loooop***', this.total)
 
 
-                // this.temp.push(this.selectedData[i]);
 
+                    // this.temp.push(this.selectedData[i]);
+
+                }
             }
-        }
         }
         catch (e) {
             // console.log('Exception..', e)
@@ -227,14 +226,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        if (this.ets.cookievalue == "3") {
-            // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-            this.router.navigate(['/error']);
+        // if (this.ets.cookievalue == "3") {
+        //     // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //     this.router.navigate(['/error']);
 
 
-        }
+        // }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         this.newInvoice.enteredby = this.entered;
@@ -244,20 +243,28 @@ export class DbaNoEntryComponent implements OnInit {
     filterFee(key) {
         this.selectedfee = key;
         this.selectedData = null;
-        if (this.selectmonth == null) {
+        if (this.selectmonth == null && this.selectedcenter == null) {
 
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
             this.selectData(this.selectedData)
-            console.log('data*/**', this.selectedData)
+        }
+        else if (this.selectmonth == null) {
+
+            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+            console.log('with month filter******')
+            this.selectData(this.selectedData)
 
         }
-        else {
+        else if (this.selectedcenter == null) {
 
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
             console.log('with month filter******')
             this.selectData(this.selectedData)
-            console.log('data*/**', this.selectedData)
 
+        }
+        else {
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.selectData(this.selectedData)
         }
     }
 
@@ -265,60 +272,57 @@ export class DbaNoEntryComponent implements OnInit {
         this.selectmonth = key;
         this.selectedData = null;
 
-        if (this.selectedfee == null) {
+        if (this.selectedfee == null && this.selectedcenter == null) {
             this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
             this.selectData(this.selectedData)
 
         }
-        else {
-            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+        else if (this.selectedfee == null) {
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
             console.log('with fee filter******')
             this.selectData(this.selectedData)
 
         }
+        else if (this.selectedcenter == null) {
+            this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            console.log('with fee filter******')
+            this.selectData(this.selectedData)
+
+        }
+        else {
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.selectData(this.selectedData)
+        }
 
     }
 
-
     filterCenter(key) {
 
-        this.selectedData = this.selectedDatatemp.filter(s => s.center.Id == key);
-        // this.tempmonth = this.selectedData.filter(s => s.despatchList.despatchDate)
 
-        console.log('dat*******************a', this.selectedDatatemp);
-        this.taxtotal = 0;
-        this.taxttotal1 = 0;
-        this.total = 0;
-        this.total1 = 0;
-        this.feewTotal1 = 0;
-        this.feewtTotal = 0;
-        try {
+        this.selectedcenter = key;
+        this.selectedData = null;
 
-            for (let i = 0; i <= this.desplist.length; i++) {
-                this.desplist.splice(i, this.desplist.length);
-            }
+        if (this.selectedfee == null && this.selectmonth == null) {
+            this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+            this.selectData(this.selectedData)
 
-            for (let i = 0; i <= this.selectedData.length; i++) {
-
-                var temp = this.selectedData[i];
-                console.log('tempvalue*****', temp)
-                this.total = this.total + parseFloat(temp.despatchList.totalAmount.toString());
-                this.total1 = this.total.toFixed(2);
-                this.taxtotal = this.taxtotal + parseFloat(temp.despatchList.taxAmount.toString());
-                this.taxttotal1 = this.taxtotal.toFixed(2);
-                this.feewtTotal = this.feewtTotal + parseFloat(temp.despatchList.FWT.toString());
-                this.feewTotal1 = this.feewtTotal.toFixed(2);
-                console.log('loooop***', this.total)
-
-                this.temp.push(this.selectedData[i]);
-
-            }
         }
-        catch (e) {
-            console.log('Exception..', e);
-        }
-        this.selectedMonthtemp = this.selectedData;
+        else if (this.selectedfee == null) {
+            this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            console.log('with fee filter******')
+            this.selectData(this.selectedData)
 
+        }
+        else if (this.selectmonth == null) {
+            this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            console.log('with fee filter******')
+            this.selectData(this.selectedData)
+
+        }
+        else {
+            this.selectedData = this.ddLists.filter(s => ((s.despatchList.despatchDate.toString()).slice(3, -5)) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.selectData(this.selectedData)
+        }
 
 
     }
@@ -467,7 +471,7 @@ export class DbaNoEntryComponent implements OnInit {
                 this.desplist.forEach(element => {
                     if (element.feeItem == 'Course Fee') {
                         this.newInvoice.share = 15;
-                        let percentage = parseFloat(this.newInvoice.shareAmount) /100;
+                        let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = tot.toFixed(2);
                     }

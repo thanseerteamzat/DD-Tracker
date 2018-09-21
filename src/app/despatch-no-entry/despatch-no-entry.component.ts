@@ -22,7 +22,7 @@ export class DespatchNoEntryComponent implements OnInit {
   centerList: Center[] = [];
   centers: Center[] = [];
   selectedcenter: string = "";
-  selectedData: Array<any>;
+  selectedData: Array<ddList>;
   centerData;
   checklist: CheckTemp[] = [];
   tempentry
@@ -48,7 +48,8 @@ export class DespatchNoEntryComponent implements OnInit {
   entered: string;
   tempcenter;
   tempcentercode;
-  year
+  year;
+  selectfee;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -139,17 +140,18 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
   }
   filterCenter(key) {
+
 
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
@@ -174,18 +176,22 @@ export class DespatchNoEntryComponent implements OnInit {
 
     }
     console.log('successs****', this.tempcenter);
-
+    this.selectedcenter = key;
     this.selectedData = null;
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key );
-    console.log('tempppppp', this.checklist)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
+    if (this.selectfee == null) {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true);
+
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+      
     }
-    // this.checklist.forEach(element => {
-    //   this.checklist.pop();
-    // })
-    this.selectedDatatemp = this.selectedData;
-    console.log('........', this.checklist);
+    else {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true)
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+    }
 
   }
 
@@ -193,12 +199,22 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
   filterFee(key) {
-    console.log('key....', key)
-    this.selectedData = this.selectedDatatemp.filter(s => s.ddenter.feesItem == key)
-    for (let i = 0; i <= this.checklist.length; i++) {
-      this.checklist.splice(i, this.checklist.length);
+    this.selectfee = key;
+    this.selectedData = null;
+    if (this.selectedcenter == null) {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true);
+
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+      
     }
-    // console.log('........', this.checklist);
+    else {
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true)
+      for (let i = 0; i <= this.checklist.length; i++) {
+        this.checklist.splice(i, this.checklist.length);
+      }
+    }
 
   }
 
