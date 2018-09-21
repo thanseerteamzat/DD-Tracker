@@ -391,7 +391,7 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newdba.dbaDate = this.formatDate(this.newdespatch.dbaDate);
                 this.newdba.centerId = this.tempentry.centerId;
                 this.newdba.centerCode = this.tempentry.centerCode;
-                // this.newdba.despatchNo = this.tempentry.despatchNo;
+                this.newdba.despatchNo = this.tempentry.despatchNo;
                 this.Months.forEach(element => {
 
                     if (element.id == (this.tempentry.despatchDate.slice(3, -5))) {
@@ -403,7 +403,7 @@ export class DbaNoEntryComponent implements OnInit {
                 }
                 )
                 // this.newdba.despatchMonth = this.tempentry.;
-                this.newdba.despatchNo = this.tempentry.despatchNo;
+                this.newdba.feesItem = this.tempentry.feeItem;
                 this.newdba.despatchDate = this.tempentry.despatchDate;
                 this.newdba.despatchAmount = this.tempentry.totalAmount;
                 this.newdba.tax = this.tempentry.taxAmount;
@@ -426,7 +426,7 @@ export class DbaNoEntryComponent implements OnInit {
                 }
 
                 //code for saving to invoice
-
+                this.newInvoice.feesItem = this.newdba.feesItem;
                 this.newInvoice.invoiceId = counter.toString();
                 this.newInvoice.dbaNo = this.newdba.dbaNo;
                 this.newInvoice.CourseCode = this.newdba.courseCode;
@@ -437,63 +437,63 @@ export class DbaNoEntryComponent implements OnInit {
                 this.newInvoice.despatchDate = this.newdba.despatchDate;
                 this.newInvoice.feesItem = this.newdba.feesItem;
 
-                
-                    if (this.tempentry.Amount != 0) {
-                        if (this.tempentry.feeItem == 'Course Fee') {
+                this.desplist.forEach(element => {
+                    if (element.Amount != 0) {
+                        if (element.feeItem == 'Course Fee') {
                             this.newInvoice.share = 15;
                             let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                            let tot = parseFloat(this.tempentry.FWT.toString()) * parseFloat(percentage.toString());
+                            let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = tot.toFixed(2);
                         }
-                        else if (this.tempentry.feeItem == 'Prospectus') {
+                        else if (element.feeItem == 'Prospectus') {
                             this.newInvoice.share = 80;
                             let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                            let tot = parseFloat(this.tempentry.FWT.toString()) * parseFloat(percentage.toString());
+                            let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = tot.toFixed(2);
                         }
 
-                        else if (this.tempentry.feeItem == 'Inspection') {
+                        else if (element.feeItem == 'Inspection') {
                             this.newInvoice.share = 60;
                             let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                            let tot = parseFloat(this.tempentry.FWT.toString()) * parseFloat(percentage.toString());
+                            let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = tot.toFixed(2);
                         }
-                        else if (this.tempentry.feeItem == 'Affilication' || this.tempentry.feeItem == 'Renewal Fee') {
+                        else if (element.feeItem == 'Affilication' || element.feeItem == 'Renewal Fee') {
                             this.newInvoice.share = 80;
                             let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-                            let tot = parseFloat(this.tempentry.FWT.toString()) * parseFloat(percentage.toString());
+                            let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = tot.toFixed(2);
                         }
                     }
                     else {
 
-                        if (this.tempentry.feeItem == 'Course Fee') {
+                        if (element.feeItem == 'Course Fee') {
                             this.newInvoice.share = 0;
                             // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                             // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = '0';
                         }
-                        else if (this.tempentry.feeItem == 'Prospectus') {
+                        else if (element.feeItem == 'Prospectus') {
                             this.newInvoice.share = 0;
                             // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                             // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = '0';
                         }
 
-                        else if (this.tempentry.feeItem == 'Inspection') {
+                        else if (element.feeItem == 'Inspection') {
                             this.newInvoice.share = 0;
                             // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                             // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = '0';
                         }
-                        else if (this.tempentry.feeItem == 'Affilication' || this.tempentry.feeItem == 'Renewal Fee') {
+                        else if (element.feeItem == 'Affilication' || element.feeItem == 'Renewal Fee') {
                             this.newInvoice.share = 0;
                             // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                             // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                             this.newInvoice.shareAmount = '0';
                         }
                     }
-                
+                })
                 this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
                 let invoiceEntryJson = JSON.stringify(this.newInvoice);
                 console.log(invoiceEntryJson);
