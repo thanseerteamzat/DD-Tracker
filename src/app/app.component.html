@@ -28,19 +28,48 @@
       <div class="titlestyle">
         <!-- <a  routerLink="/dd-entry">DD Tracker</a> -->
         
+
+
+       
+      
+        <!-- <button class="dropbtn">DD Verification</button> -->
+
         <button class="but" mat-button ><a routerLink="/dd-entry">DD Entry</a></button>
         <button class="but" mat-button ><a routerLink="/prospectus">DD Entry Prospectus</a></button> 
         <button class="but" mat-button ><a routerLink="/ddentry-app">Phase Two Entry</a></button> 
         <button class="but" mat-button ><a routerLink="/adjustment">Adjustment Entry</a></button> 
-        
-        <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
+        <div class="dropdown">
+          <button class="dropbtn">DD Verification</button>
+          <div class="dropdown-content">
+            <a routerLink="/dd-verification">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/adjverification">Adj Entry</a>
+          </div>
+        </div>
+        <!-- <button mat-button [matMenuTriggerFor]="amenu">Despatch No Entry</button>
+        <mat-menu #amenu="matMenu">
+          <button mat-menu-item><a routerLink="/despatch-no-entry">KCVTP</a></button>
+          <button mat-menu-item>KKC</button>
+          <button mat-menu-item><a routerLink="/adjdespatch-no-entry">Adj Entry</a></button>
+          
+
+        </mat-menu>   -->
+        <div class="dropdown">
+          <button class="dropbtn">Despatch No Entry</button>
+          <div class="dropdown-content">
+            <a routerLink="/despatch-no-entry">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/adjdespatch-no-entry">Adj Entry</a>
+          </div>
+        </div>
+        <!-- <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><a routerLink="/dd-verification">KCVTP</a></button>
           <button mat-menu-item>KKC</button>
           <button mat-menu-item><a routerLink="adjverification">Adj Entry</a></button>
           
 
-        </mat-menu>  
+        </mat-menu>   -->
         <!-- <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
 
 <mat-menu #animals="matMenu">
@@ -91,8 +120,9 @@
         <!-- <button class="but" mat-button ><a routerLink="/dd-verification">DD Verification</a></button>  -->
         <!-- <button class="but" mat-button ><a routerLink="/dd-id-entry">DD ID Entry</a></button>  -->
         <!-- <button class="but" mat-button ><a routerLink="/dd-id-verification">DD ID Verification</a></button>  -->
-        <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button> 
-        <!-- <button class="but" mat-button ><a routerLink="/despatchno-list">Despatch No List</a></button>  -->
+      
+        
+        <!-- <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button>  -->
         <button class="but" mat-button ><a routerLink="/despstudlist">Despatch No List</a></button> 
         
         <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button> 

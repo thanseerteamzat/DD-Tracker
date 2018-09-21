@@ -49,7 +49,7 @@ export class adjddEntry{
     isddCanceled:boolean;
 }
 
-export class CheckTemp {
+export class adjCheckTemp {
     dduId: string; //guid
     ddlastId: string; //ddId updation
 
@@ -121,4 +121,64 @@ export class adjddentryTemp
     ddDate: string;
     bank: string;
 
+}
+export class adjdesptchLastid
+{
+    Id:string;
+    lastId :number;
+}
+
+
+
+
+
+export class adjDespatch {
+    despId: string
+    despatchNo: string; // unique id
+    despatchDate: string;
+    centerId: string;
+    centerCode: string;
+    feeItem: string;
+    totalAmount: Number; //total of dd's of despatch number of a center
+    taxAmount: Number; // 18% tax from total amount
+    FWT: Number //fee without tax
+    Amount: Number;
+    Rate: Number;
+    enteredBy: string;
+    isdespatchEntered: boolean;
+    dbaNo: string;
+    dbaDate:string;
+    isdbaEntered: boolean;
+
+
+}
+export class adjdespatchList {
+    center: Center = new Center();
+    despatchList: adjDespatch = new adjDespatch();
+    taxlist: adjtaxtemp = new adjtaxtemp();
+}
+export class adjtaxtemp {
+    Id: string;
+    taxamount: string;
+}
+export class adjdespatchtemp {
+    despId: string
+    despatchNo: string; // unique id
+    despatchDate: string;
+    centerId: string;
+    centerCode: string;
+    feeItem: string;
+    totalAmount: Number; //total of dd's of despatch number of a center
+    taxAmount: Number; // 18% tax from total amount
+    FWT: Number //fee without tax
+    Amount: Number;
+    Rate: Number;
+    enteredBy: string;
+    isdespatchEntered: boolean;
+    dbaNo: string;
+    dbaDate:string;
+    isdbaEntered: boolean;}
+
+export class adjdbatemp {
+    dbano: string;
 }

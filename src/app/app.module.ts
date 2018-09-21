@@ -72,12 +72,11 @@ const appRoutes: Routes = [
   { path: 'dba-details', component: DbaDetailsComponent },
   { path: 'invoice', component: InvoiceComponent },
   { path: 'adjustment',component:AdjEntryComponent  },
-  { path: 'adjustment/:adjddlastId',component:AdjEntryComponent  },
-  
+  { path: 'adjustment/:adjddlastId',component:AdjEntryComponent  },  
   {path:'adjverification',component:AdjverificationComponent},
   {path:'adjdetails',component:AdjentryDetailsComponent},
   {path:'adjdetails/:adjddlastId',component:AdjentryDetailsComponent},
-  
+  {path:'adjdespatch-no-entry',component:AdjdespatchComponent},
 ];
 
 
