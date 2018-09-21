@@ -175,7 +175,7 @@ export class DespatchNoEntryComponent implements OnInit {
     catch (e) {
 
     }
-    console.log('successs****', this.tempcenter);
+    console.log('successs**/**', this.tempcenter);
     this.selectedcenter = key;
     this.selectedData = null;
     if (this.selectfee == null) {

@@ -42,6 +42,10 @@ import { DdentryappComponent } from './ddentryapp/ddentryapp.component';
 import { DespStudListComponent } from './desp-stud-list/desp-stud-list.component';
 import { DbaDetailsComponent } from './dba-details/dba-details.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { AdjEntryComponent } from './adj-entry/adj-entry.component';
+import { AdjverificationComponent } from './adjverification/adjverification.component';
+import { AdjentryDetailsComponent } from './adjentry-details/adjentry-details.component';
+import { AdjdespatchComponent } from './adjdespatch/adjdespatch.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -66,7 +70,14 @@ const appRoutes: Routes = [
   { path: 'ddentrypros-details/:ddlastId', component: DdentryProsDetailsComponent },
   { path: 'despstudlist', component: DespStudListComponent },
   { path: 'dba-details', component: DbaDetailsComponent },
-  { path: 'invoice', component: InvoiceComponent }
+  { path: 'invoice', component: InvoiceComponent },
+  { path: 'adjustment',component:AdjEntryComponent  },
+  { path: 'adjustment/:adjddlastId',component:AdjEntryComponent  },
+  
+  {path:'adjverification',component:AdjverificationComponent},
+  {path:'adjdetails',component:AdjentryDetailsComponent},
+  {path:'adjdetails/:adjddlastId',component:AdjentryDetailsComponent},
+  
 ];
 
 
@@ -95,7 +106,11 @@ const appRoutes: Routes = [
     DdentryappComponent,
     DespStudListComponent,
     DbaDetailsComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    AdjEntryComponent,
+    AdjverificationComponent,
+    AdjentryDetailsComponent,
+    AdjdespatchComponent,
   ],
   imports: [
     FormsModule,

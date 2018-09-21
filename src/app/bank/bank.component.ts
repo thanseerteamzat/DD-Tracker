@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ddLastid } from '../models/ddLastid';
+// import { ddLastid } from '../models/ddLastid';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
 import { ActivatedRoute, Params } from '@angular/router';
-import { desptchLastid } from '../models/despatchlastId';
-import { ddEntry } from '../models/ddEntry';
+// import { desptchLastid } from '../models/despatchlastId';
+import { adjddEntry } from '../models/adjlastid';
 import { element } from 'protractor';
 import { Despatch } from '../models/despatch';
 import { dbaLastid } from '../models/dbalastId';
 import { Dddetails } from '../models/dddetails';
 
 import { EtsService } from '../services/ets.service';
+import { adjddLastid } from '../models/adjlastid';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { EtsService } from '../services/ets.service';
 })
 export class BankComponent implements OnInit {
   ddktc:Dddetails[];
-  // newddLastid: dbaLastid = new dbaLastid();
+   newddLastid: adjddLastid = new adjddLastid();
   // order: string;
   // ddLastids: Despatch[] = [];
 
@@ -172,21 +173,21 @@ export class BankComponent implements OnInit {
     // })
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
 
-    // let uniqueId = "/DD" + Common.newGuid();
-    // this.newddLastid.id = uniqueId;
+    let uniqueId = "/DD" + Common.newGuid();
+    this.newddLastid.Id = uniqueId;
 
 
-    // let ddEntryJson = JSON.stringify(this.newddLastid);
-    // console.log(ddEntryJson);
-    // try {
-    //   this.db.database.ref('dbaLastId').child(uniqueId).set(ddEntryJson);
-    //   alert("DD Entry added successfully!!.");
+    let ddEntryJson = JSON.stringify(this.newddLastid);
+    console.log(ddEntryJson);
+    try {
+      this.db.database.ref('adjddlastId').child(uniqueId).set(ddEntryJson);
+      alert("DD Entry added successfully!!..");
 
-    // }
-    // catch (ex) {
+    }
+    catch (ex) {
 
-    // }
-    //
+    }
+    
   }
 
 }
