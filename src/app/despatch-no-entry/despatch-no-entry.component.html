@@ -77,6 +77,7 @@
                 <table class="table table-hover table-responsive table-bordered">
                     <thead class="thead-dark">
                         <tr>
+                            <th>Sl.No</th>
                             <th>DD SL.No</th>
                             <th style="min-width: 90px;">Date</th>
                             <th>Application No</th>
@@ -102,7 +103,7 @@
                         <ng-container *ngFor='let ddenter of selectedData  '>
                             <tr>
                             <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null">
-                                <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
+                                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
                                 <td>{{ddenter.ddenter?.ddlastId}}</td>
 
                                 <td>{{ddenter.ddenter?.dDate}}</td>

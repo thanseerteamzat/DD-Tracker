@@ -179,15 +179,15 @@ export class DespatchNoEntryComponent implements OnInit {
     this.selectedcenter = key;
     this.selectedData = null;
     if (this.selectfee == null) {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true);
+      this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null);
 
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
-      
+
     }
     else {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true)
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null)
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
@@ -202,15 +202,15 @@ export class DespatchNoEntryComponent implements OnInit {
     this.selectfee = key;
     this.selectedData = null;
     if (this.selectedcenter == null) {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true);
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null);
 
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
-      
+
     }
     else {
-      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true)
+      this.selectedData = this.ddLists.filter(s => s.ddenter.feesItem == this.selectfee && s.ddenter.centerId == this.selectedcenter && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered==null)
       for (let i = 0; i <= this.checklist.length; i++) {
         this.checklist.splice(i, this.checklist.length);
       }
@@ -292,56 +292,105 @@ export class DespatchNoEntryComponent implements OnInit {
 
           this.despatch.centerCode = this.tempcentercode;
           console.log('centercode .....', this.despatch.centerCode)
+          if (this.ddtotal != 0) {
 
-          let feeWT = parseFloat(this.ddtotal) / 1.18;
-          let feewtfloat = feeWT.toFixed(2);
-          let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
-          let taxfloat = taxamount.toFixed(2);
-          this.despatch.centerId = this.selectedcenter;
-          this.despatch.despId = counter.toString();
-          this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-          this.despatch.despatchNo = despformat;
-          this.despatch.feeItem = this.selectedFee
-          this.despatch.isdespatchEntered = true;
-          this.despatch.totalAmount = this.ddtotal;
-          this.despatch.taxAmount = parseFloat(taxfloat);
-          this.despatch.FWT = parseFloat(feewtfloat);
-          //calculating dba rate and amount
+            let feeWT = parseFloat(this.ddtotal) / 1.18;
+            let feewtfloat = feeWT.toFixed(2);
+            let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
+            let taxfloat = taxamount.toFixed(2);
+            this.despatch.centerId = this.selectedcenter;
+            this.despatch.despId = counter.toString();
+            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+            this.despatch.despatchNo = despformat;
+            this.despatch.feeItem = this.selectedFee
+            this.despatch.isdespatchEntered = true;
+            this.despatch.totalAmount = this.ddtotal;
+            this.despatch.taxAmount = parseFloat(taxfloat);
+            this.despatch.FWT = parseFloat(feewtfloat);
+            //calculating dba rate and amount
 
-          if (this.tempentry.feesItem == "Course Fee") {
+            if (this.tempentry.feesItem == "Course Fee") {
 
-            this.despatch.Rate = 65;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
+              this.despatch.Rate = 65;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+            }
+            else if (this.tempentry.feesItem == 'Inspection') {
+              this.despatch.Rate = 60;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+
+            }
+            else {
+              this.despatch.Rate = 80;
+              let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              let frate = rate.toFixed(2);
+              this.despatch.Amount = parseFloat(frate);
+
+            }
+
+
+            let ddEntryJson = JSON.stringify(this.despatch);
+            console.log(ddEntryJson);
+            try {
+              this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+              // alert("DD Entry added successfully!!.");
+              // this.router.navigate(['/dd-entry']);
+            }
+            catch (ex) {
+
+            }
           }
-          else if (this.tempentry.feesItem == 'Inspection') {
-            this.despatch.Rate = 60;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
-
-          }
+          // code for zero amount
           else {
-            this.despatch.Rate = 80;
-            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-            let frate = rate.toFixed(2);
-            this.despatch.Amount = parseFloat(frate);
 
+            this.despatch.centerId = this.selectedcenter;
+            this.despatch.despId = counter.toString();
+            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+            this.despatch.despatchNo = despformat;
+            this.despatch.feeItem = this.selectedFee;
+            this.despatch.isdespatchEntered = true;
+            this.despatch.totalAmount = this.ddtotal;
+            this.despatch.taxAmount = 0;
+            this.despatch.FWT = 0;
+            //calculating dba rate and amount
+
+            if (this.tempentry.feesItem == "Course Fee") {
+
+              // this.despatch.Rate = 65;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+            }
+            else if (this.tempentry.feesItem == 'Inspection') {
+              // this.despatch.Rate = 60;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+
+            }
+            else {
+              // this.despatch.Rate = 80;
+              // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+              // let frate = rate.toFixed(2);
+              this.despatch.Amount = 0;
+
+            }
+
+
+            let ddEntryJson = JSON.stringify(this.despatch);
+            console.log(ddEntryJson);
+            try {
+              this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+              // alert("DD Entry added successfully!!.");
+              // this.router.navigate(['/dd-entry']);
+            }
+            catch (ex) {
+
+            }
           }
-
-
-          let ddEntryJson = JSON.stringify(this.despatch);
-          console.log(ddEntryJson);
-          try {
-            this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
-            // alert("DD Entry added successfully!!.");
-            // this.router.navigate(['/dd-entry']);
-          }
-          catch (ex) {
-
-          }
-
 
         }
       }
