@@ -382,11 +382,11 @@ export class AdjEntryComponent implements OnInit {
             catch (ex) {
               alert("Error in Updating Quotation");
             }
-            this.router.navigate(['/dd-verification']);
+            this.router.navigate(['/adjverification']);
 
           }
           else {
-            this.router.navigate(['/dd-verification']);
+            this.router.navigate(['/adjverification']);
 
           }
 
@@ -414,11 +414,11 @@ export class AdjEntryComponent implements OnInit {
           try {
             if (confirm('Are you sure to update details ')) {
               let up = this.db.database.ref().update(updates);
-              this.router.navigate(['/dd-verification']);
+              this.router.navigate(['/adjverification']);
 
             }
             else {
-              this.router.navigate(['/dd-verification']);
+              this.router.navigate(['/adjverification']);
             }
 
           }
@@ -505,8 +505,8 @@ export class AdjEntryComponent implements OnInit {
 
           try {
             this.db.database.ref('adjddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
-            this.router.navigate(['/dd-entry']);
+            alert("DD Entry added successfully!! Please note DD Serial No : A"+ this.newddEntry.ddlastId);
+            this.router.navigate(['/adjustment']);
           }
           catch (ex) {
 
@@ -560,8 +560,8 @@ export class AdjEntryComponent implements OnInit {
         try {
           this.db.database.ref('adjddEntry').child(counter.toString()).set(ddEntryJson);
 
-          alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
-          this.router.navigate(['/dd-entry']);
+          alert("DD Entry added successfully!! Please note DD Serial No : A"+ this.newddEntry.ddlastId);
+          this.router.navigate(['/adjustment']);
         }
         catch (ex) {
 
@@ -738,7 +738,7 @@ export class AdjEntryComponent implements OnInit {
     console.log('eventttttttttttttttttttt', event)
     if (event == "Prospectus") {
 
-      this.router.navigate(['/prospectus']);
+      this.router.navigate(['/adjprospectus']);
 
     }
     else {

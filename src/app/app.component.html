@@ -31,12 +31,15 @@
         <button class="but" mat-button ><a routerLink="/dd-entry">DD Entry</a></button>
         <button class="but" mat-button ><a routerLink="/prospectus">DD Entry Prospectus</a></button> 
         <button class="but" mat-button ><a routerLink="/ddentry-app">Phase Two Entry</a></button> 
-        <button class="but" mat-button ><a routerLink="/adjustment">Adj Entry</a></button> 
+        <button class="but" mat-button ><a routerLink="/adjustment">Adjustment Entry</a></button> 
         
         <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><a routerLink="/dd-verification">KCVTP</a></button>
           <button mat-menu-item>KKC</button>
+          <button mat-menu-item><a routerLink="adjverification">Adj Entry</a></button>
+          
+
         </mat-menu>  
         <!-- <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
 
