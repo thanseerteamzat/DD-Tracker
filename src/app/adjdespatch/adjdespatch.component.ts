@@ -331,6 +331,7 @@ export class AdjdespatchComponent implements OnInit {
               this.despatch.Amount = parseFloat(frate);
 
             }
+            this.despatch.feeItem = this.tempentry.feeItem;
 
 
             let ddEntryJson = JSON.stringify(this.despatch);
@@ -378,6 +379,7 @@ export class AdjdespatchComponent implements OnInit {
               this.despatch.Amount = 0;
 
             }
+            this.despatch.feeItem = this.tempentry.feeItem;
 
 
             let ddEntryJson = JSON.stringify(this.despatch);
