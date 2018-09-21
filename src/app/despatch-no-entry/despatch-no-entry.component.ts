@@ -335,7 +335,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
             }
 
-
+            this.despatch.feeItem = this.tempentry.feeItem;
             let ddEntryJson = JSON.stringify(this.despatch);
             console.log(ddEntryJson);
             try {
@@ -386,6 +386,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
             }
 
+            this.despatch.feeItem = this.tempentry.feeItem;
 
             let ddEntryJson = JSON.stringify(this.despatch);
             console.log(ddEntryJson);
