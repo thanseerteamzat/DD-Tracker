@@ -139,12 +139,12 @@ export class DespatchNoEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     this.entered = this.ets.cookiename;
     this.despatch.enteredBy = this.entered;
     console.log('cookiename****', this.despatch.enteredBy)
@@ -176,7 +176,7 @@ export class DespatchNoEntryComponent implements OnInit {
     console.log('successs****', this.tempcenter);
 
     this.selectedData = null;
-    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key);
+    this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key );
     console.log('tempppppp', this.checklist)
     for (let i = 0; i <= this.checklist.length; i++) {
       this.checklist.splice(i, this.checklist.length);
