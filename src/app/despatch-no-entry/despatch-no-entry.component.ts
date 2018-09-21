@@ -173,7 +173,7 @@ export class DespatchNoEntryComponent implements OnInit {
     catch (e) {
 
     }
-    console.log('successs****', this.tempcenter);
+    console.log('successs**/**', this.tempcenter);
 
     this.selectedData = null;
     this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key );
