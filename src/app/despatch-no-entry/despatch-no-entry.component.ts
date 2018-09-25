@@ -35,6 +35,7 @@ export class DespatchNoEntryComponent implements OnInit {
   fromLastId;
   checklisttotal;
   temp: temp[] = []
+  tempdesplist;
   feesItems = [
     { id: '1', name: 'Course Fee' },
     { id: '2', name: 'Prospectus' },
@@ -51,6 +52,7 @@ export class DespatchNoEntryComponent implements OnInit {
   tempcentercode;
   year;
   selectfee;
+  despatchLists: Despatch[] = [];
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -126,7 +128,21 @@ export class DespatchNoEntryComponent implements OnInit {
       });
     });
 
+    let dlsRef = db.object('Despatch');
+    dlsRef.snapshotChanges().subscribe(action => {
+      var quatationsList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.despatchLists = [];
+      obj.forEach(element => {
+        let obj: Despatch = JSON.parse(element);
+        // this.newddLastId = obj;
+        this.despatchLists.push(obj as Despatch);
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+        // this.count = obj.lastId;
+        // this.fromLastId = obj.Id;
 
+      });
+    });
   }
   formatDate(date) {
     var d = new Date(date),
@@ -241,15 +257,53 @@ export class DespatchNoEntryComponent implements OnInit {
     }
     console.log('chcklist*********', this.checklist.length)
   }
+
+  // beforeRegister(key) {
+  //   console.log('center***', this.selectedcenter)
+  //   try {
+
+  //     var despatchnoExists = false;
+  //     var list = this.despatchLists;
+  //     let todaydate = new Date();
+  //     this.year = todaydate.getFullYear();
+  //     let nextyear = this.year + 1;
+  //     let stnextyear = nextyear.toString();
+  //     let styear = this.year.toString()
+  //     var splityear = styear.slice(-2)
+  //     var splitnextyear = stnextyear.slice(-2);
+  //     console.log(list)
+  //     var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+  //     console.log('ssss', despformat);
+  //     for (let i = 0; i <= this.despatchLists.length; i++) {
+  //       this.tempdesplist = this.despatchLists[i];
+  //       this.tempdesplist.despatchNo = despformat;
+
+  //       if (this.tempdesplist != null && this.tempdesplist.despatchNo == this.tempdesplist.despatchNo) {
+  //         despatchnoExists = true;
+  //         break;
+  //       }
+  //     }
+  //     if (despatchnoExists == false) {
+  //       console.log('despatch entry')
+  //       this.register(key);
+  //     }
+  //     else {
+  //       alert('despatch number duplication');
+  //       this.resetForm();
+  //     }
+  //     {
+
+  //     }
+
+  //   }
+  //   catch (e) {
+  //     console.log('Exception..', e);
+  //   }
+  // }
   register(key) {
-
-
     if (key != null) {
       this.ddtotal = 0;
 
-      // this.checklist.forEach(element => {
-      //   this.temp.push(element)
-      // })
       try {
         for (let i = 0; i <= this.checklist.length; i++) {
           let todaydate = new Date();
@@ -303,10 +357,7 @@ export class DespatchNoEntryComponent implements OnInit {
             this.despatch.despId = counter.toString();
             this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
             this.despatch.despatchNo = despformat;
-            this.checklist.forEach(element => {
-              this.despatch.feeItem = element.feesItem;
-
-            });
+            this.despatch.feeItem = this.tempentry.feeItem;
             this.despatch.isdespatchEntered = true;
             this.despatch.totalAmount = this.ddtotal;
             this.despatch.taxAmount = parseFloat(taxfloat);
@@ -354,10 +405,7 @@ export class DespatchNoEntryComponent implements OnInit {
             this.despatch.despId = counter.toString();
             this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
             this.despatch.despatchNo = despformat;
-            this.checklist.forEach(element => {
-              this.despatch.feeItem = element.feesItem;
-
-            });
+            this.despatch.feeItem = this.tempentry.feeItem;
             this.despatch.isdespatchEntered = true;
             this.despatch.totalAmount = this.ddtotal;
             this.despatch.taxAmount = 0;

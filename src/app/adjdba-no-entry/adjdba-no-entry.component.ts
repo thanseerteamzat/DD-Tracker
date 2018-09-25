@@ -377,6 +377,7 @@ export class AdjdbaNoEntryComponent implements OnInit {
                   // this.router.navigate(['/despatch-no-entry'])
               }
               catch (e) {
+                  console.log(e);
 
               }
 
@@ -441,7 +442,7 @@ export class AdjdbaNoEntryComponent implements OnInit {
               try {
                   for (let i = 0; i <= this.desplist.length; i++) {
                       this.elementdata = this.desplist[i];
-                      if (this.elementdata.Amount != 0) {
+                      if (this.elementdata.Amount != 0 && this.elementdata.Amount !=null) {
                           if (this.elementdata.feeItem == 'Course Fee') {
                               this.newInvoice.share = 15;
                               let percentage = parseFloat(this.newInvoice.shareAmount) / 100;

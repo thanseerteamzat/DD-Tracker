@@ -48,6 +48,9 @@ import { AdjentryDetailsComponent } from './adjentry-details/adjentry-details.co
 import { AdjdespatchComponent } from './adjdespatch/adjdespatch.component';
 import { AdjDespstudlistComponent } from './adj-despstudlist/adj-despstudlist.component';
 import { AdjdbaNoEntryComponent } from './adjdba-no-entry/adjdba-no-entry.component';
+import { AdjdbaDetailsComponent } from './adjdba-details/adjdba-details.component';
+import { AdjpendingddComponent } from './adjpendingdd/adjpendingdd.component';
+import { ErpdespatchEntryComponent } from './erpdespatch-entry/erpdespatch-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -81,6 +84,9 @@ const appRoutes: Routes = [
   { path:'adjdespatch-no-entry',component:AdjdespatchComponent},
   {path :'adjdespstudlist',component:AdjDespstudlistComponent},
   { path: 'adjdba-no-entry',component:AdjdbaNoEntryComponent},
+  {path:'adjdba-details',component:AdjdbaDetailsComponent},
+  {path:'adjpending-dd',component:AdjpendingddComponent},
+  {path:'erp-despatch-entry',component:ErpdespatchEntryComponent }
 ];
 
 
@@ -116,6 +122,9 @@ const appRoutes: Routes = [
     AdjdespatchComponent,
     AdjDespstudlistComponent,
     AdjdbaNoEntryComponent,
+    AdjdbaDetailsComponent,
+    AdjpendingddComponent,
+    ErpdespatchEntryComponent,
   ],
   imports: [
     FormsModule,

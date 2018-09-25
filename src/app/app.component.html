@@ -71,6 +71,9 @@
             <a routerLink="/adjdespatch-no-entry">Adj Entry</a>
           </div>
         </div>
+
+        <button class="but" mat-button ><a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a></button> 
+        
         <!-- <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><a routerLink="/dd-verification">KCVTP</a></button>
@@ -148,17 +151,33 @@
           <div class="dropdown-content">
             <a routerLink="/dba-no-entry">KCVTP</a>
             <a >KKC</a>
-            <a routerLink="">Adj Entry</a>
+            <a routerLink="/">Adj Entry</a>
           </div>
         </div>
         
+        <div class="dropdown">
+          <button class="dropbtn">DBA Details</button>
+          <div class="dropdown-content">
+            <a routerLink="/dba-details">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/">Adj Entry</a>
+          </div>
+        </div>
         
         <!-- <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button>  -->
-        <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button> 
+        <!-- <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button>  -->
         <button class="but" mat-button ><a routerLink="/invoice">Invoice</a></button> 
 
-        <button class="but" mat-button ><a routerLink="/pending-dd">Pending DD's</a></button> 
-      
+        <!-- <button class="but" mat-button ><a routerLink="/pending-dd">Pending DD's</a></button>  -->
+      <div class="dropdown">
+          <button class="dropbtn">Pending DD's</button>
+          <div class="dropdown-content">
+            <a routerLink="/pending-dd">KCVTP</a>
+            <a >KKC</a>
+            <a routerLink="/adjpending-dd">Adj Entry</a>
+          </div>
+        </div>
+        
            <!-- <mat-menu #menu="matMenu">
           <button mat-menu-item>
             <a routerLink="/addbank">Add New Bank </a>

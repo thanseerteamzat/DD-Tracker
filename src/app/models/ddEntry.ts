@@ -1,14 +1,11 @@
 import { Center } from "./Center";
-
 export class ddEntry {
     dduId: string; //guid
     ddlastId: string; //ddId updation
-
     dDate: string;
     centerId: string;
     centerName: string;
     courseName: string;
-
     ddNumber: string;
     appNo: string;
     studentName: string;
@@ -72,16 +69,13 @@ export class CheckTemp {
     feeWT: string;
 
 }
-
 export class temp {
     dduId: string; //guid
     ddlastId: string; //ddId updation
-
     dDate: string;
     centerId: string;
     centerName: string;
     courseName: string;
-
     ddNumber: string;
     appNo: string;
     studentName: string;
