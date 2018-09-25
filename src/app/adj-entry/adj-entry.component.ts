@@ -507,7 +507,7 @@ export class AdjEntryComponent implements OnInit {
 
           try {
             this.db.database.ref('adjddEntry').child(this.adjlastidvalue).set(ddEntryJson);
-            alert("DD Entry added successfully!! Please note DD Serial No : A" + this.newddEntry.ddlastId);
+            alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
             this.router.navigate(['/adjustment']);
           }
           catch (ex) {
@@ -562,7 +562,7 @@ export class AdjEntryComponent implements OnInit {
         try {
           this.db.database.ref('adjddEntry').child(this.adjlastidvalue).set(ddEntryJson);
 
-          alert("DD Entry added successfully!! Please note DD Serial No : A" + this.newddEntry.ddlastId);
+          alert("DD Entry added successfully!! Please note DD Serial No : " + this.newddEntry.ddlastId);
           this.router.navigate(['/adjustment']);
         }
         catch (ex) {
