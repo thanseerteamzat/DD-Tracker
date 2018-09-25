@@ -28,7 +28,7 @@ export class ErpdespdetailsComponent implements OnInit {
     private fb: FormBuilder,
     private cookieservice: CookieService) { 
     let id = this.route.snapshot.paramMap.get('erpdespId');
-    console.log('id******************',id);
+    console.log('id************ ******',id);
       let dReference = db.object('erpdespatch');
       dReference.snapshotChanges().subscribe(action => {
         console.log(action.type);
