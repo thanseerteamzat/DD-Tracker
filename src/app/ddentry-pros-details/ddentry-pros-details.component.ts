@@ -99,6 +99,7 @@ if(id != undefined){
       if (obj.ddlastId != undefined && (obj.ddlastId==id)) {
         obj.ddlastId = obj.ddlastId.replace("/", "");
         this.newddentry = obj;
+        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',this.newddentry);
         // console.log('000000000000000',this.newddentry)
         // console.log(this.newddentry.centerId);
         // console.log(this.newddentry.courseName);

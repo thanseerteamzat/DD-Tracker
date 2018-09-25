@@ -118,6 +118,14 @@ formatDate(date) {
 
   return [year, month, day].join('-');
 }
+
+entrySelection(erpdespId,despenter:erpDespatch) {
+console.log(despenter);
+console.log(erpdespId)
+this.router.navigate(['/erpdesp-details/' + erpdespId])
+
+
+}
 register(){
   this.erpdespatch.centerName=this.selectedcenter;
   this.erpdespatch.erpAmount=this.selectedamount;

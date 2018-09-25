@@ -7,4 +7,5 @@ export class erpDespatch {
     erpdate:string;
     noofDd:String;
     erpAmount:string;
+    isEditable:Boolean;
 }
