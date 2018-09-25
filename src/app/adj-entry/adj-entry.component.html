@@ -15,8 +15,8 @@
                   <div class="form-group col-md-3">
                       <br>
                       <label for="ddid"> DD Serial No : &nbsp;</label>
-                      <span *ngIf='!isEditMode' style="color: red">A{{lstid.lastId +1}}</span>
-                      <span *ngIf='isEditMode' style="color: red">A{{newddEntry.ddlastId}}</span>
+                      <span *ngIf='!isEditMode' style="color: red">{{adjlastidvalue  }}</span>
+                      <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
 
                       <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
                   </div>
@@ -413,7 +413,7 @@
           <ng-container *ngFor='let ddenter of ddLists '>
               <tr *ngIf="(ddenter.ddenter.isVerified  == false && ddenter.ddenter.isddCanceled == null)">
                   <td>{{ddLists.indexOf(ddenter) + 1}}</td>
-                  <td>A{{ddenter.ddenter.ddlastId}}</td>
+                  <td>{{ddenter.ddenter.ddlastId}}</td>
                   <td>{{ddenter.ddenter.dDate}}</td>
                   <td>{{ddenter.ddenter.appNo}}</td>
 

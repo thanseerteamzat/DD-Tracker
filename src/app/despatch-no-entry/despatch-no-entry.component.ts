@@ -54,6 +54,8 @@ export class DespatchNoEntryComponent implements OnInit {
     selectfee;
     checklistddTotal;
     despatchLists: Despatch[] = [];
+    checklisttemp;
+    index;
     constructor(private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
@@ -236,36 +238,49 @@ export class DespatchNoEntryComponent implements OnInit {
 
     }
 
+    chechlistTotal(checklist) {
+        for (let i = 0; i <= checklist.length; i++) {
 
+            this.checklisttemp = checklist[i];
+            if (this.checklisttemp != null) {
+                this.checklistddTotal = parseFloat(this.checklistddTotal) + parseFloat(this.checklisttemp.Amount);
+            }
+        }
+    }
     onClick(event, temp, ddEntry: ddEntry) {
         console.log('id', temp)
         if (event == true) {
             // for (let i = 0; i != temp.length; i++) {
-            this.checklistddTotal = 0;
+            // console.log('index', index)
 
             this.checklist.push(ddEntry);
 
             this.checklisttotal = this.checklist.length;
-            // }
-            for (let i = 0; i <= this.checklist.length; i++)
-                var checktemp = this.checklist[i];
+            this.checklistddTotal = 0;
+            this.chechlistTotal(this.checklist)
+            console.log('0000', this.checklist)
 
-            this.checklistddTotal = parseFloat(this.checklistddTotal) + parseFloat(checktemp.Amount);
+            console.log('1111', this.checklistddTotal)
 
         }
 
         else if (event == false) {
-            this.checklistddTotal = 0;
 
-            this.checklist.pop();
+            if (temp != null) {
+                // this.checklist.pop();
+                // console.log('index', index)
+                console.log('id', temp)
 
+                this.index = this.checklist.findIndex(list => list.ddlastId == temp)
+                this.checklist.splice(this.index,1)
+                this.checklisttotal = this.checklist.length;
 
-            for (let i = 0; i <= this.checklist.length; i++)
+                this.checklistddTotal = 0;
+                console.log('0000', this.index)
 
-                var checktemp = this.checklist[i];
-
-            this.checklistddTotal = parseFloat(this.checklistddTotal) - parseFloat(checktemp.Amount);
-
+                this.chechlistTotal(this.checklist)
+                console.log('checklist', this.checklist)
+            }
         }
     }
 
