@@ -91,6 +91,7 @@ export class AdjEntryComponent implements OnInit {
   newddentry: adjddEntry = new adjddEntry();
   qIdEditMode: string = undefined;
   check: string;
+  adjlastidvalue;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -210,6 +211,13 @@ export class AdjEntryComponent implements OnInit {
         this.ddLastids.push(obj as adjddLastid);
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
         this.count = obj.lastId;
+        console.log('split', this.count)
+
+        var split = this.count.split('')[1];
+        console.log('split', split)
+        var counter = parseInt(split) + 1;
+        this.adjlastidvalue = 'A' + counter;
+        console.log('splitted value', this.adjlastidvalue)
         this.fromLastId = obj.Id;
 
       });
@@ -249,7 +257,7 @@ export class AdjEntryComponent implements OnInit {
 
     // console.log('***********************',ddList)
 
-   
+
     this.newddentry.enteredBy = this.ets.cookiename;
 
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
@@ -281,6 +289,7 @@ export class AdjEntryComponent implements OnInit {
 
 
   beforeregister(key, dlastid: adjddLastid) {
+    console.log(key)
     try {
       var applicationNoExists = false;
       for (let i = 0; i <= this.ddLists.length; i++) {
@@ -298,7 +307,7 @@ export class AdjEntryComponent implements OnInit {
       if (applicationNoExists === false) {
         this.register(key, dlastid);
       }
-      else{
+      else {
         alert('application number duplication')
       }
       // if (a != 1) {
@@ -450,10 +459,10 @@ export class AdjEntryComponent implements OnInit {
           var counter = parseInt(this.count) + 1;
           //updating lastid
           var updates = {};
-          dlastid.lastId = counter;
+          dlastid.lastId = this.adjlastidvalue;
           updates['/adjddlastId/' + key] = JSON.stringify(dlastid);
           let up = this.db.database.ref().update(updates);
-          this.newddEntry.ddlastId = counter.toString();
+          this.newddEntry.ddlastId = this.adjlastidvalue
           this.newddEntry.centerId = this.selectedcenter;
           this.newddEntry.courseName = this.selectedcourse;
           this.selecteddate = this.todaydate;
@@ -473,7 +482,7 @@ export class AdjEntryComponent implements OnInit {
           let ddentryTempJson = JSON.stringify(this.newddentryTemp);
 
           try {
-            this.db.database.ref('adjddentryTemp').child(counter.toString()).set(ddentryTempJson);
+            this.db.database.ref('adjddentryTemp').child(this.adjlastidvalue).set(ddentryTempJson);
 
           }
           catch (ex) {
@@ -497,8 +506,8 @@ export class AdjEntryComponent implements OnInit {
           let ddEntryJson = JSON.stringify(this.newddEntry);
 
           try {
-            this.db.database.ref('adjddEntry').child(counter.toString()).set(ddEntryJson);
-            alert("DD Entry added successfully!! Please note DD Serial No : A"+ this.newddEntry.ddlastId);
+            this.db.database.ref('adjddEntry').child(this.adjlastidvalue).set(ddEntryJson);
+            alert("DD Entry added successfully!! Please note DD Serial No : A" + this.newddEntry.ddlastId);
             this.router.navigate(['/adjustment']);
           }
           catch (ex) {
@@ -511,10 +520,10 @@ export class AdjEntryComponent implements OnInit {
         var counter = parseInt(this.count) + 1;
         //updating lastid
         var updates = {};
-        dlastid.lastId = counter;
+        dlastid.lastId = this.adjlastidvalue;
         updates['/adjddlastId/' + key] = JSON.stringify(dlastid);
         let up = this.db.database.ref().update(updates);
-        this.newddEntry.ddlastId = counter.toString();
+        this.newddEntry.ddlastId = this.adjlastidvalue;
         this.newddEntry.centerId = this.selectedcenter;
         this.newddEntry.courseName = this.selectedcourse;
         this.newddEntry.ddDate = this.formatDate(this.selecteddate);
@@ -527,7 +536,7 @@ export class AdjEntryComponent implements OnInit {
         let ddentryTempJson = JSON.stringify(this.newddentryTemp);
 
         try {
-          this.db.database.ref('adjddentryTemp').child(counter.toString()).set(ddentryTempJson);
+          this.db.database.ref('adjddentryTemp').child(this.adjlastidvalue).set(ddentryTempJson);
 
         }
         catch (ex) {
@@ -551,9 +560,9 @@ export class AdjEntryComponent implements OnInit {
         let ddEntryJson = JSON.stringify(this.newddEntry);
 
         try {
-          this.db.database.ref('adjddEntry').child(counter.toString()).set(ddEntryJson);
+          this.db.database.ref('adjddEntry').child(this.adjlastidvalue).set(ddEntryJson);
 
-          alert("DD Entry added successfully!! Please note DD Serial No : A"+ this.newddEntry.ddlastId);
+          alert("DD Entry added successfully!! Please note DD Serial No : A" + this.newddEntry.ddlastId);
           this.router.navigate(['/adjustment']);
         }
         catch (ex) {

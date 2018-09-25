@@ -5,7 +5,7 @@ import { Course } from '../models/Course';
 export class adjddLastid
 {
     Id:string;
-    lastId :number;
+    lastId :string;
 }
 
 export class adjddList {
