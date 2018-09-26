@@ -23,7 +23,7 @@ export class BankComponent implements OnInit {
   ddktc:Dddetails[];
    newddLastid: adjddLastid = new adjddLastid();
   // order: string;
-  // ddLastids: Despatch[] = [];
+   ddLastids: Despatch[] = [];
 
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute ,private ets:EtsService) {
 
@@ -53,16 +53,16 @@ export class BankComponent implements OnInit {
     //   console.log(atob(userId), atob(password));
     //   console.log(btoa(userId), btoa(password));
     // });  let that = this;
-    let that=this;
-    this.ets.GetddfromTtc().subscribe(data => {
-      that.ddktc = data;
-     console.log(this.ddktc);
+    // let that=this;
+    // this.ets.GetddfromTtc().subscribe(data => {
+    //   that.ddktc = data;
+    //  console.log(this.ddktc);
       
-      // this.ets.centerList = this.centers;
+    //   // this.ets.centerList = this.centers;
 
-    },
-      error => console.log(error),
-      () => console.log('Get all complete'));
+    // },
+    //   error => console.log(error),
+    //   () => console.log('Get all complete'));
 
 
 
@@ -89,8 +89,8 @@ export class BankComponent implements OnInit {
     //code for 
     // this.ddLastids.forEach(element => {
 
-    //   if (element.feeItem == "Course Fee") {
-    //     element.Rate = 65;
+    //   if (element.feeItem == "Prospectus") {
+    //     element.Rate = 80;
 
     //     let rate = (parseFloat(element.FWT.toString()) * parseFloat(element.Rate.toString())) / 100;
     //     let frate = rate.toFixed(2);
@@ -105,8 +105,9 @@ export class BankComponent implements OnInit {
     //     }
     //     catch (e) {
 
-    //     } console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+    //     } console.log('aaaaaaaaaaaaaaaaaaaa',this.ddLastids )
     //   }
+    // })
     //   else if (element.feeItem == "Inspection") {
     //     element.Rate = 60;
 
@@ -174,20 +175,20 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    let uniqueId = "/DD" + Common.newGuid();
-    this.newddLastid.Id = uniqueId;
+  //   let uniqueId = "/DD" + Common.newGuid();
+  //   this.newddLastid.Id = uniqueId;
 
 
-    let ddEntryJson = JSON.stringify(this.newddLastid);
-    console.log(ddEntryJson);
-    try {
-      this.db.database.ref('erpdespatchId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!..");
+  //   let ddEntryJson = JSON.stringify(this.newddLastid);
+  //   console.log(ddEntryJson);
+  //   try {
+  //     this.db.database.ref('erpdespatchId').child(uniqueId).set(ddEntryJson);
+  //     alert("DD Entry added successfully!!..");
 
-    }
-    catch (ex) {
+  //   }
+  //   catch (ex) {
 
-    }
+  //   }
     
   }
 
