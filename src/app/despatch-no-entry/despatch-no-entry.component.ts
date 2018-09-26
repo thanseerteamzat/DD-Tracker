@@ -287,43 +287,43 @@ export class DespatchNoEntryComponent implements OnInit {
 
     beforeRegister(key) {
         console.log('key***', key)
-
-        var despatchnoExists = false;
-        var list = this.despatchLists;
-        let todaydate = new Date();
-        this.year = todaydate.getFullYear();
-        let nextyear = this.year + 1;
-        let stnextyear = nextyear.toString();
-        let styear = this.year.toString()
-        var splityear = styear.slice(-2)
-        var splitnextyear = stnextyear.slice(-2);
-        console.log(list)
-        var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
-        this.despatch.despatchNo = despformat;
-        // this.despatch.despatchNo
-        for (let i = 0; i <= this.despatchLists.length; i++) {
-            this.tempdesplist = this.despatchLists[i];
-
-            if (this.tempdesplist != null && this.tempdesplist.despatchNo == this.despatch.despatchNo) {
-                despatchnoExists = true;
-                break;
-            }
-        }
-        if (despatchnoExists == false) {
-            console.log('ssss', despformat);
-            console.log(despatchnoExists)
-            console.log('despatch entry')
-            this.register(key);
+        if (this.checklist.length == 0) {
+            alert('Please select any Entry !!')
         }
         else {
-            alert('despatch number duplication');
-            this.resetForm();
+
+            var despatchnoExists = false;
+            var list = this.despatchLists;
+            let todaydate = new Date();
+            this.year = todaydate.getFullYear();
+            let nextyear = this.year + 1;
+            let stnextyear = nextyear.toString();
+            let styear = this.year.toString()
+            var splityear = styear.slice(-2)
+            var splitnextyear = stnextyear.slice(-2);
+            console.log(list)
+            var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+            this.despatch.despatchNo = despformat;
+            // this.despatch.despatchNo
+            for (let i = 0; i <= this.despatchLists.length; i++) {
+                this.tempdesplist = this.despatchLists[i];
+
+                if (this.tempdesplist != null && this.tempdesplist.despatchNo == this.despatch.despatchNo) {
+                    despatchnoExists = true;
+                    break;
+                }
+            }
+            if (despatchnoExists == false) {
+                console.log('ssss', despformat);
+                console.log(despatchnoExists)
+                console.log('despatch entry')
+                this.register(key);
+            }
+            else {
+                alert('despatch number duplication');
+                this.resetForm();
+            }
         }
-        {
-
-        }
-
-
     }
     register(key) {
         if (key != null) {
