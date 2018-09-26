@@ -98,7 +98,7 @@ export class ErpdespatchEntryComponent implements OnInit {
       });
 
 
-      console.log('******************************',this.erpdespatchList)
+      console.log('**********************************',this.erpdespatchList)
 
   let that = this;
   this.ets.GetAllCenters().subscribe(data => {
