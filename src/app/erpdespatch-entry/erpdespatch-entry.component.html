@@ -30,10 +30,18 @@
                 <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
                     [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 <label for="">ERP Despatch No</label>
-                <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" >
+                <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" formControlName="erpdespno"  >
                 <button type="button" (click)="clickme(text.value)" class="form-control" >Get Center</button>
+
+                <div *ngIf="erpdespno.invalid && (erpdespno.dirty || erpdespno.touched)" class="alert-danger">
+                        <div *ngIf="erpdespno.errors.required">
+                            ERP desp number is required
+                        </div>
+                        </div>
+
+
 
             </div>
 
@@ -70,16 +78,29 @@
             </div>  -->
             <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 <label for="noofdd">No.of DD</label>
-                <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control"formControlName="noofDd" >
+                <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control" formControlName="noofDd" >
 
-
+                <div *ngIf="noofDd.invalid && (noofDd.dirty || noofDd.touched)" class="alert-danger">
+                        <div *ngIf="noofDd.errors.required">
+                            No of DD is Required
+                        </div>
+                        <div *ngIf="noofDd.errors.pattern">
+                                Please enter digit format
+                            </div></div>
             </div>
 
             <div class="form-row">
             <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 <label for="amount">DD Amount</label>
                 <input type="text" [(ngModel)]="selectedamount" name="selectedamount" class="form-control" formControlName="ddamount">
-
+                <div *ngIf="ddamount.invalid && (ddamount.dirty || ddamount.touched)" class="alert-danger">
+                        <div *ngIf="ddamount.errors.required">
+                            DD Amount is Required
+                        </div>
+                        <div *ngIf="ddamount.errors.pattern">
+                                Please enter digit format
+                            </div>
+                    </div>
 
             </div>
 
@@ -95,10 +116,11 @@
             <div class="form-group col-md-4"></div>
             <div class="form-group col-md-4"></div>
             <div class="form-group col-md-4"></div>
+            <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 
-            <button  type="submit" (click)="register(lstid.Id,lstid)" 
+            <button [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" 
             class="btn btn-primary">Submit</button>
-            
+            </div>
             
              </div></div>
            </ng-container>     </form>

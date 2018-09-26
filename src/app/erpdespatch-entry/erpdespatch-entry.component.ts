@@ -206,9 +206,9 @@ register(key, dlastid: erpDespatchId){
 ddentryForm = new FormGroup({
 
   centerName: new FormControl(),
-  date: new FormControl(),
+  // date: new FormControl(),
   erpdespno: new FormControl(),
-  erpdate: new FormControl(),
+  // erpdate: new FormControl(),
   noodDd: new FormControl(),
   ddamount: new FormControl(),
   remarks: new FormControl(),
@@ -220,11 +220,11 @@ ddcreateForm() {
     {
       // currentDate: [null, Validators.required],
       centerName: [null, Validators.required],
-      date: [null, Validators.required],
+      // date: [null, Validators.required],
       erpdespno: [null, Validators.required],
-      erpdate: [null, Validators.required],
-      noofDd: [null, Validators.required],
-      ddamount: [null, Validators.required],
+      // erpdate: [null, Validators.required],
+      noofDd: [null,Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
+      ddamount: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
       // remarks: [null, Validators.required],
 
 
@@ -233,9 +233,9 @@ ddcreateForm() {
 
 
 get centerName() { return this.ddentryForm.get('centerName'); }
-get date() { return this.ddentryForm.get('date'); }
+// get date() { return this.ddentryForm.get('date'); }
 get erpdespno() { return this.ddentryForm.get('centerName'); }
-get erpdate() { return this.ddentryForm.get('erpdate'); }
+// get erpdate() { return this.ddentryForm.get('erpdate'); }
 get noofDd() { return this.ddentryForm.get('noofDd'); }
 get ddamount() { return this.ddentryForm.get('ddamount'); }
 
@@ -244,9 +244,9 @@ resetForm() {
     {
       // currentDate: null,
       centerName: null,
-      date:null,
+      // date:null,
       erpdespno:null,
-     erpdate:null,
+    //  erpdate:null,
    noofDd:null,
    ddamount:null
     }
