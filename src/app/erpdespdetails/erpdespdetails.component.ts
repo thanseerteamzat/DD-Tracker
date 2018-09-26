@@ -18,7 +18,10 @@ import { O_NONBLOCK } from 'constants';
 export class ErpdespdetailsComponent implements OnInit {
 
   newerpdespatch:erpDespatch =new erpDespatch();
-
+  erpdespNo;
+  todaydate;
+  todaydatee;
+  selectednodd;
   constructor( private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router,
