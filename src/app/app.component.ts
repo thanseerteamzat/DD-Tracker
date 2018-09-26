@@ -11,7 +11,7 @@ import { EtsService } from './services/ets.service';
 })
 export class AppComponent implements OnInit {
   title = 'DD Tracker';
-  version = '25/09/2018(3pm)';
+  version = '26/09/2018(4pm)';
   // userId:[];
   cookievalue;
   expiredDate: Date;
