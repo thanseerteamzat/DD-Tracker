@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, } from "@angular/common/http";
 import { ConfigService } from "src/app/services/config.service";
 import { map } from 'rxjs/operators';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
 import { CookieService } from 'ngx-cookie-service';
+import { dbaEntry } from '../models/dbaEntry';
 
 
 @Injectable({
@@ -31,20 +32,22 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'course?centername=' + centerName)
 
   }
-  GetCenterbyDist = (district):Observable<any>=>{
-    return this.http.get(this.config.apiUrl + 'center?district='+ district)
+  GetCenterbyDist = (district): Observable<any> => {
+    return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = () : Observable<any> => {
-    return this.http.get(this.config.apiUrlKKC+'payment.php')
+  GetddfromTtc = (): Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC + 'payment.php')
 
   }
   getCookie(cookievalue) {
     return this.cookieService.get(cookievalue);
 
   }
-  setCookie(cookiename, cookievalue,expirydate) {
-    return this.cookieService.set(cookiename, cookievalue,expirydate)
+  setCookie(cookiename, cookievalue, expirydate) {
+    return this.cookieService.set(cookiename, cookievalue, expirydate)
 
   }
+
+
 }
