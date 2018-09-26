@@ -4,14 +4,14 @@
   <div id="content" class="createcontent">
       <div class="form-row">
           <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-          <h1 *ngIf='!isEditMode'>ERP Despatch Entry</h1>
-          <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1>
+          <h1 >ERP Despatch Entry</h1>
+          <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
 
       </div>
 
       <br>
       <br>
-      <form name="form" (ngSubmit)="register()">
+      <form name="form">
       <div class="row">
           <div class="form-group col-md-4">
               <label for="date">Date</label>
@@ -21,7 +21,7 @@
           <div class="form-group col-md-4">
               <label for="">ERP Despatch No</label>
               <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" >
-              <button type="button" (click)=clickme(text.value) class="form-control" >Get Center</button>
+              <button type="button"  class="form-control" >Get Center</button>
 
           </div>
 
@@ -60,7 +60,7 @@
               <input type="text" [(ngModel)]="newerpdespatch.erpAmount" name="selectedamount" class="form-control">
 
 
-          </div> <button *ngIf='!isEditMode' type="submit" (click)="register()" 
+          </div> <button  type="submit" 
           class="btn btn-primary">Submit</button>
           
           

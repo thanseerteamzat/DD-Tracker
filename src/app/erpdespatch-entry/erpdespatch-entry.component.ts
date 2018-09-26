@@ -47,7 +47,12 @@ export class ErpdespatchEntryComponent implements OnInit {
   erpdespatch:erpDespatch = new erpDespatch();
   centers:Center[];
   ngOnInit(){
-
+    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
   constructor(  private route: ActivatedRoute,
     private db: AngularFireDatabase,

@@ -4,14 +4,14 @@
     <div id="content" class="createcontent">
         <div class="form-row">
             <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-            <h1 *ngIf='!isEditMode'>ERP Despatch Entry</h1>
-            <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1>
+            <h1 >ERP Despatch Entry</h1>
+            <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
 
         </div>
 
         <br>
         <br>
-        <form name="form" (ngSubmit)="register()">
+        <form name="form">
                 <ng-container *ngFor="let lstid of ddLastids">
                         <div class="row">
         
@@ -33,7 +33,7 @@
             <div class="form-group col-md-4">
                 <label for="">ERP Despatch No</label>
                 <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" >
-                <button type="button" (click)=clickme(text.value) class="form-control" >Get Center</button>
+                <button type="button" (click)="clickme(text.value)" class="form-control" >Get Center</button>
 
             </div>
 
@@ -96,7 +96,7 @@
             <div class="form-group col-md-4"></div>
             <div class="form-group col-md-4"></div>
                 
-            <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" 
+            <button  type="submit" (click)="register(lstid.Id,lstid)" 
             class="btn btn-primary">Submit</button>
             
             
