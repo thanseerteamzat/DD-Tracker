@@ -191,7 +191,7 @@ register(key, dlastid: erpDespatchId){
   try {
     this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
     alert("Added Successfully");
-    this.router.navigate(['/erp-despatch-entrry']);
+    this.router.navigate(['/erp-despatch-entry']);
   }
   catch (ex) {
     alert("Error in adding Quotation");
