@@ -14,7 +14,7 @@ import { EtsService } from "src/app/services/ets.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ddLastid } from '../models/ddLastid';
 import { erpDespatch } from '../models/erpdespatch'
-
+import { erpDespatchId}from '../models/erpdespId'
 import { ddentryTemp } from '../models/ddentryTemp';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -25,7 +25,11 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./erpdespatch-entry.component.css']
 })
 export class ErpdespatchEntryComponent implements OnInit {
+  count;
   erpdespatchList:erpDespatch[]=[];
+  ddLastids: erpDespatchId[] = [];
+  fromLastId;
+
   erpdespNo;
   selectedcenter;
   selectedamount;
@@ -33,6 +37,7 @@ export class ErpdespatchEntryComponent implements OnInit {
   tempcenterList
   todaydate=new Date;
   centerList: Center[] = [];
+  newddLastId: erpDespatchId = new erpDespatchId();
 
   selecteddate;
   todaydatee=new Date;
@@ -50,6 +55,30 @@ export class ErpdespatchEntryComponent implements OnInit {
     private ets: EtsService,
     private fb: FormBuilder,
     private cookieservice: CookieService){
+
+
+      let itemRef = db.object('erpdespatchId');
+      itemRef.snapshotChanges().subscribe(action => {
+        var quatationsList = action.payload.val();
+        let obj = Common.snapshotToArray(action.payload);
+        this.ddLastids = [];
+        obj.forEach(element => {
+          let obj: erpDespatchId = JSON.parse(element);
+          this.newddLastId = obj;
+          console.log(obj,'****************************obj')
+          this.ddLastids.push(obj as erpDespatchId);
+
+          // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
+          this.count = obj.lastId;
+          this.fromLastId = obj.Id;
+          console.log(this.ddLastids,'************************************************************')
+          console.log(this.count,'*********************************')
+  
+        });
+      });
+  
+
+
 
       let erpdespatchitemRef = db.object('erpdespatch');
       erpdespatchitemRef.snapshotChanges().subscribe(action => {
@@ -126,7 +155,15 @@ this.router.navigate(['/erpdesp-details/' + erpdespId])
 
 
 }
-register(){
+register(key, dlastid: erpDespatchId){
+  console.log(key,'key***********************')
+  var counter = parseInt(this.count) + 1;
+  console.log(counter,'****************************countrr')
+  var updates = {};
+  dlastid.lastId = counter;
+  console.log(dlastid.lastId,'lastiddddddddddddddddddddd')
+  updates['/erpdespatchId/'+ key] = JSON.stringify(dlastid);
+  
   this.erpdespatch.centerName=this.selectedcenter;
   this.erpdespatch.erpAmount=this.selectedamount;
   this.erpdespatch.noofDd=this.selectednodd;
@@ -143,14 +180,14 @@ register(){
   console.log(str,'*************************')
   let uniqueId = "/Q" + Common.newGuid();
   console.log("****" + uniqueId);
-  this.erpdespatch.erpdespId = uniqueId;
+  this.erpdespatch.erpdespId = counter.toString();
 
   let erpDespatchJson = JSON.stringify(this.erpdespatch);
   console.log(erpDespatchJson);
   try {
-    this.db.database.ref('erpdespatch').child(uniqueId).set(erpDespatchJson);
+    this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
     alert("Added Successfully");
-    this.router.navigate(['/dd-entry']);
+    this.router.navigate(['/erp-despatch-entry']);
   }
   catch (ex) {
     alert("Error in adding Quotation");

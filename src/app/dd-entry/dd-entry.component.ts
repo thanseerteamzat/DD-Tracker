@@ -106,7 +106,7 @@ export class DdEntryComponent implements OnInit {
     this.minDate.setDate(this.minDate.getDate() - 4);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
 
-    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.minDateDD.setDate(this.minDateDD.getDate() - 60);
     this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     // this.tempcheck = new Date ;  
     // this.newddEntry.ddDate = this.tempcheck;

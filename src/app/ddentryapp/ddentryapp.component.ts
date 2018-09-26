@@ -112,7 +112,7 @@ selecteddatee;
 
     this.minDateDD = new Date();
     this.maxDateDD = new Date();
-    this.minDateDD.setDate(this.minDateDD.getDate() - 50);
+    this.minDateDD.setDate(this.minDateDD.getDate() - 60);
     this.maxDateDD.setDate(this.maxDateDD.getDate() + 0);
     this.ddcreateForm();
 
