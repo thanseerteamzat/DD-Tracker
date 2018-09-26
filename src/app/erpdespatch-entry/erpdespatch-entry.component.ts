@@ -4,7 +4,7 @@ import { Course } from '../models/Course';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
-import { ddEntry, ddList } from '../models/ddEntry';
+// import { ddEntry, ddList } from '../models/ddEntry';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -12,11 +12,12 @@ import { map } from 'rxjs/operators';
 import { ConfigService } from "src/app/services/config.service";
 import { EtsService } from "src/app/services/ets.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { ddLastid } from '../models/ddLastid';
+// import { ddLastid } from '../models/ddLastid';
 import { erpDespatch } from '../models/erpdespatch'
-import { erpDespatchId}from '../models/erpdespId'
-import { ddentryTemp } from '../models/ddentryTemp';
+
+// import { ddentryTemp } from '../models/ddentryTemp';
 import { CookieService } from 'ngx-cookie-service';
+import {erpDespatchId} from '../models/erpdespId'
 
 
 @Component({
@@ -25,20 +26,21 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./erpdespatch-entry.component.css']
 })
 export class ErpdespatchEntryComponent implements OnInit {
-  count;
   erpdespatchList:erpDespatch[]=[];
-  ddLastids: erpDespatchId[] = [];
-  fromLastId;
-
   erpdespNo;
   selectedcenter;
+  selectedremarks;
   selectedamount;
   selectednodd;
   tempcenterList
   todaydate=new Date;
   centerList: Center[] = [];
   newddLastId: erpDespatchId = new erpDespatchId();
-
+  ddLastids: erpDespatchId[] = [];
+  newLastid: erpDespatchId = new erpDespatchId();
+  count;
+  fromLastId;
+  
   selecteddate;
   todaydatee=new Date;
   selecteddatee;
@@ -57,6 +59,8 @@ export class ErpdespatchEntryComponent implements OnInit {
     private cookieservice: CookieService){
 
 
+    this.ddcreateForm();
+      
       let itemRef = db.object('erpdespatchId');
       itemRef.snapshotChanges().subscribe(action => {
         var quatationsList = action.payload.val();
@@ -65,17 +69,17 @@ export class ErpdespatchEntryComponent implements OnInit {
         obj.forEach(element => {
           let obj: erpDespatchId = JSON.parse(element);
           this.newddLastId = obj;
-          // console.log(obj,'****************************obj')
           this.ddLastids.push(obj as erpDespatchId);
-
           // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
           this.count = obj.lastId;
           this.fromLastId = obj.Id;
-          
   
         });
       });
   
+
+
+      
 
 
 
@@ -155,45 +159,94 @@ this.router.navigate(['/erpdesp-details/' + erpdespId])
 
 }
 register(key, dlastid: erpDespatchId){
-  console.log('checkkk',key)
-  // this.router.navigate(['/dd-entry']);
-   var counter = parseInt(this.count) + 1;
-   console.log(counter,'****************************countrr')
-  // var updates = {};
-  // dlastid.lastId = counter;
-  // console.log(dlastid.lastId,'lastiddddddddddddddddddddd')
-  // updates['/erpdespatchId/'+ key] = JSON.stringify(dlastid);
-  
-  // this.erpdespatch.centerName=this.selectedcenter;
-  // this.erpdespatch.erpAmount=this.selectedamount;
-  // this.erpdespatch.noofDd=this.selectednodd;
-  // this.selecteddate=this.todaydate
-  // this.erpdespatch.date=this.formatDate(this.selecteddate);
-  // this.selecteddatee=this.todaydatee;
-  // this.erpdespatch.erpdate=this.formatDate(this.selecteddatee);
-  // this.erpdespatch.centerName=this.selectedcenter;
-  // this.erpdespatch.erpdespNo=this.erpdespNo;
-  // var str=this.erpdespNo;
-  // str=(str.match(/.{1,4}/g)); 
-  // var abc=str[1];
-  // console.log(abc,'1111111111')
-  // console.log(str,'*************************')
-  // let uniqueId = "/Q" + Common.newGuid();
-  // console.log("****" + uniqueId);
-  // this.erpdespatch.erpdespId = counter.toString();
+  var counter = parseInt(this.count) + 1;
+  //updating lastid
+  var updates = {};
+  dlastid.lastId = counter;
+  updates['/erpdespatchId/' + key] = JSON.stringify(dlastid);
+  let up = this.db.database.ref().update(updates);
+  this.erpdespatch.erpdespId = counter.toString();
 
-  // let erpDespatchJson = JSON.stringify(this.erpdespatch);
-  // console.log(erpDespatchJson);
-  // try {
-  //   this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
-  //   alert("Added Successfully");
-  //   this.router.navigate(['/erp-despatch-entry']);
-  // }
-  // catch (ex) {
-  //   alert("Error in adding Quotation");
-  // }
+  this.erpdespatch.remarks=this.selectedremarks
+  this.erpdespatch.centerName=this.selectedcenter;
+  this.erpdespatch.erpAmount=this.selectedamount;
+  this.erpdespatch.noofDd=this.selectednodd;
+  this.selecteddate=this.todaydate
+  this.erpdespatch.date=this.formatDate(this.selecteddate);
+  this.selecteddatee=this.todaydatee;
+  this.erpdespatch.erpdate=this.formatDate(this.selecteddatee);
+  this.erpdespatch.centerName=this.selectedcenter;
+  this.erpdespatch.erpdespNo=this.erpdespNo;
+  var str=this.erpdespNo;
+  str=(str.match(/.{1,4}/g)); 
+  var abc=str[1];
+  console.log(abc,'1111111111')
+  console.log(str,'*************************')
+  let uniqueId = "/Q" + Common.newGuid();
+  console.log("****" + uniqueId);
+  // this.erpdespatch.erpdespId = uniqueId;
+
+  let erpDespatchJson = JSON.stringify(this.erpdespatch);
+  console.log(erpDespatchJson);
+  try {
+    this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
+    alert("Added Successfully");
+    this.router.navigate(['/erp-despatch-entry']);
+  }
+  catch (ex) {
+    alert("Error in adding Quotation");
+  }
+}
+
+ddentryForm = new FormGroup({
+
+  centerName: new FormControl(),
+  date: new FormControl(),
+  erpdespno: new FormControl(),
+  erpdate: new FormControl(),
+  noodDd: new FormControl(),
+  ddamount: new FormControl(),
+  remarks: new FormControl(),
+
+
+})
+ddcreateForm() {
+  this.ddentryForm = this.fb.group(
+    {
+      // currentDate: [null, Validators.required],
+      centerName: [null, Validators.required],
+      date: [null, Validators.required],
+      erpdespno: [null, Validators.required],
+      erpdate: [null, Validators.required],
+      noofDd: [null, Validators.required],
+      ddamount: [null, Validators.required],
+      // remarks: [null, Validators.required],
+
+
+
+})}
+
+
+get centerName() { return this.ddentryForm.get('centerName'); }
+get date() { return this.ddentryForm.get('date'); }
+get erpdespno() { return this.ddentryForm.get('centerName'); }
+get erpdate() { return this.ddentryForm.get('erpdate'); }
+get noofDd() { return this.ddentryForm.get('noofDd'); }
+get ddamount() { return this.ddentryForm.get('ddamount'); }
+
+resetForm() {
+  this.ddentryForm.reset(
+    {
+      // currentDate: null,
+      centerName: null,
+      date:null,
+      erpdespno:null,
+     erpdate:null,
+   noofDd:null,
+   ddamount:null
+    }
+  )
 }
 
 
 }
-

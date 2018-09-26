@@ -11,19 +11,20 @@
 
         <br>
         <br>
-
         <form name="form" (ngSubmit)="register()">
-            <ng-container *ngFor="let lstid of ddLastids">
-
-            <div class="row">
-                    <div class="form-group col-md-3">
-                            <br>
-                            <label for="ddid"> ERP Despatch Serial No : &nbsp;</label>
-                            <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
-                            <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
-    
-                            <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
-                        </div>
+                <ng-container *ngFor="let lstid of ddLastids">
+                        <div class="row">
+        
+                            <div class="form-group col-md-4">
+                                <br>
+                                <label for="ddid"> DD Serial No : &nbsp;</label>
+                                <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
+                                <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
+        
+                                <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+                            </div>
+        
+           
             <div class="form-group col-md-4">
                 <label for="date">Date</label>
                 <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
@@ -36,24 +37,29 @@
 
             </div>
 
-
+            
         </div>
         <div class="row">
+ 
                 <div class="form-group col-md-4">
                         <label for="erpdate">ERP Date</label>
                         <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker" bsDatepicker
                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
         
                     </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4" [formGroup]="ddentryForm">
                                 <label for="center">Center Name</label>
-                                <input type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" >
-                                </div>
+                                <input type="text" [(ngModel)]="selectedcenter" formControlName="centerName" class="form-control" name="selectedcenter" >
+                                <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+                                        <div *ngIf="centerName.errors.required">
+                                            Please use get center
+                                        </div>
+                                        </div>
+              
+                            </div>
                 <!-- <div class="form-group col-md-3">
                     <label for="center">Center Name</label>
             
-                        <select  [(ngModel)]="selectedcenter" class="form-control" name="centerName" [ngModelOptions]="{standalone: true}">
-                                <option value="">--Cho
                         <select  [(ngModel)]="selectedcenter" class="form-control" name="centerName" [ngModelOptions]="{standalone: true}">
                                 <option value="">--Choose--</option>
                                 <ng-container *ngFor="let s of centers">
@@ -62,26 +68,41 @@
             
                             </select>
             </div>  -->
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 <label for="noofdd">No.of DD</label>
-                <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control">
+                <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control"formControlName="noofDd" >
 
 
             </div>
-            <div class="form-group col-md-4">
+
+            <div class="form-row">
+            <div class="form-group col-md-4" [formGroup]="ddentryForm">
                 <label for="amount">DD Amount</label>
-                <input type="text" [(ngModel)]="selectedamount" name="selectedamount" class="form-control">
+                <input type="text" [(ngModel)]="selectedamount" name="selectedamount" class="form-control" formControlName="ddamount">
 
 
-            </div> <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" 
+            </div>
+
+            <div class="form-group col-md-4">
+                    <label for="amount">Remarks</label>
+                    <input type="text" [(ngModel)]="selectedremarks" name="selectedremarks" class="form-control">
+    
+    
+                </div>
+                
+            </div>
+            <div class="form-row">
+            <div class="form-group col-md-4"></div>
+            <div class="form-group col-md-4"></div>
+            <div class="form-group col-md-4"></div>
+                
+            <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" 
             class="btn btn-primary">Submit</button>
             
             
+             </div></div>
+           </ng-container>     </form>
 
-        </div>
-    </ng-container>
-
-    </form>
                 <div style="padding-top: 20px;">
                         <h2>DD Entry List </h2>
             
@@ -91,13 +112,14 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Serial No</th>
-
+<th>ERP Sl.No</th>
                             <th>Date</th>
                           <th>ERP Despatch No</th>
                           <th>ERP Date</th>
                           <th>Center Name</th>
                           <th>No.od DD</th>
                           <th>DD Amount</th>
+        <th>Remarks</th>
                           <th></th>
                         </tr>
                     </thead>
@@ -106,6 +128,7 @@
                             <tr>
                                 <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
                               <td>  {{erpdespatchList.indexOf(ddenter) + 1}}</td>
+                                <td>{{ddenter.erpdespId}}</td>
                                 <td>{{ddenter.date}}</td>
                                 <td>{{ddenter.erpdespNo}}</td>
                                 <td>{{ddenter.erpdate}}</td>
@@ -113,8 +136,9 @@
                                 <td>{{ddenter.centerName}}</td>
                                 <td>{{ddenter.noofDd}}</td>
                                 <td>   {{ddenter.erpAmount}}</td>
+    <td>{{ddenter.remarks}}</td>
 <td>                                
-                                <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
+        <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
                                     View Details
                                 </button>
                             </td>

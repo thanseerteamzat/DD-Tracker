@@ -7,5 +7,11 @@ export class erpDespatch {
     erpdate:string;
     noofDd:String;
     erpAmount:string;
+    remarks:string;
     isEditable:Boolean;
+}
+export class erpdespatchList {
+    ddenter: erpDespatch = new erpDespatch();
+    // center: Center = new Center();
+
 }
