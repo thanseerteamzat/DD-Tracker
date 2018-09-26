@@ -7,7 +7,7 @@
       <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
         <option value="">--Choose--</option>
         <ng-container *ngFor="let month of Months">
-          <option [ngValue]="month.id">{{month.name}}</option>
+          <option [ngValue]="month.name">{{month.name}}</option>
         </ng-container>
 
       </select>
