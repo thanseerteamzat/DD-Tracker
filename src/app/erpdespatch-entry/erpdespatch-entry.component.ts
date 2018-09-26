@@ -71,7 +71,7 @@ export class ErpdespatchEntryComponent implements OnInit {
           // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
           this.count = obj.lastId;
           this.fromLastId = obj.Id;
-          console.log(this.ddLastids,'************************************************************')
+          console.log(this.ddLastids,'* ***********************************************************')
           console.log(this.count,'*********************************')
   
         });
