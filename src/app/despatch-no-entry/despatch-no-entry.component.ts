@@ -272,7 +272,7 @@ export class DespatchNoEntryComponent implements OnInit {
                 console.log('id', temp)
 
                 this.index = this.checklist.findIndex(list => list.ddlastId == temp)
-                this.checklist.splice(this.index,1)
+                this.checklist.splice(this.index, 1)
                 this.checklisttotal = this.checklist.length;
 
                 this.checklistddTotal = 0;
@@ -286,7 +286,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
     beforeRegister(key) {
-        console.log('center***', this.selectedcenter)
+        console.log('key***', key)
 
         var despatchnoExists = false;
         var list = this.despatchLists;

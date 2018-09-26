@@ -65,14 +65,13 @@ export class ErpdespatchEntryComponent implements OnInit {
         obj.forEach(element => {
           let obj: erpDespatchId = JSON.parse(element);
           this.newddLastId = obj;
-          console.log(obj,'****************************obj')
+          // console.log(obj,'****************************obj')
           this.ddLastids.push(obj as erpDespatchId);
 
           // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
           this.count = obj.lastId;
           this.fromLastId = obj.Id;
-          console.log(this.ddLastids,'* ***********************************************************')
-          console.log(this.count,'*********************************')
+          
   
         });
       });
@@ -156,42 +155,43 @@ this.router.navigate(['/erpdesp-details/' + erpdespId])
 
 }
 register(key, dlastid: erpDespatchId){
-  console.log(key,'key***********************')
-  var counter = parseInt(this.count) + 1;
-  console.log(counter,'****************************countrr')
-  var updates = {};
-  dlastid.lastId = counter;
-  console.log(dlastid.lastId,'lastiddddddddddddddddddddd')
-  updates['/erpdespatchId/'+ key] = JSON.stringify(dlastid);
+  console.log('checkkk',key)
+  // this.router.navigate(['/dd-entry']);
+   var counter = parseInt(this.count) + 1;
+   console.log(counter,'****************************countrr')
+  // var updates = {};
+  // dlastid.lastId = counter;
+  // console.log(dlastid.lastId,'lastiddddddddddddddddddddd')
+  // updates['/erpdespatchId/'+ key] = JSON.stringify(dlastid);
   
-  this.erpdespatch.centerName=this.selectedcenter;
-  this.erpdespatch.erpAmount=this.selectedamount;
-  this.erpdespatch.noofDd=this.selectednodd;
-  this.selecteddate=this.todaydate
-  this.erpdespatch.date=this.formatDate(this.selecteddate);
-  this.selecteddatee=this.todaydatee;
-  this.erpdespatch.erpdate=this.formatDate(this.selecteddatee);
-  this.erpdespatch.centerName=this.selectedcenter;
-  this.erpdespatch.erpdespNo=this.erpdespNo;
-  var str=this.erpdespNo;
-  str=(str.match(/.{1,4}/g)); 
-  var abc=str[1];
-  console.log(abc,'1111111111')
-  console.log(str,'*************************')
-  let uniqueId = "/Q" + Common.newGuid();
-  console.log("****" + uniqueId);
-  this.erpdespatch.erpdespId = counter.toString();
+  // this.erpdespatch.centerName=this.selectedcenter;
+  // this.erpdespatch.erpAmount=this.selectedamount;
+  // this.erpdespatch.noofDd=this.selectednodd;
+  // this.selecteddate=this.todaydate
+  // this.erpdespatch.date=this.formatDate(this.selecteddate);
+  // this.selecteddatee=this.todaydatee;
+  // this.erpdespatch.erpdate=this.formatDate(this.selecteddatee);
+  // this.erpdespatch.centerName=this.selectedcenter;
+  // this.erpdespatch.erpdespNo=this.erpdespNo;
+  // var str=this.erpdespNo;
+  // str=(str.match(/.{1,4}/g)); 
+  // var abc=str[1];
+  // console.log(abc,'1111111111')
+  // console.log(str,'*************************')
+  // let uniqueId = "/Q" + Common.newGuid();
+  // console.log("****" + uniqueId);
+  // this.erpdespatch.erpdespId = counter.toString();
 
-  let erpDespatchJson = JSON.stringify(this.erpdespatch);
-  console.log(erpDespatchJson);
-  try {
-    this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
-    alert("Added Successfully");
-    this.router.navigate(['/erp-despatch-entry']);
-  }
-  catch (ex) {
-    alert("Error in adding Quotation");
-  }
+  // let erpDespatchJson = JSON.stringify(this.erpdespatch);
+  // console.log(erpDespatchJson);
+  // try {
+  //   this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
+  //   alert("Added Successfully");
+  //   this.router.navigate(['/erp-despatch-entry']);
+  // }
+  // catch (ex) {
+  //   alert("Error in adding Quotation");
+  // }
 }
 
 
