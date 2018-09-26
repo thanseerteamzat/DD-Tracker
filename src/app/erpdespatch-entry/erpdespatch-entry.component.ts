@@ -32,6 +32,7 @@ export class ErpdespatchEntryComponent implements OnInit {
   selectedremarks;
   selectedamount;
   selectednodd;
+tempdata;
   tempcenterList
   todaydate=new Date;
   centerList: Center[] = [];
@@ -65,7 +66,10 @@ export class ErpdespatchEntryComponent implements OnInit {
 
 
     this.ddcreateForm();
-      
+
+    
+
+    
       let itemRef = db.object('erpdespatchId');
       itemRef.snapshotChanges().subscribe(action => {
         var quatationsList = action.payload.val();
@@ -97,6 +101,8 @@ export class ErpdespatchEntryComponent implements OnInit {
         });
       });
 
+      this.tempdata =this.erpdespatchList
+
 
       console.log('**********************************',this.erpdespatchList)
 
@@ -108,11 +114,6 @@ export class ErpdespatchEntryComponent implements OnInit {
   },
     error => console.log(error),
     () => console.log('Get all complete'));
-
-
-
-   
-
     
 }
 
@@ -196,6 +197,12 @@ register(key, dlastid: erpDespatchId){
   try {
     this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
     alert("Added Successfully");
+    this.resetForm();
+    // this.tempdata=[];
+    // this.tempdata=this.erpdespatchList;
+    // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
+
+    this.router.navigate(['/dd-entry']);
     this.router.navigate(['/erp-despatch-entry']);
   }
   catch (ex) {

@@ -17,7 +17,7 @@
         
                             <div class="form-group col-md-4">
                                 <br>
-                                <label for="ddid"> DD Serial No : &nbsp;</label>
+                                <label for="ddid">ERP Desp Sl No : &nbsp;</label>
                                 <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
                                 <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
         
@@ -126,7 +126,7 @@
            </ng-container>     </form>
 
                 <div style="padding-top: 20px;">
-                        <h2>DD Entry List </h2>
+                        <h2>ERP Despatch No Entry List </h2>
             
             
             
@@ -146,10 +146,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor='let ddenter of erpdespatchList '>
+                        <ng-container *ngFor='let ddenter of tempdata '>
                             <tr>
                                 <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
-                              <td>  {{erpdespatchList.indexOf(ddenter) + 1}}</td>
+                              <td>  {{tempdata.indexOf(ddenter) + 1}}</td>
                                 <td>{{ddenter.erpdespId}}</td>
                                 <td>{{ddenter.date}}</td>
                                 <td>{{ddenter.erpdespNo}}</td>

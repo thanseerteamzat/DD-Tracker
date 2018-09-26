@@ -3,7 +3,7 @@ import { NgModule, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+// import {HashLocationStrategy,LocationStrategy} from '@angular/common'
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
@@ -149,7 +149,7 @@ const appRoutes: Routes = [
 
     MatButtonModule, MatCheckboxModule, MatMenuModule
   ],
-  providers: [CookieService],
+  providers: [CookieService , {provide: LocationStrategy,useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

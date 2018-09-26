@@ -9,6 +9,7 @@ export class erpDespatch {
     erpAmount:string;
     remarks:string;
     isEditable:Boolean;
+    isentered:Boolean;
 }
 export class erpdespatchList {
     ddenter: erpDespatch = new erpDespatch();
