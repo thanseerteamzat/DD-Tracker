@@ -77,6 +77,7 @@ export class DbaNoEntryComponent implements OnInit {
     dbaLastids: dbaLastid[] = [];
     newddLastId: dbaLastid = new dbaLastid();
     newdba: dbaEntry = new dbaEntry();
+    dbalist: dbaEntry[] = [];
     newdespatch: Despatch = new Despatch();
     newInvoice: Invoice = new Invoice();
     typedtext;
@@ -93,6 +94,8 @@ export class DbaNoEntryComponent implements OnInit {
     despatchfeeWT = 0;
     Amount = 0;
     rateTotal = 0;
+    dbanoExits;
+    tempdbalist;
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
@@ -169,6 +172,21 @@ export class DbaNoEntryComponent implements OnInit {
             });
         });
 
+        let dbRef = db.object('dbaEntry');
+        dbRef.snapshotChanges().subscribe(action => {
+            var quatationsList = action.payload.val();
+            let obj = Common.snapshotToArray(action.payload);
+            this.dbalist = [];
+            obj.forEach(element => {
+                let obj: dbaEntry = JSON.parse(element);
+
+                this.dbalist.push(obj as dbaEntry);
+
+
+
+            });
+        });
+
     }
     formatDate(date) {
         var d = new Date(date),
@@ -227,14 +245,14 @@ export class DbaNoEntryComponent implements OnInit {
         this.resetform();
 
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
+        if (this.ets.cookievalue == "3") {
+            // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
 
 
-        // }
+        }
         this.entered = this.ets.cookiename;
         this.newdba.enteredBy = this.entered;
         this.newInvoice.enteredby = this.entered;
@@ -362,6 +380,42 @@ export class DbaNoEntryComponent implements OnInit {
 
 
     }
+    beforeRegister(id) {
+        console.log('list', this.desplist)
+        if (this.desplist.length == 0) {
+            alert('Please select  any Entry !!');
+
+        }
+        else {
+
+            this.dbanoExits = false;
+            var list = this.dbalist;
+            console.log('list***', list)
+            this.newdba.dbaNo = this.newdespatch.dbaNo;
+            console.log('dbaNo***', this.newdba.dbaNo)
+
+            for (let i = 0; i <= this.dbalist.length; i++) {
+                this.tempdbalist = this.dbalist[i];
+                if (this.tempdbalist != null && this.tempdbalist.dbaNo == this.newdba.dbaNo) {
+                    this.dbanoExits = true;
+                    break;
+                }
+            }
+            if (this.dbanoExits == false) {
+
+                this.register(id);
+            }
+            else {
+
+                alert('dbaNo number duplication');
+               
+
+
+            }
+        }
+
+    }
+
     register(lastid) {
 
 
