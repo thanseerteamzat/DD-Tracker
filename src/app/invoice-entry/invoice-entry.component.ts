@@ -186,7 +186,10 @@ export class InvoiceEntryComponent implements OnInit {
     this.selecteddatee=this.todaydatee;
     this.invoiceEntry.invoiceDate=this.formatDate(this.selecteddatee);
     this.invoiceEntry.invoiceNumber=this.invoicenumber;
-
+    this.invoiceEntry.inwardItem=this.inwardItem;
+    this.invoiceEntry.month=this.month;
+    this.invoiceEntry.enteredBy=this.enteredBy;
+    this.invoiceEntry.remarks=this.remarks;
     // var str=this.erpdespNo;
     // str=(str.match(/.{1,4}/g)); 
     // var abc=str[1];
@@ -206,7 +209,7 @@ export class InvoiceEntryComponent implements OnInit {
       // this.tempdata=this.erpdespatchList;
       // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
   
-      this.router.navigate(['/dd-entry']);
+      this.router.navigate(['/invoice-entry']);
       // this.router.navigate(['/erp-despatch-entry']);
     }
     catch (ex) {
