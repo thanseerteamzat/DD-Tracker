@@ -56,6 +56,7 @@ export class EtsService {
   }
 
   public sendData(dbaData: dbaEntry): Observable<dbaEntry> {
+    dbaData.centerCode ='2'
     // mailData.To = 'utek@utek.in';
     // mailData.CC = 'md@utek.in';
     // mailData.CC1 = 'nk@utek.in';
