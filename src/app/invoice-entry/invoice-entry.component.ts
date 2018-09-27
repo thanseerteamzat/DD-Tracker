@@ -4,7 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../services/config.service';
 import { EtsService } from '../services/ets.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl ,Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
@@ -37,7 +37,10 @@ export class InvoiceEntryComponent implements OnInit {
   centers:Center[];
   inwardLastids: InwardId[] = [];
   newinwardLastId: InwardId = new InwardId();
+
   
+
+
   districts = [
     { id: '1', name: 'KANNUR' },
     { id: '2', name: 'KOZHIKODE' },
@@ -83,6 +86,10 @@ export class InvoiceEntryComponent implements OnInit {
     private fb: FormBuilder,
     private cookieservice: CookieService) {
 
+
+
+    this.ddcreateForm();
+      
 
       let that = this;
     this.ets.GetAllCenters().subscribe(data => {
@@ -204,6 +211,8 @@ export class InvoiceEntryComponent implements OnInit {
     try {
       this.db.database.ref('invoiceEntry').child(counter.toString()).set(InvoiceEntryJson);
       alert("Added Successfully");
+    this.resetForm();
+      
       // this.resetForm();
       // this.tempdata=[];
       // this.tempdata=this.erpdespatchList;
@@ -216,5 +225,47 @@ export class InvoiceEntryComponent implements OnInit {
       alert("Error in adding Quotation");
     }
   }
+
   
+  ddentryForm = new FormGroup({
+
+    centerName: new FormControl(),
+    invoiceno: new FormControl(),
+    monthh: new FormControl(),
+    // remarks: new FormControl(),
+  
+  
+  })
+  ddcreateForm() {
+    this.ddentryForm = this.fb.group(
+      {
+        // currentDate: [null, Validators.required],
+        centerName: [null, Validators.required],
+        // date: [null, Validators.required],
+        invoiceno: [null, Validators.required],
+        // erpdate: [null, Validators.required],
+        monthh: [null,Validators.required],
+        // remarks: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
+        // remarks: [null, Validators.required],
+  
+  
+  
+  })}
+  get centerName() { return this.ddentryForm.get('centerName'); }
+get invoiceno() { return this.ddentryForm.get('invoiceno'); }
+get monthh() { return this.ddentryForm.get('monthh'); }
+resetForm() {
+  this.ddentryForm.reset(
+    {
+      // currentDate: null,
+      centerName: null,
+      // date:null,
+      invoiceno:null,
+    //  erpdate:null,
+   monthh:null,
+  //  ddamount:null
+    }
+  )
+}
+    
 }
