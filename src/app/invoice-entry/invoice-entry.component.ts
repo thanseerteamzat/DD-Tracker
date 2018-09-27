@@ -222,7 +222,7 @@ export class InvoiceEntryComponent implements OnInit {
       // this.router.navigate(['/erp-despatch-entry']);
     }
     catch (ex) {
-      alert("Error in adding Quotation");
+      alert("Error in adding Quotation ");
     }
   }
 
