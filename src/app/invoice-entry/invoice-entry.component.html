@@ -48,7 +48,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <!-- <label for="centercode">Code :</label> -->
             {{code}}{{tempcentercode}}
-            <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" formControlName="centerName"
+            <select #t  [(ngModel)]="selectedcenter" class="form-control" formControlName="centerName"
               name="selectedcenter">
               <option value="">--Choose--</option>
               <ng-container *ngFor="let s of centers">
