@@ -149,7 +149,7 @@ const appRoutes: Routes = [
 
     MatButtonModule, MatCheckboxModule, MatMenuModule
   ],
-  providers: [CookieService , {provide: LocationStrategy,useClass:HashLocationStrategy}],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
