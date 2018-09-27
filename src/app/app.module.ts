@@ -52,6 +52,7 @@ import { AdjdbaDetailsComponent } from './adjdba-details/adjdba-details.componen
 import { AdjpendingddComponent } from './adjpendingdd/adjpendingdd.component';
 import { ErpdespatchEntryComponent } from './erpdespatch-entry/erpdespatch-entry.component';
 import { ErpdespdetailsComponent } from './erpdespdetails/erpdespdetails.component';
+import { DbaDespListComponent } from './dba-desp-list/dba-desp-list.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -77,20 +78,20 @@ const appRoutes: Routes = [
   { path: 'despstudlist', component: DespStudListComponent },
   { path: 'dba-details', component: DbaDetailsComponent },
   { path: 'invoice', component: InvoiceComponent },
-  { path: 'adjustment',component:AdjEntryComponent  },
-  { path: 'adjustment/:adjddlastId',component:AdjEntryComponent  },  
-  { path:'adjverification',component:AdjverificationComponent},
-  { path:'adjdetails',component:AdjentryDetailsComponent},
-  { path:'adjdetails/:adjddlastId',component:AdjentryDetailsComponent},
-  { path:'adjdespatch-no-entry',component:AdjdespatchComponent},
-  {path :'adjdespstudlist',component:AdjDespstudlistComponent},
-  { path: 'adjdba-no-entry',component:AdjdbaNoEntryComponent},
-  {path:'adjdba-details',component:AdjdbaDetailsComponent},
-  {path:'adjpending-dd',component:AdjpendingddComponent},
-  {path:'erp-despatch-entry',component:ErpdespatchEntryComponent },
-  {path:'erpdesp-details',component:ErpdespdetailsComponent},
-  {path:'erpdesp-details/:erpdespId',component:ErpdespdetailsComponent}
-
+  { path: 'adjustment', component: AdjEntryComponent },
+  { path: 'adjustment/:adjddlastId', component: AdjEntryComponent },
+  { path: 'adjverification', component: AdjverificationComponent },
+  { path: 'adjdetails', component: AdjentryDetailsComponent },
+  { path: 'adjdetails/:adjddlastId', component: AdjentryDetailsComponent },
+  { path: 'adjdespatch-no-entry', component: AdjdespatchComponent },
+  { path: 'adjdespstudlist', component: AdjDespstudlistComponent },
+  { path: 'adjdba-no-entry', component: AdjdbaNoEntryComponent },
+  { path: 'adjdba-details', component: AdjdbaDetailsComponent },
+  { path: 'adjpending-dd', component: AdjpendingddComponent },
+  { path: 'erp-despatch-entry', component: ErpdespatchEntryComponent },
+  { path: 'erpdesp-details', component: ErpdespdetailsComponent },
+  { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
+  { path: 'dba-desp-list', component: DbaDespListComponent }
 ];
 
 
@@ -130,6 +131,7 @@ const appRoutes: Routes = [
     AdjpendingddComponent,
     ErpdespatchEntryComponent,
     ErpdespdetailsComponent,
+    DbaDespListComponent,
   ],
   imports: [
     FormsModule,
