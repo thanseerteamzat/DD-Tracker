@@ -12,123 +12,149 @@
     <br>
     <br>
     <form name="form">
-        <ng-container *ngFor="let lstid of inwardLastids">
-            <div class="row">
+      <ng-container *ngFor="let lstid of inwardLastids">
+        <div class="row">
 
-                <div class="form-group col-md-4">
-                    <br>
-                    <label for="ddid">Inward Sl No : &nbsp;</label>
-                    <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
-                    <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+          <div class="form-group col-md-3">
+            <br>
+            <label for="ddid">Inward Sl No : &nbsp;</label>
+            <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
+            <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
 
-                    <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+            <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+          </div>
+
+
+          <div class="form-group col-md-3">
+            <label for="District">District</label>
+
+            <select (change)="district($event.target.value)" name="district" class="form-control">
+              <option value="" disabled [selected]>--Choose--</option>
+              <ng-container *ngFor="let d of districts">
+                <option [value]="d.name">{{d.name}}</option>
+
+                <!-- <option [ngValue]="district" >Kannur</option>
+                                                    <option [ngValue]="district">Kozhikode</option>
+                                                    <option [ngValue]="district">Malappuram</option> -->
+              </ng-container>
+
+            </select>
+          </div>
+
+
+
+          <div style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label style="color: black" for="center">Centre Name</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- <label for="centercode">Code :</label> -->
+            {{code}}{{tempcentercode}}
+            <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" formControlName="centerName"
+              name="selectedcenter">
+              <option value="">--Choose--</option>
+              <ng-container *ngFor="let s of centers">
+                <option [ngValue]="s.Id">{{s.CenterName}}</option>
+              </ng-container>
+
+            </select>
+
+            <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger" >
+                <div *ngIf="centerName.errors.required">
+                    Center Name is required
                 </div>
                 </div>
-      <div class="row">
+
+
+            <!-- <label for="centerName">Center Name</label>
+                                      <input type="text" class="form-control" placeholder="Center Name"> -->
+          </div>
 
 
 
-        <div class="form-group col-md-3">
-          <label for="District">District</label>
-
-          <select (change)="district($event.target.value)" name="district" class="form-control">
-            <option value="" disabled [selected]>--Choose--</option>
-            <ng-container *ngFor="let d of districts">
-              <option [value]="d.name">{{d.name}}</option>
-
-              <!-- <option [ngValue]="district" >Kannur</option>
-                                          <option [ngValue]="district">Kozhikode</option>
-                                          <option [ngValue]="district">Malappuram</option> -->
-            </ng-container>
-
-          </select>
         </div>
 
 
-
-        <div style="color: red" class="form-group col-md-3">
-          <label style="color: black" for="center">Centre Name</label>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <!-- <label for="centercode">Code :</label> -->
-          {{code}}{{tempcentercode}}       <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
-            <option value="">--Choose--</option>
-            <ng-container *ngFor="let s of centers">
-              <option [ngValue]="s.Id">{{s.CenterName}}</option>
-            </ng-container>
-
-          </select>
+        <div class="row">
 
 
 
-          <!-- <label for="centerName">Center Name</label>
-                            <input type="text" class="form-control" placeholder="Center Name"> -->
+
+          <div class="form-group col-md-3">
+            <label for="date">Inward Item</label>
+            <input readonly type="text" class="form-control" [(ngModel)]="inwardItem" name="inwardItem">
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="date">Date</label>
+            <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+          </div>
+
+          <div class="form-group col-md-3" [formGroup]="ddentryForm" >
+            <label for="date">Invoice Number</label>
+            <input type="text" class="form-control" [(ngModel)]="invoicenumber" name="invoicenumber" formControlName="invoiceno">
+            <div *ngIf="invoiceno.invalid && (invoiceno.dirty || invoiceno.touched)" class="alert-danger" >
+                <div *ngIf="invoiceno.errors.required">
+                    invoice number is required
+                </div>
+                </div>
+
+
+            
+          </div>
+
+
         </div>
 
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label for="date">Invoice Date</label>
+            <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+          </div>
 
-        <div class="form-group col-md-3">
-          <label for="date">Inward Item</label>
-          <input readonly type="text" class="form-control" [(ngModel)]="inwardItem" name="inwardItem">
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="Month">Month</label>
+
+            <select name="month" [(ngModel)]="month" class="form-control" formControlName="monthh">
+              <option value="" disabled [selected]>--Choose--</option>
+              <ng-container *ngFor="let m of months">
+                <option [value]="m.name">{{m.name}}</option>
+
+                <!-- <option [ngValue]="district" >Kannur</option>
+                              <option [ngValue]="district">Kozhikode</option>
+                              <option [ngValue]="district">Malappuram</option> -->
+              </ng-container>
+
+            </select>
+            <div *ngIf="monthh.invalid && (monthh.dirty || monthh.touched)" class="alert-danger">
+                <div *ngIf="monthh.errors.required">
+                    Please select a month
+                </div>
+
+          </div></div>
+
+          <div class="form-group col-md-3">
+            <label for="remarks">Remarks </label>
+            <input type="text" [(ngModel)]="remarks" name="remarks" class="form-control">
+          </div>
+
 
         </div>
-       
+        <div class="row">
 
-      </div>
 
-      <div class="row">
-        <div class="form-group col-md-3">
-          <label for="date">Date</label>
-          <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        </div>
+          <div class="form-group col-md-3">
+            <label for="enteredby">Entered By </label>
+            <input readonly type="text" [(ngModel)]="enteredBy" name="enteredBy" class="form-control">
+          </div>
 
-        <div class="form-group col-md-3">
-          <label for="date">Invoice Number</label>
-          <input type="text" class="form-control" [(ngModel)]="invoicenumber" name="invoicenumber">
+
 
         </div>
-        <div class="form-group col-md-3">
-          <label for="date">Invoice Date</label>
-          <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker" bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        </div>
+        <button [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button>
 
-    
-
-      </div>
-     <div class="row">
-
-      <div class="form-group col-md-3">
-        <label for="Month">Month</label>
-
-        <select name="month" [(ngModel)]="month" class="form-control">
-          <option value="" disabled [selected]>--Choose--</option>
-          <ng-container *ngFor="let m of months">
-            <option [value]="m.name">{{m.name}}</option>
-
-            <!-- <option [ngValue]="district" >Kannur</option>
-                          <option [ngValue]="district">Kozhikode</option>
-                          <option [ngValue]="district">Malappuram</option> -->
-          </ng-container>
-
-        </select>
-      </div>
-
-      <div class="form-group col-md-3">
-        <label for="remarks">Remarks </label>
-        <input type="text" [(ngModel)]="remarks" name="remarks" class="form-control">
-     </div>
-
-      <div class="form-group col-md-3">
-        <label for="enteredby">Entered By </label>
-        <input readonly type="text" [(ngModel)]="enteredBy" name="enteredBy" class="form-control">
-     </div>
-
-
-
-     </div>
-      <button type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button>
-
-</ng-container>
+      </ng-container>
     </form>
 
   </div>
