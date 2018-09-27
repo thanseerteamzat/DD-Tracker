@@ -30,6 +30,7 @@
     "ng2-pipes": "^2.0.1",
     "ngx-bootstrap": "^3.0.1",
     "ngx-cookie-service": "^1.0.10",
+    "number-to-words": "^1.2.4",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"
   },

@@ -36,6 +36,9 @@ export class InvoiceComponent implements OnInit {
   cgst;
   sgst;
   totalinvoiceAmount;
+  invoicesplit;
+  round = 0;
+  convertedToWord;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -122,7 +125,7 @@ export class InvoiceComponent implements OnInit {
     this.sgst = 0;
     this.totalinvoiceAmount = 0;
     this.selectlisttotal = data.length;
-
+    this.invoicesplit = 0;
     for (let i = 0; i <= data.length; i++) {
       this.temp = data[i];
       if (this.temp != null) {
@@ -149,7 +152,11 @@ export class InvoiceComponent implements OnInit {
         this.totalinvoiceAmount = totalInvAmount.toFixed(2);
 
         var split = this.totalinvoiceAmount.slice(-2);
-        console.log('splitted value', split)
+        this.invoicesplit = '0.' + split;
+
+        // this.convertedToWord = this.ets.convertedWord;
+        // console.log('words in ts', this.convertedToWord)
+
       }
     }
 
