@@ -253,24 +253,5 @@ this.ddLastids.forEach(element=>{
 
     //   }
     // })
-    // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
-    // adjddlastId
-    // adjdbaLastId
-    // let uniqueId = "/DD" + Common.newGuid();
-    // this.newddLastid.Id = uniqueId;
-
-
-    // let ddEntryJson = JSON.stringify(this.newddLastid);
-    // console.log(ddEntryJson);
-    // try {
-    //   this.db.database.ref('erpdespatchId').child(uniqueId).set(ddEntryJson);
-    //   alert("DD Entry added successfully!!..");
-
-    // }
-    // catch (ex) {
-
-    // }
-    
-  }
 
 }

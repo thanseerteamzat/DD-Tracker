@@ -53,6 +53,7 @@ import { AdjpendingddComponent } from './adjpendingdd/adjpendingdd.component';
 import { ErpdespatchEntryComponent } from './erpdespatch-entry/erpdespatch-entry.component';
 import { ErpdespdetailsComponent } from './erpdespdetails/erpdespdetails.component';
 import { DbaDespListComponent } from './dba-desp-list/dba-desp-list.component';
+import { InvoiceEntryComponent } from './invoice-entry/invoice-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -91,7 +92,8 @@ const appRoutes: Routes = [
   { path: 'erp-despatch-entry', component: ErpdespatchEntryComponent },
   { path: 'erpdesp-details', component: ErpdespdetailsComponent },
   { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
-  { path: 'dba-desp-list', component: DbaDespListComponent }
+  { path: 'dba-desp-list', component: DbaDespListComponent },
+  {path: 'invoice-entry',component:InvoiceEntryComponent}
 ];
 
 
@@ -132,6 +134,7 @@ const appRoutes: Routes = [
     ErpdespatchEntryComponent,
     ErpdespdetailsComponent,
     DbaDespListComponent,
+    InvoiceEntryComponent,
   ],
   imports: [
     FormsModule,

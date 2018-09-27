@@ -356,3 +356,34 @@ min-width: 400px;
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: black;}
+
+
+
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 3 !important;
+    color: #333;
+    white-space: nowrap;
+}
+
+ul[_ngcontent-c0] ul[_ngcontent-c0] a[_ngcontent-c0] {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: white !important ;}
+
+
+    .btn-default {
+        color: white;
+        background-color: #610B0B;
+        border-color: #610B0B;
+    }
+
+    toggle.btn-default:hover {
+        color: white !important;
+        background-color: black !important;
+        border-color: black !important;
+    }
