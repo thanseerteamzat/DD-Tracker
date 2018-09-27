@@ -7,7 +7,7 @@
       <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
         <option value="">--Choose--</option>
         <ng-container *ngFor="let month of Months">
-          <option [ngValue]="month.id">{{month.name}}</option>
+          <option [ngValue]="month.name">{{month.name}}</option>
         </ng-container>
 
       </select>
@@ -114,16 +114,33 @@
             </tr>
 
           </ng-container>
+          
           <tr>
             <td colspan="6" style="text-align: right">Total</td>
             <td>
               {{desptotal}}
             </td>
             <!-- <td>{{taxtotal}}</td> -->
-            <td>{{fwtTotal}}</td>
+            <td>{{feeamountlist}}</td>
             <td></td>
-            <td>{{amountTotal}}</td>
+            <td>{{shareamountList}}</td>
             <!-- <td></td> -->
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: right">TAXABLE AMOUNT</td>
+            <td>{{taxableAmount}}</td>
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: right">CGST (9.00%)</td>
+            <td>{{cgst}}</td>
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: right">SGST (9.00%)</td>
+            <td>{{sgst}}</td>
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: right">TOTAL INVOICE AMOUNT</td>
+            <td>{{totalinvoiceAmount}}</td>
           </tr>
         </tbody>
 
