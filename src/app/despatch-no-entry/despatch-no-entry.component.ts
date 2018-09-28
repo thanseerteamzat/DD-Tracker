@@ -203,12 +203,12 @@ export class DespatchNoEntryComponent implements OnInit {
     }
 
     ngOnInit() {
-        // if (this.ets.cookievalue == "3") {
-        //   // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //   this.router.navigate(['/error']);
-        // }
+        if (this.ets.cookievalue == "3") {
+          // this.router.navigate(['/despatch-no-entry'])
+        }
+        else {
+          this.router.navigate(['/error']);
+        }
 
         this.entered = this.ets.cookiename;
         this.despatch.enteredBy = this.entered;
