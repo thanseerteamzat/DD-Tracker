@@ -1,3 +1,119 @@
-<p>
-  ddkkc works!
-</p>
+
+<div style="margin-left: 50px;" class="wrapper ">
+
+  <!-- Page Content Holder -->
+  <div id="content" class="createcontent">
+    <div class="form-row">
+      <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
+      <h1>KKC Entry</h1>
+      <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
+
+    </div>
+
+    <br>
+    <br>
+    <form name="form">
+        <div class="row">
+
+          <div class="form-group col-md-3">
+            <label for="fromDate">From Date</label>
+            <input readonly type="text" name="fromDate" [(ngModel)]="fromDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="toDate">To Date</label>
+            <input readonly type="text" name="toDate" [(ngModel)]="toDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        
+
+          </div>
+</div>
+<div class="row">
+          <div class="form-group col-md-3">
+            <label for="skip">Skip</label>
+            <input type="text" name="skipValue" [(ngModel)]="skipValue" class="form-control">
+        
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="limit">Limit</label>
+            <input type="text" name="limitValue" [(ngModel)]="limitValue" class="form-control" >
+        
+
+          </div>
+
+<br>          <button  type="submit" (click)="getDd()" class="btn btn-primary">Get DD's</button>
+          
+
+
+          </div></form>
+
+
+<br>
+<br>
+<br>
+<h1>KKC DD List</h1>
+<table class="table table-hover table-responsive table-bordered">
+  <thead class="thead-dark">
+      <tr>
+          <th>Sl.No</th>
+          <th>DD SL.No</th>
+          <th style="min-width: 90px;">Date</th>
+          <th>Application Number</th>
+          <th style="min-width: 200px;">Centre Name</th>
+          <th style="min-width: 100px;">Course Name</th>
+          <th style="min-width: 150px;">Student Name</th>
+          <th style="min-width: 150px;">Student Roll Number</th>
+          
+          <th>DD No</th>
+
+
+          <th>Bank</th>
+
+          <th style="min-width: 120px;">Bank</th>
+
+          <th style="min-width: 90px;">DD Date</th>
+
+          <th>DD Amount</th>
+
+          <th style="min-width: 100px;">Fees Item</th>
+
+
+      </tr>
+  </thead>
+  <tbody>
+      <ng-container *ngFor='let ddenter of ddkkc'>
+          <tr>
+          <tr>
+              <td>{{ddkkc.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.id}}</td>
+              <td>{{ddenter.EnteredOn}}</td>
+              <td>{{ddenter.StudentApplicationNumber}}</td>
+              <td>{{ddenter.CenterName}}</td>
+              <td>{{ddenter.CourseName}}</td>
+              <td>{{ddenter.StudentName}}</td>
+              <td>{{ddenter.StudentRollNo}}</td>
+           
+              <td>{{ddenter.DDNumber}}</td>
+
+              <td>{{ddenter.Bank}}</td>
+
+
+
+              <td>{{ddenter.Bank}}</td>
+
+              <td>{{ddenter.DDDate}}</td>
+
+              <td>{{ddenter.TotalAmount}}</td>
+              <td>{{ddenter.FeeType}}</td>
+             
+          </tr>
+      </ng-container>
+  </tbody>
+
+</table>
+</div></div>
