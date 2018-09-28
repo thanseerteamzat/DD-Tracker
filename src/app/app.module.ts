@@ -56,6 +56,8 @@ import { DbaDespListComponent } from './dba-desp-list/dba-desp-list.component';
 import { InvoiceEntryComponent } from './invoice-entry/invoice-entry.component';
 import { RoundPipe } from './round.pipe';
 import { ToWordPipe } from './to-word.pipe';
+import { InvoiceentryverificationComponent } from './invoiceentryverification/invoiceentryverification.component';
+import { DdkkcComponent } from './ddkkc/ddkkc.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -95,7 +97,9 @@ const appRoutes: Routes = [
   { path: 'erpdesp-details', component: ErpdespdetailsComponent },
   { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
   { path: 'dba-desp-list', component: DbaDespListComponent },
-  {path: 'invoice-entry',component:InvoiceEntryComponent}
+  {path: 'invoice-entry',component:InvoiceEntryComponent},
+  { path:'ddkkc',component:DdkkcComponent},
+  {path:'invoiceentryverification',component:InvoiceentryverificationComponent }
 ];
 
 
@@ -139,6 +143,8 @@ const appRoutes: Routes = [
     InvoiceEntryComponent,
     RoundPipe,
     ToWordPipe,
+    InvoiceentryverificationComponent,
+    DdkkcComponent,
   ],
   imports: [
     FormsModule,

@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Center } from '../models/Center';
 import { Common } from '../models/common';
 import { InwardId } from '../models/inwardId';
-import { InvoiceEntry } from '../models/invoiceentry';
+import { InvoiceEntry, invoiceentryList } from '../models/invoiceentry';
 
 @Component({
   selector: 'app-invoice-entry',
@@ -17,7 +17,10 @@ import { InvoiceEntry } from '../models/invoiceentry';
   styleUrls: ['./invoice-entry.component.css']
 })
 export class InvoiceEntryComponent implements OnInit {
+  ddLists: invoiceentryList[] = [];
 
+  count;
+  format;
   centerList: Center[] = [];
   tempvalue: string;
   remarks;
@@ -26,7 +29,6 @@ export class InvoiceEntryComponent implements OnInit {
   enteredBy;
   selectedcenter;
   check;
-  count;
   invoiceEntry:InvoiceEntry = new InvoiceEntry();
   
   fromLastId;
@@ -91,6 +93,51 @@ export class InvoiceEntryComponent implements OnInit {
     this.ddcreateForm();
       
 
+
+
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+
+    }
+
+
+
+    let itemReff = db.object('invoiceEntry');
+    itemReff.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new invoiceentryList();
+        let qobj: InvoiceEntry = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.invoiceEntryId != undefined) {
+          qobj.invoiceEntryId = qobj.invoiceEntryId.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+
+        // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        // // console.log('2222222222222222222222222222',custList)
+        // if (custList.length > 0) {
+        //   ddListItem.center = custList[0];
+        // }
+
+        this.ddLists.push(ddListItem);
+
+      });
+
+    });
+
+
+
+
+
+    
       let that = this;
     this.ets.GetAllCenters().subscribe(data => {
       that.centers = data;
@@ -133,7 +180,7 @@ export class InvoiceEntryComponent implements OnInit {
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      this.router.navigate(['/error']);
+      // this.router.navigate(['/error']);
     }
 
     this.check = this.ets.cookiename;
@@ -175,7 +222,7 @@ export class InvoiceEntryComponent implements OnInit {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
   
-    return [year, month, day].join('-');
+    return [day, month, year].join('-');
   }
   register(key, dlastid: InwardId){
     var counter = parseInt(this.count) + 1;
