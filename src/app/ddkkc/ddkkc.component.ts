@@ -16,7 +16,10 @@ import { ddfromKKC } from '../models/ddktc';
 })
 export class DdkkcComponent implements OnInit {
   
-
+  skipValue;
+  limitValue;
+  fromDate;
+  toDate;
   centers: Center[];
   ddkkc:ddfromKKC[];  
 
@@ -45,18 +48,56 @@ export class DdkkcComponent implements OnInit {
 
 
 
-      let thatt = this;
-      this.ets.GetddfromTtc().subscribe(data => {
-        that.ddkkc = data;
-        console.log(that.ddkkc)
-        // this.ets.centerList = this.centers;
+      // let thatt = this;
+      // this.ets.GetddfromTtc().subscribe(data => {
+      //   that.ddkkc = data;
+      //   console.log(that.ddkkc)
+      //   // this.ets.centerList = this.centers;
   
-      },
-        error => console.log(error),
-        () => console.log('Get all complete'));
+      // },
+      //   error => console.log(error),
+      //   () => console.log('Get all complete'));
    }
 
   ngOnInit() {
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(), 
+      year = d.getFullYear();
+  
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+  
+    return [day, month, year].join('-');
+  }
+  
+  getDd(){
+
+console.log(this.skipValue);
+console.log(this.fromDate);
+console.log(this.toDate);
+console.log(this.limitValue);
+let fromDate=this.formatDate(this.fromDate);
+let toDate=this.formatDate(this.toDate);
+console.log(this.fromDate,this.toDate);
+
+
+let thatt = this;
+this.ets.GetddfromTtc( fromDate, toDate,this.skipValue,this.limitValue).subscribe(data => {
+  thatt.ddkkc = data;
+  console.log(thatt.ddkkc)
+  console.log(data)
+  // this.ets.centerList = this.centers;
+
+},
+  error => console.log(error),
+  () => console.log('Get all complete'));
 }
+
+
+    // console.log(fromDate ,'fromDate' , toDate , 'toDate' , skipValue ,'skipvalue')
+
+  }

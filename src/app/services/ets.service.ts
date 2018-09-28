@@ -43,9 +43,9 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = (): Observable<any> => {
+  GetddfromTtc = ( fromDate , toDate , skipValue , limitValue ): Observable<any> => {
     // return this.http.get(this.config.apiUrlKKC + 'from='+fromdate + '&to=' + todate + '&skip=' +skip + '&limit='+limit )
-    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=26-09-2018&to=27-9-2018&skip=4&limit=2')
+    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue)
 
   }
   getCookie(cookievalue) {
@@ -56,6 +56,7 @@ export class EtsService {
     return this.cookieService.set(cookiename, cookievalue, expirydate)
 
   }
+
 
   public sendData(dbaData: dbaEntry): Observable<dbaEntry> {
     dbaData.centerCode = '2'
