@@ -108,14 +108,14 @@ export class DespStudListComponent implements OnInit {
 
   ngOnInit() {
 
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
 
 
-    // }
+    }
   }
   selectData(data) {
     this.total = 0

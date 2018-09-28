@@ -24,6 +24,7 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public expirydate: Date;
+  public convertedWord: string;
   url = ''
   constructor(private http: HttpClient,
     private config: ConfigService, private cookieService: CookieService) { }
@@ -56,7 +57,7 @@ export class EtsService {
   }
 
   public sendData(dbaData: dbaEntry): Observable<dbaEntry> {
-    dbaData.centerCode ='2'
+    dbaData.centerCode = '2'
     // mailData.To = 'utek@utek.in';
     // mailData.CC = 'md@utek.in';
     // mailData.CC1 = 'nk@utek.in';

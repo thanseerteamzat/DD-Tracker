@@ -54,6 +54,8 @@ import { ErpdespatchEntryComponent } from './erpdespatch-entry/erpdespatch-entry
 import { ErpdespdetailsComponent } from './erpdespdetails/erpdespdetails.component';
 import { DbaDespListComponent } from './dba-desp-list/dba-desp-list.component';
 import { InvoiceEntryComponent } from './invoice-entry/invoice-entry.component';
+import { RoundPipe } from './round.pipe';
+import { ToWordPipe } from './to-word.pipe';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -135,6 +137,8 @@ const appRoutes: Routes = [
     ErpdespdetailsComponent,
     DbaDespListComponent,
     InvoiceEntryComponent,
+    RoundPipe,
+    ToWordPipe,
   ],
   imports: [
     FormsModule,

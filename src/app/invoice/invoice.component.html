@@ -114,7 +114,7 @@
             </tr>
 
           </ng-container>
-          
+
           <tr>
             <td colspan="6" style="text-align: right">Total</td>
             <td>
@@ -127,20 +127,32 @@
             <!-- <td></td> -->
           </tr>
           <tr>
-            <td colspan="9" style="text-align: right">TAXABLE AMOUNT</td>
+            <th colspan="9" style="text-align: right">TAXABLE AMOUNT</th>
             <td>{{taxableAmount}}</td>
           </tr>
           <tr>
-            <td colspan="9" style="text-align: right">CGST (9.00%)</td>
+            <th colspan="9" style="text-align: right">CGST (9.00%)</th>
             <td>{{cgst}}</td>
           </tr>
           <tr>
-            <td colspan="9" style="text-align: right">SGST (9.00%)</td>
+            <th colspan="9" style="text-align: right">SGST (9.00%)</th>
             <td>{{sgst}}</td>
           </tr>
           <tr>
-            <td colspan="9" style="text-align: right">TOTAL INVOICE AMOUNT</td>
+            <th colspan="9" style="text-align: right">TOTAL INVOICE AMOUNT</th>
             <td>{{totalinvoiceAmount}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">ROUND OFF</th>
+            <td>{{invoicesplit}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">Total</th>
+            <td>{{totalinvoiceAmount | round}}</td>
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: left">INVOICE AMOUNT IN WORDS : {{totalinvoiceAmount | toWord}}</td>
+            
           </tr>
         </tbody>
 
