@@ -9,7 +9,8 @@ import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { element } from 'protractor';
-import { erpDespatch } from '../models/erpdespatch';
+import { erpDespatch, erpdespatchList } from '../models/erpdespatch';
+import { elementEnd } from '@angular/core/src/render3/instructions';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class DespatchNoEntryComponent implements OnInit {
     newddEntry: ddEntry = new ddEntry();
     selectedDatatemp;
     ddLists: ddList[] = [];
+    erpLists: erpdespatchList[] = []
     centerList: Center[] = [];
     centers: Center[] = [];
     selectedcenter: string = "";
@@ -57,10 +59,14 @@ export class DespatchNoEntryComponent implements OnInit {
     despatchLists: Despatch[] = [];
     checklisttemp;
     index;
-    erpList: erpDespatch[] = [];
     erpentryExists;
     temperpList;
     despatchFormat;
+    erplistvariable;
+    despatchlistvariable;
+    currentdatecountErp;
+    previousdatecountErp;
+    previousdatecountDespatch;
     constructor(private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
@@ -152,23 +158,35 @@ export class DespatchNoEntryComponent implements OnInit {
             });
         });
 
-        let erpRef = db.object('erpdespatch');
-        erpRef.snapshotChanges().subscribe(action => {
+        let itemReff = db.object('erpdespatch');
+        itemReff.snapshotChanges().subscribe(action => {
+            this.erpLists = [];
             var quatationsList = action.payload.val();
-            let obj = Common.snapshotToArray(action.payload);
-            this.despatchLists = [];
-            obj.forEach(element => {
-                let obj: erpDespatch = JSON.parse(element);
-                // this.newddLastId = obj;
-                this.erpList.push(obj as erpDespatch);
-                console.log('aaaaaaaaaaaaaaaaaaaa', this.erpList)
-                // this.count = obj.lastId;
-                // this.fromLastId = obj.Id;
+            let quotationobj = Common.snapshotToArray(action.payload);
+            quotationobj.forEach(element => {
+                let ddListItem = new erpdespatchList();
+                let qobj: erpDespatch = JSON.parse(element);
+                // console.log("****" + element);
+                if (qobj.erpdespId != undefined) {
+                    qobj.erpdespId = qobj.erpdespId.replace("/", "");
+                }
+
+                ddListItem.ddenter = qobj;
+
+                // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+                // // console.log('2222222222222222222222222222',custList)
+                // if (custList.length > 0) {
+                //   ddListItem.center = custList[0];
+                // }
+
+                this.erpLists.push(ddListItem);
+                // console.log('lists***', this.erpLists)
 
             });
-        });
 
+        });
         // despatch no format
+        // console.log('erp list***', this.erpLists)
 
 
     }
@@ -191,9 +209,11 @@ export class DespatchNoEntryComponent implements OnInit {
         // else {
         //   this.router.navigate(['/error']);
         // }
+
         this.entered = this.ets.cookiename;
         this.despatch.enteredBy = this.entered;
         console.log('cookiename****', this.despatch.enteredBy)
+
 
 
     }
@@ -310,7 +330,28 @@ export class DespatchNoEntryComponent implements OnInit {
             }
         }
     }
+    erpdespatchEntryMonthCheck(key) {
+        let despno = this.newddEntry.despatchNo;
+        let split =despno.slice(-2);
+        // this.despatch.despatchNo = this.despatchFormat;
+         console.log('split***',split)
+        // for (let i = 0, j = 0; i <= this.erpLists.length, j <= this.despatchLists.length; i++ , j++) {
+        //     this.erplistvariable = this.erpLists[i];
 
+        //     // var date = this.erplistvariable.ddenter.erpdate.toString();
+        //     if (this.erplistvariable != null) {
+        //         this.currentdatecountErp
+        //         this.previousdatecountErp
+        //         this.previousdatecountDespatch
+        //     }
+        // }
+
+        // console.log('this.currentdatecountErp', this.currentdatecountErp);
+        // console.log('this.previousdatecountErp', this.previousdatecountErp);
+        // console.log('this.previousdatecountDespatch', this.previousdatecountDespatch);
+
+
+    }
 
     erpdespatchEntryCheck(key) {
 
@@ -328,9 +369,9 @@ export class DespatchNoEntryComponent implements OnInit {
         // console.log('this.checklist.length', this.checklist.length)
         // console.log('this.despatchFormat', this.checklistddTotal)
         this.erpentryExists = false;
-        for (let i = 0; i <= this.erpList.length; i++) {
-            this.temperpList = this.erpList[i];
-            if (this.temperpList != null && this.temperpList.erpdespNo == this.despatchFormat && this.temperpList.noofDd == this.checklist.length && this.temperpList.erpAmount == this.checklistddTotal) {
+        for (let i = 0; i <= this.erpLists.length; i++) {
+            this.temperpList = this.erpLists[i];
+            if (this.temperpList != null && this.temperpList.ddenter.erpdespNo == this.despatchFormat && this.temperpList.ddenter.noofDd == this.checklist.length && this.temperpList.ddenter.erpAmount == this.checklistddTotal) {
                 console.log('success');
                 this.erpentryExists = true;
                 break;
