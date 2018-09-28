@@ -9,6 +9,7 @@ import { desptchLastid } from '../models/despatchlastId';
 import { Despatch } from '../models/despatch';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { element } from 'protractor';
+import { erpDespatch } from '../models/erpdespatch';
 
 
 @Component({
@@ -56,6 +57,10 @@ export class DespatchNoEntryComponent implements OnInit {
     despatchLists: Despatch[] = [];
     checklisttemp;
     index;
+    erpList: erpDespatch[] = [];
+    erpentryExists;
+    temperpList;
+    despatchFormat;
     constructor(private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
@@ -146,6 +151,26 @@ export class DespatchNoEntryComponent implements OnInit {
 
             });
         });
+
+        let erpRef = db.object('erpdespatch');
+        erpRef.snapshotChanges().subscribe(action => {
+            var quatationsList = action.payload.val();
+            let obj = Common.snapshotToArray(action.payload);
+            this.despatchLists = [];
+            obj.forEach(element => {
+                let obj: erpDespatch = JSON.parse(element);
+                // this.newddLastId = obj;
+                this.erpList.push(obj as erpDespatch);
+                console.log('aaaaaaaaaaaaaaaaaaaa', this.erpList)
+                // this.count = obj.lastId;
+                // this.fromLastId = obj.Id;
+
+            });
+        });
+
+        // despatch no format
+
+
     }
     formatDate(date) {
         var d = new Date(date),
@@ -160,12 +185,12 @@ export class DespatchNoEntryComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.ets.cookievalue == "3") {
-          // this.router.navigate(['/despatch-no-entry'])
-        }
-        else {
-          this.router.navigate(['/error']);
-        }
+        // if (this.ets.cookievalue == "3") {
+        //   // this.router.navigate(['/despatch-no-entry'])
+        // }
+        // else {
+        //   this.router.navigate(['/error']);
+        // }
         this.entered = this.ets.cookiename;
         this.despatch.enteredBy = this.entered;
         console.log('cookiename****', this.despatch.enteredBy)
@@ -285,6 +310,43 @@ export class DespatchNoEntryComponent implements OnInit {
     }
 
 
+    erpdespatchEntryCheck(key) {
+
+        let todaydate = new Date();
+        this.year = todaydate.getFullYear();
+        let nextyear = this.year + 1;
+        let stnextyear = nextyear.toString();
+        let styear = this.year.toString()
+        var splityear = styear.slice(-2)
+        var splitnextyear = stnextyear.slice(-2);
+        // console.log(list)
+        this.despatchFormat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+        this.despatch.despatchNo = this.despatchFormat;
+        // console.log('this.despatchFormat', this.despatchFormat)
+        // console.log('this.checklist.length', this.checklist.length)
+        // console.log('this.despatchFormat', this.checklistddTotal)
+        this.erpentryExists = false;
+        for (let i = 0; i <= this.erpList.length; i++) {
+            this.temperpList = this.erpList[i];
+            if (this.temperpList != null && this.temperpList.erpdespNo == this.despatchFormat && this.temperpList.noofDd == this.checklist.length && this.temperpList.erpAmount == this.checklistddTotal) {
+                console.log('success');
+                this.erpentryExists = true;
+                break;
+            }
+
+        }
+        if (this.erpentryExists == true) {
+            console.log(this.erpentryExists)
+            // this.beforeRegister(key);
+        }
+        else {
+            alert('Despatch Entry not match with Erp entry')
+        }
+
+
+    }
+
+
     beforeRegister(key) {
         console.log('key***', key)
         if (this.checklist.length == 0) {
@@ -294,16 +356,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
             var despatchnoExists = false;
             var list = this.despatchLists;
-            let todaydate = new Date();
-            this.year = todaydate.getFullYear();
-            let nextyear = this.year + 1;
-            let stnextyear = nextyear.toString();
-            let styear = this.year.toString()
-            var splityear = styear.slice(-2)
-            var splitnextyear = stnextyear.slice(-2);
-            console.log(list)
-            var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
-            this.despatch.despatchNo = despformat;
+
             // this.despatch.despatchNo
             for (let i = 0; i <= this.despatchLists.length; i++) {
                 this.tempdesplist = this.despatchLists[i];
@@ -314,7 +367,7 @@ export class DespatchNoEntryComponent implements OnInit {
                 }
             }
             if (despatchnoExists == false) {
-                console.log('ssss', despformat);
+                console.log('ssss', this.despatchFormat);
                 console.log(despatchnoExists)
                 console.log('despatch entry')
                 this.register(key);
