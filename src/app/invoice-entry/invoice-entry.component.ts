@@ -257,7 +257,7 @@ export class InvoiceEntryComponent implements OnInit {
     console.log(InvoiceEntryJson);
     try {
       this.db.database.ref('invoiceEntry').child(counter.toString()).set(InvoiceEntryJson);
-      alert("Added Successfully");
+      alert("Added Successfully Please Note Inward Invoice Entry Serial No :"+this.invoiceEntry.invoiceEntryId);
     this.resetForm();
       
       // this.resetForm();

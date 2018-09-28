@@ -4,7 +4,7 @@
     <div id="content" class="createcontent">
         <div class="form-row">
             <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-            <h1 >ERP Despatch Entry</h1>
+            <h1>ERP Despatch Entry</h1>
             <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
 
         </div>
@@ -12,60 +12,60 @@
         <br>
         <br>
         <form name="form">
-                <ng-container *ngFor="let lstid of ddLastids">
-                        <div class="row">
-        
-                            <div class="form-group col-md-4">
-                                <br>
-                                <label for="ddid">ERP Desp Sl No : &nbsp;</label>
-                                <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
-                                <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
-        
-                                <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+            <ng-container *ngFor="let lstid of ddLastids">
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <br>
+                        <label for="ddid">ERP Desp Sl No : &nbsp;</label>
+                        <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
+                        <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
+
+                        <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label for="date">Date</label>
+                        <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+                    </div>
+                    <div class="form-group col-md-4" [formGroup]="ddentryForm">
+                        <label for="">ERP Despatch No</label>
+                        <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" formControlName="erpdespno">
+                        <button type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
+
+                        <div *ngIf="erpdespno.invalid && (erpdespno.dirty || erpdespno.touched)" class="alert-danger">
+                            <div *ngIf="erpdespno.errors.required">
+                                ERP desp number is required
                             </div>
-        
-           
-            <div class="form-group col-md-4">
-                <label for="date">Date</label>
-                <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
-                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-            </div>
-            <div class="form-group col-md-4" [formGroup]="ddentryForm">
-                <label for="">ERP Despatch No</label>
-                <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" formControlName="erpdespno"  >
-                <button type="button" (click)="clickme(text.value)" class="form-control" >Get Center</button>
-
-                <div *ngIf="erpdespno.invalid && (erpdespno.dirty || erpdespno.touched)" class="alert-danger">
-                        <div *ngIf="erpdespno.errors.required">
-                            ERP desp number is required
-                        </div>
                         </div>
 
 
 
-            </div>
+                    </div>
 
-            
-        </div>
-        <div class="row">
- 
-                <div class="form-group col-md-4">
+
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-4">
                         <label for="erpdate">ERP Date</label>
                         <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker" bsDatepicker
                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        
+
                     </div>
-                            <div class="form-group col-md-4" [formGroup]="ddentryForm">
-                                <label for="center">Center Name</label>
-                                <input type="text" [(ngModel)]="selectedcenter" formControlName="centerName" class="form-control" name="selectedcenter" >
-                                <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
-                                        <div *ngIf="centerName.errors.required">
-                                            Please use get center
-                                        </div>
-                                        </div>
-              
+                    <div class="form-group col-md-4" [formGroup]="ddentryForm">
+                        <label for="center">Center Name</label>
+                        <input type="text" [(ngModel)]="selectedcenter" formControlName="centerName" class="form-control" name="selectedcenter">
+                        <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+                            <div *ngIf="centerName.errors.required">
+                                Please use get center
                             </div>
-                <!-- <div class="form-group col-md-3">
+                        </div>
+
+                    </div>
+                    <!-- <div class="form-group col-md-3">
                     <label for="center">Center Name</label>
             
                         <select  [(ngModel)]="selectedcenter" class="form-control" name="centerName" [ngModelOptions]="{standalone: true}">
@@ -76,100 +76,104 @@
             
                             </select>
             </div>  -->
-            <div class="form-group col-md-4" [formGroup]="ddentryForm">
-                <label for="noofdd">No.of DD</label>
-                <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control" formControlName="noofDd" >
+                    <div class="form-group col-md-4" [formGroup]="ddentryForm">
+                        <label for="noofdd">No.of DD</label>
+                        <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control" formControlName="noofDd">
 
-                <div *ngIf="noofDd.invalid && (noofDd.dirty || noofDd.touched)" class="alert-danger">
-                        <div *ngIf="noofDd.errors.required">
-                            No of DD is Required
-                        </div>
-                        <div *ngIf="noofDd.errors.pattern">
-                                Please enter digit format
-                            </div></div>
-            </div>
-
-            <div class="form-row">
-            <div class="form-group col-md-4" [formGroup]="ddentryForm">
-                <label for="amount">DD Amount</label>
-                <input type="text" [(ngModel)]="selectedamount" name="selectedamount" class="form-control" formControlName="ddamount">
-                <div *ngIf="ddamount.invalid && (ddamount.dirty || ddamount.touched)" class="alert-danger">
-                        <div *ngIf="ddamount.errors.required">
-                            DD Amount is Required
-                        </div>
-                        <div *ngIf="ddamount.errors.pattern">
+                        <div *ngIf="noofDd.invalid && (noofDd.dirty || noofDd.touched)" class="alert-danger">
+                            <div *ngIf="noofDd.errors.required">
+                                No of DD is Required
+                            </div>
+                            <div *ngIf="noofDd.errors.pattern">
                                 Please enter digit format
                             </div>
+                        </div>
                     </div>
 
-            </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4" [formGroup]="ddentryForm">
+                            <label for="amount">DD Amount</label>
+                            <input type="text" [(ngModel)]="selectedamount" name="selectedamount" class="form-control" formControlName="ddamount">
+                            <div *ngIf="ddamount.invalid && (ddamount.dirty || ddamount.touched)" class="alert-danger">
+                                <div *ngIf="ddamount.errors.required">
+                                    DD Amount is Required
+                                </div>
+                                <div *ngIf="ddamount.errors.pattern">
+                                    Please enter digit format
+                                </div>
+                            </div>
 
-            <div class="form-group col-md-4">
-                    <label for="amount">Remarks</label>
-                    <input type="text" [(ngModel)]="selectedremarks" name="selectedremarks" class="form-control">
-    
-    
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="amount">Remarks</label>
+                            <input type="text" [(ngModel)]="selectedremarks" name="selectedremarks" class="form-control">
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4"></div>
+                        <div class="form-group col-md-4"></div>
+                        <div class="form-group col-md-4"></div>
+                        <div class="form-group col-md-4" [formGroup]="ddentryForm">
+
+                            <button [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-            <div class="form-row">
-            <div class="form-group col-md-4"></div>
-            <div class="form-group col-md-4"></div>
-            <div class="form-group col-md-4"></div>
-            <div class="form-group col-md-4" [formGroup]="ddentryForm">
-                
-            <button [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" 
-            class="btn btn-primary">Submit</button>
-            </div>
-            
-             </div></div>
-           </ng-container>     </form>
+            </ng-container>
+        </form>
 
-                <div style="padding-top: 20px;">
-                        <h2>ERP Despatch No Entry List </h2>
-            
-            
-            
+        <div style="padding-top: 20px;">
+            <h2>ERP Despatch No Entry List </h2>
+
+
+
             <table class="table table-hover table-responsive table-bordered">
-                    <thead class="thead-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Serial No</th>
+                        <th>ERP Sl.No</th>
+                        <th>Date</th>
+                        <th>ERP Despatch No</th>
+                        <th>ERP Date</th>
+                        <th>Center Name</th>
+                        <th>No.od DD</th>
+                        <th>DD Amount</th>
+                        <th>Remarks</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor='let ddenter of ddLists '>
                         <tr>
-                            <th>Serial No</th>
-<th>ERP Sl.No</th>
-                            <th>Date</th>
-                          <th>ERP Despatch No</th>
-                          <th>ERP Date</th>
-                          <th>Center Name</th>
-                          <th>No.od DD</th>
-                          <th>DD Amount</th>
-        <th>Remarks</th>
-                          <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor='let ddenter of ddLists '>
-                            <tr>
-                                <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
-                              <td>  {{ddLists.indexOf(ddenter) + 1}}</td>
-                                <td>{{ddenter.ddenter.erpdespId}}</td>
-                                <td>{{ddenter.ddenter.date}}</td>
-                                <td>{{ddenter.ddenter.erpdespNo}}</td>
-                                <td>{{ddenter.ddenter.erpdate}}</td>
-            
-                                <td>{{ddenter.ddenter.centerName}}</td>
-                                <td>{{ddenter.ddenter.noofDd}}</td>
-                                <td>   {{ddenter.ddenter.erpAmount}}</td>
-    <td>{{ddenter.ddenter.remarks}}</td>
-<td>                                
-        <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
+                            <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
+                            <td> {{ddLists.indexOf(ddenter) + 1}}</td>
+                            <td>{{ddenter.ddenter.erpdespId}}</td>
+                            <td>{{ddenter.ddenter.date}}</td>
+                            <td>{{ddenter.ddenter.erpdespNo}}</td>
+                            <td>{{ddenter.ddenter.erpdate}}</td>
+
+                            <td>{{ddenter.ddenter.centerName}}</td>
+                            <td>{{ddenter.ddenter.noofDd}}</td>
+                            <td> {{ddenter.ddenter.erpAmount}}</td>
+                            <td>{{ddenter.ddenter.remarks}}</td>
+                            <td>
+                                <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
                                     View Details
                                 </button>
                             </td>
 
 
-                            </tr>
-                        </ng-container>
-                    </tbody>
-            
-                </table>
-            
-</div></div></div>            
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>

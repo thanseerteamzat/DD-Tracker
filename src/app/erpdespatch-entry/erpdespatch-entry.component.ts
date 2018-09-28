@@ -230,7 +230,7 @@ register(key, dlastid: erpDespatchId){
   console.log(erpDespatchJson);
   try {
     this.db.database.ref('erpdespatch').child(counter.toString()).set(erpDespatchJson);
-    alert("Added Successfully");
+    alert("Added Successfully, Please Note ERP Desp Sl No :" + this.erpdespatch.erpdespId);
     this.resetForm();
     // this.tempdata=[];
     // this.tempdata=this.erpdespatchList;
