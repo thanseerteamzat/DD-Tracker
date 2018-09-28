@@ -194,6 +194,8 @@ export class DespatchNoEntryComponent implements OnInit {
         this.entered = this.ets.cookiename;
         this.despatch.enteredBy = this.entered;
         console.log('cookiename****', this.despatch.enteredBy)
+
+
     }
     filterCenter(key) {
 
