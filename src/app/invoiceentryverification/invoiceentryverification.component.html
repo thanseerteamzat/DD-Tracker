@@ -1,0 +1,70 @@
+<div class="">
+
+  <div id="content" class="listcontent listcontenttable">
+      <h2>Invoice Entry Verification</h2>
+      <div style="height:20px"></div>
+      <div>
+          <table class="table table-hover table-responsive table-bordered">
+              <thead class="thead-dark">
+                  <tr>
+                      <th height="50" bgcolor="#6599F">SL NO</th>
+                      <th>Inward Sl No</th>
+                      <th style="min-width: 90px;" >Date</th>
+
+                      <th style="min-width: 200px;">Centre Name</th>
+                      <th style="min-width: 100px;">Inward Item</th>
+                      <th style="min-width: 150px;">Invoice Number</th>
+                      <th>Invoice Date</th>
+                      <th style="min-width: 120px;">Month</th>
+
+                      <th style="min-width: 90px;">Remarks</th>
+
+                      <th>Entered By</th>
+
+                      <th></th>
+
+                  </tr>
+              </thead>
+              <tbody>
+                  <ng-container *ngFor='let ddenter of ddLists '>
+                      <tr>
+                          <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+                          <td>{{ddenter.ddenter.invoiceEntryId}}</td>
+                          <td>{{ddenter.ddenter.date}}</td>
+
+                          <td>{{ddenter.ddenter.centerName}}</td>
+                          <td>{{ddenter.ddenter.inwardItem}}</td>
+                          <td>   {{ddenter.ddenter.invoiceNumber}}
+                          </td>
+                       
+                          <!-- <button type="button" class="btn btn-link">
+                                  <a [routerLink]="['/ddentry-details', ddenter.ddenter.ddlastId]">{{ddenter.ddenter.studentName}}</a>
+                              </button> -->
+
+
+                          <td>{{ddenter.ddenter.invoiceDate}}</td>
+                          <td>{{ddenter.ddenter.month}}</td>
+
+                          <td>{{ddenter.ddenter.remarks}}</td>
+
+
+                          <td>{{ddenter.ddenter.enteredBy}}</td>
+
+                       
+                          <td>
+
+                                  <button type="button" (click)=entrySelection(ddenter.ddenter.ddlastId,ddenter.ddenter) class="btn btn-primary">
+                                          View Details
+                                      </button>
+
+
+                              <!-- <button type="button" class="btn btn-primary">
+                                  <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
+                              </button> -->
+                          </td>
+                      </tr>
+                  </ng-container>
+              </tbody>
+
+          </table>
+</div></div></div>

@@ -44,7 +44,8 @@ export class EtsService {
   }
 
   GetddfromTtc = (): Observable<any> => {
-    return this.http.get(this.config.apiUrlKKC + 'payment.php')
+    // return this.http.get(this.config.apiUrlKKC + 'from='+fromdate + '&to=' + todate + '&skip=' +skip + '&limit='+limit )
+    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=26-09-2018&to=27-9-2018&skip=4&limit=2')
 
   }
   getCookie(cookievalue) {

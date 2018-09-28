@@ -1,3 +1,5 @@
+import { Center } from "./Center";
+
 export class erpDespatch {
 
     erpdespId:String;
@@ -13,6 +15,6 @@ export class erpDespatch {
 }
 export class erpdespatchList {
     ddenter: erpDespatch = new erpDespatch();
-    // center: Center = new Center();
+    center: Center = new Center();
 
 }
