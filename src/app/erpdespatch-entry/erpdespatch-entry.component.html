@@ -146,19 +146,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor='let ddenter of tempdata '>
+                        <ng-container *ngFor='let ddenter of ddLists '>
                             <tr>
                                 <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
-                              <td>  {{tempdata.indexOf(ddenter) + 1}}</td>
-                                <td>{{ddenter.erpdespId}}</td>
-                                <td>{{ddenter.date}}</td>
-                                <td>{{ddenter.erpdespNo}}</td>
-                                <td>{{ddenter.erpdate}}</td>
+                              <td>  {{ddLists.indexOf(ddenter) + 1}}</td>
+                                <td>{{ddenter.ddenter.erpdespId}}</td>
+                                <td>{{ddenter.ddenter.date}}</td>
+                                <td>{{ddenter.ddenter.erpdespNo}}</td>
+                                <td>{{ddenter.ddenter.erpdate}}</td>
             
-                                <td>{{ddenter.centerName}}</td>
-                                <td>{{ddenter.noofDd}}</td>
-                                <td>   {{ddenter.erpAmount}}</td>
-    <td>{{ddenter.remarks}}</td>
+                                <td>{{ddenter.ddenter.centerName}}</td>
+                                <td>{{ddenter.ddenter.noofDd}}</td>
+                                <td>   {{ddenter.ddenter.erpAmount}}</td>
+    <td>{{ddenter.ddenter.remarks}}</td>
 <td>                                
         <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
                                     View Details

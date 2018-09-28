@@ -13,7 +13,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { EtsService } from "src/app/services/ets.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 // import { ddLastid } from '../models/ddLastid';
-import { erpDespatch } from '../models/erpdespatch'
+import { erpDespatch, erpdespatchList } from '../models/erpdespatch'
 
 // import { ddentryTemp } from '../models/ddentryTemp';
 import { CookieService } from 'ngx-cookie-service';
@@ -26,6 +26,9 @@ import {erpDespatchId} from '../models/erpdespId'
   styleUrls: ['./erpdespatch-entry.component.css']
 })
 export class ErpdespatchEntryComponent implements OnInit {
+
+  ddLists: erpdespatchList[] = [];
+
   erpdespatchList:erpDespatch[]=[];
   erpdespNo;
   selectedcenter;
@@ -52,7 +55,7 @@ tempdata;
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      this.router.navigate(['/error']);
+      // this.router.navigate(['/error']);
     }
   }
   constructor(  private route: ActivatedRoute,
@@ -90,21 +93,52 @@ tempdata;
 
       
 
-
-
-      let erpdespatchitemRef = db.object('erpdespatch');
-      erpdespatchitemRef.snapshotChanges().subscribe(action => {
-        let erpobj = Common.snapshotToArray(action.payload);
-        erpobj.forEach(element => {
-          let obj: erpDespatch = JSON.parse(element);
-          this.erpdespatchList.push(obj);
+      let itemReff = db.object('erpdespatch');
+      itemReff.snapshotChanges().subscribe(action => {
+        this.ddLists = [];
+        var quatationsList = action.payload.val();
+        let quotationobj = Common.snapshotToArray(action.payload);
+        quotationobj.forEach(element => {
+          let ddListItem = new erpdespatchList();
+          let qobj: erpDespatch = JSON.parse(element);
+          // console.log("****" + element);
+          if (qobj.erpdespId != undefined) {
+            qobj.erpdespId = qobj.erpdespId.replace("/", "");
+          }
+  
+          ddListItem.ddenter = qobj;
+  
+          // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+          // // console.log('2222222222222222222222222222',custList)
+          // if (custList.length > 0) {
+          //   ddListItem.center = custList[0];
+          // }
+  
+          this.ddLists.push(ddListItem);
+  
         });
+  
       });
+  
+  
+  
+  
+  
+     
 
-      this.tempdata =this.erpdespatchList
+      // let erpdespatchitemRef = db.object('erpdespatch');
+      // erpdespatchitemRef.snapshotChanges().subscribe(action => {
+      //   let erpobj = Common.snapshotToArray(action.payload);
+      //   erpobj.forEach(element => {
+      //     let obj: erpDespatch = JSON.parse(element);
+      //     this.erpdespatchList.push(obj);
+      //   });
+      // });
+
+      // this.tempdata =this.erpdespatchList
 
 
-      console.log('**********************************',this.erpdespatchList)
+      // console.log('**********************************',this.erpdespatchList)
 
   let that = this;
   this.ets.GetAllCenters().subscribe(data => {
