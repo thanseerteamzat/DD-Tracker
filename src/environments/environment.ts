@@ -12,12 +12,12 @@ export const environment = {
     // projectId: "utek-ddtracker",
     // storageBucket: "utek-ddtracker.appspot.com",
     // messagingSenderId: "100955478608"
-    apiKey: "AIzaSyDxJJcA6EF56Dp1ZziistxS4BFmWlIevfs",
-    authDomain: "test-de718.firebaseapp.com",
-    databaseURL: "https://test-de718.firebaseio.com",
-    projectId: "test-de718",
-    storageBucket: "test-de718.appspot.com",
-    messagingSenderId: "909193172319"
+    apiKey: "AIzaSyDV4ARXP7CO8nvhk0JhD9jaiwGY3sKZrrY",
+    authDomain: "test-7e91a.firebaseapp.com",
+    databaseURL: "https://test-7e91a.firebaseio.com",
+    projectId: "test-7e91a",
+    storageBucket: "test-7e91a.appspot.com",
+    messagingSenderId: "45512019795"
     
 
   }

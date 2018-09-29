@@ -20,6 +20,7 @@ import { elementEnd } from '@angular/core/src/render3/instructions';
 })
 export class DespatchNoEntryComponent implements OnInit {
     newddEntry: ddEntry = new ddEntry();
+    newerpEntry: erpDespatch = new erpDespatch();
     selectedDatatemp;
     ddLists: ddList[] = [];
     erpLists: erpdespatchList[] = []
@@ -65,8 +66,10 @@ export class DespatchNoEntryComponent implements OnInit {
     erplistvariable;
     despatchlistvariable;
     currentdatecountErp;
-    previousdatecountErp;
+    previousdatecountErp: erpdespatchList[];
     previousdatecountDespatch;
+    erpPreviousMonthEntryExists;
+    previousEntryPendingList: erpdespatchList[];;
     constructor(private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
@@ -204,10 +207,10 @@ export class DespatchNoEntryComponent implements OnInit {
 
     ngOnInit() {
         if (this.ets.cookievalue == "3") {
-          // this.router.navigate(['/despatch-no-entry'])
+            // this.router.navigate(['/despatch-no-entry'])
         }
         else {
-          this.router.navigate(['/error']);
+            this.router.navigate(['/error']);
         }
 
         this.entered = this.ets.cookiename;
@@ -286,6 +289,7 @@ export class DespatchNoEntryComponent implements OnInit {
     }
 
     chechlistTotal(checklist) {
+        this.checklistddTotal = 0;
         for (let i = 0; i <= checklist.length; i++) {
 
             this.checklisttemp = checklist[i];
@@ -331,26 +335,47 @@ export class DespatchNoEntryComponent implements OnInit {
         }
     }
     erpdespatchEntryMonthCheck(key) {
+
+        this.erpPreviousMonthEntryExists = false;
         let despno = this.newddEntry.despatchNo;
-        let split =despno.slice(-2);
-        // this.despatch.despatchNo = this.despatchFormat;
-         console.log('split***',split)
-        // for (let i = 0, j = 0; i <= this.erpLists.length, j <= this.despatchLists.length; i++ , j++) {
-        //     this.erplistvariable = this.erpLists[i];
+        let split = despno.slice(-2);
+        let previousmonthsplit = '0' + (parseInt(split) - 1);
+        // console.log('split***', split)
+        for (let i = 0; i <= this.erpLists.length; i++) {
+            this.erplistvariable = this.erpLists[i];
+            this.currentdatecountErp = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == split).length;
+            this.previousdatecountErp = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit);
+            // console.log('current erp date length', this.previousdatecountErp);
+        }
+        for (let j = 0; j <= this.previousdatecountErp.length; j++) {
+            // console.log('list***', this.previousdatecountErp[j]);
+            var temp = this.previousdatecountErp[j];
+            if (temp != null && temp.ddenter.isdespatchEntered == false) {
+                this.erpPreviousMonthEntryExists = true;
+                // console.log(temp.ddenter.isdespatchEntered)
+                break;
+            }
 
-        //     // var date = this.erplistvariable.ddenter.erpdate.toString();
-        //     if (this.erplistvariable != null) {
-        //         this.currentdatecountErp
-        //         this.previousdatecountErp
-        //         this.previousdatecountDespatch
-        //     }
-        // }
+        }
+        if (this.erpPreviousMonthEntryExists == false) {
+            // console.log('new entry month')
+            // console.log(this.erpPreviousMonthEntryExists)
+             this.erpdespatchEntryCheck(key);
+        }
+        else {
+            this.previousEntryPendingList = this.erpLists.filter(s =>this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit && s.ddenter.isdespatchEntered == false);
+            alert('Previous Month Despatch Entry is pending. Please update...');
 
-        // console.log('this.currentdatecountErp', this.currentdatecountErp);
-        // console.log('this.previousdatecountErp', this.previousdatecountErp);
-        // console.log('this.previousdatecountDespatch', this.previousdatecountDespatch);
+        }
 
 
+    }
+    getMothFromDate(dateData) {
+        if (dateData != null) {
+            var month = dateData.toString().slice(3, -5)
+            //  console.log('month**',month)
+            return month;
+        }
     }
 
     erpdespatchEntryCheck(key) {
@@ -372,15 +397,15 @@ export class DespatchNoEntryComponent implements OnInit {
         for (let i = 0; i <= this.erpLists.length; i++) {
             this.temperpList = this.erpLists[i];
             if (this.temperpList != null && this.temperpList.ddenter.erpdespNo == this.despatchFormat && this.temperpList.ddenter.noofDd == this.checklist.length && this.temperpList.ddenter.erpAmount == this.checklistddTotal) {
-                console.log('success');
+                // console.log('success');
                 this.erpentryExists = true;
                 break;
             }
 
         }
         if (this.erpentryExists == true) {
-            console.log(this.erpentryExists)
-            // this.beforeRegister(key);
+            // console.log(this.erpentryExists)
+            this.beforeRegister(key);
         }
         else {
             alert('Despatch Entry not match with Erp entry')
@@ -391,7 +416,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
 
     beforeRegister(key) {
-        console.log('key***', key)
+        // console.log('key***', key)
         if (this.checklist.length == 0) {
             alert('Please select any Entry !!')
         }
@@ -410,9 +435,9 @@ export class DespatchNoEntryComponent implements OnInit {
                 }
             }
             if (despatchnoExists == false) {
-                console.log('ssss', this.despatchFormat);
-                console.log(despatchnoExists)
-                console.log('despatch entry')
+                // console.log('ssss', this.despatchFormat);
+                // console.log(despatchnoExists)
+                // console.log('despatch entry')
                 this.register(key);
             }
             else {
@@ -424,151 +449,173 @@ export class DespatchNoEntryComponent implements OnInit {
     register(key) {
         if (key != null) {
             this.ddtotal = 0;
-
+            let todaydate = new Date();
+            this.year = todaydate.getFullYear();
+            let nextyear = this.year + 1;
+            let stnextyear = nextyear.toString();
+            let styear = this.year.toString()
+            var splityear = styear.slice(-2)
+            var splitnextyear = stnextyear.slice(-2);
+            console.log('split ....', splitnextyear)
+            var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
             try {
+
+                for (let j = 0; j <= this.erpLists.length; j++) {
+                    var temperp = this.erpLists[j]
+                    if (temperp != null && temperp.ddenter.erpdespNo == despformat) {
+                        temperp.ddenter.isdespatchEntered = true;
+                        console.log('success')
+                        let erpEntryJson = JSON.stringify(temperp.ddenter);
+                        console.log(erpEntryJson);
+                        try {
+                            this.db.database.ref('erpdespatch').child(temperp.ddenter.erpdespId.toString()).set(erpEntryJson);
+                            // alert("DD Entry added successfully!!.");
+                            // this.router.navigate(['/dd-entry']);
+                        }
+                        catch (ex) {
+
+                        }
+                    }
+                }
                 for (let i = 0; i <= this.checklist.length; i++) {
-                    let todaydate = new Date();
-                    this.year = todaydate.getFullYear();
-                    let nextyear = this.year + 1;
-                    let stnextyear = nextyear.toString();
-                    let styear = this.year.toString()
-                    var splityear = styear.slice(-2)
-                    var splitnextyear = stnextyear.slice(-2);
-                    console.log('split ....', splitnextyear)
-                    var despformat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+
 
                     this.tempentry = this.checklist[i];
-                    this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
-                    console.log('total*****', this.ddtotal)
-                    this.tempentry.despatchNo = despformat;
-                    this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-                    this.tempentry.isdespatchEntered = true;
-                    // this.tempentry.despId = key;
-                    var updates = {}
+                    if (this.tempentry != null) {
+                        this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
+                        console.log('total*****', this.ddtotal)
+                        this.tempentry.despatchNo = despformat;
+                        this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+                        this.tempentry.isdespatchEntered = true;
+                        // this.tempentry.despId = key;
+                        var updates = {}
 
-                    updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
-                    try {
+                        updates['/ddEntry/' + this.tempentry.ddlastId] = JSON.stringify(this.tempentry);
+                        try {
 
+                            let up = this.db.database.ref().update(updates);
+                            // this.router.navigate(['/despatch-no-entry'])
+                        }
+                        catch (e) {
+
+                        }
+                        //despatch table entry code 
+
+
+                        var counter = parseInt(this.count) + 1;
+                        var updates = {};
+                        this.newddLastId.lastId = counter;
+                        updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
                         let up = this.db.database.ref().update(updates);
-                        // this.router.navigate(['/despatch-no-entry'])
-                    }
-                    catch (e) {
 
-                    }
-                    //despatch table entry code 
+                        //inserting despatch to despatch table
 
+                        this.despatch.centerCode = this.tempcentercode;
+                        console.log('centercode .....', this.despatch.centerCode)
+                        if (this.ddtotal != 0) {
 
-                    var counter = parseInt(this.count) + 1;
-                    var updates = {};
-                    this.newddLastId.lastId = counter;
-                    updates['/despatchLastId/' + key] = JSON.stringify(this.newddLastId);
-                    let up = this.db.database.ref().update(updates);
+                            let feeWT = parseFloat(this.ddtotal) / 1.18;
+                            let feewtfloat = feeWT.toFixed(2);
+                            let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
+                            let taxfloat = taxamount.toFixed(2);
+                            this.despatch.centerId = this.selectedcenter;
+                            this.despatch.despId = counter.toString();
+                            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+                            this.despatch.despatchNo = despformat;
+                            this.despatch.feeItem = this.tempentry.feeItem;
+                            this.despatch.isdespatchEntered = true;
+                            this.despatch.totalAmount = this.ddtotal;
+                            this.despatch.taxAmount = parseFloat(taxfloat);
+                            this.despatch.FWT = parseFloat(feewtfloat);
+                            //calculating dba rate and amount
 
-                    //inserting despatch to despatch table
+                            if (this.tempentry.feesItem == "Course Fee") {
 
-                    this.despatch.centerCode = this.tempcentercode;
-                    console.log('centercode .....', this.despatch.centerCode)
-                    if (this.ddtotal != 0) {
+                                this.despatch.Rate = 65;
+                                let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                let frate = rate.toFixed(2);
+                                this.despatch.Amount = parseFloat(frate);
+                            }
+                            else if (this.tempentry.feesItem == "Inspection") {
+                                this.despatch.Rate = 60;
+                                let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                let frate = rate.toFixed(2);
+                                this.despatch.Amount = parseFloat(frate);
 
-                        let feeWT = parseFloat(this.ddtotal) / 1.18;
-                        let feewtfloat = feeWT.toFixed(2);
-                        let taxamount = parseFloat(this.ddtotal) - parseFloat(feewtfloat);
-                        let taxfloat = taxamount.toFixed(2);
-                        this.despatch.centerId = this.selectedcenter;
-                        this.despatch.despId = counter.toString();
-                        this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-                        this.despatch.despatchNo = despformat;
-                        this.despatch.feeItem = this.tempentry.feeItem;
-                        this.despatch.isdespatchEntered = true;
-                        this.despatch.totalAmount = this.ddtotal;
-                        this.despatch.taxAmount = parseFloat(taxfloat);
-                        this.despatch.FWT = parseFloat(feewtfloat);
-                        //calculating dba rate and amount
+                            }
+                            else {
+                                this.despatch.Rate = 80;
+                                let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                let frate = rate.toFixed(2);
+                                this.despatch.Amount = parseFloat(frate);
 
-                        if (this.tempentry.feesItem == "Course Fee") {
+                            }
 
-                            this.despatch.Rate = 65;
-                            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            let frate = rate.toFixed(2);
-                            this.despatch.Amount = parseFloat(frate);
+                            this.despatch.feeItem = this.tempentry.feeItem;
+                            let ddEntryJson = JSON.stringify(this.despatch);
+                            console.log(ddEntryJson);
+                            try {
+                                this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+                                // alert("DD Entry added successfully!!.");
+                                // this.router.navigate(['/dd-entry']);
+                            }
+                            catch (ex) {
+
+                            }
                         }
-                        else if (this.tempentry.feesItem == "Inspection") {
-                            this.despatch.Rate = 60;
-                            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            let frate = rate.toFixed(2);
-                            this.despatch.Amount = parseFloat(frate);
-
-                        }
+                        // code for zero amount
                         else {
-                            this.despatch.Rate = 80;
-                            let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            let frate = rate.toFixed(2);
-                            this.despatch.Amount = parseFloat(frate);
+
+                            this.despatch.centerId = this.selectedcenter;
+                            this.despatch.despId = counter.toString();
+                            this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
+                            this.despatch.despatchNo = despformat;
+                            this.despatch.feeItem = this.tempentry.feeItem;
+                            this.despatch.isdespatchEntered = true;
+                            this.despatch.totalAmount = this.ddtotal;
+                            this.despatch.taxAmount = 0;
+                            this.despatch.FWT = 0;
+                            //calculating dba rate and amount
+
+                            if (this.tempentry.feesItem == "Course Fee") {
+
+                                // this.despatch.Rate = 65;
+                                // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                // let frate = rate.toFixed(2);
+                                this.despatch.Amount = 0;
+                            }
+                            else if (this.tempentry.feesItem == 'Inspection') {
+                                // this.despatch.Rate = 60;
+                                // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                // let frate = rate.toFixed(2);
+                                this.despatch.Amount = 0;
+
+                            }
+                            else {
+                                // this.despatch.Rate = 80;
+                                // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
+                                // let frate = rate.toFixed(2);
+                                this.despatch.Amount = 0;
+
+                            }
+
+                            this.despatch.feeItem = this.tempentry.feeItem;
+
+                            let ddEntryJson = JSON.stringify(this.despatch);
+                            console.log(ddEntryJson);
+                            try {
+                                this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
+                                // alert("DD Entry added successfully!!.");
+                                // this.router.navigate(['/dd-entry']);
+                            }
+
+                            catch (ex) {
+
+                            }
 
                         }
 
-                        this.despatch.feeItem = this.tempentry.feeItem;
-                        let ddEntryJson = JSON.stringify(this.despatch);
-                        console.log(ddEntryJson);
-                        try {
-                            this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
-                            // alert("DD Entry added successfully!!.");
-                            // this.router.navigate(['/dd-entry']);
-                        }
-                        catch (ex) {
-
-                        }
                     }
-                    // code for zero amount
-                    else {
-
-                        this.despatch.centerId = this.selectedcenter;
-                        this.despatch.despId = counter.toString();
-                        this.despatch.despatchDate = this.formatDate(this.newddEntry.despatchDate);
-                        this.despatch.despatchNo = despformat;
-                        this.despatch.feeItem = this.tempentry.feeItem;
-                        this.despatch.isdespatchEntered = true;
-                        this.despatch.totalAmount = this.ddtotal;
-                        this.despatch.taxAmount = 0;
-                        this.despatch.FWT = 0;
-                        //calculating dba rate and amount
-
-                        if (this.tempentry.feesItem == "Course Fee") {
-
-                            // this.despatch.Rate = 65;
-                            // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            // let frate = rate.toFixed(2);
-                            this.despatch.Amount = 0;
-                        }
-                        else if (this.tempentry.feesItem == 'Inspection') {
-                            // this.despatch.Rate = 60;
-                            // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            // let frate = rate.toFixed(2);
-                            this.despatch.Amount = 0;
-
-                        }
-                        else {
-                            // this.despatch.Rate = 80;
-                            // let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
-                            // let frate = rate.toFixed(2);
-                            this.despatch.Amount = 0;
-
-                        }
-
-                        this.despatch.feeItem = this.tempentry.feeItem;
-
-                        let ddEntryJson = JSON.stringify(this.despatch);
-                        console.log(ddEntryJson);
-                        try {
-                            this.db.database.ref('Despatch').child(this.despatch.despId).set(ddEntryJson);
-                            // alert("DD Entry added successfully!!.");
-                            // this.router.navigate(['/dd-entry']);
-                        }
-                        catch (ex) {
-
-                        }
-                    }
-
                 }
             }
             catch (e) {

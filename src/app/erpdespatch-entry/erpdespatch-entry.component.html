@@ -149,7 +149,7 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor='let ddenter of ddLists '>
-                        <tr>
+                        <tr [ngClass]="{bgRed: ddenter.ddenter.isdespatchEntered === true}" >
                             <!-- <td>{{ddLists.indexOf(ddenter) + 1}}</td> -->
                             <td> {{ddLists.indexOf(ddenter) + 1}}</td>
                             <td>{{ddenter.ddenter.erpdespId}}</td>
