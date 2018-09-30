@@ -514,26 +514,26 @@ export class DbaNoEntryComponent implements OnInit {
 
                 }
 
-                if (this.newInvoice.feesItem == 'Course Fee') {
+                if (this.newdba.feesItem == 'Course Fee') {
                     this.newInvoice.share = 15;
                     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
                     this.newInvoice.shareAmount = tot.toFixed(2);
                 }
-                else if (this.newInvoice.feesItem == 'Prospectus') {
+                else if (this.newdba.feesItem == 'Prospectus') {
                     this.newInvoice.share = 80;
-                    let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+                    let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
                     this.newInvoice.shareAmount = tot.toFixed(2);
                 }
         
-                else if (this.newInvoice.feesItem == 'Inspection') {
+                else if (this.newdba.feesItem == 'Inspection') {
                     this.newInvoice.share = 60;
                     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
                     this.newInvoice.shareAmount = tot.toFixed(2);
                 }
-                else if (this.newInvoice.feesItem == 'Affilication' || this.newInvoice.feesItem == 'Renewal Fee') {
+                else if (this.newdba.feesItem == 'Affilication' || this.newdba.feesItem == 'Renewal Fee') {
                     this.newInvoice.share = 80;
                     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
@@ -542,26 +542,26 @@ export class DbaNoEntryComponent implements OnInit {
         
                 else {
         
-                    if (this.newInvoice.feesItem == 'Course Fee') {
+                    if (this.newdba.feesItem == 'Course Fee') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = '0';
                     }
-                    else if (this.newInvoice.feesItem == 'Prospectus') {
+                    else if (this.newdba.feesItem == 'Prospectus') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = '0';
                     }
         
-                    else if (this.newInvoice.feesItem == 'Inspection') {
+                    else if (this.newdba.feesItem == 'Inspection') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = '0';
                     }
-                    else if (this.newInvoice.feesItem == 'Affilication' || this.newInvoice.feesItem == 'Renewal Fee') {
+                    else if (this.newdba.feesItem == 'Affilication' || this.newdba.feesItem== 'Renewal Fee') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());

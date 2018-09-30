@@ -12,8 +12,8 @@ export class RoundPipe implements PipeTransform {
   transform(value: number): number {
     
     value = isNaN(value) ? 0 : +value;
-    var converter = require('number-to-words');
-    var word = converter.toWords(value);
+    // var converter = require('number-to-words');
+    // var word = converter.toWords(value);
 
     return Math.round(value);
   }

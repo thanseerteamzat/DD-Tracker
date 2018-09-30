@@ -360,10 +360,10 @@ export class DespatchNoEntryComponent implements OnInit {
         if (this.erpPreviousMonthEntryExists == false) {
             // console.log('new entry month')
             // console.log(this.erpPreviousMonthEntryExists)
-             this.erpdespatchEntryCheck(key);
+            this.erpdespatchEntryCheck(key);
         }
         else {
-            this.previousEntryPendingList = this.erpLists.filter(s =>this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit && s.ddenter.isdespatchEntered == false);
+            this.previousEntryPendingList = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit && s.ddenter.isdespatchEntered == false);
             alert('Previous Month Despatch Entry is pending. Please update...');
 
         }
@@ -394,9 +394,10 @@ export class DespatchNoEntryComponent implements OnInit {
         // console.log('this.checklist.length', this.checklist.length)
         // console.log('this.despatchFormat', this.checklistddTotal)
         this.erpentryExists = false;
+        let datecheck = this.formatDate(this.newddEntry.despatchDate);
         for (let i = 0; i <= this.erpLists.length; i++) {
             this.temperpList = this.erpLists[i];
-            if (this.temperpList != null && this.temperpList.ddenter.erpdespNo == this.despatchFormat && this.temperpList.ddenter.noofDd == this.checklist.length && this.temperpList.ddenter.erpAmount == this.checklistddTotal) {
+            if (this.temperpList != null && this.temperpList.ddenter.erpdespNo == this.despatchFormat && this.temperpList.ddenter.erpAmount == this.checklistddTotal && this.temperpList.ddenter.erpdate == datecheck) {
                 // console.log('success');
                 this.erpentryExists = true;
                 break;

@@ -124,6 +124,7 @@ export class InvoiceComponent implements OnInit {
     this.cgst = 0;
     this.sgst = 0;
     this.totalinvoiceAmount = 0;
+    this.feeamountlist = 0;
     this.selectlisttotal = data.length;
     this.invoicesplit = 0;
     for (let i = 0; i <= data.length; i++) {
@@ -151,8 +152,33 @@ export class InvoiceComponent implements OnInit {
         let totalInvAmount = parseFloat(this.taxableAmount) + parseFloat(this.cgst) + parseFloat(this.sgst);
         this.totalinvoiceAmount = totalInvAmount.toFixed(2);
 
-        var split = this.totalinvoiceAmount.slice(-2);
-        this.invoicesplit = '0.' + split;
+        var splitmode = this.totalinvoiceAmount % 1;
+        // var split = this.totalinvoiceAmount.slice(-3);
+        console.log('splitted round off value**', splitmode.toFixed(2));
+        var splitlasttwodigits = splitmode.toFixed(2);
+        if (parseFloat(splitlasttwodigits) == 0) {
+          console.log('success with zero')
+          this.invoicesplit = splitlasttwodigits;
+        }
+        else {
+          let a = 1 - parseFloat(splitlasttwodigits);
+          let b = a.toFixed(2);
+          console.log('b*****', b)
+          let c = 0.50;
+          if (b <= c.toString()) {
+            console.log('greater')
+
+            this.invoicesplit = '+' + b;
+          }
+          else {
+            console.log('lesser')
+            this.invoicesplit = '-' + splitlasttwodigits;
+
+          }
+
+          // console.log('actual round off', b)
+        }
+        // this.invoicesplit = '0.' + split;
 
         // this.convertedToWord = this.ets.convertedWord;
         // console.log('words in ts', this.convertedToWord)
