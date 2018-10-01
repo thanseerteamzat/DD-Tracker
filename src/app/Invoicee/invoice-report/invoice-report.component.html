@@ -1,0 +1,238 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Invoice List</h2>
+
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+
+
+    <div class="form-group col-md-3">
+
+      <label>Invoice Number: </label>&nbsp;
+      <input type="text" [(ngModel)]="newInvoice.invoiceNo" class="form-control">
+      <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
+          <div *ngIf="despatchNo.errors.required">
+              Despatch No is Required
+          </div>
+          <div *ngIf="despatchNo.errors.pattern">
+              Please enter valid input(number)
+          </div>
+      </div> -->
+    </div>
+    <div class="form-group col-md-3">
+
+
+      <br>
+      <button type="submit" class="btn btn-primary" (click)="generateInvoiceList()">Submit</button>
+    </div>
+
+
+    <!-- <div class="form-group col-md-3">
+      <label>Count:</label>
+      <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
+
+    </div> -->
+
+    <div style="padding-top: 50px;">
+      <div class="flex-container">
+        <span style="font-weight: bold;padding-left: 50px">
+          <h3>ICONS ACADEMY</h3>
+        </span>
+        <span style="font-weight: bold">
+          <h4>UNIVERSAL TOWERS, NEAR PVT BUS STAND</h4>
+        </span>
+        <span>
+          <h4>ATTINGAL P.O, THIRUVANANTHAPURAM -695101 Ph:9447062148 9072592416</h4>
+        </span>
+      </div>
+      <table class="table table-hover table-responsive table-bordered">
+
+        <thead class="thead-dark">
+          <tr>
+            <td colspan="10" style="text-align: center">
+              <span>
+                <h5>INVOICE FOR THE MONTH OF :</h5>
+              </span>
+            </td>
+          </tr>
+          <!-- <ng-container *ngFor="let ddenter of selectedData"> -->
+
+            <tr>
+
+              <td colspan="6">INVOICE NUMBR :</td>
+              <td colspan="4">INVOICE DATE:</td>
+            </tr>
+          <!-- </ng-container> -->
+          <tr>
+            <td colspan="10">
+              DETAILS OF RECIEVER BILLED TO:
+              <br> M/s. Kerala State Electronics Development Corporation Ltd.
+              <br> Keltron House
+              <br> Vellayambalam
+              <br> Thiruvananthapuram -695033.
+              <br> GSTIN NO:32AABCK1319E4Z5
+              <br> STATE CODE :32
+
+            </td>
+          </tr>
+          <tr>
+            <th colspan="3"> NAME OF SERVICE </th>
+            <th>SAC CODE</th>
+            <th>COMMERCIAL CODE</th>
+            <th colspan="2">RATE OF TAX</th>
+            <th colspan="2">BILL AMOUNT</th>
+            <th>TAX AMOUNT </th>
+
+          </tr>
+          <tr>
+            <td colspan="3"> </td>
+            <td></td>
+            <td></td>
+            <td>CGST 9%</td>
+            <td>SGST 9%</td>
+            <td colspan="2"></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <th>SL.No</th>
+            <th>H.O. DBA. NO</th>
+            <th>COURSE CODE</th>
+            <th>FEES ITEM</th>
+            <th>CENTER NAME</th>
+            <th>CENTER CODE</th>
+            <th>DBA AMOUNT</th>
+            <th>FEE AMOUNT</th>
+            <th>SHARE%</th>
+            <th>SHARE AMOUNT</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of selectedData">
+
+
+
+            <tr>
+              <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.invoiceenter?.dbaNo}}</td>
+              <td></td>
+              <td>{{ddenter.invoiceenter?.feesItem}}</td>
+
+              <!--
+                er.dbaenter?.despatchMonth}}</td> -->
+              <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+              <td>{{ddenter.center?.CenterName}}</td>
+              <td>{{ddenter.center?.CenterCode}}</td>
+
+              <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
+              <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
+              <!-- <td>{{ddenter.dbaenter?.despatchDate}}</td> -->
+              <td>{{ddenter.invoiceenter?.dbaAmount}}</td>
+              <!-- <td>{{ddenter.dbaenter?.tax}}</td> -->
+              <td>{{ddenter.invoiceenter?.feeAmount}}</td>
+              <td>{{ddenter.invoiceenter?.share}}%</td>
+              <td>{{ddenter.invoiceenter?.shareAmount}}</td>
+              <!-- <td>{{ddenter.ddenter?.enteredBy}}</td> -->
+
+
+
+
+
+
+            </tr>
+          </ng-container>
+
+
+
+          <tr>
+            <td colspan="6" style="text-align: right">Total</td>
+            <td>
+              {{desptotal}}
+            </td>
+            <!-- <td>{{taxtotal}}</td> -->
+            <td>{{feeamountlist}}</td>
+            <td></td>
+            <td>{{shareamountList}}</td>
+            <!-- <td></td> -->
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">TAXABLE AMOUNT</th>
+            <td>{{taxableAmount}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">CGST (9.00%)</th>
+            <td>{{cgst}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">SGST (9.00%)</th>
+            <td>{{sgst}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">TOTAL INVOICE AMOUNT</th>
+            <td>{{totalinvoiceAmount}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">ROUND OFF</th>
+            <td>{{invoicesplit}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">Total</th>
+            <td>{{totalinvoiceAmount | round}}</td>
+          </tr>
+          <tr>
+            <td colspan="10" style="text-align: left">INVOICE AMOUNT IN WORDS : {{totalinvoiceAmount | toWord}}</td>
+
+          </tr>
+
+          <tr>
+            <td colspan="10">
+
+            </td>
+          </tr>
+          <tr>
+            <td colspan="10">BENEFECIARY ACCOUNT DETAILS OF ICONS ACADEMY w.e.f 01.08.2017</td>
+          </tr>
+          <tr>
+            <td colspan="3">Firm Name</td>
+            <td colspan="3"></td>
+            <td rowspan="9" colspan="4"></td>
+          </tr>
+          <tr>
+            <td colspan="3">A/c. Holder Name</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">A/c. No</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">Bank Name</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">Branch Name</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">IFSC Code</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">PAN Number</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">CIN Number</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">GSTIN Number</td>
+            <td colspan="3"></td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+
+  </div>
+</div>

@@ -41,7 +41,7 @@ import { DdentryProsDetailsComponent } from './ddentry-pros-details/ddentry-pros
 import { DdentryappComponent } from './ddentryapp/ddentryapp.component';
 import { DespStudListComponent } from './desp-stud-list/desp-stud-list.component';
 import { DbaDetailsComponent } from './dba-details/dba-details.component';
-import { InvoiceComponent } from './invoice/invoice.component';
+import { InvoiceComponent } from './Invoicee/Invoice Generation/invoice.component';
 import { AdjEntryComponent } from './adj-entry/adj-entry.component';
 import { AdjverificationComponent } from './adjverification/adjverification.component';
 import { AdjentryDetailsComponent } from './adjentry-details/adjentry-details.component';
@@ -53,11 +53,13 @@ import { AdjpendingddComponent } from './adjpendingdd/adjpendingdd.component';
 import { ErpdespatchEntryComponent } from './erpdespatch-entry/erpdespatch-entry.component';
 import { ErpdespdetailsComponent } from './erpdespdetails/erpdespdetails.component';
 import { DbaDespListComponent } from './dba-desp-list/dba-desp-list.component';
-import { InvoiceEntryComponent } from './invoice-entry/invoice-entry.component';
+import { InvoiceEntryComponent } from './Invoicee/invoice-entry/invoice-entry.component';
 import { RoundPipe } from './round.pipe';
 import { ToWordPipe } from './to-word.pipe';
-import { InvoiceentryverificationComponent } from './invoiceentryverification/invoiceentryverification.component';
+import { InvoiceentryverificationComponent } from './Invoicee/invoiceentryverification/invoiceentryverification.component';
 import { DdkkcComponent } from './ddkkc/ddkkc.component';
+import { InvoiceReportComponent } from './Invoicee/invoice-report/invoice-report.component';
+import { InvoiceManualComponent } from './Invoicee/invoice-manual/invoice-manual.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -82,7 +84,7 @@ const appRoutes: Routes = [
   { path: 'ddentrypros-details/:ddlastId', component: DdentryProsDetailsComponent },
   { path: 'despstudlist', component: DespStudListComponent },
   { path: 'dba-details', component: DbaDetailsComponent },
-  { path: 'invoice', component: InvoiceComponent },
+  { path: 'invoice-generation', component: InvoiceComponent },
   { path: 'adjustment', component: AdjEntryComponent },
   { path: 'adjustment/:adjddlastId', component: AdjEntryComponent },
   { path: 'adjverification', component: AdjverificationComponent },
@@ -97,9 +99,11 @@ const appRoutes: Routes = [
   { path: 'erpdesp-details', component: ErpdespdetailsComponent },
   { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
   { path: 'dba-desp-list', component: DbaDespListComponent },
-  {path: 'invoice-entry',component:InvoiceEntryComponent},
-  { path:'ddkkc',component:DdkkcComponent},
-  {path:'invoiceentryverification',component:InvoiceentryverificationComponent }
+  { path: 'invoice-entry', component: InvoiceEntryComponent },
+  { path: 'ddkkc', component: DdkkcComponent },
+  { path: 'invoiceentryverification', component: InvoiceentryverificationComponent },
+  { path: 'invoice-manual-generate', component: InvoiceManualComponent },
+  { path: 'invoice-report', component: InvoiceReportComponent }
 ];
 
 
@@ -145,6 +149,8 @@ const appRoutes: Routes = [
     ToWordPipe,
     InvoiceentryverificationComponent,
     DdkkcComponent,
+    InvoiceReportComponent,
+    InvoiceManualComponent,
   ],
   imports: [
     FormsModule,

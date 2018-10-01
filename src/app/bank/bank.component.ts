@@ -14,6 +14,7 @@ import { EtsService } from '../services/ets.service';
 import { adjddLastid } from '../models/adjlastid';
 import { Invoice } from '../models/invoice ';
 import { dbaEntry } from '../models/dbaEntry';
+import { ddLastid } from '../models/ddLastid';
 
 
 @Component({
@@ -23,25 +24,25 @@ import { dbaEntry } from '../models/dbaEntry';
 })
 export class BankComponent implements OnInit {
   ddktc: Dddetails[];
-   newddLastid: adjddLastid = new adjddLastid();
+  newddLastid: ddLastid = new ddLastid();
   // order: string;
-  ddLastids: dbaEntry[] = [];
+  ddLastids: Despatch[] = [];
   // total;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute, private ets: EtsService) {
 
-  //   let itemRef = db.object('dbaEntry');
-  //   itemRef.snapshotChanges().subscribe(action => {
-  //     var quatationsList = action.payload.val();
-  //     let obj = Common.snapshotToArray(action.payload);
-  //     this.ddLastids = [];
-  //     obj.forEach(element => {
-  //       let obj: dbaEntry = JSON.parse(element);
-  //       // this.newddLastId = obj;
-  //       this.ddLastids.push(obj);
+    // let itemRef = db.object('Despatch');
+    // itemRef.snapshotChanges().subscribe(action => {
+    //   var quatationsList = action.payload.val();
+    //   let obj = Common.snapshotToArray(action.payload);
+    //   this.ddLastids = [];
+    //   obj.forEach(element => {
+    //     let obj: Despatch = JSON.parse(element);
+    //     // this.newddLastId = obj;
+    //     this.ddLastids.push(obj);
 
 
-  //     });
-  //   });
+    //   });
+    // });
 
   }
 
@@ -87,6 +88,25 @@ export class BankComponent implements OnInit {
 
   register() {
     // this.ddLastids.forEach(element => {
+    //   if (element.Rate == 80) {
+        
+      
+    //   var updates = {}
+    //   element.feeItem = 'Prospectus';
+    //   updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //   try {
+
+    //     let up = this.db.database.ref().update(updates);
+
+    //   }
+    //   catch (e) {
+
+    //   }
+    // }
+
+    // })
+
+    // this.ddLastids.forEach(element => {
     //   this.total = 0;
     //   this.newInvoice.feesItem = element.feesItem;
     //   this.newInvoice.invoiceId = element.dbaId;
@@ -105,7 +125,7 @@ export class BankComponent implements OnInit {
     //     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
     //     this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
     //     this.newInvoice.shareAmount = this.total.toFixed(2);
-        
+
 
 
     //   }

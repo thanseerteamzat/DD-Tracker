@@ -1,0 +1,197 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Invoice Manual</h2>
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+    <div class="form-group col-md-3">
+
+      <label>Filter with Month : </label>&nbsp;
+      <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.name">{{month.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+
+
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Fee Type: </label>&nbsp;
+      <select [(ngModel)]="selectedFee" class="form-control" name="selectedFee" (change)="filterFee(selectedFee)">
+        <option value="" [selected]="selectedFee !=0" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of feesItems">
+          <option [ngValue]="s.name">{{s.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
+        <option value="" [selected]="" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of centers">
+          <option [ngValue]="s.Id">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+
+    </div>
+    <div class="form-group col-md-3">
+      <label>Count:</label>
+      <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
+
+    </div>
+  </div> 
+    <div style="padding-top: 30px;padding-left: 40px;padding-right: 50px">
+      <div class="form-group col-md-3" >
+
+        <label>Note : Select and Enter Invoice No: </label>&nbsp;
+        <input type="text" [(ngModel)]="newInvoice.invoiceNo" class="form-control" >
+        <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
+            <div *ngIf="despatchNo.errors.required">
+                Despatch No is Required
+            </div>
+            <div *ngIf="despatchNo.errors.pattern">
+                Please enter valid input(number)
+            </div>
+        </div> -->
+    </div>
+    <div class="form-group col-md-3" >
+
+        <label>Invoice Date Date</label>&nbsp;
+        <input type="date" [(ngModel)]="newInvoice.invoiceDate" class="form-control" >
+        <!-- <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
+            <div *ngIf="despatchdate.errors.required">
+                Please Select Date
+            </div>
+
+        </div> -->
+    </div>
+    <div class="form-group col-md-3" >
+
+     
+      <br>
+      <button type="submit" class="btn btn-primary"  (click)="generateInvoice()">Submit</button>
+  </div>
+    </div>
+    <div style="padding-top: 50px;">
+
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th colspan="3"> NAME OF SERVICE </th>
+            <th>SAC CODE</th>
+            <th>COMMERCIAL CODE</th>
+            <th colspan="2">RATE OF TAX</th>
+            <th colspan="2">BILL AMOUNT</th>
+            <th>TAX AMOUNT </th>
+
+          </tr>
+          <tr>
+            <td colspan="3"> </td>
+            <td></td>
+            <td></td>
+            <td>CGST 9%</td>
+            <td>SGST 9%</td>
+            <td colspan="2"></td>
+            <td></td>
+
+          </tr>
+          <tr>
+            <th>SL.No</th>
+            <th>H.O. DBA. NO</th>
+            <th>COURSE CODE</th>
+            <th>FEES ITEM</th>
+            <th>CENTER NAME</th>
+            <th>CENTER CODE</th>
+            <th>DBA AMOUNT</th>
+            <th>FEE AMOUNT</th>
+            <th>SHARE%</th>
+            <th>SHARE AMOUNT</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of selectedData">
+
+
+
+            <tr>
+              <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.invoiceenter?.dbaNo}}</td>
+              <td></td>
+              <td>{{ddenter.invoiceenter?.feesItem}}</td>
+
+              <!--
+                er.dbaenter?.despatchMonth}}</td> -->
+              <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+              <td>{{ddenter.center?.CenterName}}</td>
+              <td>{{ddenter.center?.CenterCode}}</td>
+
+              <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
+              <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
+              <!-- <td>{{ddenter.dbaenter?.despatchDate}}</td> -->
+              <td>{{ddenter.invoiceenter?.dbaAmount}}</td>
+              <!-- <td>{{ddenter.dbaenter?.tax}}</td> -->
+              <td>{{ddenter.invoiceenter?.feeAmount}}</td>
+              <td>{{ddenter.invoiceenter?.share}}%</td>
+              <td>{{ddenter.invoiceenter?.shareAmount}}</td>
+              <!-- <td>{{ddenter.ddenter?.enteredBy}}</td> -->
+              <td>
+                <mat-checkbox (change)="onClick($event.checked,ddenter.invoiceenter.invoiceId,ddenter.invoiceenter)"></mat-checkbox>
+              </td>
+
+
+
+
+
+            </tr>
+
+          </ng-container>
+
+          <tr>
+            <td colspan="6" style="text-align: right">Total</td>
+            <td>
+              {{desptotal}}
+            </td>
+            <!-- <td>{{taxtotal}}</td> -->
+            <td>{{feeamountlist}}</td>
+            <td></td>
+            <td>{{shareamountList}}</td>
+            <!-- <td></td> -->
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">TAXABLE AMOUNT</th>
+            <td>{{taxableAmount}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">CGST (9.00%)</th>
+            <td>{{cgst}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">SGST (9.00%)</th>
+            <td>{{sgst}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">TOTAL INVOICE AMOUNT</th>
+            <td>{{totalinvoiceAmount}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">ROUND OFF</th>
+            <td>{{invoicesplit}}</td>
+          </tr>
+          <tr>
+            <th colspan="9" style="text-align: right">Total</th>
+            <td>{{totalinvoiceAmount | round}}</td>
+          </tr>
+          <tr>
+            <td colspan="9" style="text-align: left">INVOICE AMOUNT IN WORDS : {{totalinvoiceAmount | toWord}}</td>
+
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+ 
+</div>

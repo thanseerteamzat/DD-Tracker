@@ -1,11 +1,11 @@
-import { Common } from '../models/common';
+import { Common } from '../../models/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { EtsService } from '../services/ets.service';
-import { InvoiceComponent } from '../invoice/invoice.component';
-import { InvoiceEntry, invoiceentryList } from '../models/invoiceentry';
-import { Center } from '../models/Center';
+import { EtsService } from '../../services/ets.service';
+import { InvoiceComponent } from '../Invoice Generation/invoice.component';
+import { InvoiceEntry, invoiceentryList } from '../../models/invoiceentry';
+import { Center } from '../../models/Center';
 
 @Component({
   selector: 'app-invoiceentryverification',

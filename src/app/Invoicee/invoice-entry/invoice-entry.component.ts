@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../services/config.service';
-import { EtsService } from '../services/ets.service';
+import { ConfigService } from '../../services/config.service';
+import { EtsService } from '../../services/ets.service';
 import { FormBuilder, FormGroup, FormControl ,Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { Center } from '../models/Center';
-import { Common } from '../models/common';
-import { InwardId } from '../models/inwardId';
-import { InvoiceEntry, invoiceentryList } from '../models/invoiceentry';
+import { Center } from '../../models/Center';
+import { Common } from '../../models/common';
+import { InwardId } from '../../models/inwardId';
+import { InvoiceEntry, invoiceentryList } from '../../models/invoiceentry';
 
 @Component({
   selector: 'app-invoice-entry',

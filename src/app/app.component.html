@@ -17,33 +17,47 @@
 
 
         </div>
-        
-        {{ version }}
+
+        {{ Date }}
+        <span style="float:right;">{{version}}</span>
         <!-- <select class="form-control">
        <option   disabled [selected]=""> Settings</option>
         <option>Add Centre Name</option>
         <option>Add Bank Name</option>
         
       </select>  -->
-      <div class="titlestyle">
-        <!-- <a  routerLink="/dd-entry">DD Tracker</a> -->
-        
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
-           Entry Forms&nbsp;<span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a routerLink="/dd-entry">DD Entry</a></li>
-            <li><a routerLink="/prospectus">DD Entry Prospectus</a></li>
-            <li><a routerLink="/ddentry-app">Phase two Entry</a></li>
-            <li><a routerLink="/adjustment">Adjustment Entry</a></li>
-            <li><a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a></li>
-           
-            <li class="dropdown">
-              <a> Inward Items &nbsp;</a>
-              <ul class="dropdown-menu">
-                <li><a routerLink="/invoice-entry">Invoice  Entry</a></li>
-                <!-- <li><a href="#">Another action</a></li>
+        <div class="titlestyle">
+          <!-- <a  routerLink="/dd-entry">DD Tracker</a> -->
+
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+              Entry Forms&nbsp;
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a routerLink="/dd-entry">DD Entry</a>
+              </li>
+              <li>
+                <a routerLink="/prospectus">DD Entry Prospectus</a>
+              </li>
+              <li>
+                <a routerLink="/ddentry-app">Phase two Entry</a>
+              </li>
+              <li>
+                <a routerLink="/adjustment">Adjustment Entry</a>
+              </li>
+              <li>
+                <a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a>
+              </li>
+
+              <li class="dropdown">
+                <a> Inward Items &nbsp;</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a routerLink="/invoice-entry">Invoice Entry</a>
+                  </li>
+                  <!-- <li><a href="#">Another action</a></li>
                 <li class="dropdown">
                   <a href="#">One more dropdown</a>
                   <ul class="dropdown-menu">
@@ -52,14 +66,14 @@
                 </li>
                 <li><a href="#">Something else here</a></li>
                 <li><a href="#">Separated link</a></li> -->
-               </ul>
-            </li>
-            <!-- <li><a href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <!-- <li><a href="#">Something else here</a></li>
             <li><a href="#">Separated link</a></li> -->
-          </ul>
-        </div>
+            </ul>
+          </div>
 
-<!-- 
+          <!-- 
         <div class="dropdown">
           <button class="dropbtn">Entry Forms</button>
           <div class="dropdown-content">
@@ -70,24 +84,24 @@
             <a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a>
           </div>
         </div> -->
-       
-      
-        <!-- <button class="dropbtn">DD Verification</button> -->
 
-        <!-- <button class="but" mat-button ><a routerLink="/dd-entry">DD Entry</a></button>
+
+          <!-- <button class="dropbtn">DD Verification</button> -->
+
+          <!-- <button class="but" mat-button ><a routerLink="/dd-entry">DD Entry</a></button>
         <button class="but" mat-button ><a routerLink="/prospectus">DD Entry Prospectus</a></button> 
         <button class="but" mat-button ><a routerLink="/ddentry-app">Phase Two Entry</a></button> 
         <button class="but" mat-button ><a routerLink="/adjustment">Adjustment Entry</a></button>  -->
-        <div class="dropdown">
-          <button class="dropbtn">DD Verification</button>
-          <div class="dropdown-content">
-            <a routerLink="/dd-verification">KCVTP</a>
-            <a routerLink="/ddkkc" >KKC</a>
-            <a routerLink="/adjverification">Adj Entry</a>
-            <a routerLink="invoiceentryverification">Invoice Entry</a>
+          <div class="dropdown">
+            <button class="dropbtn">DD Verification</button>
+            <div class="dropdown-content">
+              <a routerLink="/dd-verification">KCVTP</a>
+              <a routerLink="/ddkkc">KKC</a>
+              <a routerLink="/adjverification">Adj Entry</a>
+              <a routerLink="invoiceentryverification">Invoice Entry</a>
+            </div>
           </div>
-        </div>
-        <!-- <button mat-button [matMenuTriggerFor]="amenu">Despatch No Entry</button>
+          <!-- <button mat-button [matMenuTriggerFor]="amenu">Despatch No Entry</button>
         <mat-menu #amenu="matMenu">
           <button mat-menu-item><a routerLink="/despatch-no-entry">KCVTP</a></button>
           <button mat-menu-item>KKC</button>
@@ -95,18 +109,18 @@
           
 
         </mat-menu>   -->
-        <div class="dropdown">
-          <button class="dropbtn">Despatch No Entry</button>
-          <div class="dropdown-content">
-            <a routerLink="/despatch-no-entry">KCVTP</a>
-            <a >KKC</a>
-            <!-- <a routerLink="/adjdespatch-no-entry">Adj Entry</a> -->
+          <div class="dropdown">
+            <button class="dropbtn">Despatch No Entry</button>
+            <div class="dropdown-content">
+              <a routerLink="/despatch-no-entry">KCVTP</a>
+              <a>KKC</a>
+              <!-- <a routerLink="/adjdespatch-no-entry">Adj Entry</a> -->
+            </div>
           </div>
-        </div>
 
-        <!-- <button class="but" mat-button ><a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a></button>  -->
-        
-        <!-- <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
+          <!-- <button class="but" mat-button ><a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a></button>  -->
+
+          <!-- <button mat-button [matMenuTriggerFor]="menu">DD Verification</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><a routerLink="/dd-verification">KCVTP</a></button>
           <button mat-menu-item>KKC</button>
@@ -114,7 +128,7 @@
           
 
         </mat-menu>   -->
-        <!-- <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
+          <!-- <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
 
 <mat-menu #animals="matMenu">
   <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
@@ -161,66 +175,73 @@
   <button mat-menu-item>Blue Spiny Lizard</button>
   <button mat-menu-item disabled>Velociraptor</button>
 </mat-menu> -->
-        <!-- <button class="but" mat-button ><a routerLink="/dd-verification">DD Verification</a></button>  -->
-        <!-- <button class="but" mat-button ><a routerLink="/dd-id-entry">DD ID Entry</a></button>  -->
-        <!-- <button class="but" mat-button ><a routerLink="/dd-id-verification">DD ID Verification</a></button>  -->
-      
-        
-        <!-- <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button>  -->
-        
-        <div class="dropdown">
-          <button class="dropbtn">Despatch No List</button>
-          <div class="dropdown-content">
-            <a routerLink="/despstudlist">KCVTP</a>
-            <a >KKC</a>
-            <!-- <a routerLink="/adjdespstudlist">Adj Entry</a> -->
-          </div>
-        </div>
-        
-        
-        <div class="dropdown">
-          <button class="dropbtn">DBA(Share Release Note)</button>
-          <div class="dropdown-content">
-            <a routerLink="/dba-no-entry">KCVTP</a>
-            <a >KKC</a>
-            <!-- <a routerLink="/">Adj Entry</a> -->
-          </div>
-        </div>
-        
-        <div class="dropdown">
-          <button class="dropbtn">DBA Details</button>
-          <div class="dropdown-content">
-            <a routerLink="/dba-details">DBA List(KCVTP)</a>
-            <a routerLink="/dba-desp-list">DBA Despatch List(KCVTP)</a>
-            <a >KKC</a>
-            <!-- <a routerLink="/">Adj Entry</a> -->
-          </div>
-        </div>
-        
-        <!-- <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button>  -->
-        <!-- <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button>  -->
-        <button class="but" mat-button ><a routerLink="/invoice">Invoice</a></button> 
+          <!-- <button class="but" mat-button ><a routerLink="/dd-verification">DD Verification</a></button>  -->
+          <!-- <button class="but" mat-button ><a routerLink="/dd-id-entry">DD ID Entry</a></button>  -->
+          <!-- <button class="but" mat-button ><a routerLink="/dd-id-verification">DD ID Verification</a></button>  -->
 
-        <!-- <button class="but" mat-button ><a routerLink="/pending-dd">Pending DD's</a></button>  -->
-      <div class="dropdown">
-          <button class="dropbtn">Pending DD's</button>
-          <div class="dropdown-content">
-            <a routerLink="/pending-dd">KCVTP</a>
-            <a >KKC</a>
-            <!-- <a routerLink="/adjpending-dd">Adj Entry</a> -->
+
+          <!-- <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button>  -->
+
+          <div class="dropdown">
+            <button class="dropbtn">Despatch No List</button>
+            <div class="dropdown-content">
+              <a routerLink="/despstudlist">KCVTP</a>
+              <a>KKC</a>
+              <!-- <a routerLink="/adjdespstudlist">Adj Entry</a> -->
+            </div>
           </div>
-        </div>
-        
-           <!-- <mat-menu #menu="matMenu">
+
+
+          <div class="dropdown">
+            <button class="dropbtn">DBA(Share Release Note)</button>
+            <div class="dropdown-content">
+              <a routerLink="/dba-no-entry">KCVTP</a>
+              <a>KKC</a>
+              <!-- <a routerLink="/">Adj Entry</a> -->
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">DBA Details</button>
+            <div class="dropdown-content">
+              <a routerLink="/dba-details">DBA List(KCVTP)</a>
+              <a routerLink="/dba-desp-list">DBA Despatch List(KCVTP)</a>
+              <a>KKC</a>
+              <!-- <a routerLink="/">Adj Entry</a> -->
+            </div>
+          </div>
+
+          <!-- <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button>  -->
+          <!-- <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button>  -->
+          <div class="dropdown">
+            <button class="dropbtn">Invoice</button>
+            <div class="dropdown-content">
+              <a routerLink="/invoice-manual-generate">Invoice Manual </a>
+              <a routerLink="/invoice-generation">Invoice </a>
+              <a routerLink="invoice-report">Invoice List</a>
+            </div>
+          </div>
+
+          <!-- <button class="but" mat-button ><a routerLink="/pending-dd">Pending DD's</a></button>  -->
+          <div class="dropdown">
+            <button class="dropbtn">Pending DD's</button>
+            <div class="dropdown-content">
+              <a routerLink="/pending-dd">KCVTP</a>
+              <a>KKC</a>
+              <!-- <a routerLink="/adjpending-dd">Adj Entry</a> -->
+            </div>
+          </div>
+
+          <!-- <mat-menu #menu="matMenu">
           <button mat-menu-item>
             <a routerLink="/addbank">Add New Bank </a>
           </button>
         </mat-menu> -->
-</div>        
-        
-        
-        
-     
+        </div>
+
+
+
+
 
         <!-- <a [routerLink]="['/login']">Logout</a> -->
       </div>
@@ -244,5 +265,4 @@
 
 <div>
   <router-outlet></router-outlet>
-
 </div>

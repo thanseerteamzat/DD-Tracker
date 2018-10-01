@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { EtsService } from '../services/ets.service';
+import { EtsService } from '../../services/ets.service';
 import { Router } from '@angular/router';
-import { Common } from '../models/common';
-import { dbaList, dbaEntry } from '../models/dbaEntry';
-import { Center } from '../models/Center';
-import { invoiceList, Invoice } from '../models/invoice ';
+import { Common } from '../../models/common';
+import { dbaList, dbaEntry } from '../../models/dbaEntry';
+import { Center } from '../../models/Center';
+import { invoiceList, Invoice } from '../../models/invoice ';
 
 @Component({
   selector: 'app-invoice',

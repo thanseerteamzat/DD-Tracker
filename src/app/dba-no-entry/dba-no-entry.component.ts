@@ -526,7 +526,7 @@ export class DbaNoEntryComponent implements OnInit {
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
                     this.newInvoice.shareAmount = tot.toFixed(2);
                 }
-        
+
                 else if (this.newdba.feesItem == 'Inspection') {
                     this.newInvoice.share = 60;
                     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
@@ -539,9 +539,9 @@ export class DbaNoEntryComponent implements OnInit {
                     let tot = parseFloat(this.newdba.fwt.toString()) * parseFloat(percentage.toString());
                     this.newInvoice.shareAmount = tot.toFixed(2);
                 }
-        
+
                 else {
-        
+
                     if (this.newdba.feesItem == 'Course Fee') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
@@ -554,14 +554,14 @@ export class DbaNoEntryComponent implements OnInit {
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = '0';
                     }
-        
+
                     else if (this.newdba.feesItem == 'Inspection') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
                         this.newInvoice.shareAmount = '0';
                     }
-                    else if (this.newdba.feesItem == 'Affilication' || this.newdba.feesItem== 'Renewal Fee') {
+                    else if (this.newdba.feesItem == 'Affilication' || this.newdba.feesItem == 'Renewal Fee') {
                         this.newInvoice.share = 0;
                         // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
                         // let tot = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
@@ -591,8 +591,9 @@ export class DbaNoEntryComponent implements OnInit {
         this.newInvoice.feesItem = this.newdba.feesItem;
         this.newInvoice.dbaMonth = this.newdba.despatchMonth;
         this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
+        this.newInvoice.isInvoiceEntered = false;
 
-        
+
 
         let invoiceEntryJson = JSON.stringify(this.newInvoice);
         console.log(invoiceEntryJson);

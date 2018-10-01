@@ -14,7 +14,10 @@ export class Invoice {
     share: Number;
     shareAmount: string;
     isdbaEntered: boolean;
-    dbaMonth :string;
+    dbaMonth: string;
+    isInvoiceEntered: boolean;
+    invoiceNo: string;
+    invoiceDate:string;
     enteredby: string;
 }
 
