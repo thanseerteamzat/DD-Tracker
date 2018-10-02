@@ -43,8 +43,7 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = ( fromDate , toDate , skipValue , limitValue ): Observable<any> => {
-    // return this.http.get(this.config.apiUrlKKC + 'from='+fromdate + '&to=' + todate + '&skip=' +skip + '&limit='+limit )
+  GetddfromTtc = (fromDate,toDate,skipValue,limitValue): Observable<any> => {
     return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue)
 
   }
