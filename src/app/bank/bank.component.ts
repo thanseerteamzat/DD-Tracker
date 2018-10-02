@@ -12,7 +12,7 @@ import { Dddetails } from '../models/dddetails';
 
 import { EtsService } from '../services/ets.service';
 import { adjddLastid } from '../models/adjlastid';
-import { Invoice } from '../models/invoice ';
+import { Invoice, invoiceList } from '../models/invoice ';
 import { dbaEntry } from '../models/dbaEntry';
 import { ddLastid } from '../models/ddLastid';
 
@@ -24,19 +24,19 @@ import { ddLastid } from '../models/ddLastid';
 })
 export class BankComponent implements OnInit {
   ddktc: Dddetails[];
-  newddLastid: ddLastid = new ddLastid();
+  newInvoice: Invoice = new Invoice();
   // order: string;
-  ddLastids: Despatch[] = [];
-  // total;
+  ddLastids: dbaEntry[] = [];
+  total;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute, private ets: EtsService) {
 
-    // let itemRef = db.object('Despatch');
+    // let itemRef = db.object('dbaEntry');
     // itemRef.snapshotChanges().subscribe(action => {
     //   var quatationsList = action.payload.val();
     //   let obj = Common.snapshotToArray(action.payload);
     //   this.ddLastids = [];
     //   obj.forEach(element => {
-    //     let obj: Despatch = JSON.parse(element);
+    //     let obj: dbaEntry = JSON.parse(element);
     //     // this.newddLastId = obj;
     //     this.ddLastids.push(obj);
 
@@ -88,12 +88,12 @@ export class BankComponent implements OnInit {
 
   register() {
     // this.ddLastids.forEach(element => {
-    //   if (element.Rate == 80) {
+    //   // if (element.Rate == 65) {
         
       
     //   var updates = {}
-    //   element.feeItem = 'Prospectus';
-    //   updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //   element.isInvoiceEntered = false;
+    //   updates['/invoice/' + element.invoiceId] = JSON.stringify(element);
     //   try {
 
     //     let up = this.db.database.ref().update(updates);
@@ -102,7 +102,7 @@ export class BankComponent implements OnInit {
     //   catch (e) {
 
     //   }
-    // }
+    // // }
 
     // })
 
@@ -119,7 +119,8 @@ export class BankComponent implements OnInit {
     //   this.newInvoice.despatchDate = element.despatchDate;
     //   // this.newInvoice.feesItem = element.feesItem;
     //   this.newInvoice.dbaMonth = element.despatchMonth;
-    //   this.newInvoice.isdbaEntered = element.isdbaEntered;
+    //   this.newInvoice.isdbaEntered = element.isdbaEntered
+    //   this.newInvoice.isInvoiceEntered=false;
     //   if (element.feesItem == 'Course Fee') {
     //     this.newInvoice.share = 15;
     //     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
@@ -288,20 +289,20 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    let uniqueId = "/DD" + Common.newGuid();
-    this.newddLastid.Id = uniqueId;
+    // let uniqueId = "/DD" + Common.newGuid();
+    // this.newddLastid.Id = uniqueId;
 
 
-    let ddEntryJson = JSON.stringify(this.newddLastid);
-    console.log(ddEntryJson);
-    try {
-      this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!..");
+    // let ddEntryJson = JSON.stringify(this.newddLastid);
+    // console.log(ddEntryJson);
+    // try {
+    //   this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
+    //   alert("DD Entry added successfully!!..");
 
-    }
-    catch (ex) {
+    // }
+    // catch (ex) {
 
-    }
+    // }
 
   }
 

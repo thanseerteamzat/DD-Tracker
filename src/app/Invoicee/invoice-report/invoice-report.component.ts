@@ -39,6 +39,8 @@ export class InvoiceReportComponent implements OnInit {
   round = 0;
   convertedToWord;
   newInvoice: Invoice = new Invoice();
+  invoiceDate;
+  invoiceNo;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -178,6 +180,10 @@ export class InvoiceReportComponent implements OnInit {
   generateInvoiceList() {
     this.selectedData = this.invoiceList.filter(s => s.invoiceenter.invoiceNo == this.newInvoice.invoiceNo && s.invoiceenter.isInvoiceEntered == true)
     this.selectData(this.selectedData);
+    this.selectedData.forEach(element => {
+      this.invoiceDate = element.invoiceenter.invoiceDate;
+      this.invoiceNo = element.invoiceenter.invoiceNo;
+    });
   }
 
 }
