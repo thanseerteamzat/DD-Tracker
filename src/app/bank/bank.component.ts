@@ -30,19 +30,19 @@ export class BankComponent implements OnInit {
   total;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute, private ets: EtsService) {
 
-    let itemRef = db.object('dbaEntry');
-    itemRef.snapshotChanges().subscribe(action => {
-      var quatationsList = action.payload.val();
-      let obj = Common.snapshotToArray(action.payload);
-      this.ddLastids = [];
-      obj.forEach(element => {
-        let obj: dbaEntry = JSON.parse(element);
-        // this.newddLastId = obj;
-        this.ddLastids.push(obj);
+    // let itemRef = db.object('dbaEntry');
+    // itemRef.snapshotChanges().subscribe(action => {
+    //   var quatationsList = action.payload.val();
+    //   let obj = Common.snapshotToArray(action.payload);
+    //   this.ddLastids = [];
+    //   obj.forEach(element => {
+    //     let obj: dbaEntry = JSON.parse(element);
+    //     // this.newddLastId = obj;
+    //     this.ddLastids.push(obj);
 
 
-      });
-    });
+    //   });
+    // });
 
   }
 
@@ -106,98 +106,98 @@ export class BankComponent implements OnInit {
 
     // })
 
-    this.ddLastids.forEach(element => {
-      this.total = 0;
-      this.newInvoice.feesItem = element.feesItem;
-      this.newInvoice.invoiceId = element.dbaId;
-      this.newInvoice.dbaNo = element.dbaNo;
-      this.newInvoice.CourseCode = element.courseCode;
-      this.newInvoice.CenterCode = element.centerCode;
-      this.newInvoice.CenterId = element.centerId;
-      this.newInvoice.dbaAmount = element.despatchAmount;
-      this.newInvoice.feeAmount = element.fwt;
-      this.newInvoice.despatchDate = element.despatchDate;
-      // this.newInvoice.feesItem = element.feesItem;
-      this.newInvoice.dbaMonth = element.despatchMonth;
-      this.newInvoice.isdbaEntered = element.isdbaEntered
-      this.newInvoice.isInvoiceEntered=false;
-      if (element.feesItem == 'Course Fee') {
-        this.newInvoice.share = 15;
-        let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
-        this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
-        this.newInvoice.shareAmount = this.total.toFixed(2);
+    // this.ddLastids.forEach(element => {
+    //   this.total = 0;
+    //   this.newInvoice.feesItem = element.feesItem;
+    //   this.newInvoice.invoiceId = element.dbaId;
+    //   this.newInvoice.dbaNo = element.dbaNo;
+    //   this.newInvoice.CourseCode = element.courseCode;
+    //   this.newInvoice.CenterCode = element.centerCode;
+    //   this.newInvoice.CenterId = element.centerId;
+    //   this.newInvoice.dbaAmount = element.despatchAmount;
+    //   this.newInvoice.feeAmount = element.fwt;
+    //   this.newInvoice.despatchDate = element.despatchDate;
+    //   // this.newInvoice.feesItem = element.feesItem;
+    //   this.newInvoice.dbaMonth = element.despatchMonth;
+    //   this.newInvoice.isdbaEntered = element.isdbaEntered
+    //   this.newInvoice.isInvoiceEntered=false;
+    //   if (element.feesItem == 'Course Fee') {
+    //     this.newInvoice.share = 15;
+    //     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
+    //     this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
+    //     this.newInvoice.shareAmount = this.total.toFixed(2);
 
 
 
-      }
-      else if (element.feesItem == 'Prospectus') {
-        this.newInvoice.share = 80;
-        let ppercentage = parseFloat(this.newInvoice.share.toString()) / 100;
-        this.total = parseFloat(element.fwt.toString()) * parseFloat(ppercentage.toString());
-        this.newInvoice.shareAmount = this.total.toFixed(2);
-        console.log('percentage',ppercentage)
-        console.log('total', this.total)
-      }
+    //   }
+    //   else if (element.feesItem == 'Prospectus') {
+    //     this.newInvoice.share = 80;
+    //     let ppercentage = parseFloat(this.newInvoice.share.toString()) / 100;
+    //     this.total = parseFloat(element.fwt.toString()) * parseFloat(ppercentage.toString());
+    //     this.newInvoice.shareAmount = this.total.toFixed(2);
+    //     console.log('percentage',ppercentage)
+    //     console.log('total', this.total)
+    //   }
 
-      else if (element.feesItem == 'Inspection') {
-        this.newInvoice.share = 60;
-        let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
-        this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
-        this.newInvoice.shareAmount = this.total.toFixed(2);
-      }
-      else if (element.feesItem == 'Affilication' || element.feesItem == 'Renewal Fee') {
-        this.newInvoice.share = 80;
-        let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
-        this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
-        this.newInvoice.shareAmount = this.total.toFixed(2);
-      }
+    //   else if (element.feesItem == 'Inspection') {
+    //     this.newInvoice.share = 60;
+    //     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
+    //     this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
+    //     this.newInvoice.shareAmount = this.total.toFixed(2);
+    //   }
+    //   else if (element.feesItem == 'Affilication' || element.feesItem == 'Renewal Fee') {
+    //     this.newInvoice.share = 80;
+    //     let percentage = parseFloat(this.newInvoice.share.toString()) / 100;
+    //     this.total = parseFloat(element.fwt.toString()) * parseFloat(percentage.toString());
+    //     this.newInvoice.shareAmount = this.total.toFixed(2);
+    //   }
 
-      else {
+    //   else {
 
-        if (element.feesItem == 'Course Fee') {
-          this.newInvoice.share = 0;
-          // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-          // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-          this.newInvoice.shareAmount = '0';
-        }
-        else if (element.feesItem == 'Prospectus') {
-          this.newInvoice.share = 0;
-          // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-          // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-          this.newInvoice.shareAmount = '0';
-        }
+    //     if (element.feesItem == 'Course Fee') {
+    //       this.newInvoice.share = 0;
+    //       // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+    //       // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+    //       this.newInvoice.shareAmount = '0';
+    //     }
+    //     else if (element.feesItem == 'Prospectus') {
+    //       this.newInvoice.share = 0;
+    //       // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+    //       // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+    //       this.newInvoice.shareAmount = '0';
+    //     }
 
-        else if (element.feesItem == 'Inspection') {
-          this.newInvoice.share = 0;
-          // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-          // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-          this.newInvoice.shareAmount = '0';
-        }
-        else if (element.feesItem == 'Affilication' || element.feesItem == 'Renewal Fee') {
-          this.newInvoice.share = 0;
-          // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
-          // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
-          this.newInvoice.shareAmount = '0';
-        }
-      }
-
-
-
-
-
-      let invoiceEntryJson = JSON.stringify(this.newInvoice);
-      console.log(invoiceEntryJson);
-      try {
-        this.db.database.ref('invoice').child(element.dbaId).set(invoiceEntryJson);
-      }
-      catch (ex) {
-
-      }
+    //     else if (element.feesItem == 'Inspection') {
+    //       this.newInvoice.share = 0;
+    //       // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+    //       // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+    //       this.newInvoice.shareAmount = '0';
+    //     }
+    //     else if (element.feesItem == 'Affilication' || element.feesItem == 'Renewal Fee') {
+    //       this.newInvoice.share = 0;
+    //       // let percentage = parseFloat(this.newInvoice.shareAmount) / 100;
+    //       // this.total. = parseFloat(element.FWT.toString()) * parseFloat(percentage.toString());
+    //       this.newInvoice.shareAmount = '0';
+    //     }
+    //   }
 
 
 
 
-    })
+
+    //   let invoiceEntryJson = JSON.stringify(this.newInvoice);
+    //   console.log(invoiceEntryJson);
+    //   try {
+    //     this.db.database.ref('invoice').child(element.dbaId).set(invoiceEntryJson);
+    //   }
+    //   catch (ex) {
+
+    //   }
+
+
+
+
+    // })
 
 
     //code for 
@@ -289,20 +289,20 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    let uniqueId = "/DD" + Common.newGuid();
-    this.newddLastid.Id = uniqueId;
+    // let uniqueId = "/DD" + Common.newGuid();
+    // this.newddLastid.Id = uniqueId;
 
 
-    let ddEntryJson = JSON.stringify(this.newddLastid);
-    console.log(ddEntryJson);
-    try {
-      this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!..");
+    // let ddEntryJson = JSON.stringify(this.newddLastid);
+    // console.log(ddEntryJson);
+    // try {
+    //   this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
+    //   alert("DD Entry added successfully!!..");
 
-    }
-    catch (ex) {
+    // }
+    // catch (ex) {
 
-    }
+    // }
 
   }
 
