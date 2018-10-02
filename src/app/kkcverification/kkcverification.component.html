@@ -1,0 +1,51 @@
+<h1>KKC DD List</h1>
+<table class="table table-hover table-responsive table-bordered">
+  <thead class="thead-dark">
+      <tr>
+          <th>Sl.No</th>
+          <th>DD SL.No</th>
+          <th style="min-width: 90px;">Date</th>
+          <th>Application Number</th>
+          <th style="min-width: 200px;">Centre Name</th>
+          <th style="min-width: 100px;">Course Name</th>
+          <th style="min-width: 150px;">Student Name</th>
+          <th style="min-width: 150px;">Student Roll Number</th>
+          
+          <th>DD No</th>
+          <th style="min-width: 120px;">Bank</th>
+          <th style="min-width: 90px;">DD Date</th>
+          <th>DD Amount</th>
+          <th style="min-width: 100px;">Fees Item</th>
+      </tr>
+  </thead>
+  <tbody>
+      <ng-container *ngFor='let ddenter of ddLists'>
+          <tr>
+          <tr>
+              <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.ddenter.id}}</td>
+              <td>{{ddenter.ddenter.EnteredOn}}</td>
+              <td>{{ddenter.ddenter.StudentApplicationNumber}}</td>
+              <td>{{ddenter.ddenter.CenterName}}</td>
+              <td>{{ddenter.ddenter.CourseName}}</td>
+              <td>{{ddenter.ddenter.StudentName}}</td>
+              <td>{{ddenter.ddenter.StudentRollNo}}</td>
+           
+              <td>{{ddenter.ddenter.DDNumber}}</td>
+
+              <td>{{ddenter.ddenter.Bank}}</td>
+
+
+
+              <!-- <td>{{ddenter.Bank}}</td> -->
+
+              <td>{{ddenter.ddenter.DDDate}}</td>
+
+              <td>{{ddenter.ddenter.TotalAmount}}</td>
+              <td>{{ddenter.ddenter.FeeType}}</td>
+             
+          </tr>
+      </ng-container>
+  </tbody>
+
+</table>

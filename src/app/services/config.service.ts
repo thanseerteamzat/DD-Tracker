@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
 
   public apiUrl = "http://35.190.162.90:83/api/";
-  public apiUrlKKC="http://keltronttc.in/api/payment.php?";
+  public apiUrlKKC="http://keltronttc.in/api/";
   
   constructor() { }
 }

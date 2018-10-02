@@ -1,7 +1,9 @@
+import { Center } from "./Center";
+
 export class ddfromKKC {
 
-
-    id:string;
+    slno:string;
+ id:string;
 TotalAmount:string;
 Bank:string;
 DDNumber:string;
@@ -17,4 +19,10 @@ StudentRollNo:string;
 StudentName:string;
 StudentApplicationNumber:string;
 CourseName:string;
+}
+
+export class kkcddList {
+    ddenter: ddfromKKC = new ddfromKKC();
+    center: Center = new Center();
+
 }

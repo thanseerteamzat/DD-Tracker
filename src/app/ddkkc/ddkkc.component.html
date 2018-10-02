@@ -13,6 +13,19 @@
     <br>
     <br>
     <form name="form">
+        <ng-container *ngFor="let lstid of ddLastids">
+            <div class="row">
+
+                <div class="form-group col-md-4">
+                    <br>
+                    <label for="ddid">KKC Serial No : &nbsp;</label>
+                    <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
+                    <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span>
+
+                    <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
+                </div>
+                </div>
+
         <div class="row">
 
           <div class="form-group col-md-3">
@@ -47,10 +60,13 @@
           </div>
 
 <br>          <button  type="submit" (click)="getDd()" class="btn btn-primary">Get DD's</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          <button  type="submit" (click)="DdtoDB(lstid.Id,lstid)" class="btn btn-primary">Save DD's</button>
           
 
 
-          </div></form>
+          </div>
+        
+        </ng-container></form>
 
 
 <br>

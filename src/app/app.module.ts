@@ -60,6 +60,7 @@ import { InvoiceentryverificationComponent } from './Invoicee/invoiceentryverifi
 import { DdkkcComponent } from './ddkkc/ddkkc.component';
 import { InvoiceReportComponent } from './Invoicee/invoice-report/invoice-report.component';
 import { InvoiceManualComponent } from './Invoicee/invoice-manual/invoice-manual.component';
+import { KkcverificationComponent } from './kkcverification/kkcverification.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -103,7 +104,8 @@ const appRoutes: Routes = [
   { path: 'ddkkc', component: DdkkcComponent },
   { path: 'invoiceentryverification', component: InvoiceentryverificationComponent },
   { path: 'invoice-manual-generate', component: InvoiceManualComponent },
-  { path: 'invoice-report', component: InvoiceReportComponent }
+  { path: 'invoice-report', component: InvoiceReportComponent },
+  { path:'kkcverification' ,component:KkcverificationComponent}
 ];
 
 
@@ -151,6 +153,7 @@ const appRoutes: Routes = [
     DdkkcComponent,
     InvoiceReportComponent,
     InvoiceManualComponent,
+    KkcverificationComponent,
   ],
   imports: [
     FormsModule,
