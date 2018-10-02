@@ -536,12 +536,15 @@ export class DespatchNoEntryComponent implements OnInit {
                                 let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
                                 let frate = rate.toFixed(2);
                                 this.despatch.Amount = parseFloat(frate);
+                                this.despatch.feeItem = "Course Fee";
                             }
                             else if (this.tempentry.feesItem == "Inspection") {
                                 this.despatch.Rate = 60;
                                 let rate = (parseFloat(this.despatch.FWT.toString()) * parseFloat(this.despatch.Rate.toString())) / 100;
                                 let frate = rate.toFixed(2);
                                 this.despatch.Amount = parseFloat(frate);
+                                this.despatch.feeItem = "Inspection";
+
 
                             }
                             else {

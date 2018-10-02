@@ -17,8 +17,9 @@ export class Invoice {
     dbaMonth: string;
     isInvoiceEntered: boolean;
     invoiceNo: string;
-    invoiceDate:string;
+    invoiceDate: string;
     enteredby: string;
+    invoiceGeneratedBy: string;
 }
 
 export class invoiceList {

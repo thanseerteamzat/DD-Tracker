@@ -5,6 +5,7 @@ import { AngularFireDatabase } from '../../../../node_modules/angularfire2/datab
 import { EtsService } from '../../services/ets.service';
 import { Router } from '../../../../node_modules/@angular/router';
 import { Common } from '../../models/common';
+import { FormGroup, FormControl, Validators, FormBuilder } from '../../../../node_modules/@angular/forms';
 
 @Component({
   selector: 'app-invoice-manual',
@@ -41,6 +42,7 @@ export class InvoiceManualComponent implements OnInit {
   convertedToWord;
   checklist: Invoice[] = [];
   checkboxIndex;
+  invoiceNoExists;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -66,11 +68,16 @@ export class InvoiceManualComponent implements OnInit {
     { id: '7', name: 'Duplicate Certificate/Marklist' },
   ];
   newInvoice: Invoice = new Invoice();
+  tempinvoiceList;
+  entered;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
+    private fb: FormBuilder
 
   ) {
+
+    this.invoicecreateForm();
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
     for (let cent of centerResponse) {
@@ -212,6 +219,8 @@ export class InvoiceManualComponent implements OnInit {
 
 
     }
+    this.entered = this.ets.cookiename;
+    this.newInvoice.invoiceGeneratedBy = this.entered;
   }
   filterFee(key) {
     this.selectedfee = key;
@@ -321,11 +330,34 @@ export class InvoiceManualComponent implements OnInit {
     // console.log('id***', id)
     // console.log('invoice***', invoice)
   }
+
+  duplicationCheck() {
+    this.invoiceNoExists = false;
+    console.log(this.newInvoice.invoiceNo)
+    for (let i = 0; i <= this.invoiceList.length; i++) {
+      this.tempinvoiceList = invoiceList[i];
+      console.log(this.invoiceList)
+      if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
+        this.invoiceNoExists = true;
+        break;
+      }
+    }
+    if (this.invoiceNoExists == false) {
+      // console.log(this.invoiceNoExists)
+
+      console.log('new enrty')
+    }
+    else {
+      console.log('duplication')
+    }
+  }
+
   generateInvoice() {
     this.checklist.forEach(element => {
       element.invoiceNo = this.newInvoice.invoiceNo;
       element.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
       element.isInvoiceEntered = true;
+      element.invoiceGeneratedBy = this.entered;
       var updates = {}
 
       updates['/invoice/' + element.invoiceId] = JSON.stringify(element);
@@ -338,7 +370,38 @@ export class InvoiceManualComponent implements OnInit {
 
       }
     })
+
     alert('Invoice Added :' + this.newInvoice.invoiceNo);
+    this.resetform();
   }
 
+  //validations
+
+  invoiceForm = new FormGroup(
+    {
+      invoiceNum: new FormControl(),
+      invoiceDate: new FormControl()
+    }
+  );
+  invoicecreateForm() {
+    this.invoiceForm = this.fb.group(
+      {
+        invoiceNum: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 ///-]*')])],
+
+        invoiceDate: [null, Validators.required]
+      }
+    )
+  };
+  get invoiceNum() { return this.invoiceForm.get('invoiceNum'); }
+  get invoiceDate() { return this.invoiceForm.get('invoiceDate'); }
+
+  resetform() {
+    this.invoiceForm.reset(
+      {
+        dbaNum: null,
+        dbaDate: null
+      }
+    )
+
+  }
 }

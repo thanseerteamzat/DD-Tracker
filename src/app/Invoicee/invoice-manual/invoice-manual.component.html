@@ -1,5 +1,5 @@
 <div class="wrapper" style="margin-left: 50px">
-  <h2>Invoice Manual</h2>
+  <h2>Invoice Manual Entry</h2>
   <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
     <div class="form-group col-md-3">
 
@@ -37,42 +37,42 @@
       </select>
 
     </div>
-    <div class="form-group col-md-3">
+    <!-- <div class="form-group col-md-3">
       <label>Count:</label>
       <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
 
-    </div>
+    </div> -->
   </div> 
     <div style="padding-top: 30px;padding-left: 40px;padding-right: 50px">
-      <div class="form-group col-md-3" >
+      <div class="form-group col-md-3" [formGroup]="invoiceForm" >
 
         <label>Note : Select and Enter Invoice No: </label>&nbsp;
-        <input type="text" [(ngModel)]="newInvoice.invoiceNo" class="form-control" >
-        <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
-            <div *ngIf="despatchNo.errors.required">
-                Despatch No is Required
+        <input type="text" [(ngModel)]="newInvoice.invoiceNo" class="form-control" formControlName="invoiceNum">
+        <div *ngIf="invoiceNum.invalid && (invoiceNum.dirty || invoiceNum.touched)" class="alert-danger">
+            <div *ngIf="invoiceNum.errors.required">
+              Invoice No is Required
             </div>
-            <div *ngIf="despatchNo.errors.pattern">
+            <div *ngIf="invoiceNum.errors.pattern">
                 Please enter valid input(number)
             </div>
-        </div> -->
+        </div>
     </div>
-    <div class="form-group col-md-3" >
+    <div class="form-group col-md-3" [formGroup]="invoiceForm" >
 
         <label>Invoice Date Date</label>&nbsp;
-        <input type="date" [(ngModel)]="newInvoice.invoiceDate" class="form-control" >
-        <!-- <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
-            <div *ngIf="despatchdate.errors.required">
+        <input type="date" [(ngModel)]="newInvoice.invoiceDate" class="form-control" formControlName="invoiceDate" >
+        <div *ngIf="invoiceDate.invalid && (invoiceDate.dirty || invoiceDate.touched)" class="alert-danger">
+            <div *ngIf="invoiceDate.errors.required">
                 Please Select Date
             </div>
 
-        </div> -->
+        </div>
     </div>
-    <div class="form-group col-md-3" >
+    <div class="form-group col-md-3" [formGroup]="invoiceForm">
 
      
       <br>
-      <button type="submit" class="btn btn-primary"  (click)="generateInvoice()">Submit</button>
+      <button type="submit" class="btn btn-primary" [disabled]="invoiceForm.invalid"  (click)="generateInvoice()">Generate Invoice</button>
   </div>
     </div>
     <div style="padding-top: 50px;">
@@ -117,7 +117,7 @@
 
 
 
-            <tr>
+            <tr *ngIf="ddenter.invoiceenter?.isdbaEntered  == true && ddenter.invoiceenter?.isInvoiceEntered == false">
               <td>{{selectedData.indexOf(ddenter) + 1}}</td>
               <td>{{ddenter.invoiceenter?.dbaNo}}</td>
               <td></td>
