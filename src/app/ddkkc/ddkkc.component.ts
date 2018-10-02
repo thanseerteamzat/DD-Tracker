@@ -4,10 +4,10 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../services/config.service';
 import { EtsService } from '../services/ets.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Center } from '../models/Center';
-import { ddfromKKC } from '../models/ddktc';
+import { ddfromKKC, kkcddList } from '../models/ddktc';
 import { Common } from '../models/common';
 import { kkcId } from '../models/kkcId';
 
@@ -19,6 +19,8 @@ import { kkcId } from '../models/kkcId';
 export class DdkkcComponent implements OnInit {
   ddLastids: kkcId[] = [];
   newddLastId: kkcId = new kkcId();
+  ddLists: kkcddList[] = [];
+  tempddlist
   count;
 temp;
   fromLastId;
@@ -43,6 +45,41 @@ temp;
 
 
   ) {
+
+
+
+    this.ddcreateForm();
+    
+    let itemReff = db.object('ddkkc');
+    itemReff.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new kkcddList();
+        let qobj: ddfromKKC = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.slno != undefined) {
+          qobj.slno = qobj.slno.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+
+        // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        // // console.log('2222222222222222222222222222',custList)
+        // if (custList.length > 0) {
+        //   ddListItem.center = custList[0];
+        // }
+
+        this.ddLists.push(ddListItem);
+
+      });
+
+    });
+
+
+
+
 
 
     let itemRef = db.object('kkcId');
@@ -142,7 +179,42 @@ this.ets.GetddfromTtc( this.tempfromDate, this.temptoDate,this.skipValue,this.li
 
     // console.log(fromDate ,'fromDate' , toDate , 'toDate' , skipValue ,'skipvalue')
 
-    DdtoDB(key, dlastid: kkcId){
+    beforeRegister(key, dlastid: kkcId){
+
+      try {
+        var ddExists = false;
+        for (let i = 0; i <= this.ddLists.length; i++) {
+          this.tempddlist = this.ddLists[i];
+          for(let j=0; j<=this.ddkkc.length;j++){
+          if (this.tempddlist.ddenter != null && this.tempddlist.ddenter.id == this.ddkkc[j].id) {
+            ddExists = true;
+            break;
+          }
+        }}
+        console.log('fdf', ddExists);
+        //   if(applicationNoExists)
+        // {
+        //   console.log(applicationNoExists);
+        //   alert('Application number duplication');
+        // }
+        if (ddExists === false) {
+          console.log(ddExists);
+          this.register(key, dlastid);
+        }
+        else{
+          alert('dd duplication , please check')
+        }
+        // if (a != 1) {
+        //   this.register(key, dlastid);
+        //     }
+      }
+      catch (x) {
+        console.log(x);
+      }
+    }
+
+
+    register(key, dlastid: kkcId){
 
     var counter = parseInt(this.count) + 1;
     var updates = {};
@@ -167,5 +239,50 @@ this.ets.GetddfromTtc( this.tempfromDate, this.temptoDate,this.skipValue,this.li
   updates['/kkcId/' + key] = JSON.stringify(dlastid);      
   let up = this.db.database.ref().update(updates);
   alert("Added Successfully")
+  this.resetForm();
 }
+
+
+ddentryForm = new FormGroup({
+
+  // currentDate: new FormControl(),
+  fromDatee: new FormControl(),
+  toDatee: new FormControl(),
+  skipValuee: new FormControl(),
+  limitValues: new FormControl(),
+})
+
+ddcreateForm() {
+  this.ddentryForm = this.fb.group(
+    {
+      // currentDate: [null, Validators.required],
+      fromDatee: [null, Validators.required],
+      toDatee: [null, Validators.required],
+      skipValuee: [null, Validators.required],
+      limitValues: [null, Validators.required],
+     
+     
+     
+
+    }
+  )
+}
+
+  get fromDatee() { return this.ddentryForm.get('fromDatee'); }
+  get toDatee() { return this.ddentryForm.get('toDatee'); }
+  get skipValuee() { return this.ddentryForm.get('skipValuee'); }
+  get limitValues() { return this.ddentryForm.get('limitValues'); }
+  
+
+  resetForm() {
+    this.ddentryForm.reset(
+      {
+        // currentDate: null,
+        fromDatee: null,
+        toDatee: null,
+        skipValuee: null,
+        limitValues: null,
+       }
+    )
   }
+}  

@@ -28,39 +28,59 @@
 
         <div class="row">
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="fromDate">From Date</label>
-            <input readonly type="text" name="fromDate" [(ngModel)]="fromDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            <input readonly type="text" name="fromDate" formControlName="fromDatee" [(ngModel)]="fromDate" class="form-control" #dp="bsDatepicker" bsDatepicker
             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        
+            <div *ngIf="fromDatee.invalid && (fromDatee.dirty || fromDatee.touched)" class="alert-danger" >
+                <div *ngIf="fromDatee.errors.required">
+                    From Date is Required
+                </div>
+                </div>
+ 
 
           </div>
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="toDate">To Date</label>
-            <input readonly type="text" name="toDate" [(ngModel)]="toDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            <input readonly type="text" name="toDate" formControlName="toDatee" [(ngModel)]="toDate" class="form-control" #dp="bsDatepicker" bsDatepicker
             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        
+            <div *ngIf="toDatee.invalid && (toDatee.dirty || toDatee.touched)" class="alert-danger" >
+                <div *ngIf="toDatee.errors.required">
+                    Today Date is Required
+                </div>
+                </div>
+ 
 
           </div>
 </div>
 <div class="row">
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="skip">Skip</label>
-            <input type="text" name="skipValue" [(ngModel)]="skipValue" class="form-control">
+            <input type="text" name="skipValue" formControlName="skipValuee" [(ngModel)]="skipValue" class="form-control">
         
+            <div *ngIf="skipValuee.invalid && (skipValuee.dirty || skipValuee.touched)" class="alert-danger" >
+                <div *ngIf="skipValuee.errors.required">
+                    Skip Value is Required
+                </div>
+                </div>
 
           </div>
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="limit">Limit</label>
-            <input type="text" name="limitValue" [(ngModel)]="limitValue" class="form-control" >
-        
+            <input type="text" formControlName="limitValues" name="limitValue" [(ngModel)]="limitValue" class="form-control" >
+            <div *ngIf="limitValues.invalid && (limitValues.dirty || limitValues.touched)" class="alert-danger" >
+                <div *ngIf="limitValues.errors.required">
+                    Limit Value is Required
+                </div>
+                </div>
+ 
 
           </div>
 
-<br>          <button  type="submit" (click)="getDd()" class="btn btn-primary">Get DD's</button>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          <button  type="submit" (click)="DdtoDB(lstid.Id,lstid)" class="btn btn-primary">Save DD's</button>
+<br>          <button [disabled]="ddentryForm.invalid"  type="submit" (click)="getDd()" class="btn btn-primary">Get DD's</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          <button [disabled]="ddentryForm.invalid" type="submit" (click)="beforeRegister(lstid.Id,lstid)" class="btn btn-primary">Save DD's</button>
           
 
 
