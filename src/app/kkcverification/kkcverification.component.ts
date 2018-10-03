@@ -55,6 +55,12 @@ export class KkcverificationComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.ets.cookievalue == "1" ||this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+      // this.router.navigate(['/dd-verification'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
 
 

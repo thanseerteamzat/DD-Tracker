@@ -4,8 +4,8 @@
   <div id="content" class="createcontent">
     <div class="form-row">
       <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-      <h1>Invoice Entry</h1>
-      <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
+      <h1 *ngIf='!isEditMode'>Invoice Entry</h1>
+      <h1 *ngIf='isEditMode'>Edit Invoice Entry</h1>
 
     </div>
 
@@ -19,7 +19,7 @@
             <br>
             <label for="ddid">Inward Sl No : &nbsp;</label>
             <span *ngIf='!isEditMode' style="color: red">{{lstid.lastId +1}}</span>
-            <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+            <span *ngIf='isEditMode' style="color: red">{{newddentry.invoiceEntryId}}</span>
 
             <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control">
           </div>
@@ -48,7 +48,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <!-- <label for="centercode">Code :</label> -->
             {{code}}{{tempcentercode}}
-            <select #t  [(ngModel)]="selectedcenter" class="form-control" formControlName="centerName"
+            <select #t  [(ngModel)]="newddentry.centerName" class="form-control" formControlName="centerName"
               name="selectedcenter">
               <option value="">--Choose--</option>
               <ng-container *ngFor="let s of centers">
@@ -92,7 +92,7 @@
 
           <div class="form-group col-md-3" [formGroup]="ddentryForm" >
             <label for="date">Invoice Number</label>
-            <input type="text" class="form-control" [(ngModel)]="invoicenumber" name="invoicenumber" formControlName="invoiceno">
+            <input type="text" class="form-control" [(ngModel)]="newddentry.invoiceNumber" name="invoiceNumber" formControlName="invoiceno">
             <div *ngIf="invoiceno.invalid && (invoiceno.dirty || invoiceno.touched)" class="alert-danger" >
                 <div *ngIf="invoiceno.errors.required">
                     invoice number is required
@@ -116,7 +116,7 @@
           <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="Month">Month</label>
 
-            <select name="month" [(ngModel)]="month" class="form-control" formControlName="monthh">
+            <select name="newddentry.month" [(ngModel)]="newddentry.month" class="form-control" formControlName="monthh">
               <option value="" disabled [selected]>--Choose--</option>
               <ng-container *ngFor="let m of months">
                 <option [value]="m.name">{{m.name}}</option>
@@ -136,7 +136,7 @@
 
           <div class="form-group col-md-3">
             <label for="remarks">Remarks </label>
-            <input type="text" [(ngModel)]="remarks" name="remarks" class="form-control">
+            <input type="text" [(ngModel)]="newddentry.remarks" name="remarks" class="form-control">
           </div>
 
 
@@ -146,13 +146,14 @@
 
           <div class="form-group col-md-3">
             <label for="enteredby">Entered By </label>
-            <input readonly type="text" [(ngModel)]="enteredBy" name="enteredBy" class="form-control">
+            <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="enteredBy" class="form-control">
           </div>
 
 
 
         </div>
-        <button [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button>
+        <button *ngIf='!isEditMode' [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button>
+        <button *ngIf='isEditMode' [disabled]="ddentryForm.invalid" type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Update</button>
 
       </ng-container>
     </form>

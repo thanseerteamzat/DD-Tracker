@@ -78,5 +78,12 @@ export class InvoiceentryverificationComponent implements OnInit {
 
   ngOnInit() {
   }
+  entrySelection(ddlastId, invoiceentry: InvoiceEntry) {
 
+    console.log('inside functionl entry selection', ddlastId)
+    console.log(invoiceentry.enteredBy);
+    console.log(invoiceentry.invoiceEntryId);
+    
+      this.router.navigate(['/invoiceentry-details/' +invoiceentry.invoiceEntryId])
+}
 }

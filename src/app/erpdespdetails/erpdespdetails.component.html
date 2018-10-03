@@ -4,64 +4,82 @@
   <div id="content" class="createcontent">
       <div class="form-row">
           <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-          <h1 >ERP Despatch Entry</h1>
+          <h1 >ERP Despatch Entry Details</h1>
           <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
 
       </div>
+
+      <div *ngIf='!isEditable' style="float:left;margin-left: 65%;margin-top: 4%">
+                            
+            <button type="button" class="btn btn-primary">
+                <a [routerLink]="['/erp-despatch-entry', newerpdespatch.erpdespId]">Edit Entry</a>
+            </button>&nbsp;&nbsp;
+                    <!-- <button type="submit" class="btn btn-primary" (click)="verify(newddentry.invoiceEntryId,newddentry)">Verify</button> -->
+           &nbsp;
+           &nbsp;
+            <button type="button" class="btn btn-primary">
+                    <a [routerLink]="['/dd-verification']">Cancel</a>
+                </button>
+      
+                &nbsp;&nbsp;
+                
+        </div>
+      
 
       <br>
       <br>
       <form name="form">
       <div class="row">
-          <div class="form-group col-md-4">
+
+            <div class="form-group col-md-3">
+                    <br>
+                    <label for="ddid">ERP Despatch Sl No: &nbsp;</label>
+                    <span *ngIf='!isEditMode' style="color: red">{{newerpdespatch.erpdespId}}</span>
+                    <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+          
+                    <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
+                  </div>
+          
+          <div class="form-group col-md-3">
               <label for="date">Date</label>
-              <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
+              <input readonly type="text" name="todaydate" [(ngModel)]="newerpdespatch.date" class="form-control" #dp="bsDatepicker" bsDatepicker
                   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
           </div>
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-3">
               <label for="">ERP Despatch No</label>
-              <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo" >
+              <input readonly #text type="text" class="form-control" [(ngModel)]="newerpdespatch.erpdespNo" name="erpdespNo" >
               <button type="button"  class="form-control" >Get Center</button>
 
           </div>
 
-          <div class="form-group col-md-4">
-              <label for="erpdate">ERP Date</label>
-              <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker" bsDatepicker
-                  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-
-          </div>
+          
       </div>
       <div class="row">
-
-                          <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
+                    <label for="erpdate">ERP Date</label>
+                    <input readonly type="text" name="todaydatee" [(ngModel)]="newerpdespatch.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+      
+                </div>
+                          <div class="form-group col-md-3">
                               <label for="center">Center Name</label>
-                              <input type="text" [(ngModel)]="newerpdespatch.centerName" class="form-control" name="selectedcenter" >
+                              <input readonly type="text" [(ngModel)]="newerpdespatch.centerName" class="form-control" name="selectedcenter" >
                               </div>
-              <!-- <div class="form-group col-md-3">
-                  <label for="center">Center Name</label>
-          
-                      <select  [(ngModel)]="selectedcenter" class="form-control" name="centerName" [ngModelOptions]="{standalone: true}">
-                              <option value="">--Choose--</option>
-                              <ng-container *ngFor="let s of centers">
-                                  <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
-                              </ng-container>
-          
-                          </select>
-          </div>  -->
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-3">
               <label for="noofdd">No.of DD</label>
-              <input type="text" [(ngModel)]="selectednodd" name="selectednodd" class="form-control">
+              <input readonly type="text" [(ngModel)]="newerpdespatch.noofDd" name="selectednodd" class="form-control">
 
 
           </div>
-          <div class="form-group col-md-4">
+         </div>
+         <div class="row">
+              <div class="form-group col-md-3">
               <label for="amount">DD Amount</label>
-              <input type="text" [(ngModel)]="newerpdespatch.erpAmount" name="selectedamount" class="form-control">
+              <input readonly type="text" [(ngModel)]="newerpdespatch.erpAmount" name="selectedamount" class="form-control">
 
 
-          </div> <button  type="submit" 
-          class="btn btn-primary">Submit</button>
+          </div>
+         
           
           
                   </div>

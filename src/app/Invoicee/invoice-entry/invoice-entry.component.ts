@@ -18,10 +18,14 @@ import { InvoiceEntry, invoiceentryList } from '../../models/invoiceentry';
 })
 export class InvoiceEntryComponent implements OnInit {
   ddLists: invoiceentryList[] = [];
-
+  isEditMode: boolean = false;
+  ddentries: InvoiceEntry[] = [];
+  newddentry: InvoiceEntry = new InvoiceEntry();
+  centerList: Center[] = [];
+ 
   count;
   format;
-  centerList: Center[] = [];
+  // centerList: Center[] = [];
   tempvalue: string;
   remarks;
   invoicenumber;
@@ -89,7 +93,13 @@ export class InvoiceEntryComponent implements OnInit {
     private cookieservice: CookieService) {
 
 
+      let id = this.route.snapshot.paramMap.get('invoiceEntryId');
 
+      if(id != undefined)
+      {
+        this.isEditMode = true;
+
+      }
     this.ddcreateForm();
       
 
@@ -133,9 +143,32 @@ export class InvoiceEntryComponent implements OnInit {
 
     });
 
+    if (id != undefined) {
 
+    let dReference = db.object('invoiceEntry');
+    dReference.snapshotChanges().subscribe(action => {
+      console.log(action.type);
+      console.log(action.key);
+      var ddentryList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.ddentries = [];
+      obj.forEach(element => {
+        let obj: InvoiceEntry = JSON.parse(element);
+        let ddListItem = new InvoiceEntry();
+        if (obj.invoiceEntryId != undefined && (obj.invoiceEntryId == id)) {
+          obj.invoiceEntryId = obj.invoiceEntryId.replace("/", "");
+          this.newddentry = obj;
+          console.log('***********************',this.newddentry.invoiceEntryId)
+          // let center = this.centerList.filter(s => s.Id == (obj.centerId));
+          // if (center.length > 0) {
+          //   this.selectedcenter = center[0];
+          // }
+        }
+      })
+    })
 
-
+  
+  }
 
     
       let that = this;
@@ -174,7 +207,7 @@ export class InvoiceEntryComponent implements OnInit {
 
   ngOnInit() {
 
-    this.enteredBy = this.ets.cookiename;
+    this.newddentry.enteredBy = this.ets.cookiename;
 
     if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
       // this.router.navigate(['/dd-entry'])
@@ -225,6 +258,40 @@ export class InvoiceEntryComponent implements OnInit {
     return [day, month, year].join('-');
   }
   register(key, dlastid: InwardId){
+
+  if(this.isEditMode){
+    var updates = {};
+
+    this.invoiceEntry.remarks=this.remarks;
+    this.invoiceEntry.centerName=this.newddentry.centerName;
+    this.selecteddate=this.todaydate
+    this.invoiceEntry.date=this.formatDate(this.selecteddate);
+    this.selecteddatee=this.todaydatee;
+    this.invoiceEntry.invoiceDate=this.formatDate(this.selecteddatee);
+    console.log('*********************',this.newddentry.invoiceNumber)
+    this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
+    this.invoiceEntry.inwardItem='Invoice';
+    this.invoiceEntry.month=this.newddentry.month;
+    this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
+    this.invoiceEntry.remarks=this.newddentry.remarks;
+    if (confirm('Are you sure to update details')) {
+      updates['/invoiceEntry/' + this.newddentry.invoiceEntryId] = JSON.stringify(this.newddentry);
+      try {
+        let up = this.db.database.ref().update(updates);
+
+      }
+      catch (ex) {
+        alert("Error in Updating details");
+      }
+    
+
+
+    
+
+    // console.log('is Edit mode')
+  }}
+  else{
+    console.log('not edit mode')
     var counter = parseInt(this.count) + 1;
     //updating lastid
     var updates = {};
@@ -234,16 +301,17 @@ export class InvoiceEntryComponent implements OnInit {
     this.invoiceEntry.invoiceEntryId = counter.toString();
   
     this.invoiceEntry.remarks=this.remarks;
-    this.invoiceEntry.centerName=this.selectedcenter;
+    this.invoiceEntry.centerName=this.newddentry.centerName;
     this.selecteddate=this.todaydate
     this.invoiceEntry.date=this.formatDate(this.selecteddate);
     this.selecteddatee=this.todaydatee;
     this.invoiceEntry.invoiceDate=this.formatDate(this.selecteddatee);
-    this.invoiceEntry.invoiceNumber=this.invoicenumber;
-    this.invoiceEntry.inwardItem=this.inwardItem;
-    this.invoiceEntry.month=this.month;
-    this.invoiceEntry.enteredBy=this.enteredBy;
-    this.invoiceEntry.remarks=this.remarks;
+    console.log('*********************',this.newddentry.invoiceNumber)
+    this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
+    this.invoiceEntry.inwardItem='Invoice';
+    this.invoiceEntry.month=this.newddentry.month;
+    this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
+    this.invoiceEntry.remarks=this.newddentry.remarks;
     // var str=this.erpdespNo;
     // str=(str.match(/.{1,4}/g)); 
     // var abc=str[1];
@@ -272,7 +340,7 @@ export class InvoiceEntryComponent implements OnInit {
       alert("Error in adding Quotation ");
     }
   }
-
+  }
   
   ddentryForm = new FormGroup({
 

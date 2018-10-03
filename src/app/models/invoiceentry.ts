@@ -10,6 +10,7 @@ invoiceDate:string;
 month:string;
 remarks:string;
 enteredBy:string;
+isVerified:boolean;
 
 }
 

@@ -1,0 +1,129 @@
+<div style="margin-left: 50px;" class="wrapper ">
+
+  <!-- Page Content Holder -->
+  <div id="content" class="createcontent">
+    <div class="form-row">
+      <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
+      <h1>Invoice Details</h1>
+      <!-- <h1 *ngIf='isEditMode'>Edit ERP Despatch Entry</h1> -->
+
+    </div>
+    <div *ngIf='!isEditable' style="float:left;margin-left: 65%;margin-top: 4%">
+                            
+      <button type="button" class="btn btn-primary">
+          <a [routerLink]="['/invoice-entry', newddentry.invoiceEntryId]">Edit</a>
+      </button>&nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary" (click)="verify(newddentry.invoiceEntryId,newddentry)">Verify</button>
+     &nbsp;
+     &nbsp;
+      <button type="button" class="btn btn-primary">
+              <a [routerLink]="['/dd-verification']">Cancel</a>
+          </button>
+
+          &nbsp;&nbsp;
+          
+  </div>
+
+
+    <br>
+    <br>
+    <form name="form">
+      <div class="row">
+
+        <div class="form-group col-md-3">
+          <br>
+          <label for="ddid">Inward Sl No : &nbsp;</label>
+          <span *ngIf='!isEditMode' style="color: red">{{newddentry.invoiceEntryId}}</span>
+          <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+
+          <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
+        </div>
+
+
+
+
+
+        <div style="color: red" class="form-group col-md-3">
+          <label style="color: black" for="center">Centre Name</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <!-- <label for="centercode">Code :</label> -->
+          <input type="text" readonly class="form-control" name=newddentry.centerName [(ngModel)]="newddentry.centerName" name="inwardItem">
+
+          <!-- <label for="centerName">Center Name</label>
+                                      <input type="text" class="form-control" placeholder="Center Name"> -->
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="date">Inward Item</label>
+          <input readonly type="text" class="form-control" [(ngModel)]="newddentry.inwardItem" name="newddentry.inwardItem">
+
+        </div>
+
+      
+
+
+
+      </div>
+
+
+      <div class="row">
+
+
+
+
+        <div class="form-group col-md-3">
+          <label for="date">Date</label>
+          <input readonly type="text" name="newddentry.date" [(ngModel)]="newddentry.date" class="form-control" #dp="bsDatepicker"
+            bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="date">Invoice Number</label>
+          <input readonly type="text" class="form-control" [(ngModel)]="newddentry.invoiceNumber" name="newddentry.invoiceNumber">
+
+
+
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="date">Invoice Date</label>
+          <input readonly type="text" name="newddentry.invoiceDate" [(ngModel)]="newddentry.invoiceDate" class="form-control" #dp="bsDatepicker"
+            bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="form-group col-md-3">
+          <label for="Month">Month</label>
+          <input readonly type="text" class="form-control" name="newddentry.month" [(ngModel)]="newddentry.month">
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="remarks">Remarks </label>
+          <input readonly type="text" [(ngModel)]="newddentry.remarks" name="newddentry.remarks" class="form-control">
+        </div>
+
+
+      </div>
+      <div class="row">
+
+
+        <div class="form-group col-md-3">
+          <label for="enteredby">Entered By </label>
+          <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="newddentry.enteredBy" class="form-control">
+        </div>
+
+
+
+      </div>
+      <!-- <button type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Submit</button> -->
+
+    </form>
+
+
+
+
+  </div>
+</div>

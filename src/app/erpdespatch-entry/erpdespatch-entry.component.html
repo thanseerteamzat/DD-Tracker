@@ -161,10 +161,13 @@
                             <td>{{ddenter.ddenter.noofDd}}</td>
                             <td> {{ddenter.ddenter.erpAmount}}</td>
                             <td>{{ddenter.ddenter.remarks}}</td>
-                            <td>
-                                <button type="button" (click)=entrySelection(ddenter.erpdespId,ddenter) class="btn btn-primary">
+                            <td *ngIf="ddenter.ddenter.isdespatchEntered !== true">
+                                <button type="button" (click)=entrySelection(ddenter.ddenter.erpdespId,ddenter.ddenter) class="btn btn-primary">
                                     View Details
                                 </button>
+                            </td>
+                            <td *ngIf="ddenter.ddenter.isdespatchEntered === true">
+                              Verified
                             </td>
 
 

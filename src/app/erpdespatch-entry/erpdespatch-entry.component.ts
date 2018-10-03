@@ -26,8 +26,11 @@ import { erpDespatchId } from '../models/erpdespId'
   styleUrls: ['./erpdespatch-entry.component.css']
 })
 export class ErpdespatchEntryComponent implements OnInit {
+  isEditMode: boolean = false;
 
   ddLists: erpdespatchList[] = [];
+  ddentries: erpDespatch[] = [];
+  newddentry: erpDespatch = new erpDespatch();
 
   erpdespatchList: erpDespatch[] = [];
   erpdespNo;
@@ -69,6 +72,37 @@ export class ErpdespatchEntryComponent implements OnInit {
 
 
     this.ddcreateForm();
+
+
+    let id = this.route.snapshot.paramMap.get('erpdespId');
+    if(id != undefined)
+    {
+      this.isEditMode = true;
+
+    }
+
+    let dReference = db.object('erpdespatch');
+    dReference.snapshotChanges().subscribe(action => {
+      console.log(action.type);
+      console.log(action.key);
+      var ddentryList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.ddentries = [];
+      obj.forEach(element => {
+        let obj: erpDespatch = JSON.parse(element);
+        let ddListItem = new erpDespatch();
+        if (obj.erpdespId != undefined && (obj.erpdespId == id)) {
+          obj.erpdespId = obj.erpdespId.replace("/", "");
+          this.newddentry = obj;
+          console.log('***********************',this.newddentry.erpdespId)
+          // let center = this.centerList.filter(s => s.Id == (obj.centerId));
+          // if (center.length > 0) {
+          //   this.selectedcenter = center[0];
+          // }
+        }
+      })
+    })
+
 
 
 
@@ -194,7 +228,7 @@ export class ErpdespatchEntryComponent implements OnInit {
 
   entrySelection(erpdespId, despenter: erpDespatch) {
     console.log(despenter);
-    console.log(erpdespId)
+    console.log(erpdespId);
     this.router.navigate(['/erpdesp-details/' + erpdespId])
 
 

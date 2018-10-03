@@ -61,6 +61,7 @@ import { DdkkcComponent } from './ddkkc/ddkkc.component';
 import { InvoiceReportComponent } from './Invoicee/invoice-report/invoice-report.component';
 import { InvoiceManualComponent } from './Invoicee/invoice-manual/invoice-manual.component';
 import { KkcverificationComponent } from './kkcverification/kkcverification.component';
+import { InvoiceEntryDetailsComponent } from './invoice-entry-details/invoice-entry-details.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -97,15 +98,22 @@ const appRoutes: Routes = [
   { path: 'adjdba-details', component: AdjdbaDetailsComponent },
   { path: 'adjpending-dd', component: AdjpendingddComponent },
   { path: 'erp-despatch-entry', component: ErpdespatchEntryComponent },
+  { path: 'erp-despatch-entry/:erpdespId', component: ErpdespatchEntryComponent },
+  
   { path: 'erpdesp-details', component: ErpdespdetailsComponent },
   { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
   { path: 'dba-desp-list', component: DbaDespListComponent },
   { path: 'invoice-entry', component: InvoiceEntryComponent },
+  { path: 'invoice-entry/:invoiceEntryId', component: InvoiceEntryComponent },
+  
   { path: 'ddkkc', component: DdkkcComponent },
   { path: 'invoiceentryverification', component: InvoiceentryverificationComponent },
   { path: 'invoice-manual-generate', component: InvoiceManualComponent },
   { path: 'invoice-report', component: InvoiceReportComponent },
-  { path:'kkcverification' ,component:KkcverificationComponent}
+  { path:'kkcverification' ,component:KkcverificationComponent},
+  { path:'invoiceentry-details',component:InvoiceEntryDetailsComponent},
+  { path:'invoiceentry-details/:invoiceEntryId',component:InvoiceEntryDetailsComponent},
+  
 ];
 
 
@@ -154,6 +162,7 @@ const appRoutes: Routes = [
     InvoiceReportComponent,
     InvoiceManualComponent,
     KkcverificationComponent,
+    InvoiceEntryDetailsComponent,
   ],
   imports: [
     FormsModule,

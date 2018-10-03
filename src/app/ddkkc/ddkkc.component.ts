@@ -131,7 +131,7 @@ temp;
       // this.router.navigate(['/dd-verification'])
     }
     else {
-      // this.router.navigate(['/error']);
+      this.router.navigate(['/error']);
     }
   }
 
@@ -218,7 +218,7 @@ this.ets.GetddfromTtc( this.tempfromDate, this.temptoDate,this.skipValue,this.li
 
     var counter = parseInt(this.count) + 1;
     var updates = {};
-   
+    
     for(let i=0;i<=this.ddkkc.length;i++){
       // key=key+1;
     let kkcJson = JSON.stringify(this.ddkkc[i]);
@@ -228,7 +228,7 @@ this.ets.GetddfromTtc( this.tempfromDate, this.temptoDate,this.skipValue,this.li
      
     }
     catch (ex) {
-     console.log(ex);
+    //  console.log(ex);
     } 
     counter=counter+1;
          
