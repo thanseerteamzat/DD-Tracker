@@ -166,6 +166,8 @@ const appRoutes: Routes = [
     InvoiceManualComponent,
     KkcverificationComponent,
     DdDespatchAckComponent,
+    InvoiceEntryDetailsComponent
+    
   ],
   imports: [
     FormsModule,
