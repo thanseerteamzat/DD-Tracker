@@ -81,6 +81,12 @@ export class ErpdespatchEntryComponent implements OnInit {
 
     }
 
+
+    if(id != undefined)
+    {
+
+    
+
     let dReference = db.object('erpdespatch');
     dReference.snapshotChanges().subscribe(action => {
       console.log(action.type);
@@ -105,7 +111,7 @@ export class ErpdespatchEntryComponent implements OnInit {
 
 
 
-
+  }
 
     let itemRef = db.object('erpdespatchId');
     itemRef.snapshotChanges().subscribe(action => {
@@ -234,6 +240,34 @@ export class ErpdespatchEntryComponent implements OnInit {
 
   }
   register(key, dlastid: erpDespatchId) {
+   
+   if(this.isEditMode){
+
+console.log('is edit mode')
+var updates = {};
+this.erpdespatch.isdespatchEntered = false;
+this.erpdespatch.remarks = this.newddentry.remarks
+this.erpdespatch.centerName = this.selectedcenter;
+this.erpdespatch.erpAmount = this.newddentry.erpAmount;
+this.erpdespatch.noofDd = this.newddentry.noofDd;
+this.selecteddate = this.todaydate
+this.erpdespatch.date = this.formatDate(this.selecteddate);
+this.selecteddatee = this.todaydatee;
+this.erpdespatch.erpdate = this.formatDate(this.selecteddatee);
+this.erpdespatch.centerName = this.selectedcenter;
+this.erpdespatch.erpdespNo = this.erpdespNo;
+if (confirm('Are you sure to update details')) {
+  updates['/erpdespatch/' + this.newddentry.erpdespId] = JSON.stringify(this.newddentry);
+  try {
+    let up = this.db.database.ref().update(updates);
+
+  }
+  catch (ex) {
+    alert("Error in Updating details");
+  }
+
+   }}
+   else{
     var counter = parseInt(this.count) + 1;
     //updating lastid
     var updates = {};
@@ -242,10 +276,10 @@ export class ErpdespatchEntryComponent implements OnInit {
     let up = this.db.database.ref().update(updates);
     this.erpdespatch.erpdespId = counter.toString();
     this.erpdespatch.isdespatchEntered = false;
-    this.erpdespatch.remarks = this.selectedremarks
+    this.erpdespatch.remarks = this.newddentry.remarks
     this.erpdespatch.centerName = this.selectedcenter;
-    this.erpdespatch.erpAmount = this.selectedamount;
-    this.erpdespatch.noofDd = this.selectednodd;
+    this.erpdespatch.erpAmount = this.newddentry.erpAmount;
+    this.erpdespatch.noofDd = this.newddentry.noofDd;
     this.selecteddate = this.todaydate
     this.erpdespatch.date = this.formatDate(this.selecteddate);
     this.selecteddatee = this.todaydatee;
@@ -279,7 +313,7 @@ export class ErpdespatchEntryComponent implements OnInit {
     }
   }
   
-
+  }
   ddentryForm = new FormGroup({
 
     centerName: new FormControl(),
