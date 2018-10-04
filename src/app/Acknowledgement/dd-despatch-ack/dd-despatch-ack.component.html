@@ -118,10 +118,10 @@
             <th>Despatch Date</th>
             <th>Fees Item</th>
             <th>Total</th>
-            <th>Tax</th>
+            <!-- <th>Tax</th>
             <th>Fee Without Tax</th>
             <th>Amount</th>
-            <th>Rate</th>
+            <th>Rate</th> -->
             <th>
               <!-- <input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();" /> -->
             </th>
@@ -144,10 +144,10 @@
                 <td>{{ddenter.despatchList?.despatchDate}}</td>
                 <td>{{ddenter.despatchList?.feeItem}}</td>
                 <td>{{ddenter.despatchList?.totalAmount}}</td>
-                <td>{{ddenter.despatchList?.taxAmount}}</td>
+                <!-- <td>{{ddenter.despatchList?.taxAmount}}</td>
                 <td>{{ddenter.despatchList?.FWT}}</td>
                 <td>{{ddenter.despatchList?.Amount}}</td>
-                <td>{{ddenter.despatchList?.Rate}}%</td>
+                <td>{{ddenter.despatchList?.Rate}}%</td> -->
                 <td>
                   <input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)">
                 </td>
