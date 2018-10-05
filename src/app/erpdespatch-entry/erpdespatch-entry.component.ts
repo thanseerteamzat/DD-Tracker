@@ -58,7 +58,7 @@ export class ErpdespatchEntryComponent implements OnInit {
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      // this.router.navigate(['/error']);
+      this.router.navigate(['/error']);
     }
   }
   constructor(private route: ActivatedRoute,

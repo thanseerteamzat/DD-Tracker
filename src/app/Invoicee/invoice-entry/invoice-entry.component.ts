@@ -213,7 +213,7 @@ export class InvoiceEntryComponent implements OnInit {
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      // this.router.navigate(['/error']);
+      this.router.navigate(['/error']);
     }
 
     this.check = this.ets.cookiename;

@@ -13,6 +13,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
+import { TimepickerModule } from 'ngx-bootstrap';
+
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule, Routes } from '@angular/router';
@@ -63,6 +65,7 @@ import { InvoiceManualComponent } from './Invoicee/invoice-manual/invoice-manual
 import { KkcverificationComponent } from './kkcverification/kkcverification.component';
 import { InvoiceEntryDetailsComponent } from './invoice-entry-details/invoice-entry-details.component';
 import { DdDespatchAckComponent } from './Acknowledgement/dd-despatch-ack/dd-despatch-ack.component';
+import { KkcSroEntryComponent } from './kkc-sro-entry/kkc-sro-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -117,6 +120,8 @@ const appRoutes: Routes = [
   
   { path: 'kkcverification', component: KkcverificationComponent },
   { path: 'dd-despatch-ack', component: DdDespatchAckComponent },
+  { path: 'sro-entry', component: KkcSroEntryComponent},
+  
 ];
 
 
@@ -166,11 +171,13 @@ const appRoutes: Routes = [
     InvoiceManualComponent,
     KkcverificationComponent,
     DdDespatchAckComponent,
-    InvoiceEntryDetailsComponent
+    InvoiceEntryDetailsComponent,
+    KkcSroEntryComponent
     
   ],
   imports: [
     FormsModule,
+    TimepickerModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
