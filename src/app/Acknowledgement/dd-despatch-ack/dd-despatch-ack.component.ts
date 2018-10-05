@@ -10,6 +10,7 @@ import { EtsService } from '../../services/ets.service';
 import { Router } from '../../../../node_modules/@angular/router';
 import { FormBuilder } from '../../../../node_modules/@angular/forms';
 import { Common } from '../../models/common';
+import { ddDespatchAck } from '../../models/Acknowledgement';
 
 @Component({
   selector: 'app-dd-despatch-ack',
@@ -76,7 +77,7 @@ export class DdDespatchAckComponent implements OnInit {
   newdba: dbaEntry = new dbaEntry();
   dbalist: dbaEntry[] = [];
   newdespatch: Despatch = new Despatch();
-  newInvoice: Invoice = new Invoice();
+  newdespAck: ddDespatchAck = new ddDespatchAck();
   typedtext;
   entered;
   count;
@@ -97,6 +98,7 @@ export class DdDespatchAckComponent implements OnInit {
   checklisttemp;
   checklistddTotal;
   selectedAll;
+  arr: any[]
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -245,7 +247,7 @@ export class DdDespatchAckComponent implements OnInit {
 
     // this.resetform();
     this.dbaservice = this.dbalist;
-    this.ets.sendData(this.dbaservice).subscribe(data => console.log('data', data))
+    // this.ets.sendData(this.dbaservice).subscribe(data => console.log('data', data))
 
     if (this.ets.cookievalue == "3") {
       // this.router.navigate(['/despatch-no-entry'])
@@ -259,7 +261,7 @@ export class DdDespatchAckComponent implements OnInit {
 
     this.entered = this.ets.cookiename;
     this.newdba.enteredBy = this.entered;
-    this.newInvoice.enteredby = this.entered;
+    this.newdespAck.preparedBy = this.entered;
     console.log('cookiename****', this.entered)
   }
 
@@ -271,23 +273,23 @@ export class DdDespatchAckComponent implements OnInit {
     }
     if (this.selectmonth == null && this.selectedcenter == null) {
 
-      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
     }
     else if (this.selectmonth == null) {
 
-      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
 
-      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
     }
   }
@@ -299,24 +301,28 @@ export class DdDespatchAckComponent implements OnInit {
       this.desplist.splice(i, this.desplist.length);
     }
     if (this.selectedfee == null && this.selectedcenter == null) {
-      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
+      // console.log('filter month', this.selectedData)
+
 
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
-      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
 
     }
     else {
       this.selectedData = this.ddLists.filter(
-        s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+        s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
+      // console.log('filter month', this.selectedData)
+
     }
 
   }
@@ -330,24 +336,24 @@ export class DdDespatchAckComponent implements OnInit {
       this.desplist.splice(i, this.desplist.length);
     }
     if (this.selectedfee == null && this.selectmonth == null) {
-      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdespatchEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else if (this.selectmonth == null) {
-      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdespatchEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+      this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdespatchEntered == true)
       this.selectData(this.selectedData)
     }
 
@@ -356,7 +362,7 @@ export class DdDespatchAckComponent implements OnInit {
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(3, -5)
-      // console.log('month**',month)
+      // console.log('month**', month)
       return month;
     }
   }
@@ -371,6 +377,10 @@ export class DdDespatchAckComponent implements OnInit {
     }
   }
 
+  selectAll(event) {
+    this.selectedData.forEach(i => i.checked = true);
+    console.log(this.selectedData)
+  }
 
   onchange(event, temp, despatch: Despatch) {
 
@@ -394,6 +404,49 @@ export class DdDespatchAckComponent implements OnInit {
 
   }
 
- 
+  generateAckInvoice() {
+    this.newdespAck.ackdate = this.formatDate(this.newdespAck.ackdate)
+
+    this.desplist.forEach(element => {
+      element.ackno = this.newdespAck.ackNo;
+      // element.ack = this.formatDate(this.newInvoice.invoiceDate);
+      // element.isInvoiceEntered = true;
+
+      var updates = {}
+
+      updates['/Despatch/' + element.despId] = JSON.stringify(element);
+      try {
+
+        let up = this.db.database.ref().update(updates);
+
+      }
+      catch (e) {
+
+      }
+
+      this.newdespAck.centerId = element.centerId
+      this.newdespAck.despatchNo = element.despatchNo
+      this.newdespAck.despatchDatee = element.despatchDate
+      this.newdespAck.noOfDD = element.noOfdd
+      this.newdespAck.totalAmount = element.totalAmount.toString()
+      this.newdespAck.preparedBy = this.entered
+      let despAckTempJson = JSON.stringify(this.newdespAck);
+
+      try {
+        this.db.database.ref('despatchAck').child(element.despId).set(despAckTempJson);
+
+      }
+      catch (ex) {
+
+      }
+    })
+
+
+
+    alert('Invoice Added :' + this.newdespAck.ackNo);
+    // this.resetform();
+  }
+
+
 
 }

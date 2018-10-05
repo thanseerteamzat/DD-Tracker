@@ -54,6 +54,8 @@ temptime;
   selecteddate;
   selecteddatee;
   isformOpen :boolean;
+  // isEditable;
+  isEditMode;
   values = [
     { id: '1', name: 'Yes' },
     { id: '2', name:'No'}

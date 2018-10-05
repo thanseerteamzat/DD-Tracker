@@ -2,6 +2,7 @@ import { Center } from "./Center";
 
 export class Despatch {
     despId: string
+    noOfdd: string;
     despatchNo: string; // unique id
     despatchDate: string;
     centerId: string;
@@ -15,7 +16,8 @@ export class Despatch {
     enteredBy: string;
     isdespatchEntered: boolean;
     dbaNo: string;
-    dbaDate:string;
+    dbaDate: string;
+    ackno: string;
     isdbaEntered: boolean;
 
 
@@ -31,6 +33,7 @@ export class taxtemp {
 }
 export class despatchtemp {
     despId: string
+    noOfdd: string;
     despatchNo: string; // unique id
     despatchDate: string;
     centerId: string;
@@ -44,8 +47,11 @@ export class despatchtemp {
     enteredBy: string;
     isdespatchEntered: boolean;
     dbaNo: string;
-    dbaDate:string;
-    isdbaEntered: boolean;}
+    dbaDate: string;
+    ackno: string;
+    isdbaEntered: boolean;
+
+}
 
 export class dbatemp {
     dbano: string;

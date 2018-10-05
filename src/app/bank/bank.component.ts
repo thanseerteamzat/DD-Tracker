@@ -16,6 +16,7 @@ import { Invoice, invoiceList } from '../models/invoice ';
 import { dbaEntry } from '../models/dbaEntry';
 import { ddLastid } from '../models/ddLastid';
 import { kkcId } from '../models/kkcId';
+import { ddEntry } from '../models/ddEntry';
 
 
 @Component({
@@ -26,21 +27,41 @@ import { kkcId } from '../models/kkcId';
 export class BankComponent implements OnInit {
   ddktc: Dddetails[];
   newInvoice: Invoice = new Invoice();
-  newddLastid:kkcId = new kkcId();
+  newddLastid: kkcId = new kkcId();
   // order: string;
-  ddLastids: dbaEntry[] = [];
+  ddLastids: ddEntry[] = [];
+  despatchlist: Despatch[] = [];
+  ddnolist;
   total;
+  templist;
+  desppush: Despatch[] = []
+  ddpush: ddEntry[] = []
+  despdata;
+  dddata;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute, private ets: EtsService) {
 
-    // let itemRef = db.object('dbaEntry');
+    // let itemRef = db.object('ddEntry');
     // itemRef.snapshotChanges().subscribe(action => {
     //   var quatationsList = action.payload.val();
     //   let obj = Common.snapshotToArray(action.payload);
     //   this.ddLastids = [];
     //   obj.forEach(element => {
-    //     let obj: dbaEntry = JSON.parse(element);
+    //     let obj: ddEntry = JSON.parse(element);
     //     // this.newddLastId = obj;
     //     this.ddLastids.push(obj);
+    //     // console.log('***', this.ddLastids)
+
+    //   });
+    // });
+    // let dtemRef = db.object('Despatch');
+    // dtemRef.snapshotChanges().subscribe(action => {
+    //   var quatationsList = action.payload.val();
+    //   let obj = Common.snapshotToArray(action.payload);
+    //   this.despatchlist = [];
+    //   obj.forEach(element => {
+    //     let obj: Despatch = JSON.parse(element);
+    //     // this.newddLastId = obj;
+    //     this.despatchlist.push(obj);
 
 
     //   });
@@ -89,10 +110,89 @@ export class BankComponent implements OnInit {
   }
 
   register() {
+    // console.log('dd***', this.ddLastids)
+    // console.log('desp***', this.despatchlist)
+    // let count = 0
+    // for (let i = 0; i <= this.despatchlist.length; i++) {
+    //   this.ddnolist = this.despatchlist[i];
+
+    //   if (this.ddnolist != null) {
+    //     var finaldata = this.ddnolist.despatchNo.replace(/\//g, "");
+    //     var fulldata = finaldata.replace(/-|\s/g, "");
+    //     this.ddnolist.despatchNo = fulldata;
+    //     this.desppush.push(this.ddnolist)
+    //     // console.log('fin', this.desppush)
+
+
+
+    //     // console.log('success', this.ddnolist.despatchNo)
+    //   }
+
+
+    // }
+    // for (let j = 0; j <= this.ddLastids.length; j++) {
+
+    //   this.templist = this.ddLastids[j];
+    //   if (this.templist != null && this.templist.despatchNo != null) {
+
+    //     let a = this.templist.despatchNo.replace(/\//g, "");
+    //     var b = a.replace(/-|\s/g, "");
+    //     // console.log('list', a)
+
+    //     this.templist.despatchNo = b;
+    //     this.ddpush.push(this.templist)
+
+
+    //   }
+    // }
+    // // console.log('data*****', this.ddpush)
+    // for (let i = 0; i <= this.ddpush.length; i++) {
+    //   this.despdata = this.desppush[i];
+    //   if (this.despdata != null) {
+    //     // console.log('data---', this.despdata.despatchNo)
+    //     for (let j = 0; j <= this.ddpush.length; j++) {
+    //       this.dddata = this.ddpush[j];
+    //       if (this.dddata != null && this.dddata.isdespatchEntered == true) {
+    //         // console.log(count)
+    //         if (this.despdata.despatchNo == this.dddata.despatchNo) {
+    //           var count = this.ddpush.filter(obj => obj.despatchNo === this.despdata.despatchNo).length;
+
+    //           console.log('count' + count, 'despid' + this.despdata.despId)
+
+
+
+    //           // IDEH8241217071819
+    //           var a = this.despdata.despatchNo.slice(0, -14);
+    //           var b = this.despdata.despatchNo.slice(3, -10);
+    //           var c = this.despdata.despatchNo.slice(7, -6);
+    //           var d = this.despdata.despatchNo.slice(11, -4);
+    //           var e = this.despdata.despatchNo.slice(13, -2);
+    //           var f = this.despdata.despatchNo.slice(15);
+    //           var despformat = a + '/' + b + '/' + c + '/' + d + '/' + e + '-' + f;
+    //           console.log('split aa 3', despformat)
+    //           var updates = {}
+    //           this.despdata.despatchNo = despformat;
+    //           this.despdata.noOfdd = count;
+    //           updates['/Despatch/' + this.despdata.despId] = JSON.stringify(this.despdata);
+    //           try {
+
+    //             let up = this.db.database.ref().update(updates);
+
+    //           }
+    //           catch (e) {
+
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // console.log('fin', this.ddpush)
+
     // this.ddLastids.forEach(element => {
     //   // if (element.Rate == 65) {
-        
-      
+
+
     //   var updates = {}
     //   element.isInvoiceEntered = false;
     //   updates['/invoice/' + element.invoiceId] = JSON.stringify(element);
@@ -291,20 +391,28 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    let uniqueId = "/DD" + Common.newGuid();
-    this.newddLastid.Id = uniqueId;
+    // let uniqueId = "/DD" + Common.newGuid();
+    // this.newddLastid.Id = uniqueId;
 
 
+<<<<<<< .mine
     let ddEntryJson = JSON.stringify(this.newddLastid);
     console.log(ddEntryJson);
     try {
       this.db.database.ref('sroId').child(uniqueId).set(ddEntryJson);
       alert("DD Entry added successfully!!..");
+=======
+    // let ddEntryJson = JSON.stringify(this.newddLastid);
+    // console.log(ddEntryJson);
+    // try {
+    //   this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
+    //   alert("DD Entry added successfully!!..");
+>>>>>>> .theirs
 
-    }
-    catch (ex) {
+    // }
+    // catch (ex) {
 
-    }
+    // }
 
   }
 
