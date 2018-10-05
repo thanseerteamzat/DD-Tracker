@@ -395,19 +395,11 @@ export class BankComponent implements OnInit {
     // this.newddLastid.Id = uniqueId;
 
 
-<<<<<<< .mine
-    let ddEntryJson = JSON.stringify(this.newddLastid);
-    console.log(ddEntryJson);
-    try {
-      this.db.database.ref('sroId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!..");
-=======
     // let ddEntryJson = JSON.stringify(this.newddLastid);
     // console.log(ddEntryJson);
     // try {
     //   this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
     //   alert("DD Entry added successfully!!..");
->>>>>>> .theirs
 
     // }
     // catch (ex) {
