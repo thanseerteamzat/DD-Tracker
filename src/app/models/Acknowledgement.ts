@@ -1,4 +1,5 @@
 export class ddDespatchAck {
+    ackNo: string;
     centerId: string;
     despatchNo: string;
     ackdate: string;
