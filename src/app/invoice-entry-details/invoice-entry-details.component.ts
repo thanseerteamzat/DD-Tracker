@@ -18,7 +18,8 @@ export class InvoiceEntryDetailsComponent implements OnInit {
   ddentries: InvoiceEntry[] = [];
   newddentry: InvoiceEntry = new InvoiceEntry();
   centerList: Center[] = [];
-    
+  isEditable;
+  isEditMode;
   constructor(
     private db: AngularFireDatabase,
     private router: Router,

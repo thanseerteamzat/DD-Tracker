@@ -14,6 +14,8 @@ export class KkcSroEntryComponent implements OnInit {
   enteredBy;
   todaydate=new Date;
   isformOpen :boolean;
+  // isEditable;
+  isEditMode;
   values = [
     { id: '1', name: 'Yes' },
     { id: '2', name:'No'}
