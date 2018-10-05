@@ -298,7 +298,7 @@ export class BankComponent implements OnInit {
     let ddEntryJson = JSON.stringify(this.newddLastid);
     console.log(ddEntryJson);
     try {
-      this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
+      this.db.database.ref('sroId').child(uniqueId).set(ddEntryJson);
       alert("DD Entry added successfully!!..");
 
     }
