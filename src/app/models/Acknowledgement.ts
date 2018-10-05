@@ -1,3 +1,5 @@
+import { Center } from "./Center";
+
 export class ddDespatchAck {
     ackNo: string;
     centerId: string;
@@ -7,4 +9,9 @@ export class ddDespatchAck {
     noOfDD: string;
     totalAmount: string;
     preparedBy: string;
+}
+
+export class despackList {
+    despacklist: ddDespatchAck = new ddDespatchAck();
+    center: Center = new Center();
 }

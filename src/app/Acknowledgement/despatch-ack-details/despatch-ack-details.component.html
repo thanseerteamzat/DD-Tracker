@@ -1,0 +1,122 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Despatch Acknowledgement List</h2>
+
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+
+
+    <div class="form-group col-md-3">
+
+      <label>Invoice Number: </label>&nbsp;
+      <input type="text" [(ngModel)]="newdespAck.ackNo" class="form-control">
+      <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
+          <div *ngIf="despatchNo.errors.required">
+              Despatch No is Required
+          </div>
+          <div *ngIf="despatchNo.errors.pattern">
+              Please enter valid input(number)
+          </div>
+      </div> -->
+    </div>
+    <div class="form-group col-md-3">
+
+
+      <br>
+      <button type="submit" class="btn btn-primary" (click)="generateInvoiceList()">Submit</button>
+    </div>
+
+
+    <!-- <div class="form-group col-md-3">
+      <label>Count:</label>
+      <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
+
+    </div> -->
+    <div *ngIf="selectedData == null"></div>
+    <div *ngIf="selectedData != null">
+      <div style="padding-top: 50px;align-content: center">
+        <div>
+
+          <span style="font-weight: bold;align-content: center">
+            <h4>KCVTP DD DESPATCH ACKNOWLEDGEMENT</h4>
+          </span>
+
+        </div>
+        <table class="table table-hover table-responsive table-bordered">
+
+          <thead class="thead-dark">
+
+            <!-- <ng-container *ngFor="let ddenter of selectedData"> -->
+
+            <tr>
+
+              <td>To:</td>
+              <td colspan="5">KELTRON KNOWLEDGE CENTER SPENCER</td>
+            </tr>
+            <tr>
+
+              <td>FROM:</td>
+              <td colspan="5">ICONS ACADEMY</td>
+            </tr>
+            <!-- </ng-container> -->
+
+            <tr>
+              <th> </th>
+              <th></th>
+              <th colspan="2">ACKNOWLEDGEMENT NO:{{despinvoiceNo}}</th>
+
+              <th colspan="2">DATE:{{despinvoicedate}}</th>
+
+
+            </tr>
+            <tr>
+
+              <td>SL NO</td>
+              <td>CENTER NAME</td>
+              <td>STATEMENT NO</td>
+              <td>STATEMENT DATE</td>
+              <td>NO OF DDS</td>
+              <td>AMOUNT</td>
+
+            </tr>
+
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let ddenter of selectedData">
+
+
+
+              <tr>
+                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+
+                <td>{{ddenter.center?.CenterName}}</td>
+                <td>{{ddenter.despacklist?.ackNo}}</td>
+                <td>{{ddenter.despacklist?.despatchDatee}}</td>
+                <td>{{ddenter.despacklist?.noOfDD}}</td>
+                <td>{{ddenter.despacklist?.totalAmount}}</td>
+                <!-- <td>{{ddenter.ddenter?.enteredBy}}</td> -->
+
+              </tr>
+            </ng-container>
+
+
+
+
+            <tr>
+              <th colspan="5" style="text-align: right">TOTAL AMOUNT</th>
+              <td>{{despatchTotal}}</td>
+            </tr>
+            <tr>
+              <td colspan="4">Prepared By :{{preparedBy}}</td>
+              <td colspan="2">Verified By:</td>
+            </tr>
+            <tr>
+              <td colspan="4">Date:</td>
+              <td colspan="2"> Date</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

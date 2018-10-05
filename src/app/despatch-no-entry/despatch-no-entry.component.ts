@@ -529,6 +529,7 @@ export class DespatchNoEntryComponent implements OnInit {
                             this.despatch.taxAmount = parseFloat(taxfloat);
                             this.despatch.FWT = parseFloat(feewtfloat);
                             this.despatch.noOfdd = this.checklist.length.toString();
+                            this.despatch.isackEntered = false;
                             //calculating dba rate and amount
 
                             if (this.tempentry.feesItem == "Course Fee") {

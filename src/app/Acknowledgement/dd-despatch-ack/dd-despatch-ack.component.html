@@ -60,38 +60,38 @@
     </div>
     <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
 
         <label>Note : Select and Enter Ack. No here </label>&nbsp;
-        <input type="text" [(ngModel)]="newdespAck.ackNo" name="ackNo" class="form-control">
-        <!-- <div *ngIf="dbaNum.invalid && (dbaNum.dirty || dbaNum.touched)" class="alert-danger">
-                  <div *ngIf="dbaNum.errors.required">
-                      Dba No is Required
-                  </div>
-                  <div *ngIf="dbaNum.errors.pattern">
-                      Please enter valid input(number)
-                  </div>
-              </div> -->
+        <input type="text" [(ngModel)]="newdespAck.ackNo" name="ackNo" class="form-control" formControlName="despinvoiceNum">
+        <div *ngIf="despinvoiceNum.invalid && (despinvoiceNum.dirty || despinvoiceNum.touched)" class="alert-danger">
+          <div *ngIf="despinvoiceNum.errors.required">
+            Ack No is Required
+          </div>
+          <div *ngIf="despinvoiceNum.errors.pattern">
+            Please enter valid input(number)
+          </div>
+        </div>
       </div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
 
         <label>Ack. Date</label>&nbsp;
-        <input type="date" [(ngModel)]="newdespAck.ackdate" name="ackdate" class="form-control">
-        <!-- <div *ngIf="dbaDate.invalid && (dbaDate.dirty || dbaDate.touched)" class="alert-danger">
-                  <div *ngIf="dbaDate.errors.required">
-                      Please Select Date
-                  </div>
+        <input type="date" [(ngModel)]="newdespAck.ackdate" name="ackdate" class="form-control" formControlName="despinvoiceDate">
+        <div *ngIf="despinvoiceDate.invalid && (despinvoiceDate.dirty || despinvoiceDate.touched)" class="alert-danger">
+          <div *ngIf="despinvoiceDate.errors.required">
+            Please Select Date
+          </div>
 
-              </div> -->
+        </div>
       </div>
 
 
 
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
 
         <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> -->
         <br>
-        <button type="submit" class="btn btn-primary" (click)=" generateAckInvoice(lstid.id)">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="despinvoiceForm.invalid" (click)=" generateAckInvoice(lstid.id)">Submit</button>
       </div>
       <div class="form-group col-md-3">
         <label>Count:</label>
@@ -139,7 +139,7 @@
         <tbody>
           <ng-container *ngFor="let ddenter of selectedData">
             <tr>
-              <tr >
+              <tr *ngIf="ddenter.despatchList?.isdespatchEntered == true &&  ddenter.despatchList?.isackEntered == false ">
 
                 <td>{{selectedData.indexOf(ddenter) + 1}}</td>
                 <th>{{ddenter.despatchList?.despId}}</th>

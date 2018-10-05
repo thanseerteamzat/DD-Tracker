@@ -19,6 +19,7 @@ export class Despatch {
     dbaDate: string;
     ackno: string;
     isdbaEntered: boolean;
+    isackEntered :boolean;
 
 
 }
@@ -50,6 +51,7 @@ export class despatchtemp {
     dbaDate: string;
     ackno: string;
     isdbaEntered: boolean;
+    isackEntered :boolean;
 
 }
 

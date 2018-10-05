@@ -53,19 +53,19 @@ export class BankComponent implements OnInit {
 
     //   });
     // });
-    // let dtemRef = db.object('Despatch');
-    // dtemRef.snapshotChanges().subscribe(action => {
-    //   var quatationsList = action.payload.val();
-    //   let obj = Common.snapshotToArray(action.payload);
-    //   this.despatchlist = [];
-    //   obj.forEach(element => {
-    //     let obj: Despatch = JSON.parse(element);
-    //     // this.newddLastId = obj;
-    //     this.despatchlist.push(obj);
+    let dtemRef = db.object('Despatch');
+    dtemRef.snapshotChanges().subscribe(action => {
+      var quatationsList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.despatchlist = [];
+      obj.forEach(element => {
+        let obj: Despatch = JSON.parse(element);
+        // this.newddLastId = obj;
+        this.despatchlist.push(obj);
 
 
-    //   });
-    // });
+      });
+    });
 
   }
 
@@ -110,6 +110,20 @@ export class BankComponent implements OnInit {
   }
 
   register() {
+    this.despatchlist.forEach(element => {
+      var updates = {}
+      element.isackEntered = false;
+      updates['/Despatch/' + element.despId] = JSON.stringify(element);
+      try {
+
+        let up = this.db.database.ref().update(updates);
+
+      }
+      catch (e) {
+
+      }
+    })
+
     // console.log('dd***', this.ddLastids)
     // console.log('desp***', this.despatchlist)
     // let count = 0

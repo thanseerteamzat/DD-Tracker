@@ -8,7 +8,7 @@ import { Invoice } from '../../models/invoice ';
 import { AngularFireDatabase } from '../../../../node_modules/angularfire2/database';
 import { EtsService } from '../../services/ets.service';
 import { Router } from '../../../../node_modules/@angular/router';
-import { FormBuilder } from '../../../../node_modules/@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '../../../../node_modules/@angular/forms';
 import { Common } from '../../models/common';
 import { ddDespatchAck } from '../../models/Acknowledgement';
 
@@ -105,8 +105,9 @@ export class DdDespatchAckComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
-    // this.dbacreateForm();
-    // this.resetform();
+    this.despinvoicecreateForm()
+
+    this.resetform();
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
     for (let cent of centerResponse) {
@@ -405,48 +406,80 @@ export class DdDespatchAckComponent implements OnInit {
   }
 
   generateAckInvoice() {
-    this.newdespAck.ackdate = this.formatDate(this.newdespAck.ackdate)
+    if (this.desplist.length == 0) {
+      alert('please select any and Submit data')
+    }
+    else {
+      this.newdespAck.ackdate = this.formatDate(this.newdespAck.ackdate)
 
-    this.desplist.forEach(element => {
-      element.ackno = this.newdespAck.ackNo;
-      // element.ack = this.formatDate(this.newInvoice.invoiceDate);
-      // element.isInvoiceEntered = true;
+      this.desplist.forEach(element => {
+        element.ackno = this.newdespAck.ackNo;
+        element.isackEntered = true;
+        // element.ack = this.formatDate(this.newInvoice.invoiceDate);
+        // element.isInvoiceEntered = true;
 
-      var updates = {}
+        var updates = {}
 
-      updates['/Despatch/' + element.despId] = JSON.stringify(element);
-      try {
+        updates['/Despatch/' + element.despId] = JSON.stringify(element);
+        try {
 
-        let up = this.db.database.ref().update(updates);
+          let up = this.db.database.ref().update(updates);
 
-      }
-      catch (e) {
+        }
+        catch (e) {
 
-      }
+        }
 
-      this.newdespAck.centerId = element.centerId
-      this.newdespAck.despatchNo = element.despatchNo
-      this.newdespAck.despatchDatee = element.despatchDate
-      this.newdespAck.noOfDD = element.noOfdd
-      this.newdespAck.totalAmount = element.totalAmount.toString()
-      this.newdespAck.preparedBy = this.entered
-      let despAckTempJson = JSON.stringify(this.newdespAck);
+        this.newdespAck.centerId = element.centerId
+        this.newdespAck.despatchNo = element.despatchNo
+        this.newdespAck.despatchDatee = element.despatchDate
+        this.newdespAck.noOfDD = element.noOfdd
+        this.newdespAck.totalAmount = element.totalAmount.toString()
+        this.newdespAck.preparedBy = this.entered
+        let despAckTempJson = JSON.stringify(this.newdespAck);
 
-      try {
-        this.db.database.ref('despatchAck').child(element.despId).set(despAckTempJson);
+        try {
+          this.db.database.ref('despatchAck').child(element.despId).set(despAckTempJson);
 
-      }
-      catch (ex) {
+        }
+        catch (ex) {
 
-      }
-    })
+        }
+      })
 
 
 
-    alert('Invoice Added :' + this.newdespAck.ackNo);
-    // this.resetform();
+      alert('Invoice Added :' + this.newdespAck.ackNo);
+      this.resetform();
+    }
   }
 
+  despinvoiceForm = new FormGroup(
+    {
+      despinvoiceNum: new FormControl(),
+      despinvoiceDate: new FormControl()
+    }
+  );
+  despinvoicecreateForm() {
+    this.despinvoiceForm = this.fb.group(
+      {
+        despinvoiceNum: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 ///-]*')])],
 
+        despinvoiceDate: [null, Validators.required]
+      }
+    )
+  };
+  get despinvoiceNum() { return this.despinvoiceForm.get('despinvoiceNum'); }
+  get despinvoiceDate() { return this.despinvoiceForm.get('despinvoiceDate'); }
+
+  resetform() {
+    this.despinvoiceForm.reset(
+      {
+        despinvoiceNum: null,
+        despinvoiceDate: null
+      }
+    )
+
+  }
 
 }

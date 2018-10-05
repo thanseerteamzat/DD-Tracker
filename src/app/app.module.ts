@@ -66,6 +66,7 @@ import { KkcverificationComponent } from './kkcverification/kkcverification.comp
 import { InvoiceEntryDetailsComponent } from './invoice-entry-details/invoice-entry-details.component';
 import { DdDespatchAckComponent } from './Acknowledgement/dd-despatch-ack/dd-despatch-ack.component';
 import { KkcSroEntryComponent } from './kkc-sro-entry/kkc-sro-entry.component';
+import { DespatchAckDetailsComponent } from './Acknowledgement/despatch-ack-details/despatch-ack-details.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
   { path: 'kkcverification', component: KkcverificationComponent },
   { path: 'dd-despatch-ack', component: DdDespatchAckComponent },
   { path: 'sro-entry', component: KkcSroEntryComponent},
+  {path:'despatch-ack-details',component:DespatchAckDetailsComponent}
   
 ];
 
@@ -172,7 +174,8 @@ const appRoutes: Routes = [
     KkcverificationComponent,
     DdDespatchAckComponent,
     InvoiceEntryDetailsComponent,
-    KkcSroEntryComponent
+    KkcSroEntryComponent,
+    DespatchAckDetailsComponent
     
   ],
   imports: [
