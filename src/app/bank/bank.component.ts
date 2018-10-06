@@ -17,6 +17,7 @@ import { dbaEntry } from '../models/dbaEntry';
 import { ddLastid } from '../models/ddLastid';
 import { kkcId } from '../models/kkcId';
 import { ddEntry } from '../models/ddEntry';
+import { erpDespatch } from '../models/erpdespatch';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class BankComponent implements OnInit {
   newInvoice: Invoice = new Invoice();
   newddLastid: kkcId = new kkcId();
   // order: string;
-  ddLastids: ddEntry[] = [];
+  ddLastids: erpDespatch[] = [];
   despatchlist: Despatch[] = [];
   ddnolist;
   total;
@@ -40,13 +41,13 @@ export class BankComponent implements OnInit {
   dddata;
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute, private ets: EtsService) {
 
-    // let itemRef = db.object('ddEntry');
+    // let itemRef = db.object('erpdespatch');
     // itemRef.snapshotChanges().subscribe(action => {
     //   var quatationsList = action.payload.val();
     //   let obj = Common.snapshotToArray(action.payload);
     //   this.ddLastids = [];
     //   obj.forEach(element => {
-    //     let obj: ddEntry = JSON.parse(element);
+    //     let obj: erpDespatch = JSON.parse(element);
     //     // this.newddLastId = obj;
     //     this.ddLastids.push(obj);
     //     // console.log('***', this.ddLastids)
@@ -110,19 +111,22 @@ export class BankComponent implements OnInit {
   }
 
   register() {
-    // this.despatchlist.forEach(element => {
-    //   var updates = {}
-    //   element.isackEntered = false;
-    //   updates['/Despatch/' + element.despId] = JSON.stringify(element);
-    //   try {
+    // for (let i = 0; i <= this.ddLastids.length; i++) {
+    //   this.dddata = this.ddLastids[i];
+    //   if (this.dddata != null) {
+    //     var updates = {}
+    //     this.dddata.isdespatchEntered = true;
+    //     updates['/erpdespatch/' + element] = JSON.stringify(element);
+    //     try {
 
-    //     let up = this.db.database.ref().update(updates);
+    //       let up = this.db.database.ref().update(updates);
 
+    //     }
+    //     catch (e) {
+
+    //     }
     //   }
-    //   catch (e) {
-
-    //   }
-    // })
+    // }
 
     // console.log('dd***', this.ddLastids)
     // console.log('desp***', this.despatchlist)
