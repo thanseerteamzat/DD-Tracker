@@ -369,6 +369,9 @@ min-width: 400px;
     color: #333;
     white-space: nowrap;
 }
+ul{
+    background-color: white!important;
+}
 
 ul[_ngcontent-c0] ul[_ngcontent-c0] a[_ngcontent-c0] {
     font-size: 0.9em !important;

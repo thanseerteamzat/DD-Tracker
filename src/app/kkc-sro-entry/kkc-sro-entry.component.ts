@@ -20,11 +20,12 @@ import { Course } from '../models/Course';
 export class KkcSroEntryComponent implements OnInit {
   centers: Center[];
   selectedcenter;
+  tempsroList;
   courses: Course[];
   code;
   tempcenter;
   tempcentercode;
-
+  countdd : number=0;
   selectedcenterr: string = "";
   split1: string;
   centerList: Center[] = [];
@@ -43,6 +44,7 @@ temptime;
   studentName;
   ddNumber;
   bank;
+  tempdateCount;
   appNo;
   Amount;
   feesItem;  
@@ -59,9 +61,6 @@ temptime;
   values = [
     { id: '1', name: 'Yes' },
     { id: '2', name:'No'}
-  
-
-
   ];
 
   todaydatee= new Date;
@@ -74,6 +73,10 @@ temptime;
     private config: ConfigService,
     private fb: FormBuilder,
     ) {
+
+
+  
+
     this.minDate = new Date();
     this.maxDate = new Date();
     this.ddcreateForm();
@@ -117,14 +120,42 @@ temptime;
         // }
 
         this.sroLists.push(ddListItem);
+        // console.log('length***************************',this.sroLists.length);
 
       });
+   var count=0;
+   console.log('length',this.sroLists.length)
+   this.tempdateCount=this.formatDate(this.todaydate)
+   console.log("tempdate*****************************",this.tempdateCount);
+   let topicObj = new sroEntryList;
+   for(let i=0; i<=this.sroLists.length;i++){
+     topicObj=this.sroLists[i]
+    //  console.log(topicObj.ddenter);
+     if(topicObj!=null && topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
+       count=count+1;
+      //  console.log(count);
+       this.countdd=count;
+      //  count=count+1;
+     }
+  }
+  console.log('count',this.countdd)
+  
+  
+  
+  
+  });
 
-    });
-
-
-
-
+  // for(let i=0; i<=this.sroLists.length;i++){
+  //   this.tempsroList = this.sroLists[i];
+  //   if(this.tempsroList !=null){
+  //   console.log(this.tempsroList.ddenter);
+  //   }
+    
+  //   if(this.tempsroList!=null){
+    
+  //   console.log(this.tempsroList.ddenter.centerName);
+  //   }
+  // }
 
 
 
@@ -151,6 +182,7 @@ temptime;
 
   ngOnInit() {
     this.enteredBy = this.ets.cookiename;
+    this.selectedcenter = this.ets.cookiecenter;
     console.log('entered by',this.enteredBy);
   
 
@@ -158,7 +190,7 @@ temptime;
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      this.router.navigate(['/error']);
+      // this.router.navigate(['/error']);
     }
 
   }
@@ -227,7 +259,7 @@ temptime;
         this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
         alert("Added Successfully Please Note Inward Invoice Entry Serial No :"+this.sroEntry.sroId);
         
-        // this.resetForm();
+        this.resetForm();
         // this.tempdata=[];
         // this.tempdata=this.erpdespatchList;
         // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
