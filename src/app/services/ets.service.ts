@@ -8,6 +8,7 @@ import { Course } from '../models/Course';
 import { CookieService } from 'ngx-cookie-service';
 import { dbaEntry } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
+import { despatchList } from '../models/despatch';
 
 
 @Injectable({
@@ -27,7 +28,7 @@ export class EtsService {
   
   public expirydate: Date;
   public convertedWord: string;
-  url = ''
+  url = 'http://localhost:2000/'
   constructor(private http: HttpClient,
     private config: ConfigService, private cookieService: CookieService) { }
 
@@ -61,8 +62,8 @@ export class EtsService {
   }
 
 
-  public sendData(dbaData: dbaEntry): Observable<dbaEntry> {
-    dbaData.centerCode = '2'
+  public sendData(dbaData: despatchList): Observable<despatchList> {
+    // dbaData.centerCode = '2'
     // mailData.To = 'utek@utek.in';
     // mailData.CC = 'md@utek.in';
     // mailData.CC1 = 'nk@utek.in';
@@ -70,7 +71,7 @@ export class EtsService {
     // mailData.CC3 = '';
     // mailData.CC4 = '';
 
-    return this.http.post<dbaEntry>(this.url, dbaData, this.httpOptions)
+    return this.http.post<despatchList>(this.url, dbaData, this.httpOptions)
       .pipe(
 
         catchError(this.handleError)

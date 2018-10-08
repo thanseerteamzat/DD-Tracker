@@ -69,6 +69,7 @@ import { KkcSroEntryComponent } from './kkc-sro-entry/kkc-sro-entry.component';
 import { DespatchAckDetailsComponent } from './Acknowledgement/despatch-ack-details/despatch-ack-details.component';
 import { SrodailyreportComponent } from './srodailyreport/srodailyreport.component';
 
+
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dd-entry', component: DdEntryComponent },
@@ -176,8 +177,7 @@ const appRoutes: Routes = [
     DdDespatchAckComponent,
     InvoiceEntryDetailsComponent,
     KkcSroEntryComponent,
-    DespatchAckDetailsComponent,
-    SrodailyreportComponent
+    
     
   ],
   imports: [

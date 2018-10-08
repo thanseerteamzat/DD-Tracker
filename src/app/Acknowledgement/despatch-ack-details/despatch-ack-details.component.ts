@@ -23,6 +23,7 @@ export class DespatchAckDetailsComponent implements OnInit {
   despinvoicedate;
   despinvoiceNo;
   preparedBy;
+  ackData;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -66,7 +67,8 @@ export class DespatchAckDetailsComponent implements OnInit {
         }
         this.despList.push(ddListItem);
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.invoiceList)
-
+        this.ackData = new Set(this.despList.map(item => item.despacklist.ackNo));
+        console.log('aaaaaaaaaaaaaaaaaaaa', this.ackData)
 
 
       });
@@ -100,8 +102,8 @@ export class DespatchAckDetailsComponent implements OnInit {
 
   }
 
-  generateInvoiceList() {
-    this.selectedData = this.despList.filter(s => s.despacklist.ackNo == this.newdespAck.ackNo)
+  generateInvoiceList(selectedNo) {
+    this.selectedData = this.despList.filter(s => s.despacklist.ackNo == selectedNo)
     this.selectData(this.selectedData);
     this.selectedData.forEach(element => {
       this.despinvoicedate = element.despacklist.ackdate
