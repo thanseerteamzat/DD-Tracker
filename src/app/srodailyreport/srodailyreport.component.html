@@ -1,0 +1,126 @@
+<div style="margin-left: 50px;" class="wrapper ">
+
+  <!-- Page Content Holder -->
+  <div id="content" class="createcontent">
+      <div class="form-row">
+          <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
+          <h1 *ngIf='!isEditMode'>SRO Daily Report</h1>
+          <h1 *ngIf='isEditMode'>Edit Invoice Entry</h1>
+      </div>
+    
+    <div style="padding-top: 15px" class="row">
+      <div  class="form-group col-md-3">
+        <label>Center Name</label>
+        <input readonly type="text" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+
+      </div>
+        <!-- <div  class="form-group col-md-3">
+          <label>Center Name</label>
+   <select #t  [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
+                            <option value="">--Choose--</option>
+                            <ng-container *ngFor="let s of centers">
+                                <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+                            </ng-container>
+
+                        </select>  
+        </div> -->
+
+        <div class="form-group col-md-3">
+          <label>Month</label>
+          <select #t  (change)="filter(selectedmonth)" [(ngModel)]="selectedmonth" class="form-control" name="selectedcenter">
+            <option value="">--Choose--</option>
+            <ng-container *ngFor="let m of months">
+                <option [ngValue]="m.id">{{m.name}}</option>
+            </ng-container>
+
+        </select>  
+        </div>
+
+     
+
+    </div>
+    
+    </div>
+   <div >
+            <h1>SRO Entry List </h1>
+            <!-- <button  type="submit"  class="btn btn-primary">Save</button> -->
+
+
+            <table class="table table-hover table-responsive table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th height="50" bgcolor="#6599F">SL NO</th>
+                        <th>Sro Id</th>
+                        <th style="min-width: 90px;">Date</th>
+
+                        <th style="min-width: 100px;">Entered Date</th>
+                        <th style="min-width: 100px;">Time</th>
+
+                        <th style="min-width: 100px;">Entered By</th>
+                        <th style="min-width: 150px;">DD Collected</th>
+
+                        <th style="min-width: 150px;">Center Name</th>
+                        <th style="min-width: 100px;">Fees Item</th>
+                        <th style="min-width: 120px;">Application Number</th>
+                        <th style="min-width: 120px;">Course Name</th>
+                        <th style="min-width: 120px;">Student Name</th>
+                        <th style="min-width: 120px;">DD Number</th>
+                        <th style="min-width: 120px;">Bank</th>
+                        <th style="min-width: 120px;">DD Amount</th>
+
+                        <th style="min-width: 100px;">Remarks</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor='let ddenter of selectedData '>
+                        <tr *ngIf="ddenter.ddenter.centerName == selectedcenter">
+                            <td>{{sroLists.indexOf(ddenter) + 1}}</td>
+                            <td>{{ddenter.ddenter.sroId}}</td>
+                            <td>{{ddenter.ddenter.date}}</td>
+
+                            <td>{{ddenter.ddenter.enteredDate}}</td>
+                            <td>{{ddenter.ddenter.time}}</td>
+                            <td> {{ddenter.ddenter.enteredBy}}
+                            </td>
+
+                            <td>{{ddenter.ddenter.isddCollected}}</td>
+                            <td>{{ddenter.ddenter.centerName}}</td>
+                            
+                            <td>{{ddenter.ddenter.feesItem}}</td>
+
+                            <td>{{ddenter.ddenter.applicationNumber}}</td>
+
+
+                            <td>{{ddenter.ddenter.courseName}}</td>
+                            <td>{{ddenter.ddenter.studentName}}</td>
+                            <td>{{ddenter.ddenter.ddNumber}}</td>
+                            <td>{{ddenter.ddenter.bank}}</td>
+                            <td>{{ddenter.ddenter.ddAmount}}</td>
+                            <td>{{ddenter.ddenter.remarks}}</td>
+
+
+
+
+
+                            <!-- <td>
+
+                        <button type="button" (click)=entrySelection(ddenter.ddenter.ddlastId,ddenter.ddenter) class="btn btn-primary">
+                                View Details
+                            </button> -->
+
+
+                            <!-- <button type="button" class="btn btn-primary">
+                        <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
+                    </button> -->
+                            <!-- </td> -->
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+            </table>
+
+        </div>
+  </div>

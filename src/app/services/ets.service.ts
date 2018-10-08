@@ -23,6 +23,8 @@ export class EtsService {
   public courseList: Course[] = [];
   public cookiename: string;
   public cookievalue: string;
+  public cookiecenter: string;
+  
   public expirydate: Date;
   public convertedWord: string;
   url = ''
@@ -51,8 +53,8 @@ export class EtsService {
     return this.cookieService.get(cookievalue);
 
   }
-  setCookie(cookiename, cookievalue, expirydate) {
-    return this.cookieService.set(cookiename, cookievalue, expirydate)
+  setCookie(cookiename, cookievalue, expirydate , setcenter) {
+    return this.cookieService.set(cookiename, cookievalue, expirydate,setcenter)
 
   }
 

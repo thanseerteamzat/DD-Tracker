@@ -24,16 +24,25 @@ export class AppComponent implements OnInit {
       var userId = params['u'];
       let password = params['p'];
       let privilege = params['q']
+      let centerName=params['c']
 
       try {
         var u = window.atob(userId);
+        var c =window.atob(centerName);
+
         this.ets.cookievalue = privilege;
         this.ets.cookiename = u;
+
+        this.ets.cookiecenter=c;
+        
+
         console.log('aaaaaaaaaaaaaaasaaa', privilege);
+        console.log('*********************',c)
         this.expiredDate = new Date();
         this.expiredDate.setDate(this.expiredDate.getDate() + 1);
-        this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate)
-
+        this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate,this.ets.cookiecenter)
+   
+      
       }
       catch (e) {
         console.log(e);
