@@ -205,7 +205,7 @@ temptime;
   }
   register(key, dlastid: sroId){
 
-
+    
     var counter = parseInt(this.count) + 1;
     //updating lastid
     var updates = {};
@@ -258,18 +258,18 @@ temptime;
       try {
         this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
         alert("Added Successfully Please Note Inward Invoice Entry Serial No :"+this.sroEntry.sroId);
-        
         this.resetForm();
         // this.tempdata=[];
         // this.tempdata=this.erpdespatchList;
         // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
     
-        // this.router.navigate(['/invoice-entry']);
+        this.router.navigate(['/sro-entry']);
         // this.router.navigate(['/erp-despatch-entry']);
       }
       catch (ex) {
         alert("Error in adding Quotation ");
       }
+      this.selectedcenter=this.ets.cookiecenter;
 
 
   }
@@ -380,7 +380,7 @@ temptime;
   ddentryForm = new FormGroup({
   
     isddcollected :new FormControl(),
-    centerName :new FormControl(),
+    // centerName :new FormControl(),
     
   
   })  
@@ -393,7 +393,7 @@ temptime;
       })}
 
   get isddcollected() { return this.ddentryForm.get('isddcollected'); }
-  get centerName() { return this.ddentryForm.get('centerName'); }
+  // get centerName() { return this.ddentryForm.get('centerName'); }
       
 
   resetForm() {

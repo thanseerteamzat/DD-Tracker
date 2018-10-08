@@ -40,8 +40,7 @@
 
     </div>
     
-    </div>
-   <div >
+  
             <h1>SRO Entry List </h1>
             <!-- <button  type="submit"  class="btn btn-primary">Save</button> -->
 
@@ -50,72 +49,24 @@
                 <thead class="thead-dark">
                     <tr>
                         <th height="50" bgcolor="#6599F">SL NO</th>
-                        <th>Sro Id</th>
-                        <th style="min-width: 90px;">Date</th>
+                        <th>Date</th>
+                        <th style="min-width: 90px;">No of DD</th>
 
-                        <th style="min-width: 100px;">Entered Date</th>
-                        <th style="min-width: 100px;">Time</th>
+                        <th style="min-width: 100px;">DD Amount</th>
+                        <th style="min-width: 100px;"></th>
 
-                        <th style="min-width: 100px;">Entered By</th>
-                        <th style="min-width: 150px;">DD Collected</th>
-
-                        <th style="min-width: 150px;">Center Name</th>
-                        <th style="min-width: 100px;">Fees Item</th>
-                        <th style="min-width: 120px;">Application Number</th>
-                        <th style="min-width: 120px;">Course Name</th>
-                        <th style="min-width: 120px;">Student Name</th>
-                        <th style="min-width: 120px;">DD Number</th>
-                        <th style="min-width: 120px;">Bank</th>
-                        <th style="min-width: 120px;">DD Amount</th>
-
-                        <th style="min-width: 100px;">Remarks</th>
-
-
+                        <th style="min-width: 100px;">Verified By</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor='let ddenter of selectedData '>
-                        <tr *ngIf="ddenter.ddenter.centerName == selectedcenter">
+                        <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" >
                             <td>{{sroLists.indexOf(ddenter) + 1}}</td>
-                            <td>{{ddenter.ddenter.sroId}}</td>
                             <td>{{ddenter.ddenter.date}}</td>
-
-                            <td>{{ddenter.ddenter.enteredDate}}</td>
-                            <td>{{ddenter.ddenter.time}}</td>
-                            <td> {{ddenter.ddenter.enteredBy}}
-                            </td>
-
-                            <td>{{ddenter.ddenter.isddCollected}}</td>
-                            <td>{{ddenter.ddenter.centerName}}</td>
-                            
-                            <td>{{ddenter.ddenter.feesItem}}</td>
-
-                            <td>{{ddenter.ddenter.applicationNumber}}</td>
-
-
-                            <td>{{ddenter.ddenter.courseName}}</td>
-                            <td>{{ddenter.ddenter.studentName}}</td>
-                            <td>{{ddenter.ddenter.ddNumber}}</td>
-                            <td>{{ddenter.ddenter.bank}}</td>
-                            <td>{{ddenter.ddenter.ddAmount}}</td>
-                            <td>{{ddenter.ddenter.remarks}}</td>
-
-
-
-
-
-                            <!-- <td>
-
-                        <button type="button" (click)=entrySelection(ddenter.ddenter.ddlastId,ddenter.ddenter) class="btn btn-primary">
-                                View Details
-                            </button> -->
-
-
-                            <!-- <button type="button" class="btn btn-primary">
-                        <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
-                    </button> -->
-                            <!-- </td> -->
+                             <td></td>
+                             <td></td>
+                             <td><button type="button" class="btn btn-primary">Edit</button></td>          
                         </tr>
                     </ng-container>
                 </tbody>

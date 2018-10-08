@@ -49,12 +49,14 @@ export class EtsService {
     return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue)
 
   }
-  getCookie(cookievalue) {
-    return this.cookieService.get(cookievalue);
+  getCookie() {
+    return this.cookieService.getAll();
+    // return this.cookieService.get(setcenter);
+    
 
   }
-  setCookie(cookiename, cookievalue, expirydate , setcenter) {
-    return this.cookieService.set(cookiename, cookievalue, expirydate,setcenter)
+  setCookie(cookiename, cookievalue,setcenter, expirydate ) {
+    return this.cookieService.set(cookiename, cookievalue,setcenter, expirydate)
 
   }
 
