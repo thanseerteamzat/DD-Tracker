@@ -6,23 +6,16 @@
 
     <div class="form-group col-md-3">
 
-      <label>Invoice Number: </label>&nbsp;
-      <input type="text" [(ngModel)]="newInvoice.invoiceNo" class="form-control">
-      <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
-          <div *ngIf="despatchNo.errors.required">
-              Despatch No is Required
-          </div>
-          <div *ngIf="despatchNo.errors.pattern">
-              Please enter valid input(number)
-          </div>
-      </div> -->
-    </div>
-    <div class="form-group col-md-3">
+      <label>Filter with InvoiceNo : </label>&nbsp;
+      <select [(ngModel)]="selectedNo" class="form-control"  (change)="generateInvoiceList(selectedNo)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let no of invoiceData">
+          <option [ngValue]="no">{{no }}</option>
+        </ng-container>
 
-
-      <br>
-      <button type="submit" class="btn btn-primary" (click)="generateInvoiceList()">Submit</button>
+      </select>
     </div>
+
 
 
     <!-- <div class="form-group col-md-3">
@@ -41,7 +34,7 @@
             <h4>UNIVERSAL TOWERS, NEAR PVT BUS STAND</h4>
           </span>
           <span>
-            <h4>ATTINGAL P.O, THIRUVANANTHAPURAM -695101 Ph:9447062148 9072592416</h4>
+            <h4>ATTINGAL P.O, THIRUVANANTHAPURAM - 695101 Ph:9447062148 9072592416</h4>
           </span>
         </div>
         <table class="table table-hover table-responsive table-bordered">
@@ -50,7 +43,7 @@
             <tr>
               <td colspan="10" style="text-align: center">
                 <span>
-                  <h5>INVOICE FOR THE MONTH OF :</h5>
+                  <h5>INVOICE FOR THE MONTH OF : {{invoiceMonth }} </h5>
                 </span>
               </td>
             </tr>
@@ -193,41 +186,46 @@
               <td colspan="10">BENEFECIARY ACCOUNT DETAILS OF ICONS ACADEMY w.e.f 01.08.2017</td>
             </tr>
             <tr>
-              <td colspan="3">Firm Name</td>
-              <td colspan="3"></td>
-              <td rowspan="9" colspan="4"></td>
+              <th colspan="3">Firm Name</th>
+              <td colspan="3">ICONS ACADEMY</td>
+              <td rowspan="9" colspan="4">
+                AUTHORIZED SIGNATORY
+                <br>
+                OFFICE SEAL
+
+              </td>
             </tr>
             <tr>
-              <td colspan="3">A/c. Holder Name</td>
-              <td colspan="3"></td>
+              <th colspan="3">A/c. Holder Name</th>
+              <td colspan="3">ICONS ACADEMY</td>
             </tr>
             <tr>
-              <td colspan="3">A/c. No</td>
-              <td colspan="3"></td>
+              <th colspan="3">A/c. No</th>
+              <td colspan="3">0114081000000739</td>
             </tr>
             <tr>
-              <td colspan="3">Bank Name</td>
-              <td colspan="3"></td>
+              <th colspan="3">Bank Name</th>
+              <td colspan="3">SOUTH INDIAN BANK</td>
             </tr>
             <tr>
-              <td colspan="3">Branch Name</td>
-              <td colspan="3"></td>
+              <th colspan="3">Branch Name</th>
+              <td colspan="3">Attingal</td>
             </tr>
             <tr>
-              <td colspan="3">IFSC Code</td>
-              <td colspan="3"></td>
+              <th colspan="3">IFSC Code</th>
+              <td colspan="3">SIBL0000114</td>
             </tr>
             <tr>
-              <td colspan="3">PAN Number</td>
-              <td colspan="3"></td>
+              <th colspan="3">PAN Number</th>
+              <td colspan="3">AAFFI10278P</td>
             </tr>
             <tr>
-              <td colspan="3">CIN Number</td>
-              <td colspan="3"></td>
+              <th colspan="3">CIN Number</th>
+              <td colspan="3">NIL</td>
             </tr>
             <tr>
-              <td colspan="3">GSTIN Number</td>
-              <td colspan="3"></td>
+              <th colspan="3">GSTIN Number</th>
+              <td colspan="3">32AAFFI1028P1ZF</td>
             </tr>
           </tbody>
 

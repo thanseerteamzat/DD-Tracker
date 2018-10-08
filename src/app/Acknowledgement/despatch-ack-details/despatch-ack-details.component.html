@@ -3,25 +3,16 @@
 
   <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
-
     <div class="form-group col-md-3">
 
-      <label>Invoice Number: </label>&nbsp;
-      <input type="text" [(ngModel)]="newdespAck.ackNo" class="form-control">
-      <!-- <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
-          <div *ngIf="despatchNo.errors.required">
-              Despatch No is Required
-          </div>
-          <div *ngIf="despatchNo.errors.pattern">
-              Please enter valid input(number)
-          </div>
-      </div> -->
-    </div>
-    <div class="form-group col-md-3">
+      <label>Filter with Ack.No : </label>&nbsp;
+      <select [(ngModel)]="selectedNo" class="form-control"  (change)="generateInvoiceList(selectedNo)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let no of ackData">
+          <option [ngValue]="no">{{no }}</option>
+        </ng-container>
 
-
-      <br>
-      <button type="submit" class="btn btn-primary" (click)="generateInvoiceList()">Submit</button>
+      </select>
     </div>
 
 

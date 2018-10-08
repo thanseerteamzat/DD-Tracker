@@ -486,6 +486,7 @@ export class DespatchNoEntryComponent implements OnInit {
                         this.ddtotal = this.ddtotal + parseInt(this.tempentry.Amount);
                         console.log('total*****', this.ddtotal)
                         this.tempentry.despatchNo = despformat;
+                        // this.despatch.feeItem = this.tempentry.feesItem;
                         this.tempentry.despatchDate = this.formatDate(this.newddEntry.despatchDate);
                         this.tempentry.isdespatchEntered = true;
                         // this.tempentry.despId = key;
@@ -565,7 +566,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
                             }
 
-                            this.despatch.feeItem = this.tempentry.feeItem;
+                            // this.despatch.feeItem = this.tempentry.feeItem;
                             let ddEntryJson = JSON.stringify(this.despatch);
                             console.log(ddEntryJson);
                             try {
@@ -621,7 +622,7 @@ export class DespatchNoEntryComponent implements OnInit {
 
                             }
 
-                            this.despatch.feeItem = this.tempentry.feesItem;
+                            // this.despatch.feeItem = this.tempentry.feesItem;
 
                             let ddEntryJson = JSON.stringify(this.despatch);
                             console.log(ddEntryJson);
