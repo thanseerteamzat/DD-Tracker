@@ -7,7 +7,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter with InvoiceNo : </label>&nbsp;
-      <select [(ngModel)]="selectedNo" class="form-control"  (change)="generateInvoiceList(selectedNo)">
+      <select [(ngModel)]="selectedNo" class="form-control" (change)="generateInvoiceList(selectedNo)">
         <option value="">--Choose--</option>
         <ng-container *ngFor="let no of invoiceData">
           <option [ngValue]="no">{{no }}</option>
@@ -25,7 +25,7 @@
     </div> -->
     <div *ngIf="selectedData==null"></div>
     <div *ngIf="selectedData !=null">
-      <div style="padding-top: 50px;">
+      <div id="printSectionId" style="padding-top: 50px;">
         <div class="flex-container">
           <span style="font-weight: bold;padding-left: 50px">
             <h3>ICONS ACADEMY</h3>
@@ -230,6 +230,9 @@
           </tbody>
 
         </table>
+      </div>
+      <div style="float: right;">
+        <button class="btn btn-primary" (click)="print(printSectionId)">Print</button>
       </div>
 
     </div>

@@ -16,6 +16,7 @@ import { Common } from '../models/common';
 })
 export class SrodailyreportComponent implements OnInit {
   selectedData;
+  isEditMode;
   enteredBy;
   ackData;
   selectedcenter;

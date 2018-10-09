@@ -6,7 +6,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter with Ack.No : </label>&nbsp;
-      <select [(ngModel)]="selectedNo" class="form-control"  (change)="generateInvoiceList(selectedNo)">
+      <select [(ngModel)]="selectedNo" class="form-control" (change)="generateInvoiceList(selectedNo)">
         <option value="">--Choose--</option>
         <ng-container *ngFor="let no of ackData">
           <option [ngValue]="no">{{no }}</option>
@@ -23,14 +23,16 @@
     </div> -->
     <div *ngIf="selectedData == null"></div>
     <div *ngIf="selectedData != null">
-      <div style="padding-top: 50px;align-content: center">
+      <div id="printSectionId" style="padding-top: 50px;align-content: center;padding-left: 50px">
+
         <div>
 
-          <span style="font-weight: bold;align-content: center">
+          <span style="font-weight: bold;text-align: center">
             <h4>KCVTP DD DESPATCH ACKNOWLEDGEMENT</h4>
           </span>
 
         </div>
+        <br>
         <table class="table table-hover table-responsive table-bordered">
 
           <thead class="thead-dark">
@@ -58,6 +60,7 @@
 
 
             </tr>
+            <br>
             <tr>
 
               <td>SL NO</td>
@@ -106,6 +109,9 @@
           </tbody>
 
         </table>
+      </div>
+      <div style="float: right;">
+        <button class="btn btn-primary" (click)="print(printSectionId)">Print</button>
       </div>
 
     </div>

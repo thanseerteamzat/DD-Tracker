@@ -6,4 +6,17 @@ margin-right:auto;
    
   }
   
- 
+  /* @media print {
+    #Header, #Footer { display: none !important; }
+} */
+
+/* html, body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+  }
+  
+  @page {
+    size: auto;
+    margin: 0;
+  } */
