@@ -96,6 +96,21 @@ temptime;
 
 
 
+      console.log('sele')
+      let thatt = this;
+      this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
+        thatt.courses = data;
+  
+        // this.ets.courseList = this.courses;
+  
+  
+      },
+        error => console.log(error),
+        () => console.log('courses'));
+      // // console.log(this.split1);
+      // return this.split1;
+  
+  
 
 
     let itemReff = db.object('sroEntry');
@@ -131,7 +146,7 @@ temptime;
    for(let i=0; i<=this.sroLists.length;i++){
      topicObj=this.sroLists[i]
     //  console.log(topicObj.ddenter);
-     if(topicObj!=null && topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
+     if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
        count=count+1;
       //  console.log(count);
        this.countdd=count;

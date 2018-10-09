@@ -177,7 +177,8 @@ const appRoutes: Routes = [
     DdDespatchAckComponent,
     InvoiceEntryDetailsComponent,
     KkcSroEntryComponent,
-    
+    DespatchAckDetailsComponent,
+    SrodailyreportComponent,
     
   ],
   imports: [
