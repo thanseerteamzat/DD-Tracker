@@ -25,7 +25,7 @@
     </div> -->
     <div *ngIf="selectedData==null"></div>
     <div *ngIf="selectedData !=null">
-      <div style="padding-top: 50px;">
+      <div id="printSectionId" style="padding-top: 50px;">
         <div class="flex-container">
           <span style="font-weight: bold;padding-left: 50px">
             <h3>ICONS ACADEMY</h3>
@@ -231,6 +231,7 @@
 
         </table>
       </div>
+      <button (click)="print(printSectionId)">Print</button>
 
     </div>
   </div>
