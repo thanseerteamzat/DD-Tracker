@@ -259,13 +259,20 @@ export class AdjEntryComponent implements OnInit {
 
 
     this.newddentry.enteredBy = this.ets.cookiename;
-
-    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
     }
+
+    // if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
 
     this.check = this.ets.cookiename;
     this.newddEntry.enteredBy = this.check;
