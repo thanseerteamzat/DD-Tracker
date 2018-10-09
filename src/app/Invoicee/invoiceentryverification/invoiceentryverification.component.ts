@@ -77,6 +77,14 @@ export class InvoiceentryverificationComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x2') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
+  
   }
   entrySelection(ddlastId, invoiceentry: InvoiceEntry) {
 

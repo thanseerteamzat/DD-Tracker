@@ -47,9 +47,7 @@
                 <a routerLink="/ddkkc">DD From KKC</a>
 
               </li>
-              <li>
-                <a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a>
-              </li>
+              
 
               <li class="dropdown">
                 <a> Inward Items &nbsp;</a>
@@ -114,7 +112,14 @@
         <button class="but" mat-button ><a routerLink="/prospectus">DD Entry Prospectus</a></button> 
         <button class="but" mat-button ><a routerLink="/ddentry-app">Phase Two Entry</a></button> 
         <button class="but" mat-button ><a routerLink="/adjustment">Adjustment Entry</a></button>  -->
-          <div class="dropdown">
+        <div class="dropdown">
+            <button class="dropbtn">ERP Despatch </button>
+            <div class="dropdown-content">
+                <a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a>
+            
+                      </div>
+          </div>
+        <div class="dropdown">
             <button class="dropbtn">DD Verification</button>
             <div class="dropdown-content">
               <a routerLink="/dd-verification">KCVTP</a>
@@ -123,6 +128,9 @@
               <a routerLink="invoiceentryverification">Invoice Entry</a>
             </div>
           </div>
+
+
+
           <!-- <button mat-button [matMenuTriggerFor]="amenu">Despatch No Entry</button>
         <mat-menu #amenu="matMenu">
           <button mat-menu-item><a routerLink="/despatch-no-entry">KCVTP</a></button>
