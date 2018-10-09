@@ -109,12 +109,20 @@ export class SrodailyreportComponent implements OnInit {
     }
     console.log('isho login', this.ishoLogin)
 
-    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      // this.router.navigate(['/error']);
+      this.router.navigate(['/error']);
     }
+
+    // if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   // this.router.navigate(['/error']);
+    // }
 
   }
 
