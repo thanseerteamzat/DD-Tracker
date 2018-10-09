@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Common } from '../models/common';
 import { dbaEntry, dbaList } from '../models/dbaEntry';
 import { Center } from '../models/Center';
+import { Despatch } from '../models/despatch';
 
 @Component({
   selector: 'app-dba-details',
@@ -32,6 +33,7 @@ export class DbaDetailsComponent implements OnInit {
   selectedFee;
   selectedMonth;
   selectedCenter;
+  despatchList: Despatch[] = [];
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -83,6 +85,20 @@ export class DbaDetailsComponent implements OnInit {
       () => console.log('Get all complete'));
 
 
+
+      let dbRef = db.object('Despatch');
+      dbRef.snapshotChanges().subscribe(action => {
+        var quatationsList = action.payload.val();
+        let obj = Common.snapshotToArray(action.payload);
+        this.despatchList = [];
+        obj.forEach(element => {
+          let obj: Despatch = JSON.parse(element);
+          this.despatchList.push(obj as Despatch);
+  
+        });
+      });
+
+
     let dlRef = db.object('dbaEntry');
     dlRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
@@ -95,6 +111,7 @@ export class DbaDetailsComponent implements OnInit {
         ddListItem.dbaenter = obj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (obj.centerId));
+
         // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
@@ -106,6 +123,8 @@ export class DbaDetailsComponent implements OnInit {
 
       });
     });
+
+  
   }
   selectData(data) {
 
@@ -154,98 +173,98 @@ export class DbaDetailsComponent implements OnInit {
     console.log(key)
     this.selectedfee = key;
     this.selectedData = null;
-  
+
     if (this.selectmonth == null && this.selectedcenter == null) {
 
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
     }
     else if (this.selectmonth == null) {
 
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
 
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else {
-        this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
     }
-}
+  }
 
-filterMonth(key) {
-  console.log('key*****',key)
+  filterMonth(key) {
+    console.log('key*****', key)
 
     this.selectmonth = key;
     this.selectedData = null;
-    
+
     if (this.selectedfee == null && this.selectedcenter == null) {
-        this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-        this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.feesItem == this.selectedfee && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else {
-        this.selectedData = this.dbaList.filter(
-            s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(
+        s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
     }
 
-}
+  }
 
-filterCenter(key) {
+  filterCenter(key) {
 
 
     this.selectedcenter = key;
     this.selectedData = null;
-    
+
     if (this.selectedfee == null && this.selectmonth == null) {
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
-        console.log('with fee filter******')
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
 
     }
     else if (this.selectmonth == null) {
-        this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
-        console.log('with fee filter******')
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      console.log('with fee filter******')
+      this.selectData(this.selectedData)
 
     }
     else {
-        this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
-        this.selectData(this.selectedData)
+      this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
+      this.selectData(this.selectedData)
     }
 
 
-}
+  }
 
-getMothFromDate(dateData) {
+  getMothFromDate(dateData) {
     if (dateData != null) {
-        var month = dateData.toString().slice(0,3)
-        console.log('month**',month)
-        return month;
+      var month = dateData.toString().slice(0, 3)
+      console.log('month**', month)
+      return month;
     }
-}
+  }
 
- 
+
 }
 

@@ -23,8 +23,8 @@
     </div> -->
     <div *ngIf="selectedData == null"></div>
     <div *ngIf="selectedData != null">
-      <div id="printSectionId" style="padding-top: 50px;align-content: center">
-        
+      <div id="printSectionId" style="padding-top: 50px;align-content: center;padding-left: 50px">
+
         <div>
 
           <span style="font-weight: bold;text-align: center">
@@ -110,9 +110,10 @@
 
         </table>
       </div>
-      <button (click)="print(printSectionId)">Print</button>
+      <div style="float: right;">
+        <button class="btn btn-primary" (click)="print(printSectionId)">Print</button>
+      </div>
 
     </div>
   </div>
 </div>
-

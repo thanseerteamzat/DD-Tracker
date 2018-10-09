@@ -24,6 +24,7 @@ export class DespatchAckDetailsComponent implements OnInit {
   despinvoiceNo;
   preparedBy;
   ackData;
+  selectedNo;
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,

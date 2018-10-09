@@ -10,7 +10,7 @@ margin-right:auto;
     #Header, #Footer { display: none !important; }
 } */
 
-html, body {
+/* html, body {
     width: 210mm;
     height: 297mm;
     margin: 0 auto;
@@ -19,4 +19,4 @@ html, body {
   @page {
     size: auto;
     margin: 0;
-  }
+  } */
