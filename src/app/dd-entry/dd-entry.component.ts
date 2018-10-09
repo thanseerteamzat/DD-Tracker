@@ -245,8 +245,12 @@ export class DdEntryComponent implements OnInit {
 
     console.log('cokieeeeeeeee name..', this.ets.cookiename)
     this.newddentry.enteredBy = this.ets.cookiename;
-
-    if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
+  //  let check=this.ets.cookievalue.toString
+   console.log(this.ets.cookievalue,'cookiee value');
+   
+ 
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {

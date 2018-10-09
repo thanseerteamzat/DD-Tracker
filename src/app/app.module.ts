@@ -68,6 +68,8 @@ import { DdDespatchAckComponent } from './Acknowledgement/dd-despatch-ack/dd-des
 import { KkcSroEntryComponent } from './kkc-sro-entry/kkc-sro-entry.component';
 import { DespatchAckDetailsComponent } from './Acknowledgement/despatch-ack-details/despatch-ack-details.component';
 import { SrodailyreportComponent } from './srodailyreport/srodailyreport.component';
+import { GroupByPipe } from './group-by.pipe';
+import { SumPipe } from './sum.pipe';
 
 
 const appRoutes: Routes = [
@@ -179,6 +181,8 @@ const appRoutes: Routes = [
     KkcSroEntryComponent,
     DespatchAckDetailsComponent,
     SrodailyreportComponent,
+    GroupByPipe,
+    SumPipe,
     
   ],
   imports: [

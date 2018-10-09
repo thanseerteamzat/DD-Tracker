@@ -25,7 +25,7 @@
         <div class="titlestyle">
           <!-- <a  routerLink="/dd-entry">DD Tracker</a> -->
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x1') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
               Entry Forms&nbsp;
               <span class="caret"></span>

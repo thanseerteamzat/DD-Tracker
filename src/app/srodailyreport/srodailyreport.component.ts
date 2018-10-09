@@ -17,6 +17,7 @@ import { Common } from '../models/common';
 export class SrodailyreportComponent implements OnInit {
   selectedData;
   enteredBy;
+  ackData;
   selectedcenter;
   ishoLogin:boolean; 
   sroLists: sroEntryList[] = [];
@@ -84,9 +85,10 @@ export class SrodailyreportComponent implements OnInit {
   
           this.sroLists.push(ddListItem);
           // console.log('length***************************',this.sroLists.length);
-  
         });
       });
+      console.log('ack data',this.ackData);         
+      
   
 
 
@@ -117,6 +119,9 @@ export class SrodailyreportComponent implements OnInit {
 
 
   filter(value){
+
+        this.ackData = new Set(this.sroLists.map(item => item.ddenter.date));
+        console.log('ackvalue',this.ackData)
    
    
     console.log(value);
@@ -126,25 +131,7 @@ export class SrodailyreportComponent implements OnInit {
     )
     console.log(this.selectedData)
 
-    function groupBy( array , f )
-{
-  var groups = {};
-  array.forEach( function( o )
-  {
-    var group = JSON.stringify( f(o) );
-    groups[group] = groups[group] || [];
-    groups[group].push( o );  
-  });
-  return Object.keys(groups).map( function( group )
-  {
-    return groups[group]; 
-  })
-}
-
-var result = groupBy(this.sroLists, function(item)
-{
-  return [item.lastname, item.age];
-});
+    
   }
   getMothFromDate(dateData) {
     if (dateData != null) {
@@ -154,5 +141,8 @@ var result = groupBy(this.sroLists, function(item)
     }
 
   }
+  
+
+  
 
 }
