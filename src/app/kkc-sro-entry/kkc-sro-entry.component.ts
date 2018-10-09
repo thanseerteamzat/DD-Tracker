@@ -108,7 +108,7 @@ temptime;
         error => console.log(error),
         () => console.log('courses'));
       // // console.log(this.split1);
-      // return this.split1;
+      // return this.split1; 
   
   
 
