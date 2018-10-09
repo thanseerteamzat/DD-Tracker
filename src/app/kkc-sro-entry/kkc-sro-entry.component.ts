@@ -95,11 +95,12 @@ temptime;
       () => console.log('Get all complete'));
 
 
-
-      console.log('sele')
+      this.selectedcenter=this.ets.cookiecenter;
+      console.log('selected center*********************',this.selectedcenter)
       let thatt = this;
       this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
         thatt.courses = data;
+        console.log('courses',thatt.courses)
   
         // this.ets.courseList = this.courses;
   
@@ -273,6 +274,7 @@ temptime;
       try {
         this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
         alert("Added Successfully Please Note Inward Invoice Entry Serial No :"+this.sroEntry.sroId);
+        this.isformOpen=false;
         this.resetForm();
         // this.tempdata=[];
         // this.tempdata=this.erpdespatchList;
@@ -375,26 +377,35 @@ temptime;
     // this.split1=this.selectedcenterr.split(": ")[1];
 
 
-    let that = this;
-    this.ets.GetAllCourses(this.vtemp).subscribe(data => {
-      that.courses = data;
+    // let that = this;
+    // this.ets.GetAllCourses(this.vtemp).subscribe(data => {
+    //   that.courses = data;
 
-      this.ets.courseList = this.courses;
+    //   this.ets.courseList = this.courses;
 
 
-    },
-      error => console.log(error),
-      () => console.log('courses'));
-    // // console.log(this.split1);
-    // return this.split1;
+    // },
+    //   error => console.log(error),
+    //   () => console.log('courses'));
+    // // // console.log(this.split1);
+    // // return this.split1;
 
 
   }
-
+ 
+  
 
   ddentryForm = new FormGroup({
   
     isddcollected :new FormControl(),
+    remarkss:new FormControl(),
+    feesitem:new FormControl(),
+    appno:new FormControl(),
+    courseName:new FormControl(),
+    studentname:new FormControl(),
+    ddnumber:new FormControl(),
+    banks:new FormControl(),
+    ddAmount:new FormControl(),
     // centerName :new FormControl(),
     
   
@@ -405,17 +416,45 @@ temptime;
         // currentDate: [null, Validators.required],
         isddcollected: [null, Validators.required],
         centerName: [null, Validators.required],
+        remarkss:[null],
+        feesitem:[null],
+    appno:[null],
+    courseName:[null],
+    studentname:[null],
+    ddnumber:[null],
+    banks:[null],
+    ddAmount:[null]
+    
+    
       })}
 
   get isddcollected() { return this.ddentryForm.get('isddcollected'); }
   // get centerName() { return this.ddentryForm.get('centerName'); }
+  get feesitem() { return this.ddentryForm.get('feesitem'); }
+  get appno() { return this.ddentryForm.get('appno'); }
+  get courseName() { return this.ddentryForm.get('courseName'); }
+  get studentname() { return this.ddentryForm.get('studentname'); }
+  get ddnumber() { return this.ddentryForm.get('ddnumber'); }
+  get banks() { return this.ddentryForm.get('banks'); }
+  get ddAmount() { return this.ddentryForm.get('ddAmount'); }
       
+
+      
+  
 
   resetForm() {
     this.ddentryForm.reset(
       {
         // currentDate: null,
+        remarkss:null,
         centerName: null,
-        isddcollected: null,
+        feesitem:null,
+        appno:null,
+        courseName:null,
+        studentname:null,
+        ddnumber:null,
+        banks:null,
+        ddAmount:null,
+        
       })}
 }

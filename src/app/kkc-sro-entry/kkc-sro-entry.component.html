@@ -10,7 +10,7 @@
                 </div>
             <div class="form-group col-md-3"></div>                
             <div  class="form-group col-md-3"></div>                
-                <div style="color: red" class="form-group col-md-3"> No of DD : {{countdd}}
+                <div style="color: red" class="form-group col-md-3"> No of DD ' saved today : {{countdd}}
 </div>        
             </div>
 
@@ -92,9 +92,9 @@
                     </div>
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="remarks">Remarks</label>
-                        <input type="text" [(ngModel)]="remarks" name="remarks" class="form-control" placeholder="remarks">
+                        <input type="text"  [(ngModel)]="remarks" formControlName="remarkss" name="remarks" class="form-control" placeholder="remarks">
                     </div>
 
 
@@ -128,10 +128,10 @@
                 <div *ngIf="isformOpen" class="row">
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="feesItem">Fees Item</label>
 
-                        <select class="form-control" [(ngModel)]="feesItem" name="feesItem">
+                        <select formControlName="feesitem" class="form-control" [(ngModel)]="feesItem" name="feesItem">
                             <option value="" disabled [selected]>--Choose--</option>
                             <ng-container>
                                 <option>Course Fee</option>
@@ -145,17 +145,17 @@
 
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="appno">Application No</label>
-                        <input type="text" placeholder="Application Number" [(ngModel)]="appNo" name="appNo" class="form-control">
+                        <input type="text" formControlName="appno" placeholder="Application Number" [(ngModel)]="appNo" name="appNo" class="form-control">
 
 
                     </div>
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm" >
                         <label for="course">Course Name</label>
 
-                        <select [(ngModel)]="selectedcourse" class="form-control" name="selectedcourse">
+                        <select [(ngModel)]="selectedcourse" formControlName="courseName" class="form-control" name="selectedcourse">
                             <option value="">--Choose--</option>
                             <ng-container *ngFor="let c of courses">
                                 <option [ngValue]="c.Name">{{c.Name}}</option>
@@ -174,20 +174,20 @@
 
                 <div class="row" *ngIf="isformOpen">
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="studentName">Student Name</label>
-                        <input type="text" class="form-control" [(ngModel)]="studentName" name="studentName" placeholder="Student Name">
+                        <input formControlName="studentname" type="text" class="form-control" [(ngModel)]="studentName" name="studentName" placeholder="Student Name">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="ddNo">DD Number</label>
-                        <input type="text" class="form-control" [(ngModel)]="ddNumber" name="ddNumber" placeholder="DD Number">
+                        <input type="text" formControlName="ddnumber" class="form-control" [(ngModel)]="ddNumber" name="ddNumber" placeholder="DD Number">
 
                     </div>
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="bank">Bank</label>
 
-                        <select [(ngModel)]="bank" class="form-control" name="bank">
+                        <select [(ngModel)]="bank" class="form-control" name="bank" formControlName="banks">
                             <option value="" disabled [selected]>--Choose--</option>
                             <ng-container>
                                 <option>AXIS BANK</option>
@@ -234,9 +234,9 @@
 
                 <div class="row" *ngIf="isformOpen">
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
                         <label for="ddAmount">DD Amount</label>
-                        <input type="text" [(ngModel)]="Amount" name="Amount" class="form-control" placeholder="DD Amount">
+                        <input type="text" [(ngModel)]="Amount" name="Amount" class="form-control" formControlName="ddAmount" placeholder="DD Amount">
 
                     </div>
 
