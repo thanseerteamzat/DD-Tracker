@@ -111,22 +111,34 @@ export class BankComponent implements OnInit {
   }
 
   register() {
-    // for (let i = 0; i <= this.ddLastids.length; i++) {
-    //   this.dddata = this.ddLastids[i];
-    //   if (this.dddata != null) {
-    //     var updates = {}
-    //     this.dddata.isdespatchEntered = true;
-    //     updates['/erpdespatch/' + element] = JSON.stringify(element);
-    //     try {
+    // this.despatchlist.forEach(element => {
 
-    //       let up = this.db.database.ref().update(updates);
 
-    //     }
-    //     catch (e) {
+    //   var updates = {}
+    //   // var finaldata = element.despatchNo.replace(/\//g, "");
+    //   // var fulldata = finaldata.replace(/-|\s/g, "");
+    //   var a = element.despatchNo.slice(0, -14);
+    //   var b = element.despatchNo.slice(3, -10);
+    //   var c = element.despatchNo.slice(7, -6);
+    //   var d = element.despatchNo.slice(11, -4);
+    //   var e = element.despatchNo.slice(13, -2);
+    //   var f = element.despatchNo.slice(15);
+    //   var despformat = a + '/' + b + '/' + c + '/' + d + '/' + e + '-' + f;
+    //   console.log('split aa 3', despformat)
+    //   element.despatchNo = despformat
+    //   updates['/Despatch/' + element.despId] = JSON.stringify(element);
+    //   try {
 
-    //     }
+    //     let up = this.db.database.ref().update(updates);
+
     //   }
+    //   catch (e) {
+
+    //   }
+
+
     // }
+    // )
 
     // console.log('dd***', this.ddLastids)
     // console.log('desp***', this.despatchlist)

@@ -199,7 +199,7 @@ export class InvoiceComponent implements OnInit {
 
 
     // }
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x11') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }

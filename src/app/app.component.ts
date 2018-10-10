@@ -11,12 +11,12 @@ import { EtsService } from './services/ets.service';
 })
 export class AppComponent implements OnInit {
   title = 'DD Tracker';
-  Date = '09/10/2018(11:00pm)';
-  version = 'V 3.4.13'
+  Date = '10/10/2018(2:30pm)';
+  version = 'V 3.4.14'
   // userId:[];
   cookievalue;
   expiredDate: Date;
-  constructor(private route: ActivatedRoute, private cookieService: CookieService, private ets: EtsService) { }
+  constructor(private route: ActivatedRoute, private cookieService: CookieService, public ets: EtsService) { }
   ngOnInit() {
 
 

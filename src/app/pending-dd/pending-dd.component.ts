@@ -78,7 +78,7 @@ export class PendingDdComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x12') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y3') !==-1 ) || (this.ets.cookievalue == "All"))  {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
