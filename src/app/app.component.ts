@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   // userId:[];
   cookievalue;
   expiredDate: Date;
-  constructor(private route: ActivatedRoute, private cookieService: CookieService, private ets: EtsService) { }
+  constructor(private route: ActivatedRoute, private cookieService: CookieService, public ets: EtsService) { }
   ngOnInit() {
 
 
