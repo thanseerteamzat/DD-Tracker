@@ -86,17 +86,17 @@ export class DbaDetailsComponent implements OnInit {
 
 
 
-      let dbRef = db.object('Despatch');
-      dbRef.snapshotChanges().subscribe(action => {
-        var quatationsList = action.payload.val();
-        let obj = Common.snapshotToArray(action.payload);
-        this.despatchList = [];
-        obj.forEach(element => {
-          let obj: Despatch = JSON.parse(element);
-          this.despatchList.push(obj as Despatch);
-  
-        });
+    let dbRef = db.object('Despatch');
+    dbRef.snapshotChanges().subscribe(action => {
+      var quatationsList = action.payload.val();
+      let obj = Common.snapshotToArray(action.payload);
+      this.despatchList = [];
+      obj.forEach(element => {
+        let obj: Despatch = JSON.parse(element);
+        this.despatchList.push(obj as Despatch);
+
       });
+    });
 
 
     let dlRef = db.object('dbaEntry');
@@ -111,20 +111,24 @@ export class DbaDetailsComponent implements OnInit {
         ddListItem.dbaenter = obj;
 
         let centList = this.ets.centerList.filter(s => s.Id == (obj.centerId));
-
+        let desplist = this.despatchList.filter(d => d.despatchNo == (obj.despatchNo));
+        console.log('*****', desplist)
+        if (desplist.length > 0) {
+          ddListItem.despList = desplist[0];
+        }
         // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
         this.dbaList.push(ddListItem);
-        console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
 
 
 
       });
     });
 
-  
+
   }
   selectData(data) {
 
@@ -160,13 +164,13 @@ export class DbaDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x10') !==-1 ) || (this.ets.cookievalue == "All"))  {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     // if (this.ets.cookievalue == "3") {
     //   // this.router.navigate(['/despatch-no-entry'])
     // }
