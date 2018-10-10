@@ -12,7 +12,7 @@ export class sroEntry{
     studentName:string;
     ddNumber:string;
     bank:string;
-    ddAmount:string;
+    ddAmount:number;
     remarks:string;
     centerName:string
 }

@@ -25,6 +25,7 @@ export class KkcSroEntryComponent implements OnInit {
   code;
   tempcenter;
   tempcentercode;
+  sumamount:number;
   countdd : number=0;
   selectedcenterr: string = "";
   split1: string;
@@ -140,6 +141,8 @@ temptime;
 
       });
    var count=0;
+   this.sumamount=0;
+   var sumamount=0;
    console.log('length',this.sroLists.length)
    this.tempdateCount=this.formatDate(this.todaydate)
    console.log("tempdate*****************************",this.tempdateCount);
@@ -149,12 +152,16 @@ temptime;
     //  console.log(topicObj.ddenter);
      if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
        count=count+1;
+      sumamount=parseFloat(sumamount.toString())+parseFloat(topicObj.ddenter.ddAmount.toString());
+      this.sumamount=sumamount;
       //  console.log(count);
        this.countdd=count;
       //  count=count+1;
+
      }
   }
   console.log('count',this.countdd)
+  console.log(this.sumamount,'sumamount""""""""""""""""""""""""""""""""""""')
   
   
   
