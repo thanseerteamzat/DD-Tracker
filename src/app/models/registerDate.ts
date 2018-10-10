@@ -5,4 +5,5 @@ export class registerDate
     date:string;
     noofDd:string;
     ddAmount:string;
+    centerName:string;
 }

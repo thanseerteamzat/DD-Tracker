@@ -32,7 +32,7 @@ export class KkcSroEntryComponent implements OnInit {
   split1: string;
   centerList: Center[] = [];
   vtemp: string;
-  
+  tempAmount;
   sroLists: sroEntryList[] = [];
   remarks;  
   mytime: Date = new Date();
@@ -240,32 +240,58 @@ temptime;
   }
 
   beforeregister(key, dlastid: sroId){
-
     this.register(key,dlastid);
-    this.registerDate(key,dlastid)
-     
-    
-
-  }
-
-  registerDate(key,dlastid){
-
-
+    var tempAmount=0;
+    var datealreadyExists;
     let dateObj = new sroEntryList;
-
+    this.tempdateeCount=this.formatDate(this.todaydate)
+    console.log('tempdateecount*********',this.tempdateeCount)    
     for(let i=0; i<=this.sroLists.length;i++){
-      dateObj=this.sroLists[i]
-      this.tempdateeCount=this.formatDate(this.todaydate)
-      if(dateObj!=null &&dateObj.ddenter.date == this.tempdateeCount){
-
-
+      dateObj=this.sroLists[i];
+      // console.log(dateObj.ddenter.date);
+      // console.log(dateObj.ddenter.date);
+      if(dateObj!=null && dateObj.ddenter.date == this.tempdateeCount && dateObj.ddenter.centerName == this.selectedcenter){
+        tempAmount=parseFloat(tempAmount.toString())+parseFloat(dateObj.ddenter.ddAmount.toString());
+        console.log('date already entered');
+        datealreadyExists=true;
+        this.tempAmount=tempAmount;
+        break;
       }
       else{
-        let uniqueId = "/Q" + Common.newGuid();
+         datealreadyExists=false;        
+      }
+  
+      } 
+      
+      if(datealreadyExists==false){
+        this.registerDate(key, dlastid)
+      }
+      else{
+        this.updateDate(key,dlastid,tempAmount);
+      }
+
+  }
+  updateDate(key,dlastid,tempAmount){
+    
+     this.dateforRegiter.ddAmount=tempAmount;
+          var updates = {};
+      updates['/dateforsro/' + this.dateforRegiter.Id] = JSON.stringify(this.dateforRegiter);
+      try {
+        let up = this.db.database.ref().update(updates);
+
+    }
+    catch(x){
+      console.log(x);
+    }}
+  registerDate(key,dlastid){
+
+    
+    let uniqueId = "/Q" + Common.newGuid();
         console.log("****" + uniqueId);
         this.dateforRegiter.Id = uniqueId;
-  
+        this.dateforRegiter.centerName=this.selectedcenter
         this.dateforRegiter.date=this.tempdateCount;
+        console.log('this.Amount***********************',this.Amount)
         this.dateforRegiter.ddAmount=this.Amount;
         let dateJson = JSON.stringify(this.dateforRegiter);
         console.log(dateJson);
@@ -277,11 +303,6 @@ temptime;
         catch (ex) {
           alert("Error in adding date");
         }
-      }
-  
-      }      
-
-    
     
     // var count=0;
     // this.sumamount=0;
