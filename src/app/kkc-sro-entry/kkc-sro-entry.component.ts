@@ -12,6 +12,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { sroId } from '../models/sroId';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
+import { registerDate } from '../models/registerDate';
 @Component({
   selector: 'app-kkc-sro-entry',
   templateUrl: './kkc-sro-entry.component.html',
@@ -25,6 +26,7 @@ export class KkcSroEntryComponent implements OnInit {
   code;
   tempcenter;
   tempcentercode;
+  sumamount:number;
   countdd : number=0;
   selectedcenterr: string = "";
   split1: string;
@@ -39,11 +41,14 @@ export class KkcSroEntryComponent implements OnInit {
 temptime;
   enteredBy;
   sroEntry:sroEntry = new sroEntry();
+  dateforRegiter = new registerDate();
   ddCollected;
   selectedcourse;
   studentName;
   ddNumber;
   bank;
+  tempdateeCount;
+
   tempdateCount;
   appNo;
   Amount;
@@ -140,6 +145,8 @@ temptime;
 
       });
    var count=0;
+   this.sumamount=0;
+   var sumamount=0;
    console.log('length',this.sroLists.length)
    this.tempdateCount=this.formatDate(this.todaydate)
    console.log("tempdate*****************************",this.tempdateCount);
@@ -149,12 +156,16 @@ temptime;
     //  console.log(topicObj.ddenter);
      if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
        count=count+1;
+      sumamount=parseFloat(sumamount.toString())+parseFloat(topicObj.ddenter.ddAmount.toString());
+      this.sumamount=sumamount;
       //  console.log(count);
        this.countdd=count;
       //  count=count+1;
+
      }
   }
   console.log('count',this.countdd)
+  console.log(this.sumamount,'sumamount""""""""""""""""""""""""""""""""""""')
   
   
   
@@ -227,6 +238,75 @@ temptime;
     this.isformOpen=false;
   }
   }
+
+  beforeregister(key, dlastid: sroId){
+
+    this.register(key,dlastid);
+    this.registerDate(key,dlastid)
+     
+    
+
+  }
+
+  registerDate(key,dlastid){
+
+
+    let dateObj = new sroEntryList;
+
+    for(let i=0; i<=this.sroLists.length;i++){
+      dateObj=this.sroLists[i]
+      this.tempdateeCount=this.formatDate(this.todaydate)
+      if(dateObj!=null &&dateObj.ddenter.date == this.tempdateeCount){
+
+
+      }
+      else{
+        let uniqueId = "/Q" + Common.newGuid();
+        console.log("****" + uniqueId);
+        this.dateforRegiter.Id = uniqueId;
+  
+        this.dateforRegiter.date=this.tempdateCount;
+        this.dateforRegiter.ddAmount=this.Amount;
+        let dateJson = JSON.stringify(this.dateforRegiter);
+        console.log(dateJson);
+        try {
+          this.db.database.ref('dateforsro').child(uniqueId).set(dateJson);
+          // alert(" added successfull!!. ");
+          // this.router.navigate(['/listquotation']);
+        }
+        catch (ex) {
+          alert("Error in adding date");
+        }
+      }
+  
+      }      
+
+    
+    
+    // var count=0;
+    // this.sumamount=0;
+    // var sumamount=0;
+    // console.log('length',this.sroLists.length)
+    // this.tempdateCount=this.formatDate(this.todaydate)
+    // console.log("tempdate*****************************",this.tempdateCount);
+    
+    // let topicObj = new sroEntryList;
+    // for(let i=0; i<=this.sroLists.length;i++){
+    //   topicObj=this.sroLists[i]
+    //  //  console.log(topicObj.ddenter);
+    //   if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
+    //     count=count+1;
+    //    sumamount=parseFloat(sumamount.toString())+parseFloat(topicObj.ddenter.ddAmount.toString());
+    //    this.sumamount=sumamount;
+    //    //  console.log(count);
+    //     this.countdd=count;
+    //    //  count=count+1;
+ 
+    //   }
+  //  }
+  
+
+  }
   register(key, dlastid: sroId){
 
     
@@ -295,6 +375,9 @@ temptime;
         alert("Error in adding Quotation ");
       }
       this.selectedcenter=this.ets.cookiecenter;
+
+
+
 
 
   }
