@@ -112,14 +112,14 @@
         <button class="but" mat-button ><a routerLink="/prospectus">DD Entry Prospectus</a></button> 
         <button class="but" mat-button ><a routerLink="/ddentry-app">Phase Two Entry</a></button> 
         <button class="but" mat-button ><a routerLink="/adjustment">Adjustment Entry</a></button>  -->
-        <div class="dropdown">
+        <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x3') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">ERP Despatch </button>
             <div class="dropdown-content">
                 <a routerLink="/erp-despatch-entry">ERP Despatch No Entry</a>
             
                       </div>
           </div>
-        <div class="dropdown">
+        <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x2') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">DD Verification</button>
             <div class="dropdown-content">
               <a routerLink="/dd-verification">KCVTP</a>
@@ -139,7 +139,7 @@
           
 
         </mat-menu>   -->
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x6') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">KKC Entry</button>
             <div class="dropdown-content">
               <a routerLink="/sro-entry">KKC SRO Daily Entry</a>
@@ -151,7 +151,7 @@
 
 
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x7') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">Despatch No Entry</button>
             <div class="dropdown-content">
               <a routerLink="/despatch-no-entry">KCVTP</a>
@@ -224,7 +224,7 @@
 
           <!-- <button class="but" mat-button ><a routerLink="/despatch-no-entry">Despatch No Entry</a></button>  -->
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x8') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">Despatch No List</button>
             <div class="dropdown-content">
               <a routerLink="/despstudlist">KCVTP</a>
@@ -234,7 +234,7 @@
           </div>
 
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x9') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">DBA(Share Release Note)</button>
             <div class="dropdown-content">
               <a routerLink="/dba-no-entry">KCVTP</a>
@@ -243,7 +243,7 @@
             </div>
           </div>
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x10') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">DBA Details</button>
             <div class="dropdown-content">
               <a routerLink="/dba-details">DBA List(KCVTP)</a>
@@ -255,7 +255,7 @@
 
           <!-- <button class="but" mat-button ><a routerLink="/dba-no-entry">DBA(Share Release Note)</a></button>  -->
           <!-- <button class="but" mat-button ><a routerLink="/dba-details">Dba Details</a></button>  -->
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x11') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">Invoice</button>
             <div class="dropdown-content">
               <a routerLink="/invoice-manual-generate">Invoice Manual </a>
@@ -265,7 +265,7 @@
           </div>
 
 
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x5') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">Acknowledgement</button>
             <div class="dropdown-content">
                 <a routerLink="/dd-despatch-ack">DD-Despatch-Ack</a>
@@ -276,7 +276,7 @@
 
 
           <!-- <button class="but" mat-button ><a routerLink="/pending-dd">Pending DD's</a></button>  -->
-          <div class="dropdown">
+          <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x12') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))" class="dropdown">
             <button class="dropbtn">Pending DD's</button>
             <div class="dropdown-content">
               <a routerLink="/pending-dd">KCVTP</a>

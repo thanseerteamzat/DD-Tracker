@@ -160,14 +160,21 @@ export class DbaDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x10') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
-
-
     }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+
+
+    // }
   }
   filterFee(key) {
     console.log(key)
