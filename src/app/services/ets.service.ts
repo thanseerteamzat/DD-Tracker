@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
 import { CookieService } from 'ngx-cookie-service';
-import { dbaEntry } from '../models/dbaEntry';
+import { dbaEntry, dbaList } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 
@@ -25,7 +25,7 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public cookiecenter: string;
-  
+
   public expirydate: Date;
   public convertedWord: string;
   url = 'http://localhost:2000/'
@@ -46,23 +46,23 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = (fromDate,toDate,skipValue,limitValue): Observable<any> => {
-    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue)
+  GetddfromTtc = (fromDate, toDate, skipValue, limitValue): Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate + '&to=' + toDate + '&skip=' + skipValue + '&limit=' + limitValue)
 
   }
   getCookie() {
     return this.cookieService.getAll();
     // return this.cookieService.get(setcenter);
-    
+
 
   }
-  setCookie(cookiename, cookievalue,setcenter, expirydate ) {
-    return this.cookieService.set(cookiename, cookievalue,setcenter, expirydate)
+  setCookie(cookiename, cookievalue, setcenter, expirydate) {
+    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate)
 
   }
 
 
-  public sendData(dbaData: despatchList): Observable<despatchList> {
+  public sendData(dbaData: dbaList): Observable<dbaList> {
     // dbaData.centerCode = '2'
     // mailData.To = 'utek@utek.in';
     // mailData.CC = 'md@utek.in';
@@ -70,8 +70,8 @@ export class EtsService {
     // mailData.CC2 = 'utekatl@gmail.com';
     // mailData.CC3 = '';
     // mailData.CC4 = '';
-
-    return this.http.post<despatchList>(this.url, dbaData, this.httpOptions)
+    console.log(dbaData);
+    return this.http.post<dbaList>(this.url, dbaData, this.httpOptions)
       .pipe(
 
         catchError(this.handleError)
