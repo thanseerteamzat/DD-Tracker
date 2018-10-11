@@ -6,7 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient } from 'selenium-webdriver/http';
 import { ConfigService } from '../services/config.service';
 import { Common } from '../models/common';
-import{ sroEntry, sroEntryList } from '../models/sroEntry';
+import { sroEntry, sroEntryList } from '../models/sroEntry';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { sroId } from '../models/sroId';
@@ -24,23 +24,26 @@ export class KkcSroEntryComponent implements OnInit {
   tempsroList;
   courses: Course[];
   code;
+  tempvariable;
+   tempcentercode;
   tempcenter;
-  tempcentercode;
-  sumamount:number;
-  countdd : number=0;
+  tempcenterforDate;
+  tempcenterdate;
+  sumamount: number = 0;
+  countdd: number = 0;
   selectedcenterr: string = "";
   split1: string;
   centerList: Center[] = [];
   vtemp: string;
-  
+  tempAmount;
   sroLists: sroEntryList[] = [];
-  remarks;  
+  remarks;
   mytime: Date = new Date();
   minDate: Date;
-  maxDate : Date;
-temptime;
+  maxDate: Date;
+  temptime;
   enteredBy;
-  sroEntry:sroEntry = new sroEntry();
+  sroEntry: sroEntry = new sroEntry();
   dateforRegiter = new registerDate();
   ddCollected;
   selectedcourse;
@@ -52,35 +55,35 @@ temptime;
   tempdateCount;
   appNo;
   Amount;
-  feesItem;  
+  feesItem;
   sroLastids: sroId[] = [];
   newsroLastId: sroId = new sroId();
   fromLastId;
   count;
-  todaydate=new Date;
+  todaydate = new Date;
   selecteddate;
   selecteddatee;
-  isformOpen :boolean;
+  isformOpen: boolean;
   // isEditable;
   isEditMode;
   values = [
     { id: '1', name: 'Yes' },
-    { id: '2', name:'No'}
+    { id: '2', name: 'No' }
   ];
 
-  todaydatee= new Date;
-    constructor(  private ets: EtsService,
-      private cookieservice: CookieService,
-      private route: ActivatedRoute,
+  todaydatee = new Date;
+  constructor(private ets: EtsService,
+    private cookieservice: CookieService,
+    private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router,
     // private http: HttpClient,
     private config: ConfigService,
     private fb: FormBuilder,
-    ) {
+  ) {
 
 
-  
+
 
     this.minDate = new Date();
     this.maxDate = new Date();
@@ -100,23 +103,23 @@ temptime;
       () => console.log('Get all complete'));
 
 
-      this.selectedcenter=this.ets.cookiecenter;
-      console.log('selected center*********************',this.selectedcenter)
-      let thatt = this;
-      this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
-        thatt.courses = data;
-        console.log('courses',thatt.courses)
-  
-        // this.ets.courseList = this.courses;
-  
-  
-      },
-        error => console.log(error),
-        () => console.log('courses'));
-      // // console.log(this.split1);
-      // return this.split1; 
-  
-  
+    this.selectedcenter = this.ets.cookiecenter;
+    console.log('selected center*********************', this.selectedcenter)
+    let thatt = this;
+    this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
+      thatt.courses = data;
+      console.log('courses', thatt.courses)
+
+      // this.ets.courseList = this.courses;
+
+
+    },
+      error => console.log(error),
+      () => console.log('courses'));
+    // // console.log(this.split1);
+    // return this.split1; 
+
+
 
 
     let itemReff = db.object('sroEntry');
@@ -144,45 +147,45 @@ temptime;
         // console.log('length***************************',this.sroLists.length);
 
       });
-   var count=0;
-   this.sumamount=0;
-   var sumamount=0;
-   console.log('length',this.sroLists.length)
-   this.tempdateCount=this.formatDate(this.todaydate)
-   console.log("tempdate*****************************",this.tempdateCount);
-   let topicObj = new sroEntryList;
-   for(let i=0; i<=this.sroLists.length;i++){
-     topicObj=this.sroLists[i]
-    //  console.log(topicObj.ddenter);
-     if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
-       count=count+1;
-      sumamount=parseFloat(sumamount.toString())+parseFloat(topicObj.ddenter.ddAmount.toString());
-      this.sumamount=sumamount;
-      //  console.log(count);
-       this.countdd=count;
-      //  count=count+1;
+      var count = 0;
+      this.sumamount = 0;
+      var sumamount = 0;
+      // console.log('length', this.sroLists.length)
+      this.tempdateCount = this.formatDate(this.todaydate)
+      // console.log("tempdate*****************************", this.tempdateCount);
+      let topicObj = new sroEntryList;
+      for (let i = 0; i <= this.sroLists.length; i++) {
+        topicObj = this.sroLists[i]
+        //  console.log(topicObj.ddenter);
+        if (topicObj != null && topicObj.ddenter.ddNumber != null && topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter) {
+          count = count + 1;
+          sumamount = parseFloat(sumamount.toString()) + parseFloat(topicObj.ddenter.ddAmount.toString());
+          this.sumamount = sumamount;
+          //  console.log(count);
+          this.countdd = count;
+          //  count=count+1;
 
-     }
-  }
-  console.log('count',this.countdd)
-  console.log(this.sumamount,'sumamount""""""""""""""""""""""""""""""""""""')
-  
-  
-  
-  
-  });
+        }
+      }
+      // console.log('count', this.countdd)
+      // console.log(this.sumamount, 'sumamount""""""""""""""""""""""""""""""""""""')
 
-  // for(let i=0; i<=this.sroLists.length;i++){
-  //   this.tempsroList = this.sroLists[i];
-  //   if(this.tempsroList !=null){
-  //   console.log(this.tempsroList.ddenter);
-  //   }
-    
-  //   if(this.tempsroList!=null){
-    
-  //   console.log(this.tempsroList.ddenter.centerName);
-  //   }
-  // }
+
+
+
+    });
+
+    // for(let i=0; i<=this.sroLists.length;i++){
+    //   this.tempsroList = this.sroLists[i];
+    //   if(this.tempsroList !=null){
+    //   console.log(this.tempsroList.ddenter);
+    //   }
+
+    //   if(this.tempsroList!=null){
+
+    //   console.log(this.tempsroList.ddenter.centerName);
+    //   }
+    // }
 
 
 
@@ -194,8 +197,8 @@ temptime;
       obj.forEach(element => {
         let obj: sroId = JSON.parse(element);
         this.newsroLastId = obj;
-        console.log('*********************',this.newsroLastId)
-        this.sroLastids.push(obj as sroId); 
+        console.log('*********************', this.newsroLastId)
+        this.sroLastids.push(obj as sroId);
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
         this.count = obj.lastId;
         this.fromLastId = obj.Id;
@@ -205,15 +208,15 @@ temptime;
 
 
 
-   }
+  }
 
   ngOnInit() {
     this.enteredBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;
-    console.log('entered by',this.enteredBy);
-  
+    console.log('entered by', this.enteredBy);
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !==-1 ) || (this.ets.cookievalue == "All"))  {
+
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
@@ -229,67 +232,128 @@ temptime;
     // }
 
   }
-  myfunction(value){
-    console.log(value);
-    if(value == "Yes"){
-      this.isformOpen=true;
+  myfunction(value) {
+    // console.log(value);
+    if (value == "Yes") {
+      this.isformOpen = true;
     }
-  else{
-    this.isformOpen=false;
-  }
-  }
-
-  beforeregister(key, dlastid: sroId){
-
-    this.register(key,dlastid);
-    this.registerDate(key,dlastid)
-     
-    
-
+    else {
+      this.isformOpen = false;
+    }
   }
 
-  registerDate(key,dlastid){
+  beforeregister(key, dlastid: sroId) {
+    this.tempvariable=this.Amount;
+    this.register(key, dlastid);
+    var tempAmount = 0;
 
-
+    var datealreadyExists;
     let dateObj = new sroEntryList;
+    this.tempdateeCount = this.formatDate(this.todaydate)
+    this.tempcenterdate = this.selectedcenter;
+    // console.log('tempdateecount*********',this.tempdateeCount)    
+    for (let i = 0; i <= this.sroLists.length; i++) {
+      dateObj = this.sroLists[i];
+      // console.log(dateObj.ddenter.date);
+      // console.log(dateObj.ddenter.date);
+      if (dateObj != null && dateObj.ddenter.date == this.tempdateeCount && dateObj.ddenter.centerName == this.selectedcenter) {
+        // var a = parseFloat(tempAmount.toString());
+        // var b = parseFloat(dateObj.ddenter.ddAmount.toString());
+        // console.log('a----------------->', a, 'b------------------>', b)
+        //  var c=a+b;
+        // tempAmount=parseFloat(tempAmount.toString())+parseFloat(dateObj.ddenter.ddAmount.toString());
+        console.log('date already entered');
+        datealreadyExists = true;
 
-    for(let i=0; i<=this.sroLists.length;i++){
-      dateObj=this.sroLists[i]
-      this.tempdateeCount=this.formatDate(this.todaydate)
-      if(dateObj!=null &&dateObj.ddenter.date == this.tempdateeCount){
+        // this.tempAmount=tempAmount;
+        break;
+      }
+      else {
+        datealreadyExists = false;
+      }
 
+    }
+
+    if (datealreadyExists == false) {
+      this.registerDate(key, dlastid)
+    }
+    else {
+      if(dateObj.ddenter.ddNumber != null)
+      this.updateDate(key, dlastid, this.tempdateeCount, this.tempcenterdate);
+    }
+
+  }
+  updateDate(key, dlastid, tempdate, tempcenter) {
+     console.log('update works****')
+     let amount=this.tempvariable;
+     let count=1;
+     //  console.log('sroList Length ***************',this.sroLists.length)
+    for (let i = 0; i < this.sroLists.length; i++) {
+      // console.log('inside Looop')
+      let tempObj = this.sroLists[i];
+      // console.log(tempObj);
+      console.log(tempdate);
+      console.log(tempcenter);
+      if(tempObj.ddenter.date==tempdate){
+        console.log('date matched');
 
       }
-      else{
-        let uniqueId = "/Q" + Common.newGuid();
-        console.log("****" + uniqueId);
-        this.dateforRegiter.Id = uniqueId;
-  
-        this.dateforRegiter.date=this.tempdateCount;
-        this.dateforRegiter.ddAmount=this.Amount;
-        let dateJson = JSON.stringify(this.dateforRegiter);
-        console.log(dateJson);
-        try {
-          this.db.database.ref('dateforsro').child(uniqueId).set(dateJson);
-          // alert(" added successfull!!. ");
-          // this.router.navigate(['/listquotation']);
-        }
-        catch (ex) {
-          alert("Error in adding date");
-        }
+      
+      if(tempObj.ddenter.centerName=tempcenter){
+        console.log('center matched')
       }
-  
-      }      
+      
+      if (tempObj != null  && tempObj.ddenter.ddAmount != null && tempObj.ddenter.date==tempdate && tempObj.ddenter.centerName == tempcenter) {
+          console.log('inside if condition')
+         amount=parseFloat(amount)+parseFloat(tempObj.ddenter.ddAmount.toString());
+         count=count+1;
+         console.log('flag****************',amount)
+      }
+    }
+    var updates = {};
+    // this.dateforRegiter.ddAmount=amount.toString()
+    // this.dateforRegiter.noofDd=count.toString();
+    this.dateforRegiter.ddAmount=this.sumamount.toString();
+    var temp = 1+ this.countdd
+    this.dateforRegiter.noofDd=temp;
+    updates['/dateforsro/' + this.dateforRegiter.Id] = JSON.stringify(this.dateforRegiter);
+    try {
+      let up = this.db.database.ref().update(updates);
 
-    
-    
+    }
+    catch (x) {
+      console.log(x);
+    }
+  }
+  registerDate(key, dlastid) {
+
+
+    let uniqueId = "/Q" + Common.newGuid();
+    // console.log("****" + uniqueId);
+    this.dateforRegiter.Id = uniqueId;
+    this.dateforRegiter.noofDd=1; 
+    this.dateforRegiter.centerName = this.selectedcenter
+    this.dateforRegiter.date = this.tempdateCount;
+    // console.log('this.Amount***********************',this.Amount)
+    this.dateforRegiter.ddAmount = this.tempvariable;
+    let dateJson = JSON.stringify(this.dateforRegiter);
+    // console.log(dateJson);
+    try {
+      this.db.database.ref('dateforsro').child(uniqueId).set(dateJson);
+      // alert(" added successfull!!. ");
+      // this.router.navigate(['/listquotation']);
+    }
+    catch (ex) {
+      alert("Error in adding date");
+    }
+
     // var count=0;
     // this.sumamount=0;
     // var sumamount=0;
     // console.log('length',this.sroLists.length)
     // this.tempdateCount=this.formatDate(this.todaydate)
     // console.log("tempdate*****************************",this.tempdateCount);
-    
+
     // let topicObj = new sroEntryList;
     // for(let i=0; i<=this.sroLists.length;i++){
     //   topicObj=this.sroLists[i]
@@ -301,15 +365,15 @@ temptime;
     //    //  console.log(count);
     //     this.countdd=count;
     //    //  count=count+1;
- 
+
     //   }
-  //  }
-  
+    //  }
+
 
   }
-  register(key, dlastid: sroId){
+  register(key, dlastid: sroId) {
 
-    
+
     var counter = parseInt(this.count) + 1;
     //updating lastid
     var updates = {};
@@ -317,64 +381,64 @@ temptime;
     updates['/sroId/' + key] = JSON.stringify(dlastid);
     let up = this.db.database.ref().update(updates);
     this.sroEntry.sroId = counter.toString();
- 
-    
-    console.log(key);
-    console.log(dlastid.lastId)
-    console.log('inside function')
-     this.sroEntry.enteredBy = this.enteredBy;
-     
-      this.sroEntry.ddAmount = this.Amount;
-      console.log('amount',this.Amount);
-      this.sroEntry.applicationNumber=this.appNo;
-      console.log('app Number',this.appNo)
-      this.sroEntry.feesItem=this.feesItem;
-      console.log('fees item' , this.feesItem);
-      this.selecteddate=this.todaydate;
-      this.selecteddatee=this.todaydatee;
-      this.sroEntry.date=this.formatDate(this.selecteddate);
-      console.log(this.sroEntry.date);
-    
-      this.sroEntry.enteredDate=this.formatDate(this.selecteddatee);  
-    console.log(this.todaydatee)
-      this.sroEntry.bank=this.bank;
-      console.log('bank',this.bank)
-      this.sroEntry.ddNumber=this.ddNumber;
-      console.log('number********',this.ddNumber)
-      this.sroEntry.studentName=this.studentName;
-      console.log('student name',this.studentName)
 
-      console.log('sroooo enteredby',this.sroEntry.enteredBy);
-      this.temptime=this.mytime
-      this.sroEntry.time=this.formatTime(this.temptime);
-      console.log(this.mytime)
-      this.sroEntry.isddCollected=this.ddCollected
-      this.sroEntry.remarks=this.remarks;
-      this.sroEntry.ddAmount=this.Amount;
-      this.sroEntry.centerName=this.selectedcenter;
-      this.sroEntry.courseName=this.selectedcourse;
-      let uniqueId = "/Q" + Common.newGuid();
-      console.log("****" + uniqueId);
-      // this.erpdespatch.erpdespId = uniqueId;
-    
-      let InvoiceEntryJson = JSON.stringify(this.sroEntry);
-      console.log(InvoiceEntryJson);
-      try {
-        this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
-        alert("Added Successfully Please Note Inward Invoice Entry Serial No :"+this.sroEntry.sroId);
-        this.isformOpen=false;
-        this.resetForm();
-        // this.tempdata=[];
-        // this.tempdata=this.erpdespatchList;
-        // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
-    
-        this.router.navigate(['/sro-entry']);
-        // this.router.navigate(['/erp-despatch-entry']);
-      }
-      catch (ex) {
-        alert("Error in adding Quotation ");
-      }
-      this.selectedcenter=this.ets.cookiecenter;
+
+    // console.log(key);
+    console.log(dlastid.lastId)
+    // console.log('inside function')
+    this.sroEntry.enteredBy = this.enteredBy;
+
+    this.sroEntry.ddAmount = this.Amount;
+    // console.log('amount', this.Amount);
+    this.sroEntry.applicationNumber = this.appNo;
+    // console.log('app Number', this.appNo)
+    this.sroEntry.feesItem = this.feesItem;
+    // console.log('fees item', this.feesItem);
+    this.selecteddate = this.todaydate;
+    this.selecteddatee = this.todaydatee;
+    this.sroEntry.date = this.formatDate(this.selecteddate);
+    // console.log(this.sroEntry.date);
+
+    this.sroEntry.enteredDate = this.formatDate(this.selecteddatee);
+    // console.log(this.todaydatee)
+    this.sroEntry.bank = this.bank;
+    // console.log('bank', this.bank)
+    this.sroEntry.ddNumber = this.ddNumber;
+    // console.log('number********', this.ddNumber)
+    this.sroEntry.studentName = this.studentName;
+    // console.log('student name', this.studentName)
+
+    // console.log('sroooo enteredby', this.sroEntry.enteredBy);
+    this.temptime = this.mytime
+    this.sroEntry.time = this.formatTime(this.temptime);
+    // console.log(this.mytime)
+    this.sroEntry.isddCollected = this.ddCollected
+    this.sroEntry.remarks = this.remarks;
+    this.sroEntry.ddAmount = this.Amount;
+    this.sroEntry.centerName = this.selectedcenter;
+    this.sroEntry.courseName = this.selectedcourse;
+    let uniqueId = "/Q" + Common.newGuid();
+    // console.log("****" + uniqueId);
+    // this.erpdespatch.erpdespId = uniqueId;
+
+    let InvoiceEntryJson = JSON.stringify(this.sroEntry);
+    // console.log(InvoiceEntryJson);
+    try {
+      this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
+      alert("Added Successfully Please Note Inward Invoice Entry Serial No :" + this.sroEntry.sroId);
+      this.isformOpen = false;
+      this.resetForm();
+      // this.tempdata=[];
+      // this.tempdata=this.erpdespatchList;
+      // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
+
+      this.router.navigate(['/sro-entry']);
+      // this.router.navigate(['/erp-despatch-entry']);
+    }
+    catch (ex) {
+      alert("Error in adding Quotation ");
+    }
+    this.selectedcenter = this.ets.cookiecenter;
 
 
 
@@ -385,32 +449,32 @@ temptime;
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(), 
+      day = '' + d.getDate(),
       year = d.getFullYear();
-    
-  
+
+
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-  
+
     return [day, month, year].join('-');
   }
 
   formatTime(time) {
     var d = new Date(time),
       hours = '' + (d.getHours() + 1),
-      minutes = '' + d.getMinutes(), 
+      minutes = '' + d.getMinutes(),
       seconds = d.getSeconds();
-    
-  
+
+
     if (hours.length < 2) hours = '0' + hours;
     if (minutes.length < 2) minutes = '0' + minutes;
-    
-  
+
+
     return [hours, minutes].join('-');
   }
 
- 
-  
+
+
   callType(value) {
 
 
@@ -483,41 +547,42 @@ temptime;
 
 
   }
- 
-  
+
+
 
   ddentryForm = new FormGroup({
-  
-    isddcollected :new FormControl(),
-    remarkss:new FormControl(),
-    feesitem:new FormControl(),
-    appno:new FormControl(),
-    courseName:new FormControl(),
-    studentname:new FormControl(),
-    ddnumber:new FormControl(),
-    banks:new FormControl(),
-    ddAmount:new FormControl(),
+
+    isddcollected: new FormControl(),
+    remarkss: new FormControl(),
+    feesitem: new FormControl(),
+    appno: new FormControl(),
+    courseName: new FormControl(),
+    studentname: new FormControl(),
+    ddnumber: new FormControl(),
+    banks: new FormControl(),
+    ddAmount: new FormControl(),
     // centerName :new FormControl(),
-    
-  
-  })  
+
+
+  })
   ddcreateForm() {
     this.ddentryForm = this.fb.group(
       {
         // currentDate: [null, Validators.required],
         isddcollected: [null, Validators.required],
         centerName: [null, Validators.required],
-        remarkss:[null],
-        feesitem:[null],
-    appno:[null],
-    courseName:[null],
-    studentname:[null],
-    ddnumber:[null],
-    banks:[null],
-    ddAmount:[null]
-    
-    
-      })}
+        remarkss: [null],
+        feesitem: [null],
+        appno: [null],
+        courseName: [null],
+        studentname: [null],
+        ddnumber: [null],
+        banks: [null],
+        ddAmount: [null]
+
+
+      })
+  }
 
   get isddcollected() { return this.ddentryForm.get('isddcollected'); }
   // get centerName() { return this.ddentryForm.get('centerName'); }
@@ -528,24 +593,25 @@ temptime;
   get ddnumber() { return this.ddentryForm.get('ddnumber'); }
   get banks() { return this.ddentryForm.get('banks'); }
   get ddAmount() { return this.ddentryForm.get('ddAmount'); }
-      
 
-      
-  
+
+
+
 
   resetForm() {
     this.ddentryForm.reset(
       {
         // currentDate: null,
-        remarkss:null,
+        remarkss: null,
         centerName: null,
-        feesitem:null,
-        appno:null,
-        courseName:null,
-        studentname:null,
-        ddnumber:null,
-        banks:null,
-        ddAmount:null,
-        
-      })}
+        feesitem: null,
+        appno: null,
+        courseName: null,
+        studentname: null,
+        ddnumber: null,
+        banks: null,
+        ddAmount: null,
+
+      })
+  }
 }

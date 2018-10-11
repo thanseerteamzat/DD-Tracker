@@ -42,7 +42,7 @@
       <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
 
     </div>
-    <div style="padding-top: 50px;">
+    <div style="padding-top: 50px;" id="tabledata">
 
       <table class="table table-hover table-responsive table-bordered">
         <thead class="thead-dark">
@@ -76,22 +76,31 @@
               <td>{{selectedData.indexOf(ddenter) + 1}}</td>
               <td>{{ddenter.center?.CenterName}}</td>
               <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+              <td>{{ddenter.center?.CenterCode}}</td>
               <td></td>
-              <td>{{ddenter.dbaenter?.feesItem}}</td>
-              <td>
+              <!-- <td>{{ddenter.dbaenter?.feesItem}}</td> -->
+              <td > 
                 <ul>
                   <li *ngFor="let item of ddenter.despList ">
                     {{item.despatchNo}}
                   </li>
                 </ul>
               </td>
+
               <!-- <td>{{ddenter.despList?.despatchNo}}</td> -->
               <!-- <td>{{ddenter.dbaenter?.despatchNo}}</td> -->
-              <!-- <td>{{ddenter.dbaenter?.despatchDate}}</td> -->
+              <td>
+                <ul>
+                  <li *ngFor="let item of ddenter.despList |unique">
+                    {{item }}
+                  </li>
+                </ul>
+              </td>
+              <!-- <td>{{ddenter.despList?.despatchDate}}</td> -->
               <td>{{ddenter.dbaenter?.despatchAmount}}</td>
               <td>{{ddenter.dbaenter?.tax}}</td>
               <td>{{ddenter.dbaenter?.fwt}}</td>
-              <td>{{ddenter.dbaenter?.stkAmount}}</td>
+              <!-- <td>{{ddenter.dbaenter?.stkAmount}}</td> -->
               <td>{{ddenter.dbaenter?.stkRate}}%</td>
               <td>{{ddenter.dbaenter?.dbaNo}}</td>
               <!-- <td>{{ddenter.ddenter?.enteredBy}}</td> -->
@@ -105,19 +114,20 @@
 
           </ng-container>
           <tr>
-            <th colspan="4" style="text-align: right">Total</th>
+            <th colspan="5" style="text-align: right">Total</th>
             <td>
               {{desptotal}}
             </td>
             <td>{{taxtotal}}</td>
             <td>{{fwtTotal}}</td>
             <td>{{amountTotal}}</td>
-            <!-- <td></td> -->
+            <td></td>
+            <td></td>
           </tr>
         </tbody>
 
       </table>
     </div>
-    <!-- <button type="submit" (click)="sendMail(selectedData)">Send Mail</button> -->
+    <button type="submit" (click)="sendMail(selectedData)">Send Mail</button>
   </div>
 </div>

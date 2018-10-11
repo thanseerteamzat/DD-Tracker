@@ -178,14 +178,14 @@ export class DbaDetailsComponent implements OnInit {
     else {
       this.router.navigate(['/error']);
     }
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
   }
   filterFee(key) {
     console.log(key)
@@ -291,7 +291,10 @@ export class DbaDetailsComponent implements OnInit {
       error => console.log(error),
       () => console.log('Get all complete'));
     // console.log('****', data)
-    this.exportExcel(data);
+    // this.exportExcel(data);
+    var workbook = XLSX.utils.table_to_book(document.getElementById('tabledata'));
+    XLSX.writeFile(workbook, 'out.xlsb');
+
   }
 
 

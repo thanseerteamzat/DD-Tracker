@@ -70,6 +70,7 @@ import { DespatchAckDetailsComponent } from './Acknowledgement/despatch-ack-deta
 import { SrodailyreportComponent } from './srodailyreport/srodailyreport.component';
 import { GroupByPipe } from './group-by.pipe';
 import { SumPipe } from './sum.pipe';
+import { UniquePipe } from './unique.pipe';
 
 
 const appRoutes: Routes = [
@@ -183,6 +184,7 @@ const appRoutes: Routes = [
     SrodailyreportComponent,
     GroupByPipe,
     SumPipe,
+    UniquePipe,
     
   ],
   imports: [

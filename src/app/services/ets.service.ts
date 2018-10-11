@@ -25,7 +25,7 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public cookiecenter: string;
-
+  
   public expirydate: Date;
   public convertedWord: string;
   url = 'http://localhost:2000/'
@@ -46,20 +46,21 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = (fromDate, toDate, skipValue, limitValue): Observable<any> => {
-    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate + '&to=' + toDate + '&skip=' + skipValue + '&limit=' + limitValue)
+  GetddfromTtc = (fromDate,toDate,skipValue,limitValue): Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue+'&CenterCategory=kkc')
 
   }
   getCookie() {
     return this.cookieService.getAll();
     // return this.cookieService.get(setcenter);
-
-
-  }
-  setCookie(cookiename, cookievalue, setcenter, expirydate) {
-    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate)
+    
 
   }
+  setCookie(cookiename, cookievalue,setcenter, expirydate ) {
+    return this.cookieService.set(cookiename, cookievalue,setcenter, expirydate)
+
+  }
+
 
 
   public sendData(dbaData: dbaList): Observable<dbaList> {
