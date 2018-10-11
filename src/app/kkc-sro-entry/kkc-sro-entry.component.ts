@@ -331,7 +331,7 @@ export class KkcSroEntryComponent implements OnInit {
     let uniqueId = "/Q" + Common.newGuid();
     // console.log("****" + uniqueId);
     this.dateforRegiter.Id = uniqueId;
-    this.dateforRegiter.noofDd=1;
+    this.dateforRegiter.noofDd=1; 
     this.dateforRegiter.centerName = this.selectedcenter
     this.dateforRegiter.date = this.tempdateCount;
     // console.log('this.Amount***********************',this.Amount)
