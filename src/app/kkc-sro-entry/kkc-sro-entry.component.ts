@@ -21,11 +21,13 @@ import { registerDate } from '../models/registerDate';
 export class KkcSroEntryComponent implements OnInit {
   centers: Center[];
   selectedcenter;
+  checkvariable;
   tempsroList;
   courses: Course[];
   code;
   tempvariable;
-   tempcentercode;
+  tempvariableone;
+  tempcentercode;
   tempcenter;
   tempcenterforDate;
   tempcenterdate;
@@ -51,7 +53,7 @@ export class KkcSroEntryComponent implements OnInit {
   ddNumber;
   bank;
   tempdateeCount;
-
+  tempdate;
   tempdateCount;
   appNo;
   Amount;
@@ -243,7 +245,9 @@ export class KkcSroEntryComponent implements OnInit {
   }
 
   beforeregister(key, dlastid: sroId) {
-    this.tempvariable=this.Amount;
+    this.tempvariable = this.Amount;
+    // this.tempvariableone = this.ddNumber;
+    this.tempvariableone=this.ddCollected
     this.register(key, dlastid);
     var tempAmount = 0;
 
@@ -251,75 +255,60 @@ export class KkcSroEntryComponent implements OnInit {
     let dateObj = new sroEntryList;
     this.tempdateeCount = this.formatDate(this.todaydate)
     this.tempcenterdate = this.selectedcenter;
-    // console.log('tempdateecount*********',this.tempdateeCount)    
     for (let i = 0; i <= this.sroLists.length; i++) {
       dateObj = this.sroLists[i];
-      // console.log(dateObj.ddenter.date);
-      // console.log(dateObj.ddenter.date);
       if (dateObj != null && dateObj.ddenter.date == this.tempdateeCount && dateObj.ddenter.centerName == this.selectedcenter) {
-        // var a = parseFloat(tempAmount.toString());
-        // var b = parseFloat(dateObj.ddenter.ddAmount.toString());
-        // console.log('a----------------->', a, 'b------------------>', b)
-        //  var c=a+b;
-        // tempAmount=parseFloat(tempAmount.toString())+parseFloat(dateObj.ddenter.ddAmount.toString());
         console.log('date already entered');
         datealreadyExists = true;
-
-        // this.tempAmount=tempAmount;
         break;
       }
       else {
         datealreadyExists = false;
       }
-
     }
 
     if (datealreadyExists == false) {
       this.registerDate(key, dlastid)
     }
     else {
-      if(dateObj.ddenter.ddNumber != null)
+      // if (dateObj.ddenter.ddNumber != null)
+      
+      if(this.tempvariableone=='Yes'){
       this.updateDate(key, dlastid, this.tempdateeCount, this.tempcenterdate);
     }
+    else{
+      // alert('error');
+    }
+  }
 
   }
   updateDate(key, dlastid, tempdate, tempcenter) {
-     console.log('update works****')
-     let amount=this.tempvariable;
-     let count=1;
-     //  console.log('sroList Length ***************',this.sroLists.length)
+    let vamount = this.tempvariable;
+    var amount :number;
+    console.log('update works************')
+    amount=this.tempvariable;
+    
+    
+    let count = 1;
+    //  console.log('sroList Length ***************',this.sroLists.length)
     for (let i = 0; i < this.sroLists.length; i++) {
       // console.log('inside Looop')
       let tempObj = this.sroLists[i];
-      // console.log(tempObj);
-      console.log(tempdate);
-      console.log(tempcenter);
-      if(tempObj.ddenter.date==tempdate){
-        console.log('date matched');
 
-      }
-      
-      if(tempObj.ddenter.centerName=tempcenter){
-        console.log('center matched')
-      }
-      
-      if (tempObj != null  && tempObj.ddenter.ddAmount != null && tempObj.ddenter.date==tempdate && tempObj.ddenter.centerName == tempcenter) {
-          console.log('inside if condition')
-         amount=parseFloat(amount)+parseFloat(tempObj.ddenter.ddAmount.toString());
-         count=count+1;
-         console.log('flag****************',amount)
+      if (tempObj != null && amount!=null &&tempObj.ddenter.ddAmount!=null && tempObj.ddenter.date == tempdate && tempObj.ddenter.centerName == tempcenter) {
+       console.log('inside if condition')
+        amount =  parseFloat(amount.toString()) + parseFloat(tempObj.ddenter.ddAmount.toString());
+        console.log('amount*****************',amount);
+        count=count+1
       }
     }
     var updates = {};
-    // this.dateforRegiter.ddAmount=amount.toString()
-    // this.dateforRegiter.noofDd=count.toString();
-    this.dateforRegiter.ddAmount=this.sumamount.toString();
-    var temp = 1+ this.countdd
-    this.dateforRegiter.noofDd=temp;
+    this.dateforRegiter.ddAmount=amount.toString();
+    // var temp = 1 + this.count;
+    this.dateforRegiter.noofDd = count;
     updates['/dateforsro/' + this.dateforRegiter.Id] = JSON.stringify(this.dateforRegiter);
     try {
       let up = this.db.database.ref().update(updates);
-
     }
     catch (x) {
       console.log(x);
@@ -331,11 +320,24 @@ export class KkcSroEntryComponent implements OnInit {
     let uniqueId = "/Q" + Common.newGuid();
     // console.log("****" + uniqueId);
     this.dateforRegiter.Id = uniqueId;
-    this.dateforRegiter.noofDd=1; 
-    this.dateforRegiter.centerName = this.selectedcenter
-    this.dateforRegiter.date = this.tempdateCount;
-    // console.log('this.Amount***********************',this.Amount)
+    if (this.tempvariableone == 'Yes') {
+      this.dateforRegiter.noofDd = 1;
     this.dateforRegiter.ddAmount = this.tempvariable;
+      
+      console.log('exists');
+    }
+    else {
+      this.dateforRegiter.noofDd = 0;
+      var a=0;
+    this.dateforRegiter.ddAmount = a.toString();
+      
+
+
+    }
+    this.dateforRegiter.centerName = this.selectedcenter;
+    this.tempdate=this.formatDate(this.todaydate);
+    this.dateforRegiter.date = this.tempdate;
+    // console.log('this.Amount***********************',this.Amount)
     let dateJson = JSON.stringify(this.dateforRegiter);
     // console.log(dateJson);
     try {
@@ -347,29 +349,7 @@ export class KkcSroEntryComponent implements OnInit {
       alert("Error in adding date");
     }
 
-    // var count=0;
-    // this.sumamount=0;
-    // var sumamount=0;
-    // console.log('length',this.sroLists.length)
-    // this.tempdateCount=this.formatDate(this.todaydate)
-    // console.log("tempdate*****************************",this.tempdateCount);
-
-    // let topicObj = new sroEntryList;
-    // for(let i=0; i<=this.sroLists.length;i++){
-    //   topicObj=this.sroLists[i]
-    //  //  console.log(topicObj.ddenter);
-    //   if(topicObj!=null && topicObj.ddenter.ddNumber!=null&& topicObj.ddenter.date == this.tempdateCount && topicObj.ddenter.centerName == this.selectedcenter){
-    //     count=count+1;
-    //    sumamount=parseFloat(sumamount.toString())+parseFloat(topicObj.ddenter.ddAmount.toString());
-    //    this.sumamount=sumamount;
-    //    //  console.log(count);
-    //     this.countdd=count;
-    //    //  count=count+1;
-
-    //   }
-    //  }
-
-
+    
   }
   register(key, dlastid: sroId) {
 

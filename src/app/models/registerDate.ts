@@ -7,3 +7,9 @@ export class registerDate
     ddAmount:string;
     centerName:string;
 }
+
+export class registerdateList {
+    ddenter: registerDate = new registerDate();
+    // center: Center = new Center();
+
+}

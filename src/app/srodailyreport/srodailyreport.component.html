@@ -53,6 +53,8 @@
                         <th style="min-width: 90px;">No of DD</th>
 
                         <th style="min-width: 100px;">DD Amount</th>
+                        <th style="min-width: 100px;">Center Name</th>
+                         
                         <th style="min-width: 100px;"></th>
 
                         <th style="min-width: 100px;">Verified By</th>
@@ -62,11 +64,15 @@
                 <tbody>
                     <ng-container *ngFor='let ddenter of selectedData '>
                         <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" >
-                            <td>{{sroLists.indexOf(ddenter) + 1}}</td>
+                            <td>{{dateLists.indexOf(ddenter) + 1}}</td>
                             <td>{{ddenter.ddenter.date}}</td>
-                             <td></td>
-                             <td></td>
-                             <td><button type="button" class="btn btn-primary">Edit</button></td>          
+                            <td>{{ddenter.ddenter.noofDd}}</td>
+                            <td>{{ddenter.ddenter.ddAmount}}</td>
+                            <td>{{ddenter.ddenter.centerName}}</td>
+                            
+                            <td><button type="button" class="btn btn-primary">Edit</button></td>          
+                            <td>{{verifiedBy}}</td>
+
                         </tr>
                     </ng-container>
                 </tbody>

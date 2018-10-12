@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 import { Center } from '../models/Center';
 import { sroEntryList, sroEntry } from '../models/sroEntry';
 import { Common } from '../models/common';
+import { registerdateList, registerDate } from '../models/registerDate';
 
 @Component({
   selector: 'app-srodailyreport',
@@ -17,11 +18,11 @@ import { Common } from '../models/common';
 export class SrodailyreportComponent implements OnInit {
   selectedData;
   isEditMode;
-  enteredBy;
+  verifiedBy;
   ackData;
   selectedcenter;
   ishoLogin:boolean; 
-  sroLists: sroEntryList[] = [];
+  dateLists: registerdateList[] = [];
   selectedmonth;  
   centers: Center[];
   months = [
@@ -63,17 +64,17 @@ export class SrodailyreportComponent implements OnInit {
       error => console.log(error),
       () => console.log('Get all complete'));
 
-      let itemReff = db.object('sroEntry');
+      let itemReff = db.object('dateforsro');
       itemReff.snapshotChanges().subscribe(action => {
-        this.sroLists = [];
+        this.dateLists = [];
         var quatationsList = action.payload.val();
         let quotationobj = Common.snapshotToArray(action.payload);
         quotationobj.forEach(element => {
-          let ddListItem = new sroEntryList();
-          let qobj: sroEntry = JSON.parse(element);
+          let ddListItem = new registerdateList();
+          let qobj: registerDate = JSON.parse(element);
           // console.log("****" + element);
-          if (qobj.sroId != undefined) {
-            qobj.sroId = qobj.sroId.replace("/", "");
+          if (qobj.Id != undefined) {
+            qobj.Id = qobj.Id.replace("/", "");
           }
   
           ddListItem.ddenter = qobj;
@@ -84,7 +85,7 @@ export class SrodailyreportComponent implements OnInit {
           //   ddListItem.center = custList[0];
           // }
   
-          this.sroLists.push(ddListItem);
+          this.dateLists.push(ddListItem);
           // console.log('length***************************',this.sroLists.length);
         });
       });
@@ -97,9 +98,9 @@ export class SrodailyreportComponent implements OnInit {
 
   ngOnInit() {
 
-    this.enteredBy = this.ets.cookiename;
+    this.verifiedBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;
-    console.log('entered by',this.enteredBy);
+    // console.log('entered by',this.enteredBy);
     if(this.selectedcenter == null)
     {
       this.ishoLogin=true;
@@ -109,12 +110,14 @@ export class SrodailyreportComponent implements OnInit {
     }
     console.log('isho login', this.ishoLogin)
 
+
+    
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !==-1 ) || (this.ets.cookievalue == "All"))  {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
-      this.router.navigate(['/error']);
+      // this.router.navigate(['/error']);
     }
 
     // if (this.ets.cookievalue == "1" || this.ets.cookievalue == "2" || this.ets.cookievalue == "3") {
@@ -129,20 +132,20 @@ export class SrodailyreportComponent implements OnInit {
 
   filter(value){
 
-        this.ackData = new Set(this.sroLists.map(item => item.ddenter.date));
-        console.log('ackvalue',this.ackData)
+        // this.ackData = new Set(this.dateLists.map(item => item.ddenter.date));
+        // console.log('ackvalue',this.ackData)
    
    
     console.log(value);
     this.selectedmonth=value;
-    this.selectedData = this.sroLists.filter(
-      s=> this.getMothFromDate(s.ddenter.date)== value
+    this.selectedData = this.dateLists.filter(
+      s=> this.getMonthFromDate(s.ddenter.date)== value
     )
     console.log(this.selectedData)
 
     
   }
-  getMothFromDate(dateData) {
+  getMonthFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(3, -5)
       console.log('month**',month)
