@@ -251,7 +251,7 @@ export class DdEntryComponent implements OnInit {
  
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x1') !==-1 ) || (this.ets.cookievalue == "All"))  {
       console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
+      // this. vigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
