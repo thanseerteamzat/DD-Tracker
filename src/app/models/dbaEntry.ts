@@ -27,5 +27,6 @@ export class dbaEntry {
 export class dbaList {
     dbaenter: dbaEntry = new dbaEntry();
     center: Center = new Center();
-    despList: Despatch = new Despatch();
+    despList: Despatch[] = new Array();
+
 }

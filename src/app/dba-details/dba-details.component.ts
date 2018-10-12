@@ -6,6 +6,7 @@ import { Common } from '../models/common';
 import { dbaEntry, dbaList } from '../models/dbaEntry';
 import { Center } from '../models/Center';
 import { Despatch } from '../models/despatch';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-dba-details',
@@ -33,6 +34,7 @@ export class DbaDetailsComponent implements OnInit {
   selectedFee;
   selectedMonth;
   selectedCenter;
+  ackData;
   despatchList: Despatch[] = [];
   Months = [
     { id: '01', name: 'Jan' },
@@ -110,18 +112,23 @@ export class DbaDetailsComponent implements OnInit {
         let obj: dbaEntry = JSON.parse(element);
         ddListItem.dbaenter = obj;
 
-        let centList = this.ets.centerList.filter(s => s.Id == (obj.centerId));
-        let desplist = this.despatchList.filter(d => d.despatchNo == (obj.despatchNo));
-        console.log('*****', desplist)
+        let centList = that.ets.centerList.filter(s => s.Id == (obj.centerId));
+        let desplist = that.despatchList.filter(d => d.dbaNo == (obj.dbaNo));
+        // console.log('*****', desplist)
         if (desplist.length > 0) {
-          ddListItem.despList = desplist[0];
+          for (let i = 0; i < desplist.length; i++) {
+            ddListItem.despList[i] = desplist[i];
+          }
+
         }
         // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
         this.dbaList.push(ddListItem);
-        // console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
+        console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
+        // this.ackData = new Set(this.despatchList.map(item => item.dbaNo));
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.ackData)
 
 
 
@@ -164,13 +171,13 @@ export class DbaDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !==-1 ) || (this.ets.cookievalue == "All"))  {
-    //   console.log('inside if condition *********************')
-    //   // this.router.navigate(['/dd-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     // if (this.ets.cookievalue == "3") {
     //   // this.router.navigate(['/despatch-no-entry'])
     // }
@@ -275,7 +282,28 @@ export class DbaDetailsComponent implements OnInit {
       return month;
     }
   }
+  sendMail(data) {
+    let that = this;
+    this.ets.sendData(data).subscribe(data => {
+      that.centers = data;
+      // this.ets.centerList = this.centers
+    },
+      error => console.log(error),
+      () => console.log('Get all complete'));
+    // console.log('****', data)
+    // this.exportExcel(data);
+    var workbook = XLSX.utils.table_to_book(document.getElementById('tabledata'));
+    XLSX.writeFile(workbook, 'out.xlsb');
 
+  }
+
+
+  exportExcel(data) {
+    console.log(data)
+    // const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    // const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    // XLSX.writeFile(workbook, 'my_file.xls', { bookType: 'xls', type: 'buffer' });
+  }
 
 }
 

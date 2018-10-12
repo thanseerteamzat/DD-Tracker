@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
 import { CookieService } from 'ngx-cookie-service';
-import { dbaEntry } from '../models/dbaEntry';
+import { dbaEntry, dbaList } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 
@@ -62,7 +62,8 @@ export class EtsService {
   }
 
 
-  public sendData(dbaData: despatchList): Observable<despatchList> {
+
+  public sendData(dbaData: dbaList): Observable<dbaList> {
     // dbaData.centerCode = '2'
     // mailData.To = 'utek@utek.in';
     // mailData.CC = 'md@utek.in';
@@ -70,8 +71,8 @@ export class EtsService {
     // mailData.CC2 = 'utekatl@gmail.com';
     // mailData.CC3 = '';
     // mailData.CC4 = '';
-
-    return this.http.post<despatchList>(this.url, dbaData, this.httpOptions)
+    console.log(dbaData);
+    return this.http.post<dbaList>(this.url, dbaData, this.httpOptions)
       .pipe(
 
         catchError(this.handleError)

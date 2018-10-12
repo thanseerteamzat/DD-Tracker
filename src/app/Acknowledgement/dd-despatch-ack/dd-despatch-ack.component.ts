@@ -10,7 +10,7 @@ import { EtsService } from '../../services/ets.service';
 import { Router } from '../../../../node_modules/@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '../../../../node_modules/@angular/forms';
 import { Common } from '../../models/common';
-import { ddDespatchAck } from '../../models/Acknowledgement';
+import { ddDespatchAck, ackLastid } from '../../models/Acknowledgement';
 
 @Component({
   selector: 'app-dd-despatch-ack',
@@ -47,6 +47,7 @@ export class DdDespatchAckComponent implements OnInit {
   selectedMonth;
   temprate;
   selectedDataIndex;
+  lastinvoiceNo;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -72,8 +73,8 @@ export class DdDespatchAckComponent implements OnInit {
     { id: '7', name: 'Duplicate Certificate/Marklist' },
   ];
   desplist: despatchtemp[] = [];
-  dbaLastids: dbaLastid[] = [];
-  newddLastId: dbaLastid = new dbaLastid();
+  ackLastids: ackLastid[] = [];
+  newackLastId: ackLastid = new ackLastid();
   newdba: dbaEntry = new dbaEntry();
   dbalist: dbaEntry[] = [];
   newdespatch: Despatch = new Despatch();
@@ -161,17 +162,17 @@ export class DdDespatchAckComponent implements OnInit {
       });
 
     });
-    let dlRef = db.object('dbaLastId');
+    let dlRef = db.object('despAckLastid');
     dlRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
       let obj = Common.snapshotToArray(action.payload);
-      this.dbaLastids = [];
+      this.ackLastids = [];
       obj.forEach(element => {
-        let obj: dbaLastid = JSON.parse(element);
-        this.newddLastId = obj;
-        this.dbaLastids.push(obj as dbaLastid);
-        this.count = obj.lastId;
+        let obj: ackLastid = JSON.parse(element);
 
+        this.ackLastids.push(obj as ackLastid);
+        this.count = obj.lastid;
+        this.lastinvoiceNo = parseInt(this.count) + 1;
 
       });
     });
@@ -248,15 +249,15 @@ export class DdDespatchAckComponent implements OnInit {
 
     // this.resetform();
     this.dbaservice = this.dbalist;
-    // this.ets.sendData(this.dbaservice).subscribe(data => console.log('data', data))
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x5') !==-1 ) || (this.ets.cookievalue == "All"))  {
+
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x5') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
     }
-  
+
     // if (this.ets.cookievalue == "3") {
     //   // this.router.navigate(['/despatch-no-entry'])
     // }
@@ -412,15 +413,41 @@ export class DdDespatchAckComponent implements OnInit {
 
   }
 
-  generateAckInvoice() {
+  generateAckInvoice(key, lastid: ackLastid) {
+    console.log('data***', key)
+    console.log('data***', lastid)
+
+
     if (this.desplist.length == 0) {
       alert('please select any and Submit data')
     }
     else {
+
+      let currentYear = (new Date()).getFullYear();
+      let previousYear = (new Date()).getFullYear() - 1;
+      let nextYear = (new Date()).getFullYear() + 1;
+      let finyear = null;
+      if ((new Date()).getMonth() > 4) {
+        let Csplit = currentYear.toString().slice(-2);
+        let Nsplit = nextYear.toString().slice(-2);
+        finyear = Csplit + '-' + Nsplit;
+      }
+      var counter = parseInt(this.count) + 1;
+
+      let ackFormat = counter + '/' + finyear;
+      console.log('format', ackFormat)
+
+      var updates = {};
+      lastid.lastid = counter;
+      updates['/despAckLastid/' + key] = JSON.stringify(lastid);
+      let up = this.db.database.ref().update(updates);
+      // console.log('currentYear', currentYear)
+      // console.log('previousYear', previousYear)
+      // console.log('nextYear', nextYear)
       this.newdespAck.ackdate = this.formatDate(this.newdespAck.ackdate)
 
       this.desplist.forEach(element => {
-        element.ackno = this.newdespAck.ackNo;
+        element.ackno = ackFormat;
         element.isackEntered = true;
         // element.ack = this.formatDate(this.newInvoice.invoiceDate);
         // element.isInvoiceEntered = true;
@@ -436,7 +463,7 @@ export class DdDespatchAckComponent implements OnInit {
         catch (e) {
 
         }
-
+        this.newdespAck.ackNo = ackFormat;
         this.newdespAck.centerId = element.centerId
         this.newdespAck.despatchNo = element.despatchNo
         this.newdespAck.despatchDatee = element.despatchDate
@@ -456,33 +483,33 @@ export class DdDespatchAckComponent implements OnInit {
 
 
 
-      alert('Invoice Added :' + this.newdespAck.ackNo);
+      alert('Invoice Added :' + ackFormat);
       this.resetform();
     }
   }
 
   despinvoiceForm = new FormGroup(
     {
-      despinvoiceNum: new FormControl(),
+      // despinvoiceNum: new FormControl(),
       despinvoiceDate: new FormControl()
     }
   );
   despinvoicecreateForm() {
     this.despinvoiceForm = this.fb.group(
       {
-        despinvoiceNum: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 ///-]*')])],
+        // despinvoiceNum: [null, Validators.compose([Validators.required, Validators.pattern('[0-9 ///-]*')])],
 
         despinvoiceDate: [null, Validators.required]
       }
     )
   };
-  get despinvoiceNum() { return this.despinvoiceForm.get('despinvoiceNum'); }
+  // get despinvoiceNum() { return this.despinvoiceForm.get('despinvoiceNum'); }
   get despinvoiceDate() { return this.despinvoiceForm.get('despinvoiceDate'); }
 
   resetform() {
     this.despinvoiceForm.reset(
       {
-        despinvoiceNum: null,
+        // despinvoiceNum: null,
         despinvoiceDate: null
       }
     )

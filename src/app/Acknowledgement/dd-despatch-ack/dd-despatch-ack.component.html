@@ -1,7 +1,10 @@
 <div class="wrapper" style="margin-left: 50px">
   <h2>DD-Despatch Acknowledgement</h2>
-  <ng-container *ngFor="let lstid of dbaLastids">
+  <ng-container *ngFor="let lstid of ackLastids">
 
+    <div>
+      <label>Invoice No: </label> <span style="color: red">{{lastinvoiceNo}}</span>
+    </div>
     <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
 
@@ -60,7 +63,7 @@
     </div>
     <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
 
-      <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
+      <!-- <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
 
         <label>Note : Select and Enter Ack. No here </label>&nbsp;
         <input type="text" [(ngModel)]="newdespAck.ackNo" name="ackNo" class="form-control" formControlName="despinvoiceNum">
@@ -72,7 +75,7 @@
             Please enter valid input(number)
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="form-group col-md-3" [formGroup]="despinvoiceForm">
 
         <label>Ack. Date</label>&nbsp;
@@ -91,7 +94,7 @@
 
         <!-- <label>Sumbit For Despatch No Entry</label>&nbsp;<br> -->
         <br>
-        <button type="submit" class="btn btn-primary" [disabled]="despinvoiceForm.invalid" (click)=" generateAckInvoice(lstid.id)">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="despinvoiceForm.invalid" (click)=" generateAckInvoice(lstid.id,lstid)">Submit</button>
       </div>
       <div class="form-group col-md-3">
         <label>Count:</label>
@@ -119,10 +122,7 @@
             <th>Fees Item</th>
             <th>Total</th>
             <th>No of DD</th>
-            <th>Select all
-              <br>
-              <!-- <input type="checkbox"  (click)="selectAll()" [checked]="selectedAll"> -->
-            </th>
+           
             <!-- <th>Tax</th>
             <th>Fee Without Tax</th>
             <th>Amount</th>
@@ -139,25 +139,25 @@
         <tbody>
           <ng-container *ngFor="let ddenter of selectedData">
             <tr>
-              <tr *ngIf="ddenter.despatchList?.isdespatchEntered == true &&  ddenter.despatchList?.isackEntered == false ">
+            <tr *ngIf="ddenter.despatchList?.isdespatchEntered == true &&  ddenter.despatchList?.isackEntered == false ">
 
-                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
-                <th>{{ddenter.despatchList?.despId}}</th>
-                <td>{{ddenter.center?.CenterName}}</td>
+              <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+              <th>{{ddenter.despatchList?.despId}}</th>
+              <td>{{ddenter.center?.CenterName}}</td>
 
-                <td>{{ddenter.despatchList?.despatchNo}}</td>
-                <td>{{ddenter.despatchList?.despatchDate}}</td>
-                <td>{{ddenter.despatchList?.feeItem}}</td>
-                <td>{{ddenter.despatchList?.totalAmount}}</td>
-                <td>{{ddenter.despatchList?.noOfdd}}</td>
-                <!-- <td>{{ddenter.despatchList?.taxAmount}}</td>
+              <td>{{ddenter.despatchList?.despatchNo}}</td>
+              <td>{{ddenter.despatchList?.despatchDate}}</td>
+              <td>{{ddenter.despatchList?.feeItem}}</td>
+              <td>{{ddenter.despatchList?.totalAmount}}</td>
+              <td>{{ddenter.despatchList?.noOfdd}}</td>
+              <!-- <td>{{ddenter.despatchList?.taxAmount}}</td>
                 <td>{{ddenter.despatchList?.FWT}}</td>
                 <td>{{ddenter.despatchList?.Amount}}</td>
                 <td>{{ddenter.despatchList?.Rate}}%</td> -->
-                <td>
-                  <input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)">
-                </td>
-              </tr>
+              <td>
+                <input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)">
+              </td>
+            </tr>
 
           </ng-container>
           <tr>
