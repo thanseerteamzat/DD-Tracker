@@ -71,6 +71,8 @@ import { SrodailyreportComponent } from './srodailyreport/srodailyreport.compone
 import { GroupByPipe } from './group-by.pipe';
 import { SumPipe } from './sum.pipe';
 import { UniquePipe } from './unique.pipe';
+import { KcvtpCenterInvoiceDetailsComponent } from './Invoicee/kcvtp-center-invoice-details/kcvtp-center-invoice-details.component';
+import { InvoiceAmountPendingComponent } from './Invoicee/invoice-amount-pending/invoice-amount-pending.component';
 
 
 const appRoutes: Routes = [
@@ -109,26 +111,28 @@ const appRoutes: Routes = [
   { path: 'adjpending-dd', component: AdjpendingddComponent },
   { path: 'erp-despatch-entry', component: ErpdespatchEntryComponent },
   { path: 'erp-despatch-entry/:erpdespId', component: ErpdespatchEntryComponent },
-  
+
   { path: 'erpdesp-details', component: ErpdespdetailsComponent },
   { path: 'erpdesp-details/:erpdespId', component: ErpdespdetailsComponent },
   { path: 'dba-desp-list', component: DbaDespListComponent },
   { path: 'invoice-entry', component: InvoiceEntryComponent },
   { path: 'invoice-entry/:invoiceEntryId', component: InvoiceEntryComponent },
-  
+
   { path: 'ddkkc', component: DdkkcComponent },
   { path: 'invoiceentryverification', component: InvoiceentryverificationComponent },
   { path: 'invoice-manual-generate', component: InvoiceManualComponent },
   { path: 'invoice-report', component: InvoiceReportComponent },
-  { path:'kkcverification' ,component:KkcverificationComponent},
-  { path:'invoiceentry-details',component:InvoiceEntryDetailsComponent},
-  { path:'invoiceentry-details/:invoiceEntryId',component:InvoiceEntryDetailsComponent},
-  
+  { path: 'kkcverification', component: KkcverificationComponent },
+  { path: 'invoiceentry-details', component: InvoiceEntryDetailsComponent },
+  { path: 'invoiceentry-details/:invoiceEntryId', component: InvoiceEntryDetailsComponent },
+
   { path: 'kkcverification', component: KkcverificationComponent },
   { path: 'dd-despatch-ack', component: DdDespatchAckComponent },
-  { path: 'sro-entry', component: KkcSroEntryComponent},
-  {path:'despatch-ack-details',component:DespatchAckDetailsComponent},
-  { path:'sro-entry-report',component:SrodailyreportComponent }
+  { path: 'sro-entry', component: KkcSroEntryComponent },
+  { path: 'despatch-ack-details', component: DespatchAckDetailsComponent },
+  { path: 'sro-entry-report', component: SrodailyreportComponent },
+  { path: 'kcvtp-centers-invoice', component: KcvtpCenterInvoiceDetailsComponent },
+  { path: 'invoice-Amount-pending', component: InvoiceAmountPendingComponent }
 ];
 
 
@@ -185,7 +189,9 @@ const appRoutes: Routes = [
     GroupByPipe,
     SumPipe,
     UniquePipe,
-    
+    KcvtpCenterInvoiceDetailsComponent,
+    InvoiceAmountPendingComponent,
+
   ],
   imports: [
     FormsModule,
