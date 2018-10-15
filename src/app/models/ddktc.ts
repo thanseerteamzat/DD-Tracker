@@ -19,6 +19,9 @@ StudentRollNo:string;
 StudentName:string;
 StudentApplicationNumber:string;
 CourseName:string;
+isVerified:boolean;
+// lastId:string;
+lastid:number;
 }
 
 export class kkcddList {

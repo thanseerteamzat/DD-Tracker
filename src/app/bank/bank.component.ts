@@ -421,20 +421,20 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    // let uniqueId = "/DD" + Common.newGuid();
-    // this.newddLastid.Id = uniqueId;
+    let uniqueId = "/DD" + Common.newGuid();
+    this.newddLastid.Id = uniqueId;
 
 
-    // let ddEntryJson = JSON.stringify(this.newddLastid);
-    // console.log(ddEntryJson);
-    // try {
-    //   this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
-    //   alert("DD Entry added successfully!!..");
+    let ddEntryJson = JSON.stringify(this.newddLastid);
+    console.log(ddEntryJson);
+    try {
+      this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
+      alert("DD Entry added successfully!!..");
 
-    // }
-    // catch (ex) {
+    }
+    catch (ex) {
 
-    // }
+    }
 
   }
 

@@ -79,7 +79,7 @@ export class InvoiceEntryDetailsComponent implements OnInit {
 
 
         if (confirm('Are you sure to verify this dd ')) {
-
+          this.newddentry.verifiedBy=this.ets.cookiename
           this.newddentry.isVerified = true;
           ddentry.isVerified = true;
           console.log(this.newddentry.isVerified)

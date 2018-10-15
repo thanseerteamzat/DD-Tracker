@@ -222,11 +222,16 @@ this.ets.GetddfromTtc( this.tempfromDate, this.temptoDate,this.skipValue,this.li
 
 
     register(key, dlastid: kkcId){
+  
 
     var counter = parseInt(this.count) + 1;
     var updates = {};
     
     for(let i=0;i<=this.ddkkc.length;i++){
+      if(this.ddkkc[i]!=null){
+      this.ddkkc[i].lastid=counter;
+      // this.ddkkc[i].lastid==counter;
+    }
       // key=key+1;
     let kkcJson = JSON.stringify(this.ddkkc[i]);
     console.log(kkcJson);

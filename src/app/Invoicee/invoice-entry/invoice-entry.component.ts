@@ -286,6 +286,8 @@ export class InvoiceEntryComponent implements OnInit {
     console.log('*********************',this.newddentry.invoiceNumber)
     this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
     this.invoiceEntry.inwardItem='Invoice';
+    this.invoiceEntry.dbaNo=this.newddentry.dbaNo;
+    this.invoiceEntry.dbaAmount=this.newddentry.dbaAmount;
     this.invoiceEntry.month=this.newddentry.month;
     this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
     this.invoiceEntry.remarks=this.newddentry.remarks;
@@ -324,6 +326,8 @@ export class InvoiceEntryComponent implements OnInit {
     console.log('*********************',this.newddentry.invoiceNumber)
     this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
     this.invoiceEntry.inwardItem='Invoice';
+    this.invoiceEntry.dbaAmount=this.newddentry.dbaAmount;
+    this.invoiceEntry.dbaNo=this.newddentry.dbaNo;
     this.invoiceEntry.month=this.newddentry.month;
     this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
     this.invoiceEntry.remarks=this.newddentry.remarks;

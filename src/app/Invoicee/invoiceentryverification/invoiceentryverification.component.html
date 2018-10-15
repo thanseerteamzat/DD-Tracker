@@ -87,7 +87,8 @@
                     <th style="min-width: 90px;">Remarks</th>
 
                     <th>Entered By</th>
-
+                    <th>Status</th>
+                    <th>Verified By</th>
 
                 </tr>
             </thead>
@@ -115,19 +116,10 @@
 
 
                         <td>{{ddenter.ddenter.enteredBy}}</td>
-
-                     
-                        <td>
-
-                                <!-- <button type="button" (click)=entrySelection(ddenter.ddenter.ddlastId,ddenter.ddenter) class="btn btn-primary">
-                                        View Details
-                                    </button> -->
-
-
-                            <!-- <button type="button" class="btn btn-primary">
-                                <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
-                            </button> -->
-                        </td>
+                        <td>Verified</td>
+                        <td>{{ddenter.ddenter.verifiedBy}}</td>
+                       
+                       
                     </tr>
                 </ng-container>
             </tbody>
