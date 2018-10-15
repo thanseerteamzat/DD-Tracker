@@ -1,0 +1,110 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Invoice Amount Pending</h2>
+
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+
+
+    <div class="form-group col-md-3">
+
+      <label>Filter with Month : </label>&nbsp;
+      <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.name">{{month.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
+        <option value="" [selected]="" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of centers">
+          <option [ngValue]="s.Id">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+
+    </div>
+
+    <!-- <div class="form-group col-md-3">
+        <label>Count:</label>
+        <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
+  
+      </div> -->
+    <!-- <div *ngIf="selectedData==null"></div> -->
+    <div >
+      <div id="printSectionId" style="padding-top: 50px;">
+
+        <table class="table table-hover table-responsive table-bordered">
+
+          <thead class="thead-dark">
+
+            <!-- <ng-container *ngFor="let ddenter of selectedData"> -->
+
+
+
+            <tr>
+              <th>SL.No</th>
+              <th>INVOICE DATE</th>
+              <th>ACK DATE</th>
+              <th>SHARE AMOUNT</th>
+              <th>TAX AMOUNT</th>
+              <th>TOTAL AMOUNT</th>
+              <th>TDS</th>
+              <th>AMOUNT TO BE RECIEVED</th>
+              <th>RECIEVED AMOUNT</th>
+              <th>RECIEVED DATE</th>
+              <th>DIFFERENCE</th>
+              <th>RECIEVED DATE</th>
+              <th>Date</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let ddenter of selectedData">
+
+
+
+              <tr>
+                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+                <td>{{ddenter.invoiceenter?.invoiceDate}}</td>
+                <td></td>
+                <td>{{ddenter.invoiceenter?.shareAmount}}</td>
+
+                <td></td>
+                <td></td>
+                <td>{{((ddenter.invoiceenter?.shareAmount)* 0.02).toFixed(2)}}</td>
+                <!-- <td>{{ddenter.dbaenter?.despatchDate}}</td> -->
+                <td></td>
+                <!-- <td>{{ddenter.dbaenter?.tax}}</td> -->
+                <td><input type="text" name="amount"></td>
+                <td><input type="date" name="date"></td>
+                <td></td>
+                <td></td>
+                <!-- <td>{{ddenter.ddenter?.enteredBy}}</td> -->
+
+
+
+
+
+
+              </tr>
+            </ng-container>
+
+
+
+
+          </tbody>
+
+        </table>
+      </div>
+      <!-- <div style="float: right;">
+        <button class="btn btn-primary" (click)="print(printSectionId)">Print</button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
