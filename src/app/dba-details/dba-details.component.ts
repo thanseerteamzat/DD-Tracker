@@ -300,9 +300,9 @@ export class DbaDetailsComponent implements OnInit {
 
   exportExcel(data) {
     console.log(data)
-    // const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-    // const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    // XLSX.writeFile(workbook, 'my_file.xls', { bookType: 'xls', type: 'buffer' });
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    XLSX.writeFile(workbook, 'my_file.xls', { bookType: 'xls', type: 'buffer' });
   }
 
 }
