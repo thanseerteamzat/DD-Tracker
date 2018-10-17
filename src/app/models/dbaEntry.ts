@@ -11,6 +11,7 @@ export class dbaEntry {
     courseCode: string;
     feesItem: string;
     despatchNo: string;
+    batchNo: string;
     despatchMonth: string;
     despatchDate: string;
     despatchAmount: string;

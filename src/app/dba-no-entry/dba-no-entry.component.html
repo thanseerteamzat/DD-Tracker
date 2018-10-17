@@ -9,14 +9,14 @@
 
                 <label>Filter with Month : </label>&nbsp;
                 <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
-                  <option value="">--Choose--</option>
-                  <ng-container *ngFor="let month of Months">
-                    <option [ngValue]="month.id">{{month.name}}</option>
-                  </ng-container>
-          
+                    <option value="">--Choose--</option>
+                    <ng-container *ngFor="let month of Months">
+                        <option [ngValue]="month.id">{{month.name}}</option>
+                    </ng-container>
+
                 </select>
-              </div>
-           
+            </div>
+
 
             <div class="form-group col-md-3">
 
@@ -32,7 +32,7 @@
             <div class="form-group col-md-3">
 
                 <label>Filter DD's with Centre Name : </label>&nbsp;
-                <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)" >
+                <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
                     <option value="" [selected]="" disabled>--Choose--</option>
                     <ng-container *ngFor="let s of centers">
                         <option [ngValue]="s.Id">{{s.CenterName}}</option>
@@ -76,7 +76,8 @@
             <div class="form-group col-md-3" [formGroup]="dbaForm">
 
                 <label>Dba Date</label>&nbsp;
-                <input type="date" [(ngModel)]="newdespatch.dbaDate" name="dbaDate" class="form-control" formControlName="dbaDate">
+                <input type="date" [(ngModel)]="newdespatch.dbaDate" name="dbaDate" class="form-control"
+                    formControlName="dbaDate">
                 <div *ngIf="dbaDate.invalid && (dbaDate.dirty || dbaDate.touched)" class="alert-danger">
                     <div *ngIf="dbaDate.errors.required">
                         Please Select Date
@@ -112,7 +113,8 @@
                         <th>Sl.No</th>
                         <th>Desp.Sl.No</th>
                         <th>Centre Name</th>
-                       <th>Despatch No</th>
+                        <th>Batch No</th>
+                        <th>Despatch No</th>
                         <th>Despatch Date</th>
                         <th>Fees Item</th>
                         <th>Total</th>
@@ -134,7 +136,7 @@
                             <td>{{selectedData.indexOf(ddenter) + 1}}</td>
                             <th>{{ddenter.despatchList?.despId}}</th>
                             <td>{{ddenter.center?.CenterName}}</td>
-
+                            <td>{{batchNo}}</td>
                             <td>{{ddenter.despatchList?.despatchNo}}</td>
                             <td>{{ddenter.despatchList?.despatchDate}}</td>
                             <td>{{ddenter.despatchList?.feeItem}}</td>

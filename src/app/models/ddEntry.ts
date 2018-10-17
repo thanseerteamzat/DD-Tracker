@@ -20,6 +20,7 @@ export class ddEntry {
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
+    batchNo:string;
     despatchDate: string;
     dbaNo: string;
     entryPros: boolean;
@@ -59,6 +60,7 @@ export class CheckTemp {
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
+    batchNo:string;
     despatchDate: string;
     dbaNo: string;
     entryPros: boolean;
@@ -90,6 +92,7 @@ export class temp {
     ddId: string; //dd Id entry 
     ddRollNo: string;
     despatchNo: string;
+    batchNo:string;
     despatchDate: string;
     dbaNo: string;
     entryPros: boolean;

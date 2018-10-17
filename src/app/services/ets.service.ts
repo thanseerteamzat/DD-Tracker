@@ -25,12 +25,26 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public cookiecenter: string;
-  
+
   public expirydate: Date;
   public convertedWord: string;
+  public financialYear: string;
   url = 'http://localhost:2000/'
+
   constructor(private http: HttpClient,
-    private config: ConfigService, private cookieService: CookieService) { }
+    private config: ConfigService, private cookieService: CookieService) {
+
+    let currentYear = (new Date()).getFullYear();
+    let previousYear = (new Date()).getFullYear() - 1;
+    let nextYear = (new Date()).getFullYear() + 1;
+    let finyear = null;
+    if ((new Date()).getMonth() > 4) {
+      let Csplit = currentYear.toString().slice(-2);
+      let Nsplit = nextYear.toString().slice(-2);
+      finyear = Csplit + '-' + Nsplit;
+    }
+    this.financialYear = finyear
+  }
 
   GetAllCenters = (): Observable<any> => {
     return this.http.get(this.config.apiUrl + 'center')
@@ -46,18 +60,18 @@ export class EtsService {
     return this.http.get(this.config.apiUrl + 'center?district=' + district)
   }
 
-  GetddfromTtc = (fromDate,toDate,skipValue,limitValue): Observable<any> => {
-    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate   +'&to='+ toDate +'&skip='+skipValue +'&limit='+limitValue+'&CenterCategory=kkc')
+  GetddfromTtc = (fromDate, toDate, skipValue, limitValue): Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate + '&to=' + toDate + '&skip=' + skipValue + '&limit=' + limitValue + '&CenterCategory=kkc')
 
   }
   getCookie() {
     return this.cookieService.getAll();
     // return this.cookieService.get(setcenter);
-    
+
 
   }
-  setCookie(cookiename, cookievalue,setcenter, expirydate ) {
-    return this.cookieService.set(cookiename, cookievalue,setcenter, expirydate)
+  setCookie(cookiename, cookievalue, setcenter, expirydate) {
+    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate)
 
   }
 

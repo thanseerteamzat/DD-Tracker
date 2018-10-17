@@ -4,6 +4,7 @@ export class Invoice {
 
     invoiceId: string;
     dbaNo: string;
+    batchNo: string;
     CourseCode: string;
     feesItem: string;
     CenterCode: string;
@@ -25,4 +26,29 @@ export class Invoice {
 export class invoiceList {
     invoiceenter: Invoice = new Invoice();
     center: Center = new Center();
+}
+
+export class InvoiceAmountPending {
+    constructor() {
+        // this.totalAmount = 0;
+        this.shareAmount = 0;
+        // this.totalAmount = 0;
+        // this.TDS = 0;
+        // this.difference = 0;
+        // this.taxAmount = 0;
+
+    }
+    invoiceDate: string;
+    invoiceNo: string;
+    ackDate: string;
+    shareAmount: number;
+    taxAmount: number;
+    totalAmount: number;
+    TDS: number;
+    amountTobeRecieved: number;
+    recievedAmount: number;
+    recievedDate: string;
+    difference: number;
+    dateDifference: string;
+    enteredBy: string;
 }

@@ -69,6 +69,7 @@ export class DespatchNoEntryComponent implements OnInit {
     previousdatecountErp: erpdespatchList[];
     previousdatecountDespatch;
     erpPreviousMonthEntryExists;
+    // batchNo;
     previousEntryPendingList: erpdespatchList[];;
     constructor(private db: AngularFireDatabase,
         private ets: EtsService,
@@ -255,8 +256,27 @@ export class DespatchNoEntryComponent implements OnInit {
         console.log('successs**/**', this.tempcenter);
         this.selectedcenter = key;
         this.selectedData = null;
+
+        let currentYear = (new Date()).getFullYear();
+        let previousYear = (new Date()).getFullYear() - 1;
+        let nextYear = (new Date()).getFullYear() + 1;
+        let finyear = null;
+        if ((new Date()).getMonth() > 4) {
+            let Csplit = currentYear.toString().slice(-2);
+            let Nsplit = nextYear.toString().slice(-2);
+            finyear = Csplit + '-' + Nsplit;
+        }
         if (this.selectfee == null) {
             this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
+            // this.selectedData.forEach(element => {
+            //     if (element.ddenter.courseName == 'PDPPT') {
+            //         this.batchNo = 'BN' + '/' + this.tempcentercode + '/' + '001' + '/' + finyear;
+            //     }
+            //     else if (element.ddenter.courseName == 'DMTT') {
+            //         this.batchNo = 'BN' + '/' + this.tempcentercode + '/' + '002' + '/' + finyear;
+
+            //     }
+            // })
 
             for (let i = 0; i <= this.checklist.length; i++) {
                 this.checklist.splice(i, this.checklist.length);
@@ -395,7 +415,7 @@ export class DespatchNoEntryComponent implements OnInit {
         var splityear = styear.slice(-2)
         var splitnextyear = stnextyear.slice(-2);
         // console.log(list)
-        this.despatchFormat = "IDE/" + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+        this.despatchFormat = "IDE" +'/'+ this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
         this.despatch.despatchNo = this.despatchFormat;
         // console.log('this.despatchFormat', this.despatchFormat)
         // console.log('this.checklist.length', this.checklist.length)

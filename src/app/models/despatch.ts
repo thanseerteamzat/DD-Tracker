@@ -18,8 +18,9 @@ export class Despatch {
     dbaNo: string;
     dbaDate: string;
     ackno: string;
+    batchNo: string;
     isdbaEntered: boolean;
-    isackEntered :boolean;
+    isackEntered: boolean;
 
 
 }
@@ -50,8 +51,9 @@ export class despatchtemp {
     dbaNo: string;
     dbaDate: string;
     ackno: string;
+    batchNo: string;
     isdbaEntered: boolean;
-    isackEntered :boolean;
+    isackEntered: boolean;
 
 }
 
