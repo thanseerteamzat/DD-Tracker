@@ -134,9 +134,13 @@
 
           </div></div>
 
-          <div class="form-group col-md-3">
+          <!-- <div class="form-group col-md-3">
             <label for="dbaNo">DBA No</label>
             <input type="text" [(ngModel)]="newddentry.dbaNo" name="dbaNo" class="form-control">
+          </div> -->
+          <div class="form-group col-md-3">
+            <label for="dbaAmount">Taxable Amount</label>
+            <input  type="text" [(ngModel)]="newddentry.taxableAmount" name="taxableAmount" class="form-control">
           </div>
 
 
@@ -148,10 +152,6 @@
 
         
           
-          <div class="form-group col-md-3">
-            <label for="dbaAmount">DBA Amount</label>
-            <input  type="text" [(ngModel)]="newddentry.dbaAmount" name="dbaAmount" class="form-control">
-          </div>
 
           <div class="form-group col-md-3">
             <label for="remarks">Remarks </label>
@@ -188,8 +188,8 @@
               <th style="min-width: 150px;">Invoice Number</th>
               <th style="min-width: 100px;">Invoice Date</th>
               <th style="min-width: 120px;">Month</th>
-              <th style="min-width: 120px;">DBA No</th>
-              <th style="min-width: 120px;">DBA Amount</th>
+              <!-- <th style="min-width: 120px;">DBA No</th> -->
+              <th style="min-width: 120px;">Taxable Amount</th>
 
               <th style="min-width: 100px;">Remarks</th>
 
@@ -217,8 +217,8 @@
 
                   <td>{{ddenter.ddenter.invoiceDate}}</td>
                   <td>{{ddenter.ddenter.month}}</td>
-                  <td>{{ddenter.ddenter.dbaNo}}</td>
-                  <td>{{ddenter.ddenter.dbaAmount}}</td>
+                  <!-- <td>{{ddenter.ddenter.dbaNo}}</td> -->
+                  <td>{{ddenter.ddenter.taxableAmount}}</td>
 
                   <td>{{ddenter.ddenter.remarks}}</td>
 

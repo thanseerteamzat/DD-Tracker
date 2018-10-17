@@ -286,8 +286,8 @@ export class InvoiceEntryComponent implements OnInit {
     console.log('*********************',this.newddentry.invoiceNumber)
     this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
     this.invoiceEntry.inwardItem='Invoice';
-    this.invoiceEntry.dbaNo=this.newddentry.dbaNo;
-    this.invoiceEntry.dbaAmount=this.newddentry.dbaAmount;
+    // this.invoiceEntry.dbaNo=this.newddentry.dbaNo;
+    this.invoiceEntry.taxableAmount=this.newddentry.taxableAmount;
     this.invoiceEntry.month=this.newddentry.month;
     this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
     this.invoiceEntry.remarks=this.newddentry.remarks;
@@ -295,7 +295,7 @@ export class InvoiceEntryComponent implements OnInit {
       updates['/invoiceEntry/' + this.newddentry.invoiceEntryId] = JSON.stringify(this.newddentry);
       try {
         let up = this.db.database.ref().update(updates);
-
+        alert('updated succesfully')
       }
       catch (ex) {
         alert("Error in Updating details");
@@ -326,8 +326,8 @@ export class InvoiceEntryComponent implements OnInit {
     console.log('*********************',this.newddentry.invoiceNumber)
     this.invoiceEntry.invoiceNumber=this.newddentry.invoiceNumber;
     this.invoiceEntry.inwardItem='Invoice';
-    this.invoiceEntry.dbaAmount=this.newddentry.dbaAmount;
-    this.invoiceEntry.dbaNo=this.newddentry.dbaNo;
+    // this.invoiceEntry.dbaAmount=this.newddentry.dbaAmount;
+    this.invoiceEntry.taxableAmount=this.newddentry.taxableAmount;
     this.invoiceEntry.month=this.newddentry.month;
     this.invoiceEntry.enteredBy=this.newddentry.enteredBy;
     this.invoiceEntry.remarks=this.newddentry.remarks;

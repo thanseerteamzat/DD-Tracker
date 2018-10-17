@@ -1,0 +1,63 @@
+<div style="margin-left: 50px;" class="wrapper ">
+
+    <!-- Page Content Holder -->
+    <div id="content" class="createcontent">
+        <div class="form-row">
+            <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
+            <h1>SRO HO Verification</h1>
+            <!-- <h1 *ngIf='isEditMode'>Edit Invoice Entry</h1> -->
+        </div>
+<div class="row">
+
+    <div class="form-group col-md-3">
+        <label for="date">Date</label>
+        <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+    </div>
+</div>
+
+
+
+<h1>SRO Entry List </h1>
+<!-- <button  type="submit"  class="btn btn-primary">Save</button> -->
+
+
+<table class="table table-hover table-responsive table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th height="50" bgcolor="#6599F">SL NO</th>
+            <th>Date</th>
+            <th style="min-width: 90px;">No of DD</th>
+
+            <th style="min-width: 100px;">DD Amount</th>
+            <th style="min-width: 100px;">Center Name</th>
+             
+
+            <th style="min-width: 100px;">Verify</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor='let ddenter of dateLists '>
+            <tr>
+            <!-- <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" > -->
+                <td>{{dateLists.indexOf(ddenter) + 1}}</td>
+                <td>{{ddenter.ddenter.date}}</td>
+                <td>{{ddenter.ddenter.noofDd}}</td>
+                <td>{{ddenter.ddenter.ddAmount}}</td>
+                <td>{{ddenter.ddenter.centerName}}</td>
+                
+<td><button type="button" (click)=entrySelection() class="btn btn-primary">
+    Verify
+</button>
+</td>
+            </tr>
+        </ng-container>
+    </tbody>
+
+</table>
+
+
+
+
+</div></div>

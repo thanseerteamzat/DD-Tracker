@@ -64,6 +64,12 @@ export class EtsService {
     return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate + '&to=' + toDate + '&skip=' + skipValue + '&limit=' + limitValue + '&CenterCategory=kkc')
 
   }
+  GetStudentsFromKKC = () :Observable<any> => {
+    return this.http.get(this.config.apiUrlKKC + 'payment.php')
+
+  }
+
+
   getCookie() {
     return this.cookieService.getAll();
     // return this.cookieService.get(setcenter);

@@ -73,6 +73,8 @@ import { SumPipe } from './sum.pipe';
 import { UniquePipe } from './unique.pipe';
 import { KcvtpCenterInvoiceDetailsComponent } from './Invoicee/kcvtp-center-invoice-details/kcvtp-center-invoice-details.component';
 import { InvoiceAmountPendingComponent } from './Invoicee/invoice-amount-pending/invoice-amount-pending.component';
+import { SrohoverificationComponent } from './srohoverification/srohoverification.component';
+import { KkcBatchNoEntryComponent } from './kkc-batch-no-entry/kkc-batch-no-entry.component';
 
 
 const appRoutes: Routes = [
@@ -132,7 +134,10 @@ const appRoutes: Routes = [
   { path: 'despatch-ack-details', component: DespatchAckDetailsComponent },
   { path: 'sro-entry-report', component: SrodailyreportComponent },
   { path: 'kcvtp-centers-invoice', component: KcvtpCenterInvoiceDetailsComponent },
-  { path: 'invoice-Amount-pending', component: InvoiceAmountPendingComponent }
+  { path: 'invoice-Amount-pending', component: InvoiceAmountPendingComponent },
+  { path: 'srohoverification',component:SrohoverificationComponent},
+  { path: 'kkc-batchno-entry',component:KkcBatchNoEntryComponent}
+  // {}
 ];
 
 
@@ -191,6 +196,8 @@ const appRoutes: Routes = [
     UniquePipe,
     KcvtpCenterInvoiceDetailsComponent,
     InvoiceAmountPendingComponent,
+    SrohoverificationComponent,
+    KkcBatchNoEntryComponent,
 
   ],
   imports: [
