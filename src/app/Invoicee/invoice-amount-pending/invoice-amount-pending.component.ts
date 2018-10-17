@@ -5,6 +5,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from '../../services/ets.service';
 import { Router } from '@angular/router';
 import { Common } from '../../models/common';
+import { TouchSequence } from 'selenium-webdriver';
+import { asEnumerable } from 'linq-es2015';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-invoice-amount-pending',
@@ -16,7 +19,7 @@ export class InvoiceAmountPendingComponent implements OnInit {
   invoiceList: invoiceList[] = [];
   centerList: Center[] = []
   invoice: Invoice[] = []
-  selectedData;
+  selectedData: Invoice[];
   temp;
   selectedDatatemp;
   centers;
@@ -47,6 +50,9 @@ export class InvoiceAmountPendingComponent implements OnInit {
   invoiceData;
   selectedNo;
   invoiceMonth;
+  iList;
+  jList=0;
+  filteredData;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -62,6 +68,8 @@ export class InvoiceAmountPendingComponent implements OnInit {
     { id: '12', name: 'Dec' },
 
   ];
+  itempush: Invoice[] = []
+
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
@@ -105,9 +113,10 @@ export class InvoiceAmountPendingComponent implements OnInit {
         }
         this.invoice.push(ddListItem.invoiceenter);
         this.invoiceList.push(ddListItem);
+
         if (this.invoice.filter(i => i.invoiceNo) != null) {
           this.invoiceData = new Set(this.invoice.map(item => item.invoiceNo));
-          console.log('aaaaaaaaaaaaaaaaaaaa', this.invoiceData)
+          // console.log('aaaaaaaaaaaaaaaaaaaa', this.invoiceData)
         }
 
       });
@@ -118,77 +127,77 @@ export class InvoiceAmountPendingComponent implements OnInit {
   }
   selectData(data) {
 
-    this.dtotal = 0;
-    this.desptotal = 0;
-    this.feeamountTotal = 0;
-    this.feeamountTotal = 0;
-    this.shareamountTotal = 0;
-    this.shareamountList = 0;
-    this.taxableAmount = 0;
-    this.cgst = 0;
-    this.sgst = 0;
-    this.totalinvoiceAmount = 0;
-    this.feeamountlist = 0;
-    this.selectlisttotal = data.length;
-    this.invoicesplit = 0;
-    for (let i = 0; i <= data.length; i++) {
-      this.temp = data[i];
-      if (this.temp != null) {
-        this.dtotal = parseFloat(this.dtotal) + parseFloat(this.temp.invoiceenter.dbaAmount);
-        this.desptotal = this.dtotal.toFixed(2);
+    // this.dtotal = 0;
+    // this.desptotal = 0;
+    // this.feeamountTotal = 0;
+    // this.feeamountTotal = 0;
+    // this.shareamountTotal = 0;
+    // this.shareamountList = 0;
+    // this.taxableAmount = 0;
+    // this.cgst = 0;
+    // this.sgst = 0;
+    // this.totalinvoiceAmount = 0;
+    // this.feeamountlist = 0;
+    // this.selectlisttotal = data.length;
+    // this.invoicesplit = 0;
+    // for (let i = 0; i <= data.length; i++) {
+    //   this.temp = data[i];
+    //   if (this.temp != null) {
+    //     this.dtotal = parseFloat(this.dtotal) + parseFloat(this.temp.invoiceenter.dbaAmount);
+    //     this.desptotal = this.dtotal.toFixed(2);
 
-        this.feeamountTotal = parseFloat(this.feeamountTotal) + parseFloat(this.temp.invoiceenter.feeAmount);
-        this.feeamountlist = this.feeamountTotal.toFixed(2);
+    //     this.feeamountTotal = parseFloat(this.feeamountTotal) + parseFloat(this.temp.invoiceenter.feeAmount);
+    //     this.feeamountlist = this.feeamountTotal.toFixed(2);
 
-        this.shareamountTotal = parseFloat(this.shareamountTotal) + parseFloat(this.temp.invoiceenter.shareAmount);
-        this.shareamountList = this.shareamountTotal.toFixed(2);
+    //     this.shareamountTotal = parseFloat(this.shareamountTotal) + parseFloat(this.temp.invoiceenter.shareAmount);
+    //     this.shareamountList = this.shareamountTotal.toFixed(2);
 
-        this.taxableAmount = this.shareamountList;
+    //     this.taxableAmount = this.shareamountList;
 
-        let cgstrrate = 0.09;
-        let cgstvalue = parseFloat(this.taxableAmount) * cgstrrate;
-        this.cgst = cgstvalue.toFixed(2);
+    //     let cgstrrate = 0.09;
+    //     let cgstvalue = parseFloat(this.taxableAmount) * cgstrrate;
+    //     this.cgst = cgstvalue.toFixed(2);
 
-        let sgstrrate = 0.09;
-        let sgstvalue = parseFloat(this.taxableAmount) * sgstrrate;
-        this.sgst = sgstvalue.toFixed(2);
+    //     let sgstrrate = 0.09;
+    //     let sgstvalue = parseFloat(this.taxableAmount) * sgstrrate;
+    //     this.sgst = sgstvalue.toFixed(2);
 
-        let totalInvAmount = parseFloat(this.taxableAmount) + parseFloat(this.cgst) + parseFloat(this.sgst);
-        this.totalinvoiceAmount = totalInvAmount.toFixed(2);
-        // this.invoiceAmountTowords = this.number2text(this.totalinvoiceAmount);
-        var splitmode = this.totalinvoiceAmount % 1;
-        // var split = this.totalinvoiceAmount.slice(-3);
-        console.log('splitted round off value**', splitmode.toFixed(2));
-        var splitlasttwodigits = splitmode.toFixed(2);
-        if (parseFloat(splitlasttwodigits) == 0) {
-          console.log('success with zero')
-          this.invoicesplit = splitlasttwodigits;
-        }
-        else {
-          let a = 1 - parseFloat(splitlasttwodigits);
-          let b = a.toFixed(2);
-          console.log('b*****', b)
-          let c = 0.50;
-          if (b <= c.toString()) {
-            console.log('greater')
+    //     let totalInvAmount = parseFloat(this.taxableAmount) + parseFloat(this.cgst) + parseFloat(this.sgst);
+    //     this.totalinvoiceAmount = totalInvAmount.toFixed(2);
+    //     // this.invoiceAmountTowords = this.number2text(this.totalinvoiceAmount);
+    //     var splitmode = this.totalinvoiceAmount % 1;
+    //     // var split = this.totalinvoiceAmount.slice(-3);
+    //     console.log('splitted round off value**', splitmode.toFixed(2));
+    //     var splitlasttwodigits = splitmode.toFixed(2);
+    //     if (parseFloat(splitlasttwodigits) == 0) {
+    //       console.log('success with zero')
+    //       this.invoicesplit = splitlasttwodigits;
+    //     }
+    //     else {
+    //       let a = 1 - parseFloat(splitlasttwodigits);
+    //       let b = a.toFixed(2);
+    //       console.log('b*****', b)
+    //       let c = 0.50;
+    //       if (b <= c.toString()) {
+    //         console.log('greater')
 
-            this.invoicesplit = '+' + b;
-          }
-          else {
-            console.log('lesser')
-            this.invoicesplit = '-' + splitlasttwodigits;
+    //         this.invoicesplit = '+' + b;
+    //       }
+    //       else {
+    //         console.log('lesser')
+    //         this.invoicesplit = '-' + splitlasttwodigits;
 
-          }
+    //       }
 
-          // console.log('actual round off', b)
-        }
-        // this.invoicesplit = '0.' + split;
+    //       // console.log('actual round off', b)
+    //     }
+    //     // this.invoicesplit = '0.' + split;
 
-        // this.convertedToWord = this.ets.convertedWord;
-        // console.log('words in ts', this.convertedToWord)
+    //     // this.convertedToWord = this.ets.convertedWord;
+    //     // console.log('words in ts', this.convertedToWord)
 
-      }
-    }
+    //   }
+    // }
 
   }
 
@@ -201,74 +210,76 @@ export class InvoiceAmountPendingComponent implements OnInit {
 
 
     // }
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
 
   }
 
   filterMonth(key) {
     console.log('key*****', key)
-
     this.selectmonth = key;
     this.selectedData = null;
 
     if (this.selectedfee == null && this.selectedcenter == null) {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
+      this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) == this.selectmonth && s.isInvoiceEntered == true)
+      this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
+
 
     }
-    else if (this.selectedfee == null) {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
+    // else if (this.selectedfee == null) {
+    //   this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
+    //   this.selectData(this.selectedData)
 
-    }
-    else if (this.selectedcenter == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
+    // }
+    // else if (this.selectedcenter == null) {
+    //   this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
+    //   this.selectData(this.selectedData)
 
-    }
-    else {
-      this.selectedData = this.invoiceList.filter(
-        s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
-    }
+    // }
+    // else {
+    //   this.selectedData = this.invoiceList.filter(
+    //     s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
+    //   this.selectData(this.selectedData)
+    // }
 
   }
-  filterCenter(key) {
+  // filterCenter(key) {
 
 
-    this.selectedcenter = key;
-    this.selectedData = null;
+  //   this.selectedcenter = key;
+  //   this.selectedData = null;
 
-    if (this.selectedfee == null && this.selectmonth == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
-
-    }
-    else if (this.selectedfee == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      console.log('with fee filter******')
-      this.selectData(this.selectedData)
-
-    }
-    else if (this.selectmonth == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      console.log('with fee filter******')
-      this.selectData(this.selectedData)
-
-    }
-    else {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      this.selectData(this.selectedData)
-    }
+  //   if (this.selectedfee == null && this.selectmonth == null) {
+  //     this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
+  //     this.selectData(this.selectedData)
+  //     this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceenter.invoiceNo).ToArray();
 
 
-  }
+  //   }
+  //   else if (this.selectedfee == null) {
+  //     this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
+  //     console.log('with fee filter******')
+  //     this.selectData(this.selectedData)
+
+  //   }
+  //   else if (this.selectmonth == null) {
+  //     this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
+  //     console.log('with fee filter******')
+  //     this.selectData(this.selectedData)
+
+  //   }
+  //   else {
+  //     this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
+  //     this.selectData(this.selectedData)
+  //   }
+
+
+  // }
   // generateInvoiceList(no) {
   //   console.log(no)
   //   this.selectedData = this.invoiceList.filter(s => s.invoiceenter.invoiceNo == no && s.invoiceenter.isInvoiceEntered == true)
@@ -306,6 +317,23 @@ export class InvoiceAmountPendingComponent implements OnInit {
     window.print();
 
     document.body.innerHTML = originalContents;
+  }
+  display() {
+    // for (let i = 0, j = 0; i < this.invoiceList.length, j < this.invoice.length; i++ , j++) {
+    //   this.iList = this.invoiceList[i];
+    //   this.jList = this.invoice[j];
+
+    //   if (this.iList != null && this.jList != null && this.iList.invoiceenter.invoiceNo == this.jList.invoiceNo) {
+    //     this.itempush.push(this.jList)
+    //   }
+    // }
+    this.jList=0;
+    this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
+    console.log('sum***',  this.iList)
+    
+   
+   
+
   }
 
 }

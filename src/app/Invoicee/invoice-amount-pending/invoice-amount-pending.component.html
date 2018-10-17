@@ -16,9 +16,9 @@
       </select>
     </div>
 
-    <div class="form-group col-md-3">
+    <!-- <div class="form-group col-md-3">
 
-      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <label>Filter DD's with Invoice No : </label>&nbsp;
       <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
         <ng-container *ngFor="let s of centers">
@@ -27,7 +27,7 @@
 
       </select>
 
-    </div>
+    </div> -->
 
     <!-- <div class="form-group col-md-3">
         <label>Count:</label>
@@ -64,13 +64,13 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let ddenter of selectedData">
+            <ng-container *ngFor="let ddenter of iList">
 
 
 
-              <tr>
+              <tr *ngFor="let x of ddenter">
                 <td>{{selectedData.indexOf(ddenter) + 1}}</td>
-                <td>{{ddenter.invoiceenter?.invoiceDate}}</td>
+                <td>{{x?.invoiceDate}}</td>
                 <td></td>
                 <td>{{ddenter.invoiceenter?.shareAmount}}</td>
 
@@ -101,9 +101,9 @@
 
         </table>
       </div>
-      <!-- <div style="float: right;">
-        <button class="btn btn-primary" (click)="print(printSectionId)">Print</button>
-      </div> -->
+      <div style="float: right;">
+        <button class="btn btn-primary" (click)="display()">Print</button>
+      </div>
 
     </div>
   </div>
