@@ -14,7 +14,8 @@ import { KKCStudent } from '../models/kkcstudent';
 })
 export class KkcBatchNoEntryComponent implements OnInit {
 
-  students:KKCStudent[];
+  students: KKCStudent[];
+  isEditMode;
   constructor(
     private ets: EtsService,
     private cookieservice: CookieService,
@@ -25,11 +26,11 @@ export class KkcBatchNoEntryComponent implements OnInit {
     private config: ConfigService,
     private fb: FormBuilder,
 
-  ) { 
+  ) {
 
-    this.ets.GetStudentsFromKKC().subscribe(data =>{
-    this.students=data;
-    console.log(this.students);
+    this.ets.GetStudentsFromKKC().subscribe(data => {
+      this.students = data;
+      console.log(this.students);
     })
   }
 
