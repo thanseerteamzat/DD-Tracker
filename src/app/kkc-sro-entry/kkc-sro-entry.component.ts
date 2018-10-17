@@ -12,7 +12,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { sroId } from '../models/sroId';
 import { Center } from '../models/Center';
 import { Course } from '../models/Course';
-import { registerDate } from '../models/registerDate';
+import { registerDate, registerdateList } from '../models/registerDate';
 @Component({
   selector: 'app-kkc-sro-entry',
   templateUrl: './kkc-sro-entry.component.html',
@@ -25,6 +25,8 @@ export class KkcSroEntryComponent implements OnInit {
   tempsroList;
   courses: Course[];
   code;
+  dateLists: registerdateList[] = [];
+  tempIdforDB;
   tempvariable;
   tempvariableone;
   tempcentercode;
@@ -118,11 +120,31 @@ export class KkcSroEntryComponent implements OnInit {
     },
       error => console.log(error),
       () => console.log('courses'));
-    // // console.log(this.split1);
-    // return this.split1; 
-
-
-
+      let itemReferance = db.object('dateforsro');
+      itemReferance.snapshotChanges().subscribe(action => {
+        this.dateLists = [];
+        var quatationsList = action.payload.val();
+        let quotationobj = Common.snapshotToArray(action.payload);
+        quotationobj.forEach(element => {
+          let ddListItem = new registerdateList();
+          let qobj: registerDate = JSON.parse(element);
+          // console.log("****" + element);
+          if (qobj.Id != undefined) {
+            qobj.Id = qobj.Id.replace("/", "");
+          }
+  
+          ddListItem.ddenter = qobj;
+  
+          // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+          // // console.log('2222222222222222222222222222',custList)
+          // if (custList.length > 0) {
+          //   ddListItem.center = custList[0];
+          // }
+  
+          this.dateLists.push(ddListItem);
+          // console.log('length***************************',this.sroLists.length);
+        });
+      });
 
     let itemReff = db.object('sroEntry');
     itemReff.snapshotChanges().subscribe(action => {
@@ -250,7 +272,6 @@ export class KkcSroEntryComponent implements OnInit {
     this.tempvariableone=this.ddCollected
     this.register(key, dlastid);
     var tempAmount = 0;
-
     var datealreadyExists;
     let dateObj = new sroEntryList;
     this.tempdateeCount = this.formatDate(this.todaydate)
@@ -302,11 +323,22 @@ export class KkcSroEntryComponent implements OnInit {
         count=count+1
       }
     }
+    for(let i=0; i<=this.dateLists.length;i++){
+      let dateObj=this.dateLists[i]
+      if(dateObj != null && dateObj.ddenter.centerName==tempcenter && dateObj.ddenter.date==tempdate){
+
+        this.tempIdforDB=dateObj.ddenter.Id;
+      }      
+    }
     var updates = {};
+    
     this.dateforRegiter.ddAmount=amount.toString();
     // var temp = 1 + this.count;
     this.dateforRegiter.noofDd = count;
-    updates['/dateforsro/' + this.dateforRegiter.Id] = JSON.stringify(this.dateforRegiter);
+    this.dateforRegiter.Id=this.tempIdforDB;
+    this.dateforRegiter.date=tempdate;
+    this.dateforRegiter.centerName=tempcenter;
+    updates['/dateforsro/' + this.tempIdforDB] = JSON.stringify(this.dateforRegiter);
     try {
       let up = this.db.database.ref().update(updates);
     }

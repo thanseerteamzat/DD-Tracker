@@ -63,6 +63,7 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor='let ddenter of selectedData '>
+                        <tr>
                         <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" >
                             <td>{{dateLists.indexOf(ddenter) + 1}}</td>
                             <td>{{ddenter.ddenter.date}}</td>

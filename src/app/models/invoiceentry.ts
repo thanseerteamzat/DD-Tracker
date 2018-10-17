@@ -10,8 +10,8 @@ invoiceDate:string;
 month:string;
 remarks:string;
 enteredBy:string;
-dbaNo:string;
-dbaAmount:string;
+// dbaNo:string;
+taxableAmount:string;
 verifiedBy:string;
 isVerified:boolean;
 
