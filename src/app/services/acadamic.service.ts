@@ -65,8 +65,11 @@ export class AcadamicService {
                       "ddDate":ddEntry.ddDate,
                       "enteredBy":ddEntry.enteredBy,
                       "isVerified":ddEntry.isVerified,
+
                     };
-        const body = {"Table": "kkcddEntry", "Data":Sub};
+        const body = {"Table": "kkcddEntry",
+                       "Data":Sub,
+                       "UniqueId":"KkcDdId"};
 
       this.http.post(this.config.pyUrl +'AddRow', body)
       .subscribe(data => {},
