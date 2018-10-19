@@ -100,6 +100,7 @@ export class DbaNoEntryComponent implements OnInit {
     checklisttemp;
     checklistddTotal;
     batchNo;
+
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
@@ -248,24 +249,14 @@ export class DbaNoEntryComponent implements OnInit {
 
         this.resetform();
         this.dbaservice = this.dbalist;
-        // this.ets.sendData(this.dbaservice).subscribe(data => console.log('data', data))
 
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
-
-
-        // }
-
-        // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x9') !==-1 ) || (this.ets.cookievalue == "All"))  {
-        //     console.log('inside if condition *********************')
-        //     // this.router.navigate(['/dd-entry'])
-        //   }
-        //   else {
-        //     this.router.navigate(['/error']);
-        //   }
+        if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x9') !== -1) || (this.ets.cookievalue == "All")) {
+            console.log('inside if condition *********************')
+            // this.router.navigate(['/dd-entry'])
+        }
+        else {
+            this.router.navigate(['/error']);
+        }
         this.dbaservice = this.ddLists;
 
         this.entered = this.ets.cookiename;
@@ -355,6 +346,7 @@ export class DbaNoEntryComponent implements OnInit {
 
             this.getbatchNo();
             this.selectData(this.selectedData)
+            console.log(this.selectedData);
 
 
         }
@@ -382,28 +374,24 @@ export class DbaNoEntryComponent implements OnInit {
             this.centerList.push(cent);
 
         }
-        this.centerList.forEach(element => {
-            if (this.selectedCenter == null) {
-                this.batchNo = 'BN' + '/' + 'nil' + '/' + 'nil' + '/' + this.ets.financialYear;
+        this.selectedData.forEach(data => {
+            var split = data.center.CenterName.slice(-5);
+            if (split.includes('PD') && split.includes('DM')) {
+                data.despatchList.batchNo =
+                    'BN' + '/' + data.center.CenterCode + '/' + '001' + '/' + this.ets.financialYear + ',' +
+                    'BN' + '/' + data.center.CenterCode + '/' + '002' + '/' + this.ets.financialYear;
+
             }
-            else {
-
-
-                if (element.Id == this.selectedCenter) {
-                    var split = element.CenterName.slice(-5)
-                    console.log('spli value', split)
-
-                    if (split.includes('PD') && split.includes('DM')) {
-                        this.batchNo = 'BN' + '/' + element.CenterCode + '/' + '001 ,002' + '/' + this.ets.financialYear;
-
-                    }
-                    else if (split.includes('PD')) {
-                        this.batchNo = 'BN' + '/' + element.CenterCode + '/' + '001' + '/' + this.ets.financialYear;
-                    }
-                    console.log('center****', split)
-                }
+            else if (split.includes('PD')) {
+                data.despatchList.batchNo = 'BN' + '/' + data.center.CenterCode + '/' + '001' + '/' + this.ets.financialYear;
             }
+            else if (split.includes('DM')) {
+                data.despatchList.batchNo = 'BN' + '/' + data.center.CenterCode + '/' + '002' + '/' + this.ets.financialYear;
+
+            }
+
         })
+
     }
 
     getMothFromDate(dateData) {
@@ -644,7 +632,8 @@ export class DbaNoEntryComponent implements OnInit {
         this.newInvoice.dbaMonth = this.newdba.despatchMonth;
         this.newInvoice.isdbaEntered = this.newdba.isdbaEntered;
         this.newInvoice.isInvoiceEntered = false;
-        this.newInvoice.batchNo = this.batchNo;
+        // this.newInvoice.batchNo = this.batchNo;
+        this.newInvoice.invAmtPending = false;
 
 
 

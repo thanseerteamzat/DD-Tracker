@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from '../services/ets.service';
 import { Router } from '@angular/router';
 import { Common } from '../models/common';
-import { dbaEntry, dbaList } from '../models/dbaEntry';
+import { dbaEntry, dbaList, dbaMailContent } from '../models/dbaEntry';
 import { Center } from '../models/Center';
 import { Despatch } from '../models/despatch';
 import * as XLSX from 'xlsx';
@@ -16,7 +16,7 @@ import * as XLSX from 'xlsx';
 export class DbaDetailsComponent implements OnInit {
   dbaList: dbaList[] = [];
   centerList: Center[] = []
-  selectedData;
+  selectedData: dbaList[];
   temp;
   selectedDatatemp;
   centers;
@@ -36,6 +36,8 @@ export class DbaDetailsComponent implements OnInit {
   selectedCenter;
   ackData;
   despatchList: Despatch[] = [];
+  dbaDetails: dbaMailContent = new dbaMailContent;
+  dbamailList: dbaMailContent[] = [];
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -126,7 +128,7 @@ export class DbaDetailsComponent implements OnInit {
           ddListItem.center = centList[0];
         }
         this.dbaList.push(ddListItem);
-        console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
+        // console.log('aaaaaaaaaaaaaaaaaaaa', this.dbaList)
         // this.ackData = new Set(this.despatchList.map(item => item.dbaNo));
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.ackData)
 
@@ -171,7 +173,7 @@ export class DbaDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
@@ -187,6 +189,27 @@ export class DbaDetailsComponent implements OnInit {
 
     // }
   }
+  getdbaList(data) {
+    for (let i = 0; i < data.length; i++) {
+      var temp = data[i];
+      if (temp != null) {
+        this.dbaDetails.centerName = temp.center.CenterName;
+        this.dbaDetails.centerCode = temp.center.CenterCode;
+        this.dbaDetails.batchNo = temp.dbaenter.batchNo;
+        this.dbaDetails.statementNo = temp.dbaenter.statementNo;
+        this.dbaDetails.statementDate = temp.despList.despatchDate;
+        this.dbaDetails.erpDbaAmount = temp.dbaenter.despatchAmount;
+        this.dbaDetails.tax = temp.dbaenter.tax;
+        this.dbaDetails.fwt = temp.dbaenter.fwt;
+        this.dbaDetails.sharetoKCVTP = temp.dbaenter.stkAmount;
+        this.dbaDetails.dbaNo = temp.dbaenter.dbaNo;
+        this.dbamailList.push(this.dbaDetails);
+      }
+    }
+    console.log('dbamaillist***', this.dbamailList)
+
+  }
+
   filterFee(key) {
     console.log(key)
     this.selectedfee = key;
@@ -224,6 +247,10 @@ export class DbaDetailsComponent implements OnInit {
     if (this.selectedfee == null && this.selectedcenter == null) {
       this.selectedData = this.dbaList.filter(s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.getdbaList(this.selectedData);
+      // console.log('selected data',this.selectedData)
+
+
 
     }
     else if (this.selectedfee == null) {
@@ -240,6 +267,7 @@ export class DbaDetailsComponent implements OnInit {
       this.selectedData = this.dbaList.filter(
         s => this.getMothFromDate(s.dbaenter.despatchMonth) == this.selectmonth && s.dbaenter.centerId == this.selectedcenter && s.dbaenter.feesItem == this.selectedfee && s.dbaenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.getdbaList(this.selectedData);
     }
 
   }
@@ -278,7 +306,7 @@ export class DbaDetailsComponent implements OnInit {
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)
-      console.log('month**', month)
+      // console.log('month**', month)
       return month;
     }
   }

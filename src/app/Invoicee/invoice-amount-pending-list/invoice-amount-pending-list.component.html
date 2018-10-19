@@ -1,0 +1,56 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>Invoice Recieved List</h2>
+
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+    <div class="form-group col-md-3">
+      <label>Filter with Month : </label>&nbsp;
+      <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.id">{{month.name}}</option>
+        </ng-container>
+      </select>
+    </div>
+    
+  </div>
+  <div>
+    <div style="padding-top: 50px;padding-left: 50px">
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>SL.No</th>
+            <th>INVOICE NO</th>
+            <th>INVOICE DATE</th>
+            <th>ACK DATE</th>
+            <th>SHARE AMOUNT</th>
+            <th>TAX AMOUNT</th>
+            <th>TOTAL AMOUNT</th>
+            <th>TDS</th>
+            <th>AMOUNT TO BE RECIEVED</th>
+            <th>RECIEVED AMOUNT</th>
+            <th>RECIEVED DATE</th>
+            <th>DATE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of selectedData">
+            <tr *ngIf="ddenter.invAmtPending == true">
+              <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.invoiceNo}}</td>
+              <td>{{ddenter.invoiceDate}}</td>
+              <td></td>
+              <td>{{ddenter.shareAmount}}</td>
+              <td>{{ddenter.taxAmount}}</td>
+              <td>{{ddenter.totalAmount}}</td>
+              <td>{{ddenter.TDS}}</td>
+              <td>{{ddenter.amountTobeRecieved}}</td>
+              <td>{{ddenter.recievedAmount}}</td>
+              <td>{{ddenter.recievedDate}}</td>
+              <td></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

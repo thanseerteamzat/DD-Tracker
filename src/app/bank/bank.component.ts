@@ -12,7 +12,7 @@ import { Dddetails } from '../models/dddetails';
 
 import { EtsService } from '../services/ets.service';
 import { adjddLastid } from '../models/adjlastid';
-import { Invoice, invoiceList } from '../models/invoice ';
+import { Invoice, invoiceList, invAmtPndgLastid } from '../models/invoice ';
 import { dbaEntry } from '../models/dbaEntry';
 import { ddLastid } from '../models/ddLastid';
 import { kkcId } from '../models/kkcId';
@@ -28,7 +28,7 @@ import { erpDespatch } from '../models/erpdespatch';
 export class BankComponent implements OnInit {
   ddktc: Dddetails[];
   newInvoice: Invoice = new Invoice();
-  newddLastid: kkcId = new kkcId();
+  newddLastid: invAmtPndgLastid = new invAmtPndgLastid();
   // order: string;
   ddLastids: erpDespatch[] = [];
   despatchlist: Despatch[] = [];
@@ -421,20 +421,20 @@ export class BankComponent implements OnInit {
     // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
     // adjddlastId
     // adjdbaLastId
-    let uniqueId = "/DD" + Common.newGuid();
-    this.newddLastid.Id = uniqueId;
+    // let uniqueId = "/IAP" + Common.newGuid();
+    // this.newddLastid.id = uniqueId;
 
 
-    let ddEntryJson = JSON.stringify(this.newddLastid);
-    console.log(ddEntryJson);
-    try {
-      this.db.database.ref('kkcId').child(uniqueId).set(ddEntryJson);
-      alert("DD Entry added successfully!!..");
+    // let ddEntryJson = JSON.stringify(this.newddLastid);
+    // console.log(ddEntryJson);
+    // try {
+    //   this.db.database.ref('InvAmtLastid').child(uniqueId).set(ddEntryJson);
+    //   alert("DD Entry added successfully!!..");
 
-    }
-    catch (ex) {
+    // }
+    // catch (ex) {
 
-    }
+    // }
 
   }
 
