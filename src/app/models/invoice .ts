@@ -19,6 +19,7 @@ export class Invoice {
     isInvoiceEntered: boolean;
     invoiceNo: string;
     invoiceDate: string;
+    invAmtPending: boolean;
     enteredby: string;
     invoiceGeneratedBy: string;
 }
@@ -50,5 +51,10 @@ export class InvoiceAmountPending {
     recievedDate: string;
     difference: number;
     dateDifference: string;
+    invAmtPending:boolean;
     enteredBy: string;
+}
+export class invAmtPndgLastid {
+    id: string;
+    lastid: number;
 }

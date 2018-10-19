@@ -174,7 +174,7 @@ export class KkcDdentryComponent implements OnInit {
     this.kkcddEntry.kkcId=uniqueId;
     console.log('KKC DD ENTRY ------------>',this.kkcddEntry);    
     this.academic.AddKkcDdEntry(this.kkcddEntry)
-    alert('DD Added Successfully');
+    alert('DD Added Successfully**');
 
     let that=this;
     that.academic.GetKkcDdEntry().subscribe(data => {

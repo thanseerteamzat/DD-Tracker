@@ -136,7 +136,7 @@
                             <td>{{selectedData.indexOf(ddenter) + 1}}</td>
                             <th>{{ddenter.despatchList?.despId}}</th>
                             <td>{{ddenter.center?.CenterName}}</td>
-                            <td>{{batchNo}}</td>
+                            <td>{{ddenter.despatchList?.batchNo}}</td>
                             <td>{{ddenter.despatchList?.despatchNo}}</td>
                             <td>{{ddenter.despatchList?.despatchDate}}</td>
                             <td>{{ddenter.despatchList?.feeItem}}</td>
@@ -150,7 +150,7 @@
 
                     </ng-container>
                     <tr>
-                        <td colspan="6" style="text-align: right">Total</td>
+                        <td colspan="7" style="text-align: right">Total</td>
                         <td>
                             {{total1}}
                         </td>

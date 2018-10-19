@@ -31,3 +31,17 @@ export class dbaList {
     despList: Despatch[] = new Array();
 
 }
+
+export class dbaMailContent
+{
+    centerName:string;
+    centerCode:string;
+    batchNo:string;
+    statementNo:string;
+    statementDate:string;
+    erpDbaAmount:string;
+    tax:string;
+    fwt:string;
+    sharetoKCVTP:string;
+    dbaNo:string;
+}
