@@ -66,6 +66,8 @@ export class InvoiceAmountPendingComponent implements OnInit {
   itempush: Invoice[] = []
   selectedDataIndex;
   checkListTotalAmtPending;
+  totaltaxAmount;
+  totalshareAmount;
   noOfInvoices;
   entered;
   lastid;
@@ -105,10 +107,8 @@ export class InvoiceAmountPendingComponent implements OnInit {
       let obj = Common.snapshotToArray(action.payload);
       obj.forEach(element => {
         let ddListItem = new invoiceList();
-
         let obj: Invoice = JSON.parse(element);
         ddListItem.invoiceenter = obj;
-
         let centList = this.ets.centerList.filter(s => s.Id == (obj.CenterId));
         if (centList.length > 0) {
           ddListItem.center = centList[0];
@@ -116,12 +116,12 @@ export class InvoiceAmountPendingComponent implements OnInit {
         this.invoice.push(ddListItem.invoiceenter);
         this.invoiceList.push(ddListItem);
 
-        if (this.invoice.filter(i => i.invoiceNo) != null) {
-          this.invoiceData = new Set(this.invoice.map(item => item.invoiceNo));
-        }
 
       });
+      this.groupbyAllList(this.invoice);
+
     });
+
 
     let dRef = db.object('InvAmtLastid');
     dRef.snapshotChanges().subscribe(action => {
@@ -133,14 +133,54 @@ export class InvoiceAmountPendingComponent implements OnInit {
         this.newinvLastid = obj;
         this.invLastids.push(obj as invAmtPndgLastid);
         this.lastid = obj.lastid;
-
-
       });
     });
 
 
 
+
   }
+  groupbyAllList(data) {
+    this.tax = 0;
+    this.amount = 0;
+    this.amr = 0;
+    this.shareAmount = 0;
+    this.selectedData = null;
+    this.selectedData = data.filter(s => s.isInvoiceEntered == true && s.dbaMonth)
+    this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
+    // console.log('iList***', this.iList)
+    for (let i = 0; i < this.iList.length; i++) {
+      let item = this.iList[i];
+      var newList = new InvoiceAmountPending();
+      for (let j: number = 0; j < item.length; j++) {
+        let inneritem = item[j];
+        newList.invoiceNo = inneritem.invoiceNo;
+        newList.invoiceDate = inneritem.invoiceDate;
+        newList.invAmtPending = inneritem.invAmtPending;
+        this.shareAmount += parseFloat(inneritem.shareAmount)
+        newList.shareAmount = this.shareAmount.toFixed(2);
+        this.tax = (newList.shareAmount * 18) / 100;
+        newList.taxAmount = parseFloat(this.tax.toFixed(2));
+        this.amount = parseFloat(newList.shareAmount.toString()) + parseFloat(newList.taxAmount.toString());
+        newList.totalAmount = parseFloat(this.amount.toFixed(2));
+        let tds = (newList.shareAmount * 2) / 100;
+        // console.log(tds)
+        newList.TDS = parseFloat(tds.toFixed(2))
+        this.amr = parseFloat(newList.totalAmount.toString()) - parseFloat(newList.TDS.toString());
+        newList.amountTobeRecieved = parseFloat(this.amr.toFixed(2));
+        // newList.difference=newList.amountTobeRecieved 
+
+      }
+      this.invList.push(newList)
+      this.totalAmtPending(this.invList);
+      // console.log('newlist', newList)
+
+      // console.log('invlist***', this.invList)
+
+    }
+  }
+
+
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -157,14 +197,7 @@ export class InvoiceAmountPendingComponent implements OnInit {
 
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
 
-
-    // }
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
@@ -186,7 +219,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
     this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth)
       == this.selectmonth && s.isInvoiceEntered == true)
     this.groupbyList();
-    this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
 
   }
 
@@ -194,7 +226,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, -3)
-      // console.log('month**', month)
       return month;
     }
 
@@ -206,8 +237,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
     this.amr = 0;
     this.shareAmount = 0;
     this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
-    // console.log('iList***', this.iList)
-
     for (var i = 0; i < this.iList.length; i++) {
       let item = this.iList[i]
       var newList = new InvoiceAmountPending();
@@ -241,16 +270,20 @@ export class InvoiceAmountPendingComponent implements OnInit {
   }
 
   totalAmtPending(data) {
-    console.log(data)
+    // console.log(data)
     this.checkListTotalAmtPending = 0;
+    this.totalshareAmount = 0;
+    this.totaltaxAmount = 0;
     for (let i = 0; i < data.length; i++) {
       var list = data[i];
       if (list != null) {
-        this.checkListTotalAmtPending = (parseFloat(this.checkListTotalAmtPending) + parseFloat(list.totalAmount)).toFixed(2);
+        this.checkListTotalAmtPending = (parseFloat(this.checkListTotalAmtPending) + parseFloat(list.amountTobeRecieved)).toFixed(2);
+        this.totalshareAmount = (parseFloat(this.totalshareAmount) + parseFloat(list.shareAmount)).toFixed(2);
+        this.totaltaxAmount = (parseFloat(this.totaltaxAmount) + parseFloat(list.taxAmount)).toFixed(2);
         this.noOfInvoices = data.length;
       }
     }
-    console.log('sum*****', this.checkListTotalAmtPending)
+    // console.log('sum*****', this.checkListTotalAmtPending)
   }
 
   checkList(event, id, data: InvoiceAmountPending) {
@@ -258,19 +291,32 @@ export class InvoiceAmountPendingComponent implements OnInit {
     if (event == true) {
 
       this.pendingList.push(data);
-      // this.checklisttotal = this.desplist.length;
-      // this.checklistddTotal = 0;
     }
     else if (event == false) {
       this.selectedDataIndex = this.pendingList.findIndex(list => list.invoiceNo == id);
       this.pendingList.splice(this.selectedDataIndex, 1);
-      // this.checklisttotal = this.desplist.length;
-      // this.checklistddTotal = 0;
+    }
 
+  }
+
+  beforeRegister() {
+    if (this.pendingList.length == 0) {
+      alert('Please select any Entry !!')
 
     }
-    // console.log('data****', this.pendingList)
+    else {
 
+      this.pendingList.forEach(data => {
+        if (data.recievedAmount == null && data.recievedDate == null) {
+          alert("Please enter selected data's recieved amount and date !!")
+
+        }
+        else {
+          this.register();
+        }
+
+      })
+    }
   }
 
   register() {
@@ -299,10 +345,7 @@ export class InvoiceAmountPendingComponent implements OnInit {
               }
             })
           })
-          // var updates = {};
-          // this.newinvLastid.lastid = counter;
-          // updates['/InvAmtLastid/' + lstid] = JSON.stringify(this.newinvLastid);
-          // let up = this.db.database.ref().update(updates);
+
           let invoiceAmtEntryJson = JSON.stringify(list);
           console.log(invoiceAmtEntryJson);
           let split = list.invoiceNo.slice(0, -10)

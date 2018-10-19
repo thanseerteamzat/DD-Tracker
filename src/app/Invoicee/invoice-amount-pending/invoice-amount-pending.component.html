@@ -1,68 +1,83 @@
 <div class="wrapper" style="margin-left: 50px">
   <h2>Invoice Amount Pending</h2>
 
-    <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
-      <div class="form-group col-md-3">
-        <label>Filter with Month : </label>&nbsp;
-        <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
-          <option value="">--Choose--</option>
-          <ng-container *ngFor="let month of Months">
-            <option [ngValue]="month.name">{{month.name}}</option>
-          </ng-container>
-        </select>
-      </div>
-      <div class="form-group col-md-3">
-        <label>Total Amount Pending </label>&nbsp;
-        <input type="text" readonly [(ngModel)]="checkListTotalAmtPending" name="dbaNo" class="form-control">
-      </div>
-      <div class="form-group col-md-3">
-        <label>No of Invoices</label>&nbsp;
-        <input type="text" [(ngModel)]="noOfInvoices" readonly name="dbaNo" class="form-control">
-      </div>
-      <div>
-        <button type="submit" class="btn btn-primary" (click)="register()">Submit</button>
-      </div>
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+    <div class="form-group col-md-3">
+      <label>Filter with Month : </label>&nbsp;
+      <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.name">{{month.name}}</option>
+        </ng-container>
+      </select>
     </div>
-    <div>
-      <div style="padding-top: 50px;padding-left: 50px" >
-        <table class="table table-hover table-responsive table-bordered">
-          <thead class="thead-dark">
+    <div class="form-group col-md-3">
+      <label>Total Amount Pending </label>&nbsp;
+      <input type="text" readonly [(ngModel)]="checkListTotalAmtPending" name="checkListTotalAmtPending" class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+      <label>No of Invoices</label>&nbsp;
+      <input type="text" [(ngModel)]="noOfInvoices" readonly name="dbaNo" class="form-control">
+    </div>
+   
+  </div>
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+      <div class="form-group col-md-3">
+      </div>  
+    <div class="form-group col-md-3">
+      <label>Share Amount Pending </label>&nbsp;
+      <input type="text" readonly [(ngModel)]="totalshareAmount" name="totalshareAmount" class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+        <label>Tax Amount Pending </label>&nbsp;
+        <input type="text" readonly [(ngModel)]="totaltaxAmount" name="totaltaxAmount" class="form-control">
+      </div>
+      <div style="padding-left:30px">
+        <br>
+          <button type="submit" class="btn btn-primary" (click)="beforeRegister()">Submit</button>
+        </div>
+  </div>
+  <div>
+    <div style="padding-top: 50px;padding-left: 50px">
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>SL.No</th>
+            <th>INVOICE NO</th>
+            <th>INVOICE DATE</th>
+            <th>ACK DATE</th>
+            <th>SHARE AMOUNT</th>
+            <th>TAX AMOUNT</th>
+            <th>TOTAL AMOUNT</th>
+            <th>TDS</th>
+            <th>AMOUNT TO BE RECIEVED</th>
+            <th>RECIEVED AMOUNT</th>
+            <th>RECIEVED DATE</th>
+            <th>DATE</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of invList;let in=index">
             <tr>
-              <th>SL.No</th>
-              <th>INVOICE NO</th>
-              <th>INVOICE DATE</th>
-              <th>ACK DATE</th>
-              <th>SHARE AMOUNT</th>
-              <th>TAX AMOUNT</th>
-              <th>TOTAL AMOUNT</th>
-              <th>TDS</th>
-              <th>AMOUNT TO BE RECIEVED</th>
-              <th>RECIEVED AMOUNT</th>
-              <th>RECIEVED DATE</th>
-              <th>DATE</th>
+              <td>{{invList.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.invoiceNo}}</td>
+              <td>{{ddenter.invoiceDate}}</td>
+              <td></td>
+              <td>{{ddenter.shareAmount}}</td>
+              <td>{{ddenter.taxAmount}}</td>
+              <td>{{ddenter.totalAmount}}</td>
+              <td>{{ddenter.TDS}}</td>
+              <td>{{ddenter.amountTobeRecieved}}</td>
+              <td><input type="text" [(ngModel)]="invList[in].recievedAmount" class="form-control" name="amount"></td>
+
+              <td><input type="date" [(ngModel)]="invList[in].recievedDate" class="form-control" name="date"></td>
+              <td></td>
+              <td><input type="checkbox" name="invno" (change)="checkList($event.target.checked,ddenter.invoiceNo,ddenter)"></td>
             </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let ddenter of invList;let in=index">
-              <tr *ngIf="ddenter.invAmtPending == false">
-                <td>{{invList.indexOf(ddenter) + 1}}</td>
-                <td>{{ddenter.invoiceNo}}</td>
-                <td>{{ddenter.invoiceDate}}</td>
-                <td></td>
-                <td>{{ddenter.shareAmount}}</td>
-                <td>{{ddenter.taxAmount}}</td>
-                <td>{{ddenter.totalAmount}}</td>
-                <td>{{ddenter.TDS}}</td>
-                <td>{{ddenter.amountTobeRecieved}}</td>
-                <td><input type="text" [(ngModel)]="invList[in].recievedAmount" class="form-control" name="amount"></td>
-                
-                <td><input type="date" [(ngModel)]="invList[in].recievedDate" class="form-control" name="date"></td>
-                <td></td>
-                <td><input type="checkbox" name="invno" (change)="checkList($event.target.checked,ddenter.invoiceNo,ddenter)"></td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
+          </ng-container>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>

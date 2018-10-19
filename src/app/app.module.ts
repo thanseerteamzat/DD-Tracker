@@ -76,6 +76,7 @@ import { InvoiceAmountPendingComponent } from './Invoicee/invoice-amount-pending
 import { SrohoverificationComponent } from './srohoverification/srohoverification.component';
 import { KkcBatchNoEntryComponent } from './kkc-batch-no-entry/kkc-batch-no-entry.component';
 import { InvoiceAmountPendingListComponent } from './Invoicee/invoice-amount-pending-list/invoice-amount-pending-list.component';
+import { KcvtpCenterInvlist2Component } from './Invoicee/kcvtp-center-invlist2/kcvtp-center-invlist2.component';
 
 
 const appRoutes: Routes = [
@@ -138,7 +139,8 @@ const appRoutes: Routes = [
   { path: 'invoice-Amount-pending', component: InvoiceAmountPendingComponent },
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
-  { path: 'invoice-amt-pendingList', component: InvoiceAmountPendingListComponent }
+  { path: 'invoice-amt-pendingList', component: InvoiceAmountPendingListComponent },
+  { path: 'kcvtp-center-invlist2', component: KcvtpCenterInvlist2Component }
 ];
 
 
@@ -200,6 +202,7 @@ const appRoutes: Routes = [
     SrohoverificationComponent,
     KkcBatchNoEntryComponent,
     InvoiceAmountPendingListComponent,
+    KcvtpCenterInvlist2Component,
 
   ],
   imports: [

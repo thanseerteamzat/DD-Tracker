@@ -58,3 +58,25 @@ export class invAmtPndgLastid {
     id: string;
     lastid: number;
 }
+
+export class InvoiceCenterList2 {
+    constructor() {
+        //  this.dbaAmount = 0;
+        //  this.shareAmount = 0;
+        // this.TDS = 0;
+        // this.difference = 0;
+        // this.taxAmount = 0;
+
+    }
+    dbaNo:string
+    InvoiceNo:string;
+    // centerInvoiceNo:string;
+    // centerName:string;
+    // invoiceMonth:string;
+    // dbaAmount:number;
+    // shareAmount:number;
+    // invoiceDate:string;
+    // isgstValue:number;
+    // invAmtPending:boolean;
+    // enteredBy: string;
+}
