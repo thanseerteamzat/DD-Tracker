@@ -185,7 +185,7 @@ export class KkcSroEntryComponent implements OnInit {
     }
 
   }
-  myfunction(value) {
+  formOpen(value) {
     // console.log(value);
     if (value == "Yes") {
       this.isformOpen = true;
@@ -587,4 +587,16 @@ export class KkcSroEntryComponent implements OnInit {
 
       })
   }
+
+
+  entrySelection(sroId, ddentry: sroEntry) {
+
+    console.log('inside functionl entry selection', sroId)
+    // console.log(ddentry.entryPros);
+    // console.log(ddentry.ddlastId)
+    // if (ddentry.entryPros == false) {
+      this.router.navigate(['/sro-entry-details/' + sroId])
+   
+  }
+
 }

@@ -103,7 +103,7 @@
                         <label for="date">DD Collected</label>
 
 
-                        <select (change)="myfunction($event.target.value)" [(ngModel)]="ddCollected" name="ddCollected" class="form-control" formControlName="isddcollected">
+                        <select (change)="formOpen($event.target.value)" [(ngModel)]="ddCollected" name="ddCollected" class="form-control" formControlName="isddcollected">
                             <option value="" disabled [selected]>--Choose--</option>
                             <ng-container *ngFor="let d of values">
                                 <option [value]="d.name">{{d.name}}</option>
@@ -278,6 +278,7 @@
                         <th style="min-width: 120px;">DD Amount</th>
 
                         <th style="min-width: 100px;">Remarks</th>
+                        <th></th>
 
 
 
@@ -310,7 +311,15 @@
                             <td>{{ddenter.ddenter.bank}}</td>
                             <td>{{ddenter.ddenter.ddAmount}}</td>
                             <td>{{ddenter.ddenter.remarks}}</td>
+                            <td> <button type="button" (click)=entrySelection(ddenter.ddenter.sroId,ddenter.ddenter) class="btn btn-primary">
+                                View Details
+                            </button>
 
+
+                    <!-- <button type="button" class="btn btn-primary">
+                        <a [routerLink]="['/ddentry-details',ddenter.ddenter.ddlastId]">View Details</a>
+                    </button> -->
+                </td>
 
 
 
