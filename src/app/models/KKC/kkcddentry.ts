@@ -1,23 +1,24 @@
-export class kkcddEntry{
+
+export class kkcddEntry {
 
     // dduId: string; //guid
     kkcId: string; //ddId updation
     date: string;
-    feesItem:string;
-    applicationNumber:string;
+    feesItem: string;
+    applicationNumber: string;
     centerName: string;
     courseName: string;
     studentName: string;
     ddNumber: string;
     bank: string;
-    studentRollNumber:string;
-    ddAmount:string;
-    ddDate:string;
-    enteredBy:string;
-    isVerified:boolean;
+    studentRollNumber: string;
+    ddAmount: string;
+    ddDate: string;
+    enteredBy: string;
+    isVerified: boolean;
 
 
-    
+
     // centerId: string;
 
     // appNo: string;

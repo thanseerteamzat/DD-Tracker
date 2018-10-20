@@ -1,3 +1,6 @@
+export class CenterData{
+    public Data = new Array<Center>()
+}
 export class Center
 {
     public Id:string;

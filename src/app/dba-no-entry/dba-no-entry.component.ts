@@ -7,11 +7,12 @@ import { despatchList, Despatch, despatchtemp } from '../models/despatch';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Common } from '../models/common';
 import { dbaLastid } from '../models/dbalastId';
-import { dbaEntry } from '../models/dbaEntry';
+import { dbaEntry, dbaShareReleaseNote } from '../models/dbaEntry';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { element } from 'protractor';
 import { Invoice } from '../models/invoice ';
 import { IfStmt } from '@angular/compiler';
+import { AcadamicService } from '../services/acadamic.service';
 
 @Component({
     selector: 'app-dba-no-entry',
@@ -100,12 +101,15 @@ export class DbaNoEntryComponent implements OnInit {
     checklisttemp;
     checklistddTotal;
     batchNo;
-
+    despatch: Despatch[] = []
+    newdbaNote: dbaShareReleaseNote = new dbaShareReleaseNote();
+    dbaExportdata: dbaShareReleaseNote[] = [];
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private academic: AcadamicService
     ) {
         this.dbacreateForm();
         this.resetform();
@@ -154,6 +158,8 @@ export class DbaNoEntryComponent implements OnInit {
 
                     // console.log('selected****', this.selectedCenter)
                 }
+
+                this.despatch.push(ddListItem.despatchList);
 
                 this.ddLists.push(ddListItem);
 
@@ -274,26 +280,66 @@ export class DbaNoEntryComponent implements OnInit {
         if (this.selectmonth == null && this.selectedcenter == null) {
 
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
-            this.selectData(this.selectedData)
+            this.getdespatchDetails(this.selectedData);
+            this.selectData(this.selectedData);
         }
         else if (this.selectmonth == null) {
 
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.selectData(this.selectedData)
 
         }
         else if (this.selectedcenter == null) {
 
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.selectData(this.selectedData)
 
         }
         else {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.selectData(this.selectedData)
         }
     }
 
+
+    getdespatchDetails(data) {
+
+        let centerResponse = this.ets.centerList;
+        //  Iterate throw all keys.
+        for (let cent of centerResponse) {
+
+            this.centerList.push(cent);
+
+        }
+        for (let i = 0; i < data.length; i++) {
+            var list = data[i];
+            this.newdbaNote.despSerialNo = list.despatchList.despId;
+            this.centerList.forEach(data => {
+                if (data.Id == list.despatchList.centerId) {
+                    this.newdbaNote.centerName = data.CenterName;
+                }
+            })
+    
+            this.newdbaNote.batchNo = list.despatchList.batchNo;
+            this.newdbaNote.depDate = list.despatchList.despatchDate;
+            this.newdbaNote.feesItem = list.despatchList.feeItem;
+            this.newdbaNote.total = list.despatchList.totalAmount;
+            this.newdbaNote.tax = list.despatchList.taxAmount;
+            this.newdbaNote.fwt = list.despatchList.FWT;
+            this.newdbaNote.amt = list.despatchList.Amount;
+            this.newdbaNote.rate = list.despatchList.Rate;
+            this.dbaExportdata.push(this.newdbaNote);
+        }
+        console.log('data ***', this.dbaExportdata)
+    }
+
+    export()
+    {
+        // this.academic.ExportDbaReport(this.dbaExportdata)
+    }
     filterMonth(key) {
         this.selectmonth = key;
         this.selectedData = null;
@@ -303,17 +349,20 @@ export class DbaNoEntryComponent implements OnInit {
         }
         if (this.selectedfee == null && this.selectedcenter == null) {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
         }
         else if (this.selectedfee == null) {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
 
         }
         else if (this.selectedcenter == null) {
             this.selectedData = this.ddLists.filter(s => s.despatchList.feeItem == this.selectedfee && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
 
@@ -321,6 +370,7 @@ export class DbaNoEntryComponent implements OnInit {
         else {
             this.selectedData = this.ddLists.filter(
                 s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
         }
@@ -336,12 +386,14 @@ export class DbaNoEntryComponent implements OnInit {
         }
         if (this.selectedfee == null && this.selectmonth == null) {
             this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
 
         }
         else if (this.selectedfee == null) {
             this.selectedData = this.ddLists.filter(s => s.despatchList.centerId == this.selectedcenter && this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             console.log('with fee filter******')
 
             this.getbatchNo();
@@ -359,6 +411,7 @@ export class DbaNoEntryComponent implements OnInit {
         }
         else {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.centerId == this.selectedcenter && s.despatchList.feeItem == this.selectedfee && s.despatchList.isdbaEntered == null)
+            this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
         }

@@ -15,7 +15,6 @@
                 <div class="form-group col-md-3">
                     <br>
                     <label for="ddid">KKC DD Serial No : &nbsp;</label>
-                    <span *ngIf='!isEditMode' style="color: red">{{SerialNo}}</span>
                     <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
 
                     <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
@@ -117,7 +116,7 @@
                     <!-- <label for="centercode">Code :</label> -->
                  Code : {{tempcentercode}}   <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="centerName" class="form-control" name="selectedcenter">
                         <option value="">--Choose--</option>
-                        <ng-container *ngFor="let s of centers.Data">
+                        <ng-container *ngFor="let s of centerList">
                             <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
                         </ng-container>
 

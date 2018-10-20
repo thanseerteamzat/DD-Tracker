@@ -1,3 +1,5 @@
+import { CenterData } from './../../models/Center';
+import { CourseData } from './../../models/Course';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,23 +24,23 @@ import { Common } from '../../models/common';
   styleUrls: ['./kkc-ddentry.component.css']
 })
 export class KkcDdentryComponent implements OnInit {
-  kkcddEntry :kkcddEntry = new kkcddEntry;
+  kkcddEntry: kkcddEntry = new kkcddEntry;
   tempcentercode;
   kkcddEntries;
   tempcoursecode;
   selectedcenterr
-  courses;
- tempcenter;
+  courses: CourseData;
+  tempcenter;
   split1;
   vtemp
   // centerList: Center[] = [];
-  centerList=new Array<Center>();
-  courseList=new Array<Course>();
+  centerList = new Array<Center>();
+  courseList = new Array<Course>();
 
   // courseList: Course[] = [];
   code;
-  
-  centers;
+
+  centers: CenterData;
   feesItem;
   applicationNumber;
   district;
@@ -52,7 +54,7 @@ export class KkcDdentryComponent implements OnInit {
   ddAmount;
   enteredBy;
   SerialNo;
-  todaydate= new Date;
+  todaydate = new Date;
   districts = [
     { id: '1', name: 'KANNUR' },
     { id: '2', name: 'KOZHIKODE' },
@@ -66,7 +68,9 @@ export class KkcDdentryComponent implements OnInit {
     { id: '10', name: 'KOLLAM' },
     { id: '11', name: 'THIRUVANANTHAPURAM' },
   ];
-
+  minDate;
+  maxDate;
+  isEditMode;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -74,188 +78,178 @@ export class KkcDdentryComponent implements OnInit {
     private http: HttpClient,
     private config: ConfigService,
     private ets: EtsService,
-    private academic:AcadamicService,
+    private academic: AcadamicService,
     private fb: FormBuilder,
     private cookieservice: CookieService
 
   ) {
     this.ddcreateForm();
-    
+
     this.academic.GetAllCenters().subscribe(resdata => {
-      this.centers=resdata;
+      this.centers = resdata;
+      console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        let c = new Center();
+        c.Id = resdata.Data[i].Id;
+        c.CenterCode = resdata.Data[i].CenterCode;
+        c.CenterName = resdata.Data[i].CenterName;
+        this.centerList.push(c);
 
-      console.log('data************',resdata.Data.length)
-      this.centerList=new Array<Center>();
-
-      for(let i=0; i<=resdata.Data.length;i++){
-       let c = new Center();
-       c.Id = resdata.Data[i].Id;
-       c.CenterCode=resdata.Data[i].CenterCode;
-       c.CenterName=resdata.Data[i].CenterName;
-
-      // c.CenterPlace=resdata.Data[i].CenterPlace;
-      this.centerList.push(c);
-       
       }
 
-      console.log(this.centers,'Centers')
+      console.log(this.centers, 'Centers')
     },
-    err => {
-      console.log('Error: ' + err.error);
-      console.log('Name: ' + err.name);
-      console.log('Message: ' + err.message);
-      console.log('Status: ' + err.status);
-    })
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
 
-    let that=this;
+    let that = this;
     that.academic.GetKkcDdEntry().subscribe(data => {
-      that.kkcddEntries=data;
-      this.SerialNo=that.kkcddEntries.Data.length+1;
-      console.log('this.serialNo',this.SerialNo)
+      that.kkcddEntries = data;
+      this.SerialNo = that.kkcddEntries.Data.length + 1;
+      console.log('this.serialNo', this.SerialNo)
       console.log("hi************")
-      console.log(that.kkcddEntries,'KKC DD Entries')
+      console.log(that.kkcddEntries, 'KKC DD Entries')
     },
-    err => {
-      console.log('Error: ' + err.error);
-      console.log('Name: ' + err.name);
-      console.log('Message: ' + err.message);
-      console.log('Status: ' + err.status);
-    })
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
 
-    this.academic.GetAllCourses().subscribe(response => {
-      this.courses=response;
-      console.log(this.courses.Data.length);
-      // console.log(this.courses.Data.length);
-      this.courseList=new Array<Course>();
-
-      for(let i=0; i<=response.Data.length;i++){
-       let cou = new Course();
-       cou.Code = response.Data[i].Code;
-      //  c.CenterCode=response.Data[i].CenterCode;
-       cou.Name=response.Data[i].Name;
-
-      // c.CenterPlace=resdata.Data[i].CenterPlace;
-      this.courseList.push(cou);
-       
+    this.academic.GetAllCourses().subscribe(courseData => {
+      this.courses = courseData;
+      console.log(courseData);
+      this.courseList = new Array<Course>();
+      for (let i = 0; i <= courseData.Data.length; i++) {
+        let cou = new Course();
+        cou.Code = this.courses.Data[i].Code;
+        cou.Name = courseData.Data[i].Name;
+        this.courseList.push(cou);
       }
-          
+
     },
-    err => {
-      console.log('Error: ' + err.error);
-      console.log('Name: ' + err.name);
-      console.log('Message: ' + err.message);
-      console.log('Status: ' + err.status);
-    })
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
 
     console.log('courseList**************************',
-  this.courseList)
-   }
+      this.courseList)
+  }
 
   ngOnInit() {
-  
-    this.enteredBy=this.ets.cookiename;
+
+    this.enteredBy = this.ets.cookiename;
   }
-  register(){
-  
+  register() {
+
     console.log('inside regsiter**')
-    this.kkcddEntry.feesItem=this.feesItem;
-    this.kkcddEntry.date=this.formatDate(this.todaydate);
-    this.kkcddEntry.ddDate=this.formatDate(this.ddDate);
-    this.kkcddEntry.applicationNumber=this.applicationNumber;
-    this.kkcddEntry.centerName=this.centerName;
-    this.kkcddEntry.studentName=this.studentName;
-    this.kkcddEntry.bank=this.bank;
-    this.kkcddEntry.courseName=this.courseName;
-    this.kkcddEntry.studentRollNumber='K18'+this.tempcentercode+this.tempcoursecode+this.studentRollNumber;
-    this.kkcddEntry.ddNumber=this.ddNumber;
-    this.kkcddEntry.ddAmount=this.ddAmount;
-    this.kkcddEntry.enteredBy=this.enteredBy;
+    this.kkcddEntry.feesItem = this.feesItem;
+    this.kkcddEntry.date = this.formatDate(this.todaydate);
+    this.kkcddEntry.ddDate = this.formatDate(this.ddDate);
+    this.kkcddEntry.applicationNumber = this.applicationNumber;
+    this.kkcddEntry.centerName = this.centerName;
+    this.kkcddEntry.studentName = this.studentName;
+    this.kkcddEntry.bank = this.bank;
+    this.kkcddEntry.courseName = this.courseName;
+    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.studentRollNumber;
+    this.kkcddEntry.ddNumber = this.ddNumber;
+    this.kkcddEntry.ddAmount = this.ddAmount;
+    this.kkcddEntry.enteredBy = this.enteredBy;
     let uniqueId = "DD" + Common.newGuid();
-    this.kkcddEntry.kkcId=uniqueId;
-    console.log('KKC DD ENTRY ------------>',this.kkcddEntry);    
+    this.kkcddEntry.kkcId = uniqueId;
+    console.log('KKC DD ENTRY ------------>', this.kkcddEntry);
     this.academic.AddKkcDdEntry(this.kkcddEntry)
     alert('DD Added Successfully**');
 
-    let that=this;
+    let that = this;
     that.academic.GetKkcDdEntry().subscribe(data => {
-      that.kkcddEntries=data;
+      that.kkcddEntries = data;
       console.log("hi************")
-      console.log(that.kkcddEntries,'KKC DD Entries')
+      console.log(that.kkcddEntries, 'KKC DD Entries')
     },
-    err => {
-      console.log('Error: ' + err.error);
-      console.log('Name: ' + err.name);
-      console.log('Message: ' + err.message);
-      console.log('Status: ' + err.status);
-    })
-  this.resetForm();
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+    this.resetForm();
   }
 
   callType(value) {
-    console.log(this.centerList,'*********************************8');
-    
-  for(let i=0;i<=this.centerList.length;i++){
-    console.log('i');
-    let tempcenterObj=this.centerList[i];
-    if(tempcenterObj != null && tempcenterObj.CenterName==this.centerName){
-      this.tempcentercode=tempcenterObj.CenterCode;
-      console.log('tempcentercode',this.tempcentercode);
+    console.log(this.centerList, '*********************************8');
+
+    for (let i = 0; i <= this.centerList.length; i++) {
+      console.log('i');
+      let tempcenterObj = this.centerList[i];
+      if (tempcenterObj != null && tempcenterObj.CenterName == this.centerName) {
+        this.tempcentercode = tempcenterObj.CenterCode;
+        console.log('tempcentercode', this.tempcentercode);
+
+      }
+      // if(tempcenterObj.Data.N)
 
     }
-    // if(tempcenterObj.Data.N)
-   
+    console.log('centername', this.centerName);
+
+    console.log('value', value);
+    let split1 = value.split(" ")[1];
+    console.log('splitted value', split1);
+
+    // let that = this;
+    // this.ets.GetAllCourses(split1).subscribe(data => {
+    //   that.courses = data;
+
+    //   this.ets.courseList = this.courses;
+
+
+    // },
+    //   error => console.log(error),
+    //   () => console.log('courses'));
+    // // console.log(this.split1);
+    // return this.split1;
+
+
+
+
   }
-  console.log('centername',this.centerName);
+  callTypee() {
+    console.log(this.courseList);
+    for (let i = 0; i <= this.courseList.length; i++) {
+      console.log('i');
+      let tempcourseObj = this.courseList[i];
+      console.log(this.courseName);
+      console.log(tempcourseObj.Code);
+      if (tempcourseObj != null && tempcourseObj.Name == this.courseName) {
+        this.tempcoursecode = tempcourseObj.Code;
+        console.log('tempcentercode', this.tempcoursecode);
 
-  console.log('value',value);
-  let split1 = value.split(" ")[1];
-  console.log('splitted value',split1);
-  
-  // let that = this;
-  // this.ets.GetAllCourses(split1).subscribe(data => {
-  //   that.courses = data;
-
-  //   this.ets.courseList = this.courses;
-
-
-  // },
-  //   error => console.log(error),
-  //   () => console.log('courses'));
-  // // console.log(this.split1);
-  // return this.split1;
-
-
-
-
-}
-callTypee(){
-  console.log(this.courseList);
-  for(let i=0;i<=this.courseList.length;i++){
-    console.log('i');
-    let tempcourseObj=this.courseList[i];
-    console.log(this.courseName);
-    console.log(tempcourseObj.Code);
-    if(tempcourseObj != null && tempcourseObj.Name==this.courseName){
-      this.tempcoursecode=tempcourseObj.Code;
-      console.log('tempcentercode',this.tempcoursecode);
+      }
+      // if(tempcenterObj.Data.N)
 
     }
-    // if(tempcenterObj.Data.N)
-   
+
   }
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
-}
-formatDate(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [day, month, year].join('-');
-}
+    return [day, month, year].join('-');
+  }
 
 
   ddentryForm = new FormGroup({
@@ -264,7 +258,7 @@ formatDate(date) {
     centerNameVal: new FormControl(),
     courseNameVal: new FormControl(),
     studentNameVal: new FormControl(),
-    rollNumberVal:new FormControl(),
+    rollNumberVal: new FormControl(),
     ddNumberVal: new FormControl(),
     bankVal: new FormControl(),
     // ddDate: new FormControl(),
@@ -317,7 +311,7 @@ formatDate(date) {
         ddNumberVal: null,
         bankVal: null,
         ddAmountVal: null,
-        rollNumberVal:null,
+        rollNumberVal: null,
         // ddDate: null,
         feesItemVal: null,
         applicationNoVal: null

@@ -32,16 +32,29 @@ export class dbaList {
 
 }
 
-export class dbaMailContent
-{
-    centerName:string;
-    centerCode:string;
-    batchNo:string;
-    statementNo:string;
-    statementDate:string;
-    erpDbaAmount:string;
-    tax:string;
-    fwt:string;
-    sharetoKCVTP:string;
-    dbaNo:string;
+export class dbaMailContent {
+    centerName: string;
+    centerCode: string;
+    batchNo: string;
+    statementNo: string;
+    statementDate: string;
+    erpDbaAmount: string;
+    tax: string;
+    fwt: string;
+    sharetoKCVTP: string;
+    dbaNo: string;
+}
+
+export class dbaShareReleaseNote {
+
+    despSerialNo: string;
+    centerName: string;
+    batchNo: string;
+    depDate: string;
+    feesItem: string;
+    total: number;
+    tax: number;
+    fwt: number;
+    amt: number;
+    rate: string;
 }

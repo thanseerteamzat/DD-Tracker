@@ -1,3 +1,7 @@
+export class CourseData {
+    public Data = new Array<Course>();
+}
+
 export class Course
 {
     

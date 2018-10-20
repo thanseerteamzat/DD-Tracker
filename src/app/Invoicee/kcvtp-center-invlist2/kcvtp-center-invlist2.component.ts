@@ -15,7 +15,7 @@ import { element } from 'protractor';
 })
 export class KcvtpCenterInvlist2Component implements OnInit {
   centerList: Center[] = []
-  selectedData;
+  selectedData: Invoice[];
   temp;
   selectedDatatemp;
   centers;
@@ -62,10 +62,10 @@ export class KcvtpCenterInvlist2Component implements OnInit {
   ];
   groupList: Invoice[][];
   groupList1: Invoice[][];
-  groupList2: Invoice[][];
+  groupList2 = new Array<Invoice[][]>()
   invList = new Array<InvoiceCenterList2>();
 
-  item: Invoice[]
+  shareAmountTotal;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -111,7 +111,7 @@ export class KcvtpCenterInvlist2Component implements OnInit {
         this.invoice.push(ddListItem.invoiceenter);
         this.invoiceList.push(ddListItem);
       });
-      this.groupbyList();
+      this.groupbyAllList(this.invoice);
       // console.log('group list 1', this.invList)
 
     });
@@ -127,125 +127,180 @@ export class KcvtpCenterInvlist2Component implements OnInit {
       this.router.navigate(['/error']);
     }
   }
-  groupbyList() {
-    this.groupList = asEnumerable(this.invoice).GroupBy(x => x.CenterId && x.isInvoiceEntered == true).ToArray();
+  groupbyAllList(data) {
+    this.selectedData = null;
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+    this.selectedData = data.filter(s => s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+    this.groupList = asEnumerable(this.selectedData).GroupBy(x => x.CenterId).ToArray();
+    // console.log('groupList****', this.groupList)
+
     for (let i = 0; i < this.groupList.length; i++) {
       let item = this.groupList[i];
-      this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo && x.isInvoiceEntered == true).ToArray();
-      var newList = new InvoiceCenterList2();
-      // console.log('group list 1**', this.groupList1);
-      for (let j: number = 0; j < this.groupList1.length; j++) {
-        var item1 = this.groupList1[j];
-        for (let k: number = 0; k < item1.length; k++) {
-          let inneritem = item1[k];
+      this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo).ToArray();
+      this.groupList2.push(this.groupList1);
+    }
+    for (let j: number = 0; j < this.groupList2.length; j++) {
+      var item1 = this.groupList2[j];
+      for (let k: number = 0; k < item1.length; k++) {
+        let inneritem = item1[k];
+        var newList = new InvoiceCenterList2();
+        // console.log('invlist****', inneritem)
+        this.shareAmountTotal = 0;
+        for (let l: number = 0; l < inneritem.length; l++) {
+          var inItem = inneritem[l];
           // console.log('item***1', inneritem)
-          newList.dbaNo = inneritem.dbaNo;
-          newList.InvoiceNo = inneritem.invoiceNo;
-          this.invList.push(newList);
-        }
-        console.log('inner item****', this.invList)
+          if (newList.dbaNo == null) {
+            newList.dbaNo = inItem.dbaNo + '\n';
+          }
+          else {
+            newList.dbaNo += inItem.dbaNo.toString() + '\n';
+          }
+          newList.InvoiceNo = inItem.invoiceNo;
+          this.centerList.forEach(data => {
+            if (data.Id == inItem.CenterId) {
+              newList.centerName = data.CenterName;
 
+            }
+          })
+          newList.invoiceMonth = inItem.dbaMonth;
+          (newList.dbaAmount += parseFloat(inItem.dbaAmount)).toFixed(2);
+          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + parseFloat(inItem.shareAmount.toString());
+          newList.shareAmount = this.shareAmountTotal.toFixed(2);
+          newList.invoiceDate = inItem.invoiceDate;
+
+        }
+        this.invList.push(newList);
 
       }
+      // console.log('invlist in constructor**', this.invList);
+
     }
-
-
 
   }
 
 
-  filterFee(key) {
-    console.log(key)
-    this.selectedfee = key;
-    this.selectedData = null;
 
-    if (this.selectmonth == null && this.selectedcenter == null) {
 
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-    }
-    else if (this.selectmonth == null) {
 
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
 
-    }
-    else if (this.selectedcenter == null) {
-
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-
-    }
-    else {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-    }
-  }
 
   filterMonth(key) {
     console.log('key*****', key)
-
+    for (let i = 0; i <= this.invList.length; i++) {
+      this.invList.splice(i, this.invList.length);
+    }
     this.selectmonth = key;
     this.selectedData = null;
 
-    if (this.selectedfee == null && this.selectedcenter == null) {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-
-    }
-    else if (this.selectedfee == null) {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-
-    }
-    else if (this.selectedcenter == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-
-    }
-    else {
-      this.selectedData = this.invoiceList.filter(
-        s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-    }
-
-  }
-
-  filterCenter(key) {
-
-
-    this.selectedcenter = key;
-    this.selectedData = null;
-
-    if (this.selectedfee == null && this.selectmonth == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-
-    }
-    else if (this.selectedfee == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-      console.log('with fee filter******')
-      // this.selectData(this.selectedData)
-
-    }
-    else if (this.selectmonth == null) {
-      this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      console.log('with fee filter******')
-      // this.selectData(this.selectedData)
-
-    }
-    else {
-      this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-      // this.selectData(this.selectedData)
-    }
+    this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
+      this.selectmonth && s.isInvoiceEntered == true && s.feesItem =='Course Fee')
+    // console.log(this.selectedData)
+    // console.log('invlist in filter', this.invList)
+    this.groupbyList();
 
 
   }
+  filterCenter(key) { }
+
+  groupbyList() {
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+    this.groupList = asEnumerable(this.selectedData).GroupBy(x => x.CenterId).ToArray();
+    // console.log('groupList****', this.groupList)
+
+    for (let i = 0; i < this.groupList.length; i++) {
+      let item = this.groupList[i];
+      this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo).ToArray();
+      this.groupList2.push(this.groupList1);
+    }
+    // console.log('groupList 2****', this.groupList2)
+    for (let j: number = 0; j < this.groupList2.length; j++) {
+      var item1 = this.groupList2[j];
+      for (let k: number = 0; k < item1.length; k++) {
+        let inneritem = item1[k];
+        var newList = new InvoiceCenterList2();
+        // console.log('invlist****', inneritem)
+        this.shareAmountTotal = 0;
+        for (let l: number = 0; l < inneritem.length; l++) {
+          var inItem = inneritem[l];
+          // console.log('item***1', inneritem)
+          if (newList.dbaNo == null) {
+            newList.dbaNo = inItem.dbaNo + '\n' + '\n';
+          }
+          else {
+            newList.dbaNo += inItem.dbaNo.toString() + '\n' + '\n';
+          }
+          newList.InvoiceNo = inItem.invoiceNo;
+          this.centerList.forEach(data => {
+            if (data.Id == inItem.CenterId) {
+              newList.centerName = data.CenterName;
+
+            }
+          })
+          newList.invoiceMonth = inItem.dbaMonth;
+          (newList.dbaAmount += parseFloat(inItem.dbaAmount)).toFixed(2);
+          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + parseFloat(inItem.shareAmount.toString());
+          newList.shareAmount = this.shareAmountTotal.toFixed(2);
+          newList.invoiceDate = inItem.invoiceDate;
+
+        }
+        this.invList.push(newList);
+      }
+      console.log('invlist group by filter**', this.invList);
+
+    }
+
+
+
+
+  }
+
+  // filterCenter(key) {
+
+
+  //   this.selectedcenter = key;
+  //   this.selectedData = null;
+
+  //   if (this.selectedfee == null && this.selectmonth == null) {
+  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
+  //     // this.selectData(this.selectedData)
+
+  //   }
+  //   else if (this.selectedfee == null) {
+  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
+  //     console.log('with fee filter******')
+  //     // this.selectData(this.selectedData)
+
+  //   }
+  //   else if (this.selectmonth == null) {
+  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
+  //     console.log('with fee filter******')
+  //     // this.selectData(this.selectedData)
+
+  //   }
+  //   else {
+  //     this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
+  //     // this.selectData(this.selectedData)
+  //   }
+
+
+  // }
 
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)
-      // console.log('month**', month)
+      console.log('month**', month)
       return month;
     }
   }

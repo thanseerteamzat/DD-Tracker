@@ -16,6 +16,11 @@ export class SroEntryDetailsComponent implements OnInit {
   sroentries: sroEntry[] = [];
   newsroentry: sroEntry = new sroEntry();
   isformOpen :boolean;
+  minDate;
+  maxDate;
+  isEditMode;
+  mytime;
+  courses
   values = [
     { id: '1', name: 'Yes' },
     { id: '2', name: 'No' }
@@ -72,5 +77,7 @@ export class SroEntryDetailsComponent implements OnInit {
       this.isformOpen = false;
     }
   }
+  filterCenter()
+  {}
 
 }
