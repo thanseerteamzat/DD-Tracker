@@ -349,6 +349,7 @@ export class DbaNoEntryComponent implements OnInit {
         }
         if (this.selectedfee == null && this.selectedcenter == null) {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
+        //    console.log('selected data',this.selectedData)
             this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)

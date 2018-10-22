@@ -165,8 +165,8 @@ export class InvoiceAmountPendingComponent implements OnInit {
         newList.totalAmount = parseFloat(this.amount.toFixed(2));
         let tds = (newList.shareAmount * 2) / 100;
         // console.log(tds)
-        newList.TDS = parseFloat(tds.toFixed(2))
-        this.amr = parseFloat(newList.totalAmount.toString()) - parseFloat(newList.TDS.toString());
+        newList.incomeTaxTDS = parseFloat(tds.toFixed(2))
+        this.amr = parseFloat(newList.totalAmount.toString()) - parseFloat(newList.incomeTaxTDS.toString());
         newList.amountTobeRecieved = parseFloat(this.amr.toFixed(2));
         // newList.difference=newList.amountTobeRecieved 
 
@@ -199,7 +199,7 @@ export class InvoiceAmountPendingComponent implements OnInit {
   ngOnInit() {
 
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-      console.log('inside if condition *********************')
+      // console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
@@ -210,7 +210,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
   }
 
   filterMonth(key) {
-    console.log('key*****', key)
     for (let i = 0; i <= this.invList.length; i++) {
       this.invList.splice(i, this.invList.length);
     }
@@ -232,14 +231,15 @@ export class InvoiceAmountPendingComponent implements OnInit {
   }
 
   groupbyList() {
-    this.tax = 0;
-    this.amount = 0;
-    this.amr = 0;
-    this.shareAmount = 0;
     this.iList = asEnumerable(this.selectedData).GroupBy(x => x.invoiceNo).ToArray();
+    // console.log('ilist****', this.iList)
     for (var i = 0; i < this.iList.length; i++) {
       let item = this.iList[i]
       var newList = new InvoiceAmountPending();
+      this.shareAmount = 0;
+      this.tax = 0;
+      this.amount = 0;
+      this.amr = 0;
       for (var j: number = 0; j < item.length; j++) {
         let inneritem = item[j]
         newList.invoiceNo = inneritem.invoiceNo;
@@ -251,10 +251,21 @@ export class InvoiceAmountPendingComponent implements OnInit {
         newList.taxAmount = parseFloat(this.tax.toFixed(2));
         this.amount = parseFloat(newList.shareAmount.toString()) + parseFloat(newList.taxAmount.toString());
         newList.totalAmount = parseFloat(this.amount.toFixed(2));
+        if (inneritem.dbaMonth == 'Aug-18') {
+
+          newList.gstTDS = 0;
+
+        }
+
+        else {
+          let gsttds = (newList.shareAmount * 2) / 100;
+          newList.gstTDS = parseFloat(gsttds.toFixed(2))
+        }
         let tds = (newList.shareAmount * 2) / 100;
+
         // console.log(tds)
-        newList.TDS = parseFloat(tds.toFixed(2))
-        this.amr = parseFloat(newList.totalAmount.toString()) - parseFloat(newList.TDS.toString());
+        newList.incomeTaxTDS = parseFloat(tds.toFixed(2))
+        this.amr = parseFloat(newList.totalAmount.toString()) - parseFloat(newList.incomeTaxTDS.toString());
         newList.amountTobeRecieved = parseFloat(this.amr.toFixed(2));
         // newList.difference=newList.amountTobeRecieved 
 
@@ -263,14 +274,9 @@ export class InvoiceAmountPendingComponent implements OnInit {
       this.totalAmtPending(this.invList);
 
     }
-
-
-    // console.log('invList***', this.invList)
-
   }
 
   totalAmtPending(data) {
-    // console.log(data)
     this.checkListTotalAmtPending = 0;
     this.totalshareAmount = 0;
     this.totaltaxAmount = 0;
@@ -283,7 +289,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
         this.noOfInvoices = data.length;
       }
     }
-    // console.log('sum*****', this.checkListTotalAmtPending)
   }
 
   checkList(event, id, data: InvoiceAmountPending) {
@@ -368,34 +373,6 @@ export class InvoiceAmountPendingComponent implements OnInit {
     console.log('data***', this.newInvAmtPending)
   }
 
-  // //validations
-
-  // invAmtForm = new FormGroup(
-  //   {
-  //     amtRecieved: new FormControl(),
-  //     recievedDate: new FormControl()
-  //   }
-  // );
-  // invoicecreateForm() {
-  //   this.invAmtForm = this.fb.group(
-  //     {
-  //       amtRecieved: [null, Validators.compose([Validators.required, Validators.pattern('[0-9/.]*')])],
-
-  //       recievedDate: [null, Validators.required]
-  //     }
-  //   )
-  // };
-  // get amtRecieved() { return this.invAmtForm.get('amtRecieved'); }
-  // get recievedDate() { return this.invAmtForm.get('recievedDate'); }
-
-  // resetform() {
-  //   this.invAmtForm.reset(
-  //     {
-  //       amtRecieved: null,
-  //       recievedDate: null
-  //     }
-  //   )
-
-  // }
+ 
 
 }
