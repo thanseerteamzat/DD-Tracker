@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core';
 import { CenterData } from './../../models/Center';
 import { CourseData } from './../../models/Course';
-import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,29 +10,32 @@ import { ConfigService } from "src/app/services/config.service";
 import { EtsService } from "src/app/services/ets.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { kkcddEntry } from '../../models/KKC/kkcddentry';
+import { kkcddEntry, KKCentryData } from '../../models/KKC/kkcddentry';
 import { Center } from '../../models/Center';
 import { AcadamicService } from '../../services/acadamic.service';
 import { Course } from '../../models/Course';
 import { Common } from '../../models/common';
-
-
+import { ddfromKKC } from '../../models/ddktc';
 
 @Component({
-  selector: 'app-kkc-ddentry',
-  templateUrl: './kkc-ddentry.component.html',
-  styleUrls: ['./kkc-ddentry.component.css']
+  selector: 'app-phase-two-kkc-entry',
+  templateUrl: './phase-two-kkc-entry.component.html',
+  styleUrls: ['./phase-two-kkc-entry.component.css']
 })
-export class KkcDdentryComponent implements OnInit {
+export class PhaseTwoKkcEntryComponent implements OnInit {
+  ddList = new Array<kkcddEntry>();
+
   kkcddEntry: kkcddEntry = new kkcddEntry;
   tempcentercode;
-  kkcddEntries;
+  kkcddEntries:KKCentryData;
+  selectedData;
   tempcoursecode;
   selectedcenterr
   courses: CourseData;
   tempcenter;
   split1;
-  vtemp
+  vtemp;
+  newselectedData
   // centerList: Center[] = [];
   centerList = new Array<Center>();
   courseList = new Array<Course>();
@@ -43,11 +46,12 @@ export class KkcDdentryComponent implements OnInit {
   centers: CenterData;
   feesItem;
   applicationNumber;
+  district;
   ddDate = new Date;
   centerName;
   courseName;
   studentName;
-  studentRollNumber
+  studentRollNumber;
   ddNumber;
   bank;
   ddAmount;
@@ -95,11 +99,11 @@ export class KkcDdentryComponent implements OnInit {
         c.Id = resdata.Data[i].Id;
         c.CenterCode = resdata.Data[i].CenterCode;
         c.CenterName = resdata.Data[i].CenterName;
-        c.DistrictId = resdata.Data[i].DistrictId;
         this.centerList.push(c);
 
       }
 
+      // console.log(this.centers, 'Centers')
     },
       err => {
         console.log('Error: ' + err.error);
@@ -112,6 +116,32 @@ export class KkcDdentryComponent implements OnInit {
     that.academic.GetKkcDdEntry().subscribe(data => {
       that.kkcddEntries = data;
       this.SerialNo = that.kkcddEntries.Data.length + 1;
+      console.log('this.serialNo', this.SerialNo)
+      console.log("hi************")
+      console.log(that.kkcddEntries, 'KKC DD Entries');
+      for (let i = 0; i <= data.Data.length; i++) {
+        let entry = new kkcddEntry();
+        entry.applicationNumber = data.Data[i].applicationNumber;
+        entry.centerName=data.Data[i].centerName;
+        entry.studentRollNumber=data.Data[i].studentRollNumber
+        entry.bank = data.Data[i].bank;
+        entry.courseName = data.Data[i].courseName;
+        entry.studentName=data.Data[i].studentName;
+        entry.date = data.Data[i].date;
+        entry.ddAmount = data.Data[i].ddAmount;
+        entry.ddDate = data.Data[i].ddDate;
+        entry.ddNumber = data.Data[i].ddNumber;
+        entry.enteredBy = data.Data[i].enteredBy;
+        entry.feesItem = data.Data[i].feesItem;
+        entry.kkcId = data.Data[i].kkcId;
+        entry.KkcDdId = data.Data[i].feesItem;
+        
+        this.ddList.push(entry);
+        console.log('dd entriess',this.ddList)
+
+      }
+
+      
     },
       err => {
         console.log('Error: ' + err.error);
@@ -122,6 +152,7 @@ export class KkcDdentryComponent implements OnInit {
 
     this.academic.GetAllCourses().subscribe(courseData => {
       this.courses = courseData;
+      console.log(courseData);
       this.courseList = new Array<Course>();
       for (let i = 0; i <= courseData.Data.length; i++) {
         let cou = new Course();
@@ -138,6 +169,8 @@ export class KkcDdentryComponent implements OnInit {
         console.log('Status: ' + err.status);
       })
 
+    console.log('courseList**************************',
+      this.courseList)
   }
 
   ngOnInit() {
@@ -155,18 +188,21 @@ export class KkcDdentryComponent implements OnInit {
     this.kkcddEntry.studentName = this.studentName;
     this.kkcddEntry.bank = this.bank;
     this.kkcddEntry.courseName = this.courseName;
-    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.studentRollNumber;
+    this.kkcddEntry.studentRollNumber = this.studentRollNumber;
     this.kkcddEntry.ddNumber = this.ddNumber;
     this.kkcddEntry.ddAmount = this.ddAmount;
     this.kkcddEntry.enteredBy = this.enteredBy;
     let uniqueId = "DD" + Common.newGuid();
     this.kkcddEntry.kkcId = uniqueId;
+    console.log('KKC DD ENTRY ------------>', this.kkcddEntry);
     this.academic.AddKkcDdEntry(this.kkcddEntry)
     alert('DD Added Successfully**');
 
     let that = this;
     that.academic.GetKkcDdEntry().subscribe(data => {
       that.kkcddEntries = data;
+      this.SerialNo = that.kkcddEntries.Data.length + 1;
+      
       console.log("hi************")
       console.log(that.kkcddEntries, 'KKC DD Entries')
     },
@@ -179,7 +215,7 @@ export class KkcDdentryComponent implements OnInit {
     this.resetForm();
   }
 
-  callType(value) {
+  callType(value,key) {
     console.log(this.centerList, '*********************************8');
 
     for (let i = 0; i <= this.centerList.length; i++) {
@@ -188,33 +224,19 @@ export class KkcDdentryComponent implements OnInit {
       if (tempcenterObj != null && tempcenterObj.CenterName == this.centerName) {
         this.tempcentercode = tempcenterObj.CenterCode;
         console.log('tempcentercode', this.tempcentercode);
-
       }
-      // if(tempcenterObj.Data.N)
-
     }
     console.log('centername', this.centerName);
-
     console.log('value', value);
     let split1 = value.split(" ")[1];
     console.log('splitted value', split1);
-
-    // let that = this;
-    // this.ets.GetAllCourses(split1).subscribe(data => {
-    //   that.courses = data;
-
-    //   this.ets.courseList = this.courses;
+    console.log('dd list',this.ddList,'************')
+    this.selectedData = this.ddList.filter(s => s.centerName==key);
+   
 
 
-    // },
-    //   error => console.log(error),
-    //   () => console.log('courses'));
-    // // console.log(this.split1);
-    // return this.split1;
-
-
-
-
+    console.log('........filter', this.selectedData);
+    
   }
   callTypee() {
     console.log(this.courseList);
@@ -231,6 +253,18 @@ export class KkcDdentryComponent implements OnInit {
       // if(tempcenterObj.Data.N)
 
     }
+
+  }
+
+
+  loadApp(key){
+    console.log('inside fucntion')
+    this.newselectedData = this.selectedData.filter(s => s.studentRollNumber == key);
+
+
+    
+    console.log(this.newselectedData)
+
 
   }
   formatDate(date) {
@@ -295,9 +329,6 @@ export class KkcDdentryComponent implements OnInit {
   get feesItemVal() { return this.ddentryForm.get('feesItemVal'); }
   get applicationNoVal() { return this.ddentryForm.get('applicationNoVal'); }
 
-
-
-
   resetForm() {
     this.ddentryForm.reset(
       {
@@ -315,30 +346,5 @@ export class KkcDdentryComponent implements OnInit {
       }
     )
   }
-  district(district){
-console.log('district************',district)
-this.academic.GetAllCentersByDistrict(district).subscribe(resdata => {
-  this.centers = resdata;
-  this.centerList = new Array<Center>();
-  for (let i = 0; i <= resdata.Data.length; i++) {
-    let c = new Center();
-    c.Id = resdata.Data[i].Id;
-    c.CenterCode = resdata.Data[i].CenterCode;
-    c.CenterName = resdata.Data[i].CenterName;
-    c.DistrictId = resdata.Data[i].DistrictId;
-    this.centerList.push(c);
-
-  }
-
-},
-  err => {
-    console.log('Error: ' + err.error);
-    console.log('Name: ' + err.name);
-    console.log('Message: ' + err.message);
-    console.log('Status: ' + err.status);
-  })
-
-
-}
 
 }

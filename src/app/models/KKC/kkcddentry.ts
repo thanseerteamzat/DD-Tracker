@@ -1,8 +1,12 @@
+export class KKCentryData{
+    public Data = new Array<kkcddEntry>()
+}
 
 export class kkcddEntry {
 
     // dduId: string; //guid
     kkcId: string; //ddId updation
+    KkcDdId:string;
     date: string;
     feesItem: string;
     applicationNumber: string;

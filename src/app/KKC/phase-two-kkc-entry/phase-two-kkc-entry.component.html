@@ -4,7 +4,7 @@
     <div id="content" class="createcontent">
         <div class="form-row">
             <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-            <h1>KKC DD Entry</h1>
+            <h1>KKC Phase Two Entry</h1>
             <!-- <h1 >Edit KKC DD Entry</h1> -->
 
         </div>
@@ -71,16 +71,20 @@
 
 
 
-                <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="appno">Application No</label>
-                    <input type="text" formControlName="applicationNoVal" [(ngModel)]="applicationNumber" name="appNo" class="form-control">
+                <div class="form-group col-md-3">
+                    <label for="District">District</label>
 
-                    <div *ngIf="applicationNoVal.invalid && (applicationNoVal.dirty || applicationNoVal.touched)" class="alert-danger">
-                        <div *ngIf="applicationNoVal.errors.required">
-                            Application Number is required
-                        </div>
+                    <select (change)="district($event.target.value)" name="district" class="form-control">
+                        <option value="" disabled [selected]>--Choose--</option>
+                        <ng-container *ngFor="let d of districts">
+                            <option [value]="d.name">{{d.name}}</option>
 
-                    </div>
+                            <!-- <option [ngValue]="district" >Kannur</option>
+                                  <option [ngValue]="district">Kozhikode</option>
+                                  <option [ngValue]="district">Malappuram</option> -->
+                        </ng-container>
+
+                    </select>
 
                 </div>
 
@@ -93,28 +97,14 @@
             <div class="row">
 
 
-                <div class="form-group col-md-3">
-                    <label for="District">District</label>
-
-                    <select (change)="district($event.target.value)"  name="district" class="form-control">
-                        <option value="" disabled [selected]>--Choose--</option>
-                        <ng-container *ngFor="let d of districts">
-                            <option [value]="d.name">{{d.name}}</option>
-
-                            <!-- <option [ngValue]="district" >Kannur</option>
-                                      <option [ngValue]="district">Kozhikode</option>
-                                      <option [ngValue]="district">Malappuram</option> -->
-                        </ng-container>
-
-                    </select>
-
-                </div>
 
                 <div style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label style="color: black" for="center">Centre Name</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <!-- <label for="centercode">Code :</label> -->
-                 Code : {{tempcentercode}}   <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="centerName" class="form-control" name="selectedcenter">
+                    Code : {{tempcentercode}}
+                    <select #t (change)="callType(t.value,centerName)" formControlName="centerNameVal"
+                        [(ngModel)]="centerName" class="form-control" name="selectedcenter">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let s of centerList">
                             <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
@@ -129,38 +119,97 @@
 
                     </div>
                     <!-- <label for="centerName">Center Name</label>
-                          <input type="text" class="form-control" placeholder="Center Name"> -->
+                        <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
-                <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="course">Course Name</label>
 
-                    <select [(ngModel)]="courseName"  formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
+                <div class="form-group col-md-3"  [formGroup]="ddentryForm">
+                    <label for="course">Student RollNumber</label>
+
+                    <select (change)="loadApp(studentRollNumber)" formControlName="rollNumberVal" [(ngModel)]="studentRollNumber" class="form-control" name="selectedstudent">
                         <option value="">--Choose--</option>
-                        <ng-container *ngFor="let c of courses.Data">
-                            <option [ngValue]="c.Name">{{c.Name}}</option>
+                        <ng-container *ngFor="let students of selectedData">
+                            <option>{{students.studentRollNumber}}</option>
                         </ng-container>
 
                     </select>
-                    <div *ngIf="courseNameVal.invalid && (courseNameVal.dirty || courseNameVal.touched)" class="alert-danger">
-                        <div *ngIf="courseNameVal.errors.required">
-                            Course Name is required
+                    <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
+                        <div *ngIf="rollNumberVal.errors.required">
+                            Roll Number is required
                         </div>
 
                     </div>
+
+
+
                     <!-- <label for="centerName">Center Name</label>
-                  <input type="text" class="form-control" placeholder="Center Name"> -->
+            <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
 
-                <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="studentName">Student Name</label>
-                    <input type="text" class="form-control" formControlName="studentNameVal" [(ngModel)]="studentName" name="studentName" placeholder="Student Name">
+                <div class="form-group col-md-3"  [formGroup]="ddentryForm">
+                    <label for="course">Student Name</label>
+
+                    <select  [(ngModel)]="studentName" class="form-control" formControlName="studentNameVal" name="selectedstudent">
+                        <option value="">--Choose--</option>
+                        <ng-container *ngFor="let students of newselectedData">
+                            <option>{{students.studentName}}</option>
+                        </ng-container>
+
+                    </select>
                     <div *ngIf="studentNameVal.invalid && (studentNameVal.dirty || studentNameVal.touched)" class="alert-danger">
                         <div *ngIf="studentNameVal.errors.required">
                             Student Name is required
                         </div>
 
                     </div>
+
+
+
+
+                    <!-- <label for="centerName">Center Name</label>
+            <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
+                <!-- <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                <label for="appno">Application No</label>
+                <input type="text" formControlName="applicationNoVal" [(ngModel)]="applicationNumber" name="appNo" class="form-control">
+
+                <div *ngIf="applicationNoVal.invalid && (applicationNoVal.dirty || applicationNoVal.touched)" class="alert-danger">
+                    <div *ngIf="applicationNoVal.errors.required">
+                        Application Number is required
+                    </div>
+
+                </div>
+
+            </div> -->
+
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="app">Application Number</label>
+
+                    <select [(ngModel)]="applicationNumber" formControlName="applicationNoVal" class="form-control" name="selectedstudent">
+                        <option value="">--Choose--</option>
+                        <ng-container *ngFor="let appNo of newselectedData">
+                            <option>{{appNo.applicationNumber}}</option>
+                        </ng-container>
+
+                    </select>
+                    <div *ngIf="applicationNoVal.invalid && (applicationNoVal.dirty || applicationNoVal.touched)" class="alert-danger">
+                        <div *ngIf="courseNameVal.errors.required">
+                            Application Number is required
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- <label for="centerName">Center Name</label>
+            <input type="text" class="form-control" placeholder="Center Name"> -->
+                </div>
+
+
+
+
+
+            
+
 
 
 
@@ -174,20 +223,27 @@
 
             </div>
             <div class="row">
-
-
+               
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="studentName">Student Roll Number</label>
-                    <input type="text" class="form-control" [(ngModel)]="studentRollNumber" formControlName="rollNumberVal" name="studentRollNumber"
-                        placeholder="Student Roll Number">
-                    <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
-                        <div *ngIf="rollNumberVal.errors.required">
-                            Student Name is required
+                    <label for="course">Course Name</label>
+
+                    <select [(ngModel)]="courseName" formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
+                        <option value="">--Choose--</option>
+                        <ng-container *ngFor="let courses of newselectedData">
+                            <option [ngValue]="courses.courseName">{{courses.courseName}}</option>
+                        </ng-container>
+
+                    </select>
+                    <div *ngIf="courseNameVal.invalid && (courseNameVal.dirty || courseNameVal.touched)" class="alert-danger">
+                        <div *ngIf="courseNameVal.errors.required">
+                            Course Name is required
                         </div>
 
                     </div>
+                    <!-- <label for="centerName">Center Name</label>
+                <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
-
+  
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddNo">DD Number</label>
                     <input type="text" class="form-control" formControlName="ddNumberVal" [(ngModel)]="ddNumber" name="ddNumber" placeholder="DD Number">
@@ -230,9 +286,8 @@
                             <option> INDIAN OVERSEAS BANK (IOB)</option>
                             <option>INDUSIND BANK</option>
                          <option>KANNUR DIS.COOPERATIVE BANK(KDC)</option>
-
-                        <option>KARNATAKA BANK</option> 
                             
+                        <option>KARNATAKA BANK</option> 
                             <option>KARUR VYSYA BANK</option>
                             <option>KERALA GRAMIN BANK</option>
                             <option>PUNJAB NATIONAL BANK</option>
@@ -259,11 +314,6 @@
                     </div>
                 </div>
 
-
-
-
-
-
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddAmount">DD Amount</label>
                     <input type="text" formControlName="ddAmountVal" [(ngModel)]="ddAmount" name="Amount" class="form-control" placeholder="DD Amount">
@@ -275,9 +325,14 @@
                     </div>
 
                 </div>
-</div>
-<div class="row">
 
+
+
+
+                
+            </div>
+            <div class="row">
+                
                 <div *ngIf='!isEditMode' class="form-group col-md-3">
                     <label for="date">DD Date(Date should be within last 60 days)</label>
 
@@ -371,7 +426,7 @@
                         <tr>
                             <td>{{kkcddEntries.Data.indexOf(ddentry) + 1}}</td>
                             <!-- <td>{{ddentry.kkcId}}</td> -->
-                           
+
                             <td>{{ddentry.KkcDdId}}</td>
                             <td>{{ddentry.date}}</td>
                             <td>{{ddentry.feesItem}}</td>

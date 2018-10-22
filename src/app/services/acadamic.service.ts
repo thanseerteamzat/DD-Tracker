@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { dbaEntry, dbaList, dbaShareReleaseNote } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
-import { kkcddEntry } from '../models/KKC/kkcddentry';
+import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +37,18 @@ export class AcadamicService {
     return this.http.post<CenterData>(this.config.pyUrl + 'GetRows', body)
   }
 
+  public GetAllCentersByDistrict(district): Observable<CenterData> {
+    const body = {
+      "Table": "centers", "Where": {
+        "CategoryId": "KKC",
+        "DistrictId":district,
+      }
+    };
+    return this.http.post<CenterData>(this.config.pyUrl + 'GetRows', body)
+  }
+
+
+
   public GetAllCourses(): Observable<CourseData> {
     console.log('AddddEntry in service**************')
 
@@ -45,13 +57,13 @@ export class AcadamicService {
 
   }
 
-  public GetKkcDdEntry() {
+  public GetKkcDdEntry():Observable<KKCentryData> {
     console.log('AddSubject in service**************')
 
     const body = { "Table": "kkcddEntry" };
 
 
-    return this.http.post(this.config.pyUrl + 'GetRows', body)
+    return this.http.post<KKCentryData>(this.config.pyUrl + 'GetRows', body)
 
   }
   public AddKkcDdEntry(ddEntry: kkcddEntry) {
