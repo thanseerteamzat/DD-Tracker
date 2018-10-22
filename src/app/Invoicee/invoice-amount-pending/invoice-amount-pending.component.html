@@ -19,23 +19,23 @@
       <label>No of Invoices</label>&nbsp;
       <input type="text" [(ngModel)]="noOfInvoices" readonly name="dbaNo" class="form-control">
     </div>
-   
+
   </div>
   <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
-      <div class="form-group col-md-3">
-      </div>  
+    <div class="form-group col-md-3">
+    </div>
     <div class="form-group col-md-3">
       <label>Share Amount Pending </label>&nbsp;
       <input type="text" readonly [(ngModel)]="totalshareAmount" name="totalshareAmount" class="form-control">
     </div>
     <div class="form-group col-md-3">
-        <label>Tax Amount Pending </label>&nbsp;
-        <input type="text" readonly [(ngModel)]="totaltaxAmount" name="totaltaxAmount" class="form-control">
-      </div>
-      <div style="padding-left:30px">
-        <br>
-          <button type="submit" class="btn btn-primary" (click)="beforeRegister()">Submit</button>
-        </div>
+      <label>Tax Amount Pending </label>&nbsp;
+      <input type="text" readonly [(ngModel)]="totaltaxAmount" name="totaltaxAmount" class="form-control">
+    </div>
+    <div style="padding-left:30px">
+      <br>
+      <button type="submit" class="btn btn-primary" (click)="beforeRegister()">Submit</button>
+    </div>
   </div>
   <div>
     <div style="padding-top: 50px;padding-left: 50px">
@@ -49,7 +49,8 @@
             <th>SHARE AMOUNT</th>
             <th>TAX AMOUNT</th>
             <th>TOTAL AMOUNT</th>
-            <th>TDS</th>
+            <th>INCOME TAX TDS</th>
+            <th>GST TDS</th>
             <th>AMOUNT TO BE RECIEVED</th>
             <th>RECIEVED AMOUNT</th>
             <th>RECIEVED DATE</th>
@@ -67,7 +68,8 @@
               <td>{{ddenter.shareAmount}}</td>
               <td>{{ddenter.taxAmount}}</td>
               <td>{{ddenter.totalAmount}}</td>
-              <td>{{ddenter.TDS}}</td>
+              <td>{{ddenter.incomeTaxTDS}}</td>
+              <td>{{ddenter.gstTDS}}</td>
               <td>{{ddenter.amountTobeRecieved}}</td>
               <td><input type="text" [(ngModel)]="invList[in].recievedAmount" class="form-control" name="amount"></td>
 
