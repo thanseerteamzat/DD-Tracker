@@ -63,7 +63,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
   groupList: Invoice[][];
   groupList1: Invoice[][];
   groupList2 = new Array<Invoice[][]>()
-  invList = new Array<tempInvCenterList2>();
+  kcvtpCenterList: tempInvCenterList2[] = [];
 
   shareAmountTotal;
   constructor(private db: AngularFireDatabase,
@@ -175,7 +175,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
           newList.invoiceDate = inItem.invoiceDate;
 
         }
-        this.invList.push(newList);
+        this.kcvtpCenterList.push(newList);
 
       }
       // console.log('invList in constructor**', this.invList);
@@ -193,15 +193,19 @@ export class KcvtpCenterinvList2Component implements OnInit {
   filterMonth(key) {
     this.selectmonth = key;
     this.selectedData = null;
-    // for (let a = 0; a <= this.invList.length; a++) {
-    //   this.invList.splice( this.invList.length);
-    // }
-    this.invList = [];
-    console.log('invlist change', this.invList)
+
+
+    // this.invList = [];
 
     if (this.selectedcenter == null) {
       this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
         this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee');
+        console.log('selected data**', this.selectedData)
+
+      for (let a = 0; a <= this.kcvtpCenterList.length; a++) {
+        this.kcvtpCenterList.splice(a, this.kcvtpCenterList.length);
+
+      }
       this.groupbyList();
     }
 
@@ -256,7 +260,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
 
         }
 
-        this.invList.push(newList);
+        this.kcvtpCenterList.push(newList);
       }
       // console.log('invList in groupby**', this.invList);
     }
