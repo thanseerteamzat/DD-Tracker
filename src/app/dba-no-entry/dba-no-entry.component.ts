@@ -338,7 +338,7 @@ export class DbaNoEntryComponent implements OnInit {
 
     export()
     {
-        // this.academic.ExportDbaReport(this.dbaExportdata)
+        this.academic.ExportDbaReport(this.dbaExportdata)
     }
     filterMonth(key) {
         this.selectmonth = key;

@@ -76,6 +76,7 @@ export class InvoiceCenterList2 {
     invoiceMonth:string;
     dbaAmount:number;
     shareAmount:number;
+    taxableAmount:number;
     invoiceDate:string;
     isgstValue:number;
     invAmtPending:boolean;

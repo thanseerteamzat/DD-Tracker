@@ -30,7 +30,7 @@
       <label>Filter DD's with Centre Name : </label>&nbsp;
       <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
-        <ng-container *ngFor="let s of centers">
+        <ng-container *ngFor="let s of centerList">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>
         </ng-container>
 
@@ -38,10 +38,18 @@
 
     </div>
     <div class="form-group col-md-3">
+      <label>Center Invoice No:</label>
+      <input type="text" name="invno" [(ngModel)]="newcenterList2.centerInvoiceNo " class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+      <br>
+      <button type="submit" name="invno" disabled (click)="register()" class="btn btn-primary">submit</button>
+    </div>
+    <!-- <div class="form-group col-md-3">
       <label>Count:</label>
       <span style="color: red;padding-left: 20px;">{{selectlisttotal}}</span>
 
-    </div>
+    </div> -->
     <div style="padding-top: 50px;" id="tabledata">
 
       <table class="table table-hover table-responsive table-bordered">
@@ -55,6 +63,7 @@
             <th>NAME OF KCVTP</th>
             <th>INVOICE MONTH</th>
             <th>DBA AMOUNT</th>
+            <th>TAXABLE AMOUNT</th>
             <th>SHARE AMOUNT</th>
             <th>INVOICE DATE</th>
             <th>GST</th>
@@ -68,9 +77,6 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let ddenter of kcvtpCenterList">
-
-
-
             <tr>
               <td>{{kcvtpCenterList.indexOf(ddenter) + 1}}</td>
               <td>{{ddenter.dbaNo}}</td>
@@ -82,10 +88,15 @@
 
               <td>{{ddenter.invoiceMonth}}</td>
               <td>{{ddenter.dbaAmount}}</td>
+              <td>{{ddenter.taxableAmount}}</td>
               <td>{{ddenter.shareAmount}} </td>
-
               <td>{{ddenter.invoiceDate}}</td>
               <td></td>
+              <td>
+                <mat-checkbox (change)="onClick($event.checked,ddenter.InvoiceNo,ddenter)">
+
+                </mat-checkbox>
+              </td>
 
 
 
@@ -94,7 +105,7 @@
             </tr>
 
           </ng-container>
-          <tr>
+          <!-- <tr>
             <th colspan="5" style="text-align: right">Total</th>
             <td>
               {{desptotal}}
@@ -102,7 +113,7 @@
             <td>{{taxtotal}}</td>
             <td>{{amountTotal}}</td>
 
-          </tr>
+          </tr> -->
         </tbody>
 
       </table>

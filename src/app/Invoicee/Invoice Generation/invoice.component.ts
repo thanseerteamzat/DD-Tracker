@@ -176,7 +176,7 @@ export class InvoiceComponent implements OnInit {
 
           }
 
-          // console.log('actual round off', b)
+          // console.log('ahhctual round off', b)
         }
         // this.invoicesplit = '0.' + split;
 

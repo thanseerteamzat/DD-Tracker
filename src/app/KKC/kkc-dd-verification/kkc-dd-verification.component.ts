@@ -16,26 +16,26 @@ import { kkcddEntry, KKCentryData } from '../../models/KKC/kkcddentry';
 })
 export class KkcDdVerificationComponent implements OnInit {
 
-  kkcddEntries:KKCentryData;
+  kkcddEntries: KKCentryData;
   ddList = new Array<kkcddEntry>();
-   
+  selectedmonth;
   months = [
-        { id: '01', name: 'JAN' },
-        { id: '02', name: 'FEB' },
-        { id: '03', name: 'MARCH' },
-        { id: '04', name: 'APRIL' },
-        { id: '05', name: 'MAY' },
-        { id: '06', name: 'JUNE' },
-        { id: '07', name: 'JULY' },
-        { id: '08', name: 'AUG' },
-        { id: '09', name: 'SEP' },
-        { id: '10', name: 'OCT' },
-        { id: '11', name: 'NOVEMBER' },
-        { id: '12', name: 'DECEMBER' },
-    
-    
-    
-      ];
+    { id: '01', name: 'JAN' },
+    { id: '02', name: 'FEB' },
+    { id: '03', name: 'MARCH' },
+    { id: '04', name: 'APRIL' },
+    { id: '05', name: 'MAY' },
+    { id: '06', name: 'JUNE' },
+    { id: '07', name: 'JULY' },
+    { id: '08', name: 'AUG' },
+    { id: '09', name: 'SEP' },
+    { id: '10', name: 'OCT' },
+    { id: '11', name: 'NOVEMBER' },
+    { id: '12', name: 'DECEMBER' },
+
+
+
+  ];
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -47,8 +47,8 @@ export class KkcDdVerificationComponent implements OnInit {
     private fb: FormBuilder,
     private cookieservice: CookieService
 
-  ) { 
-   
+  ) {
+
 
 
 
@@ -59,11 +59,11 @@ export class KkcDdVerificationComponent implements OnInit {
       for (let i = 0; i <= data.Data.length; i++) {
         let entry = new kkcddEntry();
         entry.applicationNumber = data.Data[i].applicationNumber;
-        entry.centerName=data.Data[i].centerName;
-        entry.studentRollNumber=data.Data[i].studentRollNumber
+        entry.centerName = data.Data[i].centerName;
+        entry.studentRollNumber = data.Data[i].studentRollNumber
         entry.bank = data.Data[i].bank;
         entry.courseName = data.Data[i].courseName;
-        entry.studentName=data.Data[i].studentName;
+        entry.studentName = data.Data[i].studentName;
         entry.date = data.Data[i].date;
         entry.ddAmount = data.Data[i].ddAmount;
         entry.ddDate = data.Data[i].ddDate;
@@ -73,6 +73,8 @@ export class KkcDdVerificationComponent implements OnInit {
         entry.kkcId = data.Data[i].kkcId;
          entry.KkcDdId = data.Data[i].KkcDdId;
         entry.isVerified=data.Data[i].isVerified       
+        entry.KkcDdId = data.Data[i].KkcDdId;
+
         this.ddList.push(entry);
         // console.log('dd entriess',this.ddList)
 
@@ -81,6 +83,7 @@ export class KkcDdVerificationComponent implements OnInit {
       console.log(this.ddList)
 
       
+
     },
       err => {
         console.log('Error: ' + err.error);
@@ -98,10 +101,14 @@ export class KkcDdVerificationComponent implements OnInit {
   ngOnInit() {
 
   }
-  entrySelection(ddentry:kkcddEntry, kkcId){
-    console.log('dd entry',ddentry);
-    console.log('dd entry',kkcId);
-    this.router.navigate(['/kkc-dd-entry-details/'+ kkcId])
+  entrySelection(ddentry: kkcddEntry, kkcId) {
+    console.log('dd entry', ddentry);
+    console.log('dd entry', kkcId);
+    this.router.navigate(['/kkc-dd-entry-details/' + kkcId])
+
+  }
+  filter(key) {
+
 
   }
 }
