@@ -16,6 +16,7 @@ import { element } from 'protractor';
 export class KcvtpCenterinvList2Component implements OnInit {
   centerList: Center[] = []
   selectedData: Invoice[];
+  selectedAllData: Invoice[];
   temp;
   selectedDatatemp;
   centers;
@@ -111,7 +112,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
         this.invoice.push(ddListItem.invoiceenter);
         this.invoiceList.push(ddListItem);
       });
-      // this.groupbyAllList(this.invoice);
+      this.groupbyAllList(this.invoice);
       // console.log('group list 1', this.invList)
 
     });
@@ -119,16 +120,18 @@ export class KcvtpCenterinvList2Component implements OnInit {
 
   ngOnInit() {
 
-    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-    //   console.log('inside if condition *********************')
-    //   // this.router.navigate(['/dd-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
   groupbyAllList(data) {
-    this.selectedData = null;
+    let grouplist2Length = this.groupList2.length;
+    this.groupList2.splice(0, grouplist2Length)
+    this.selectedAllData = null;
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
     for (let cent of centerResponse) {
@@ -136,8 +139,8 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.centerList.push(cent);
 
     }
-    this.selectedData = data.filter(s => s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-    this.groupList = asEnumerable(this.selectedData).GroupBy(x => x.CenterId).ToArray();
+    this.selectedAllData = data.filter(s => s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+    this.groupList = asEnumerable(this.selectedAllData).GroupBy(x => x.CenterId).ToArray();
     // console.log('groupList****', this.groupList)
 
     for (let i = 0; i < this.groupList.length; i++) {
@@ -178,7 +181,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
         this.kcvtpCenterList.push(newList);
 
       }
-      // console.log('invList in constructor**', this.invList);
+      // console.log('invList in constructor**', this.kcvtpCenterList);
 
     }
 
@@ -193,27 +196,55 @@ export class KcvtpCenterinvList2Component implements OnInit {
   filterMonth(key) {
     this.selectmonth = key;
     this.selectedData = null;
-
-
-    // this.invList = [];
-
+    let KcvtpListlength = this.kcvtpCenterList.length;
+    this.kcvtpCenterList.splice(0, KcvtpListlength);
     if (this.selectedcenter == null) {
       this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
         this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee');
-        console.log('selected data**', this.selectedData)
-
-      for (let a = 0; a <= this.kcvtpCenterList.length; a++) {
-        this.kcvtpCenterList.splice(a, this.kcvtpCenterList.length);
-
-      }
+      this.groupbyList();
+    }
+    else if (this.selectedMonth == null) {
+      this.selectedData = this.invoice.filter(s => s.CenterId ==
+        this.selectedcenter && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+      this.groupbyList();
+    }
+    else {
+      this.selectedData = this.invoice.filter(s => s.CenterId ==
+        this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
+        this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+      // console.log('selected data**', this.selectedData)
       this.groupbyList();
     }
 
   }
-  filterCenter(key) { }
+  filterCenter(key) {
+    this.selectedcenter = key;
+    this.selectedData = null;
+    let KcvtpListlength = this.kcvtpCenterList.length;
+    this.kcvtpCenterList.splice(0, KcvtpListlength);
+    if (this.selectmonth == null) {
+      this.selectedData = this.invoice.filter(s => s.CenterId ==
+        this.selectedcenter && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+      this.groupbyList();
+    }
+    else if (this.selectedcenter == null) {
+      this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
+        this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+      this.groupbyList();
+    }
+    else {
+      this.selectedData = this.invoice.filter(s => s.CenterId ==
+        this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
+        this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+      // console.log('selected data**', this.selectedData)
+      this.groupbyList();
+    }
+  }
 
   groupbyList() {
-    // this.selectedData = null;
+
+    let grouplist2Length = this.groupList2.length;
+    this.groupList2.splice(0, grouplist2Length)
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
     for (let cent of centerResponse) {
@@ -221,14 +252,15 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.centerList.push(cent);
 
     }
+
     this.groupList = asEnumerable(this.selectedData).GroupBy(x => x.CenterId).ToArray();
-    // console.log('groupList****', this.groupList)
+    console.log('groupList****', this.groupList)
     for (let i = 0; i < this.groupList.length; i++) {
       let item = this.groupList[i];
       this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo).ToArray();
       this.groupList2.push(this.groupList1);
     }
-    // console.log('groupList****', this.groupList2)
+    console.log('groupList2****', this.groupList2)
     for (let j: number = 0; j < this.groupList2.length; j++) {
       var item1 = this.groupList2[j];
       for (let k: number = 0; k < item1.length; k++) {
@@ -259,6 +291,8 @@ export class KcvtpCenterinvList2Component implements OnInit {
           newList.invoiceDate = inItem.invoiceDate;
 
         }
+
+        console.log(' PRE-FINAL kcvtpCenterList length**', this.kcvtpCenterList.length);
 
         this.kcvtpCenterList.push(newList);
       }
