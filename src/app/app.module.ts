@@ -77,6 +77,9 @@ import { SrohoverificationComponent } from './srohoverification/srohoverificatio
 import { KkcBatchNoEntryComponent } from './kkc-batch-no-entry/kkc-batch-no-entry.component';
 import { KkcDdentryComponent } from './KKC/kkc-ddentry/kkc-ddentry.component';
 import { InvoiceAmountPendingListComponent } from './Invoicee/invoice-amount-pending-list/invoice-amount-pending-list.component';
+// import { KcvtpCenterInvlist2Component } from './Invoicee/kcvtp-center-invlist2/kcvtp-center-invlist2.component';
+// import { SroEntryDetailsComponent } from './sro-entry-details/sro-entry-details.component';
+import { PhaseTwoKkcEntryComponent } from './KKC/phase-two-kkc-entry/phase-two-kkc-entry.component'
 import {KcvtpCenterinvList2Component } from './Invoicee/kcvtp-center-invlist2/kcvtp-center-invlist2.component';
 import { SroEntryDetailsComponent } from './sro-entry-details/sro-entry-details.component'
 
@@ -144,7 +147,9 @@ const appRoutes: Routes = [
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'invoice-amt-pendingList', component: InvoiceAmountPendingListComponent },
-  { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component }
+  { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component },
+  { path :'kkc-phase-two-entry',component:PhaseTwoKkcEntryComponent},
+  // { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component }
 ];
 
 
@@ -208,6 +213,9 @@ const appRoutes: Routes = [
     KkcDdentryComponent,
     InvoiceAmountPendingListComponent,
     KcvtpCenterinvList2Component,
+    SroEntryDetailsComponent,
+    PhaseTwoKkcEntryComponent,
+    // KcvtpCenterinvList2Component,
     SroEntryDetailsComponent
 
   ],

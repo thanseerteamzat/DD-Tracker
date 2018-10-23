@@ -72,7 +72,7 @@ temp;
         // }
 
         this.ddLists.push(ddListItem);
-
+        
       });
 
     });
