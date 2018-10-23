@@ -1,0 +1,90 @@
+<div class="">
+
+  <div id="content" class="listcontent listcontenttable">
+
+<h1>KKC DD List</h1>
+<div class="form-group col-md-3">
+  <label>Month</label>
+  <select #t  (change)="filter(selectedmonth)" [(ngModel)]="selectedmonth" class="form-control" name="selectedcenter">
+    <option value="">--Choose--</option>
+    <ng-container *ngFor="let m of months">
+        <option [ngValue]="m.id">{{m.name}}</option>
+    </ng-container>
+
+</select>  
+</div>
+<br><br>
+<div style="padding-top: 20px;">
+  <h2>DD Entry List </h2>
+
+
+
+  <table class="table table-hover table-responsive table-bordered">
+      <thead class="thead-dark">
+          <tr>
+              <th height="50">SL NO</th>
+              <!-- <th>Guid</th> -->
+              <th>DD SL.No</th>
+              <th style="min-width: 90px;">Date</th>
+              <th>Fees Item</th>
+
+              <th>Application No</th>
+
+              <th style="min-width: 200px;">Centre Name</th>
+              <th style="min-width: 100px;">Course Name</th>
+              <th style="min-width: 150px;">Student Name</th>
+              <th>Roll Number</th>
+
+              <th>DD No</th>
+              <th style="min-width: 120px;">Bank</th>
+
+              <th style="min-width: 90px;">DD Date</th>
+
+              <th>DD Amount</th>
+
+              <th>Entered By</th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngFor='let ddentry of ddList'>
+              <tr>
+                  <td>{{ddList.indexOf(ddentry) + 1}}</td>
+                  <!-- <td>{{ddentry.kkcId}}</td> -->
+                 
+                  <td>{{ddentry.KkcDdId}}</td>
+                  <td>{{ddentry.date}}</td>
+                  <td>{{ddentry.feesItem}}</td>
+
+                  <td>{{ddentry.applicationNumber}}</td>
+                  <td>{{ddentry.centerName}}</td>
+                  <td> {{ddentry.courseName}}
+                  </td>
+
+
+                  <td>{{ddentry.studentName}}</td>
+                  <td>{{ddentry.studentRollNumber}}</td>
+
+                  <td>{{ddentry.ddNumber}}</td>
+
+                  <td>{{ddentry.bank}}</td>
+                  <td>{{ddentry.ddDate}}</td>
+                  <td>{{ddentry.ddAmount}}</td>
+                  <td>{{ddentry.enteredBy}}</td>
+                  <td> <button type="button" (click)=entrySelection(ddentry,ddentry.kkcId) class="btn btn-primary">
+                    View Details
+                </button></td>
+
+
+                  <!-- <td>{{ddentryisVerified}}</td> -->
+                  <!--  -->
+
+              </tr>
+          </ng-container>
+      </tbody>
+
+  </table>
+
+
+</div>
+</div></div>

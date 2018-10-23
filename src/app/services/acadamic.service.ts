@@ -100,27 +100,27 @@ export class AcadamicService {
         });
   }
 
-  public ExportDbaReport(dbaDetails: dbaShareReleaseNote) {
-    const Sub = {
-      "despSerialNo": dbaDetails.despSerialNo,
-      "centerName": dbaDetails.centerName,
-      "batchNo": dbaDetails.batchNo,
-      "depDate": dbaDetails.depDate,
-      "feesItem": dbaDetails.feesItem,
-      "total": dbaDetails.total,
-      "tax": dbaDetails.tax,
-      "fwt": dbaDetails.fwt,
-      "amt": dbaDetails.amt,
-      "rate": dbaDetails.rate,
+  public ExportDbaReport(dbaDetails:Array<dbaShareReleaseNote>) {
+    // const Sub = {
+    //   "despSerialNo": dbaDetails.despSerialNo,
+    //   "centerName": dbaDetails.centerName,
+    //   "batchNo": dbaDetails.batchNo,
+    //   "depDate": dbaDetails.depDate,
+    //   "feesItem": dbaDetails.feesItem,
+    //   "total": dbaDetails.total,
+    //   "tax": dbaDetails.tax,
+    //   "fwt": dbaDetails.fwt,
+    //   "amt": dbaDetails.amt,
+    //   "rate": dbaDetails.rate,
 
 
-    };
+    // };
     const body = {
-      "Data": Sub
+      "Data": dbaDetails
     };
 
     this.http.post(this.config.pyUrl + 'ExportDBAReport', body)
-      .subscribe(data => { },
+      .subscribe(data => {console.log('data****',data) },
         err => {
           console.log('Error: ' + err.error);
           console.log('Name: ' + err.name);

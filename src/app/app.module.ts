@@ -62,7 +62,7 @@ import { InvoiceentryverificationComponent } from './Invoicee/invoiceentryverifi
 import { DdkkcComponent } from './ddkkc/ddkkc.component';
 import { InvoiceReportComponent } from './Invoicee/invoice-report/invoice-report.component';
 import { InvoiceManualComponent } from './Invoicee/invoice-manual/invoice-manual.component';
-import { KkcverificationComponent } from './kkcverification/kkcverification.component';
+// import { KkcverificationComponent } from '.KKC/kkcverification/kkcverification.component';
 import { InvoiceEntryDetailsComponent } from './invoice-entry-details/invoice-entry-details.component';
 import { DdDespatchAckComponent } from './Acknowledgement/dd-despatch-ack/dd-despatch-ack.component';
 import { KkcSroEntryComponent } from './kkc-sro-entry/kkc-sro-entry.component';
@@ -81,7 +81,10 @@ import { InvoiceAmountPendingListComponent } from './Invoicee/invoice-amount-pen
 // import { SroEntryDetailsComponent } from './sro-entry-details/sro-entry-details.component';
 import { PhaseTwoKkcEntryComponent } from './KKC/phase-two-kkc-entry/phase-two-kkc-entry.component'
 import {KcvtpCenterinvList2Component } from './Invoicee/kcvtp-center-invlist2/kcvtp-center-invlist2.component';
-import { SroEntryDetailsComponent } from './sro-entry-details/sro-entry-details.component'
+import { SroEntryDetailsComponent } from './sro-entry-details/sro-entry-details.component';
+import { KkcDdVerificationComponent } from './KKC/kkc-dd-verification/kkc-dd-verification.component';
+import { KkcDdEntryDetailsComponent } from './KKC/kkc-dd-entry-details/kkc-dd-entry-details.component'
+import { kkcddEntry } from './models/KKC/kkcddentry';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -130,11 +133,11 @@ const appRoutes: Routes = [
   { path: 'invoiceentryverification', component: InvoiceentryverificationComponent },
   { path: 'invoice-manual-generate', component: InvoiceManualComponent },
   { path: 'invoice-report', component: InvoiceReportComponent },
-  { path: 'kkcverification', component: KkcverificationComponent },
+  // { path: 'kkcverification', component: KkcverificationComponent },
   { path: 'invoiceentry-details', component: InvoiceEntryDetailsComponent },
   { path: 'invoiceentry-details/:invoiceEntryId', component: InvoiceEntryDetailsComponent },
 
-  { path: 'kkcverification', component: KkcverificationComponent },
+  // { path: 'kkcverification', component: KkcverificationComponent },
   { path: 'dd-despatch-ack', component: DdDespatchAckComponent },
   { path: 'sro-entry', component: KkcSroEntryComponent },
   { path: 'despatch-ack-details', component: DespatchAckDetailsComponent },
@@ -144,6 +147,19 @@ const appRoutes: Routes = [
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'kkc-dd-entry', component: KkcDdentryComponent },
+<<<<<<< .mine
+
+
+
+
+
+=======
+  { path: 'kkc-dd-verification',component:KkcDdVerificationComponent},
+  { path: 'kkc-dd-entry-details',component:KkcDdEntryDetailsComponent},
+  { path: 'kkc-dd-entry-details/:kkcId',component:KkcDdEntryDetailsComponent},
+  
+  // {}
+>>>>>>> .theirs
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'invoice-amt-pendingList', component: InvoiceAmountPendingListComponent },
@@ -197,7 +213,7 @@ const appRoutes: Routes = [
     DdkkcComponent,
     InvoiceReportComponent,
     InvoiceManualComponent,
-    KkcverificationComponent,
+    // KkcverificationComponent,
     DdDespatchAckComponent,
     InvoiceEntryDetailsComponent,
     KkcSroEntryComponent,
@@ -216,7 +232,9 @@ const appRoutes: Routes = [
     SroEntryDetailsComponent,
     PhaseTwoKkcEntryComponent,
     // KcvtpCenterinvList2Component,
-    SroEntryDetailsComponent
+    SroEntryDetailsComponent,
+    KkcDdVerificationComponent,
+    KkcDdEntryDetailsComponent
 
   ],
   imports: [
