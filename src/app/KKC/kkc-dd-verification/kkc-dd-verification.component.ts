@@ -51,6 +51,8 @@ export class KkcDdVerificationComponent implements OnInit {
    
 
 
+
+
     let that = this;
     that.academic.GetKkcDdEntry().subscribe(data => {
       that.kkcddEntries = data;
@@ -69,12 +71,14 @@ export class KkcDdVerificationComponent implements OnInit {
         entry.enteredBy = data.Data[i].enteredBy;
         entry.feesItem = data.Data[i].feesItem;
         entry.kkcId = data.Data[i].kkcId;
-        entry.KkcDdId = data.Data[i].KkcDdId;
-        
+         entry.KkcDdId = data.Data[i].KkcDdId;
+        entry.isVerified=data.Data[i].isVerified       
         this.ddList.push(entry);
         // console.log('dd entriess',this.ddList)
 
       }
+
+      console.log(this.ddList)
 
       
     },
@@ -92,7 +96,7 @@ export class KkcDdVerificationComponent implements OnInit {
 
   }
   ngOnInit() {
-    
+
   }
   entrySelection(ddentry:kkcddEntry, kkcId){
     console.log('dd entry',ddentry);

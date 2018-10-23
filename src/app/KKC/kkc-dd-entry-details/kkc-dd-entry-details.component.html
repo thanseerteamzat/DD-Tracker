@@ -1,3 +1,199 @@
-<p>
-  kkc-dd-entry-details works!
-</p>
+<div style="margin-left: 50px;" class="wrapper ">
+
+  <!-- Page Content Holder -->
+  <div id="content" class="createcontent">
+      <div class="form-row">
+          <h1>KKC DD Entry Details</h1>
+     <div *ngIf='!isEditable' style="float:left;margin-left: 65%">
+                          
+    <button type="button" class="btn btn-primary">
+        <a [routerLink]="['']">Edit</a>
+    </button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary" (click)="verify(newddentry.kkcId,newddentry)">Verify</button>
+   &nbsp;
+   &nbsp;
+    <button type="button" class="btn btn-primary">
+            <a [routerLink]="['/dd-verification']">Cancel</a>
+        </button>
+
+        &nbsp;&nbsp;
+        
+</div><br>
+      </div>
+      <form name="form" #f="ngForm" novalidate>
+          <div class="row">
+
+              <div class="form-group col-md-3">
+                  <br>
+                  <label style="color: red" for="ddid">KKC DD Serial No : {{newddentry.KkcDdId}} &nbsp;</label>
+              </div>
+
+              <div class="form-group col-md-3">
+                  <label for="feesItem">Fees Item</label>
+
+                  <input readonly type="text" [(ngModel)]="newddentry.feesItem" name="feesItem" class="form-control">
+                    
+                  
+              </div>
+
+
+
+
+              <div class="form-group col-md-3">
+                  <label for="date">Date</label>
+
+
+                  <div class="form-group">
+                      <input readonly type="text" name="todaydate" [(ngModel)]="newddentry.date" class="form-control" #dp="bsDatepicker" bsDatepicker
+                          [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDate" [maxDate]="maxDate">
+
+
+
+                  </div>
+
+
+                  <!-- <input type="text" id="datepicker"> -->
+                  <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+              </div>
+
+
+
+              <div class="form-group col-md-3" >
+                  <label for="appno">Application No</label>
+                  <input type="text"  readonly [(ngModel)]="newddentry.applicationNumber" name="appNo" class="form-control">
+
+                 
+              </div>
+
+
+
+
+
+          </div>
+
+          <div class="row">
+
+
+              
+              <div style="color: red" class="form-group col-md-3">
+                  <label style="color: black" for="center">Centre Name</label>
+                 <input type="text" readonly  [(ngModel)]="newddentry.centerName" class="form-control" name="selectedcenter">
+
+              
+              </div>
+              <div class="form-group col-md-3">
+                  <label for="course">Course Name</label>
+
+                  <input type="text" readonly [(ngModel)]="newddentry.courseName"  class="form-control" name="selectedcourse">
+                     
+                
+              </div>
+
+              <div class="form-group col-md-3">
+                  <label for="studentName">Student Name</label>
+                  <input type="text" class="form-control" readonly [(ngModel)]="newddentry.studentName" name="studentName" placeholder="Student Name">
+                  
+              </div>
+
+
+
+
+
+
+
+              <div class="form-group col-md-3">
+                <label for="studentName">Student Roll Number</label>
+                <input  readonly type="text" class="form-control" [(ngModel)]="newddentry.studentRollNumber"  name="studentRollNumber"
+                    placeholder="Student Roll Number">
+                
+            </div>
+
+
+
+
+
+          </div>
+          <div class="row">
+
+
+              <div class="form-group col-md-3">
+                  <label for="ddNo">DD Number</label>
+                  <input type="text" readonly class="form-control" [(ngModel)]="newddentry.ddNumber" name="ddNumber" placeholder="DD Number">
+                 
+              </div>
+
+
+              <div class="form-group col-md-3">
+                  <label for="bank">Bank</label>
+
+                  <input type="text" readonly [(ngModel)]="newddentry.bank" class="form-control"  name="bank">
+                   
+
+                                </div>
+
+
+
+
+
+
+              <div class="form-group col-md-3">
+                  <label for="ddAmount">DD Amount</label>
+                  <input readonly type="text"  [(ngModel)]="newddentry.ddAmount" name="Amount" class="form-control" placeholder="DD Amount">
+                  
+              </div>
+
+              <div  class="form-group col-md-3">
+                <label for="date">DD Date(Date should be within last 60 days)</label>
+
+
+                <div class="form-group">
+                    <input readonly type="text" name="todaydatee" [(ngModel)]="newddentry.ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}" [minDate]="minDateDD" [maxDate]="maxDateDD">
+
+
+
+                </div>
+
+
+                <!-- <input type="text" id="datepicker"> -->
+                <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
+
+            </div>
+
+</div>
+<div class="row">
+
+            
+
+
+              <div class="form-group col-md-3">
+                  <label for="enteredby">Entered By </label>
+                  <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="enteredBy" class="form-control">
+              </div>
+
+          </div>
+
+          <div class="row">
+
+
+
+          </div>
+
+
+          <div class="row">
+             
+          </div>
+          <br>
+          <br>
+          <br>
+          <!-- </ng-container> -->
+
+      </form>
+
+
+     
+
+
+  </div>
+</div>

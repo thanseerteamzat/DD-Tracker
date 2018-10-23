@@ -100,6 +100,44 @@ export class AcadamicService {
         });
   }
 
+  public updateKKCEntry(ddEntry: kkcddEntry) {
+    const Sub = {
+      
+      "date": ddEntry.date,
+      "feesItem": ddEntry.feesItem,
+      "applicationNumber": ddEntry.applicationNumber,
+      "centerName": ddEntry.centerName,
+      "courseName": ddEntry.courseName,
+      "studentName": ddEntry.studentName,
+      "ddNumber": ddEntry.ddNumber,
+      "bank": ddEntry.bank,
+      "studentRollNumber": ddEntry.studentRollNumber,
+      "ddAmount": ddEntry.ddAmount,
+      "ddDate": ddEntry.ddDate,
+      "enteredBy": ddEntry.enteredBy,
+      "isVerified": ddEntry.isVerified,
+
+    };
+    const body = {
+      "Table": "kkcddEntry",
+      "Where":{ "kkcId":ddEntry.kkcId},
+      "Data": Sub,
+      "UniqueId": "KkcDdId"
+    };
+
+    this.http.post(this.config.pyUrl + 'UpdateRows', body)
+      .subscribe(data => { },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
+
+
   public ExportDbaReport(dbaDetails: dbaShareReleaseNote) {
     const Sub = {
       "despSerialNo": dbaDetails.despSerialNo,
