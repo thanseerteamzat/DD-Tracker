@@ -22,6 +22,11 @@ export class KkcDdEntryDetailsComponent implements OnInit {
   entries;
   tempentries;
   ddListLength:string;
+  isEditable;
+  minDate;
+  maxDate
+  minDateDD;
+  maxDateDD
   constructor(private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router,
