@@ -7,6 +7,7 @@ import { EtsService } from 'src/app/services/ets.service';
 import { Router } from '@angular/router';
 import { asEnumerable } from 'linq-es2015';
 import { element } from 'protractor';
+import { AcadamicService } from 'src/app/services/acadamic.service';
 
 @Component({
   selector: 'app-kcvtp-center-invList2',
@@ -65,12 +66,15 @@ export class KcvtpCenterinvList2Component implements OnInit {
   groupList1: Invoice[][];
   groupList2 = new Array<Invoice[][]>()
   kcvtpCenterList: tempInvCenterList2[] = [];
-
+  newcenterList2: InvoiceCenterList2 = new InvoiceCenterList2();
   shareAmountTotal;
+  taxableamtTotal;
+  checklist: InvoiceCenterList2[] = [];
+  checkboxIndex;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
-
+    private academic: AcadamicService
   ) {
     let centerResponse = this.ets.centerList;
     //  Iterate throw all keys.
@@ -79,33 +83,28 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.centerList.push(cent);
 
     }
-    // this.selectedData = this.centerList;
 
 
     let that = this;
     //center list from api
     this.ets.GetAllCenters().subscribe(data => {
-      that.centers = data;
+      that.centers = data.filter(c => c.CategoryId == 'KCVTP');
       this.ets.centerList = this.centers
+
     },
       error => console.log(error),
-      () => console.log('Get all complete'));
+      () => console.log('Get all complete', this.centers));
 
 
     let dlRef = db.object('invoice');
     dlRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
       let obj = Common.snapshotToArray(action.payload);
-
       obj.forEach(element => {
         let ddListItem = new invoiceList();
-
         let obj: Invoice = JSON.parse(element);
         ddListItem.invoiceenter = obj;
-
         let centList = that.ets.centerList.filter(s => s.Id == (obj.CenterId));
-
-        // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
@@ -113,7 +112,6 @@ export class KcvtpCenterinvList2Component implements OnInit {
         this.invoiceList.push(ddListItem);
       });
       this.groupbyAllList(this.invoice);
-      // console.log('group list 1', this.invList)
 
     });
   }
@@ -141,8 +139,6 @@ export class KcvtpCenterinvList2Component implements OnInit {
     }
     this.selectedAllData = data.filter(s => s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
     this.groupList = asEnumerable(this.selectedAllData).GroupBy(x => x.CenterId).ToArray();
-    // console.log('groupList****', this.groupList)
-
     for (let i = 0; i < this.groupList.length; i++) {
       let item = this.groupList[i];
       this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo).ToArray();
@@ -155,14 +151,15 @@ export class KcvtpCenterinvList2Component implements OnInit {
         var newList = new InvoiceCenterList2();
         // console.log('invList****', inneritem)
         this.shareAmountTotal = 0;
+        this.taxableamtTotal = 0;
         for (let l: number = 0; l < inneritem.length; l++) {
           var inItem = inneritem[l];
           // console.log('item***1', inneritem)
           if (newList.dbaNo == null) {
-            newList.dbaNo = inItem.dbaNo + '\n';
+            newList.dbaNo = inItem.dbaNo + '\t';
           }
           else {
-            newList.dbaNo += inItem.dbaNo.toString() + '\n';
+            newList.dbaNo += inItem.dbaNo.toString() + '\t';
           }
           newList.InvoiceNo = inItem.invoiceNo;
           this.centerList.forEach(data => {
@@ -173,7 +170,11 @@ export class KcvtpCenterinvList2Component implements OnInit {
           })
           newList.invoiceMonth = inItem.dbaMonth;
           (newList.dbaAmount += parseFloat(inItem.dbaAmount)).toFixed(2);
-          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + parseFloat(inItem.shareAmount.toString());
+          let taxamt = (parseFloat(inItem.dbaAmount) / 118) * 18;
+          this.taxableamtTotal = parseFloat(this.taxableamtTotal) + taxamt;
+          newList.taxableAmount = this.taxableamtTotal.toFixed(2);
+          let dbamt = (parseFloat(inItem.dbaAmount) - taxamt) * 0.65;
+          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + dbamt;
           newList.shareAmount = this.shareAmountTotal.toFixed(2);
           newList.invoiceDate = inItem.invoiceDate;
 
@@ -181,15 +182,42 @@ export class KcvtpCenterinvList2Component implements OnInit {
         this.kcvtpCenterList.push(newList);
 
       }
-      // console.log('invList in constructor**', this.kcvtpCenterList);
 
     }
 
   }
 
+  onClick(event, id, list: InvoiceCenterList2) {
 
+    if (event == true) {
+      this.checklist.push(list);
+      console.log('push**', this.checklist)
+    }
+    else if (event == false) {
+      this.checkboxIndex = this.checklist.findIndex(list => list.InvoiceNo == id);
+      this.checklist.splice(this.checkboxIndex, 1);
+      console.log('pop**', this.checklist)
 
+    }
+  }
 
+  register() {
+    let currentYear = (new Date()).getFullYear();
+    let previousYear = (new Date()).getFullYear() - 1;
+    let nextYear = (new Date()).getFullYear() + 1;
+    let finyear = null;
+    if ((new Date()).getMonth() > 4) {
+      let Csplit = currentYear.toString().slice(-2);
+      let Nsplit = nextYear.toString().slice(-2);
+      finyear = currentYear + '-' + Nsplit;
+    }
+    this.checklist.forEach(data => {
+      data.centerInvoiceNo = this.newcenterList2.centerInvoiceNo + '/' + finyear
+      this.academic.AddCenterInvoiceList2(data)
+      alert(' Added Successfully**');
+
+    })
+  }
 
 
 
@@ -212,7 +240,6 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.selectedData = this.invoice.filter(s => s.CenterId ==
         this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
         this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-      // console.log('selected data**', this.selectedData)
       this.groupbyList();
     }
 
@@ -236,7 +263,6 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.selectedData = this.invoice.filter(s => s.CenterId ==
         this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
         this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-      // console.log('selected data**', this.selectedData)
       this.groupbyList();
     }
   }
@@ -254,13 +280,11 @@ export class KcvtpCenterinvList2Component implements OnInit {
     }
 
     this.groupList = asEnumerable(this.selectedData).GroupBy(x => x.CenterId).ToArray();
-    console.log('groupList****', this.groupList)
     for (let i = 0; i < this.groupList.length; i++) {
       let item = this.groupList[i];
       this.groupList1 = asEnumerable(item).GroupBy(x => x.invoiceNo).ToArray();
       this.groupList2.push(this.groupList1);
     }
-    console.log('groupList2****', this.groupList2)
     for (let j: number = 0; j < this.groupList2.length; j++) {
       var item1 = this.groupList2[j];
       for (let k: number = 0; k < item1.length; k++) {
@@ -268,14 +292,15 @@ export class KcvtpCenterinvList2Component implements OnInit {
         var newList = new InvoiceCenterList2();
         // console.log('invList****', inneritem)
         this.shareAmountTotal = 0;
+        this.taxableamtTotal = 0;
         for (let l: number = 0; l < inneritem.length; l++) {
           var inItem = inneritem[l];
           // console.log('item***1', inneritem)
           if (newList.dbaNo == null) {
-            newList.dbaNo = inItem.dbaNo + '\n';
+            newList.dbaNo = inItem.dbaNo + '\t';
           }
           else {
-            newList.dbaNo += inItem.dbaNo.toString() + '\n';
+            newList.dbaNo += inItem.dbaNo.toString() + '\t';
           }
           newList.InvoiceNo = inItem.invoiceNo;
           this.centerList.forEach(data => {
@@ -286,55 +311,26 @@ export class KcvtpCenterinvList2Component implements OnInit {
           })
           newList.invoiceMonth = inItem.dbaMonth;
           (newList.dbaAmount += parseFloat(inItem.dbaAmount)).toFixed(2);
-          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + parseFloat(inItem.shareAmount.toString());
+          let taxamt = (parseFloat(inItem.dbaAmount) / 118) * 18;
+          this.taxableamtTotal = parseFloat(this.taxableamtTotal) + taxamt;
+          newList.taxableAmount = this.taxableamtTotal.toFixed(2);
+          let dbamt = (parseFloat(inItem.dbaAmount) - taxamt) * 0.65;
+          this.shareAmountTotal = parseFloat(this.shareAmountTotal) + dbamt;
           newList.shareAmount = this.shareAmountTotal.toFixed(2);
           newList.invoiceDate = inItem.invoiceDate;
 
         }
 
-        console.log(' PRE-FINAL kcvtpCenterList length**', this.kcvtpCenterList.length);
-
         this.kcvtpCenterList.push(newList);
       }
-      // console.log('invList in groupby**', this.invList);
     }
   }
 
-  // filterCenter(key) {
 
-
-  //   this.selectedcenter = key;
-  //   this.selectedData = null;
-
-  //   if (this.selectedfee == null && this.selectmonth == null) {
-  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isInvoiceEntered == true)
-  //     // this.selectData(this.selectedData)
-
-  //   }
-  //   else if (this.selectedfee == null) {
-  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isInvoiceEntered == true)
-  //     console.log('with fee filter******')
-  //     // this.selectData(this.selectedData)
-
-  //   }
-  //   else if (this.selectmonth == null) {
-  //     this.selectedData = this.invoice.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-  //     console.log('with fee filter******')
-  //     // this.selectData(this.selectedData)
-
-  //   }
-  //   else {
-  //     this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isInvoiceEntered == true)
-  //     // this.selectData(this.selectedData)
-  //   }
-
-
-  // }
 
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)
-      // console.log('month**', month)
       return month;
     }
   }

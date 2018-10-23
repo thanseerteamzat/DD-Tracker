@@ -13,6 +13,7 @@ import { dbaEntry, dbaList, dbaShareReleaseNote } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
+import { InvoiceCenterList2 } from '../models/invoice ';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class AcadamicService {
     const body = {
       "Table": "centers", "Where": {
         "CategoryId": "KKC"
+      }
+    };
+    return this.http.post<CenterData>(this.config.pyUrl + 'GetRows', body)
+  }
+
+  public GetAllKCVTPCenters(): Observable<CenterData> {
+    const body = {
+      "Table": "centers", "Where": {
+        "CategoryId": "KCVTP"
       }
     };
     return this.http.post<CenterData>(this.config.pyUrl + 'GetRows', body)
@@ -99,6 +109,41 @@ export class AcadamicService {
           console.log('Status: ' + err.status);
         });
   }
+
+  public AddCenterInvoiceList2(ddEntry: InvoiceCenterList2) {
+    const Sub = {
+      "dbaNo": ddEntry.dbaNo,
+      "InvoiceNo": ddEntry.InvoiceNo,
+      "centerInvoiceNo": ddEntry.centerInvoiceNo,
+      "centerName": ddEntry.centerName,
+      "invoiceMonth": ddEntry.invoiceMonth,
+      "dbaAmount": ddEntry.dbaAmount,
+      "shareAmount": ddEntry.shareAmount,
+      "taxableAmount": ddEntry.taxableAmount,
+      "invoiceDate": ddEntry.invoiceDate,
+      "invAmtPending": ddEntry.invAmtPending,
+      "enteredBy": ddEntry.enteredBy,
+      
+      
+
+    };
+    const body = {
+      "Table": "ddtKCVTPInvoiceCenterList2",
+      "Data": Sub,
+      "UniqueId": "Id"
+    };
+
+    this.http.post(this.config.pyUrl + 'AddRow', body)
+      .subscribe(data => { },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
 
   public ExportDbaReport(dbaDetails:Array<dbaShareReleaseNote>) {
     // const Sub = {

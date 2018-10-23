@@ -147,19 +147,11 @@ const appRoutes: Routes = [
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'kkc-dd-entry', component: KkcDdentryComponent },
-<<<<<<< .mine
-
-
-
-
-
-=======
   { path: 'kkc-dd-verification',component:KkcDdVerificationComponent},
   { path: 'kkc-dd-entry-details',component:KkcDdEntryDetailsComponent},
   { path: 'kkc-dd-entry-details/:kkcId',component:KkcDdEntryDetailsComponent},
   
   // {}
->>>>>>> .theirs
   { path: 'srohoverification', component: SrohoverificationComponent },
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'invoice-amt-pendingList', component: InvoiceAmountPendingListComponent },
