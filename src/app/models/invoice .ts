@@ -46,13 +46,13 @@ export class InvoiceAmountPending {
     taxAmount: number;
     totalAmount: number;
     incomeTaxTDS: number;
-    gstTDS:number;
+    gstTDS: number;
     amountTobeRecieved: number;
     recievedAmount: number;
     recievedDate: string;
     difference: number;
     dateDifference: string;
-    invAmtPending:boolean;
+    invAmtPending: boolean;
     enteredBy: string;
 }
 export class invAmtPndgLastid {
@@ -60,47 +60,61 @@ export class invAmtPndgLastid {
     lastid: number;
 }
 
+export class InvoiceCenterList2Data {
+    public Data = new Array<InvoiceCenterList2>()
+}
 export class InvoiceCenterList2 {
     constructor() {
-         this.dbaAmount = 0;
-         this.shareAmount = 0;
+        this.dbaAmount = 0;
+        this.shareAmount = 0;
         // this.TDS = 0;
         // this.difference = 0;
         // this.taxAmount = 0;
 
     }
-    dbaNo:string
-    InvoiceNo:string;
-    centerInvoiceNo:string;
-    centerName:string;
-    invoiceMonth:string;
-    dbaAmount:number;
-    shareAmount:number;
-    taxableAmount:number;
-    invoiceDate:string;
-    isgstValue:number;
-    invAmtPending:boolean;
+    dbaNo: Array<String> = [];
+    // dbaNo:string
+    InvoiceNo: string;
+    centerInvoiceNo: string;
+    nextInvoiceNo: number;
+    centerName: string;
+    invoiceMonth: string;
+    dbaAmount: number;
+    shareAmount: number;
+    taxableAmount: number;
+    invoiceDate: string;
+    isgstValue: number;
+    invAmtPending: boolean;
     enteredBy: string;
 }
 
 export class tempInvCenterList2 {
     constructor() {
-         this.dbaAmount = 0;
-         this.shareAmount = 0;
+        this.dbaAmount = 0;
+        this.shareAmount = 0;
         // this.TDS = 0;
         // this.difference = 0;
         // this.taxAmount = 0;
 
     }
-    dbaNo:string
-    InvoiceNo:string;
-    centerInvoiceNo:string;
-    centerName:string;
-    invoiceMonth:string;
-    dbaAmount:number;
-    shareAmount:number;
-    invoiceDate:string;
-    isgstValue:number;
-    invAmtPending:boolean;
+    dbaNo: Array<String> = [];
+    InvoiceNo: string;
+    centerInvoiceNo: string;
+    nextInvoiceNo: number;
+    centerName: string;
+    invoiceMonth: string;
+    dbaAmount: number;
+    shareAmount: number;
+    invoiceDate: string;
+    isgstValue: number;
+    invAmtPending: boolean;
     enteredBy: string;
+}
+
+export class centerInvNoChkList {
+    InvoiceNo: string;
+    centerInvoiceNo: string;
+    nextInvoiceNo: number;
+    centerName: string;
+    invoiceMonth: string;
 }
