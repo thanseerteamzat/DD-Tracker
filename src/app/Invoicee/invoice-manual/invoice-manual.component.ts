@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { invoiceList, Invoice } from '../../models/invoice ';
+import { invoiceList, Invoice, InvoiceCenterList2, InvoiceCenterList2Data, centerInvNoChkList, tempInvCenterList2 } from '../../models/invoice ';
 import { Center } from '../../models/Center';
 import { AngularFireDatabase } from '../../../../node_modules/angularfire2/database';
 import { EtsService } from '../../services/ets.service';
 import { Router } from '../../../../node_modules/@angular/router';
 import { Common } from '../../models/common';
 import { FormGroup, FormControl, Validators, FormBuilder } from '../../../../node_modules/@angular/forms';
+import { AcadamicService } from 'src/app/services/acadamic.service';
+import { asEnumerable } from 'linq-es2015';
 
 @Component({
   selector: 'app-invoice-manual',
@@ -16,7 +18,8 @@ export class InvoiceManualComponent implements OnInit {
 
   invoiceList: invoiceList[] = [];
   centerList: Center[] = []
-  selectedData;
+  selectedData: invoiceList[];
+  selectedDataInvoiceItems = new Array<Invoice>();
   temp;
   selectedDatatemp;
   centers;
@@ -70,10 +73,20 @@ export class InvoiceManualComponent implements OnInit {
   newInvoice: Invoice = new Invoice();
   tempinvoiceList;
   entered;
+  centerInvoicelist;
+  centerInvoiceData: InvoiceCenterList2Data;
+  invoicecenterListData = new Array<centerInvNoChkList>()
+  groupList: Invoice[][];
+  groupList1: Invoice[][];
+  groupList2 = new Array<Invoice[][]>()
+  kcvtpCenterList: tempInvCenterList2[] = [];
+  shareAmountTotal;
+  taxableamtTotal;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private academic: AcadamicService
 
   ) {
 
@@ -121,6 +134,32 @@ export class InvoiceManualComponent implements OnInit {
 
       });
     });
+
+
+    that.academic.GetCenterInvoiceList2().subscribe(data => {
+      that.centerInvoicelist = data;
+      console.log('center inv data', that.centerInvoicelist)
+      this.centerInvoiceData = data;
+      let list = new centerInvNoChkList();
+      for (let i = 0; i <= data.Data.length; i++) {
+        if (data.Data[i] != null) {
+          list.centerName = data.Data[i].centerName;
+          list.centerInvoiceNo = data.Data[i].centerInvoiceNo;
+          list.invoiceMonth = data.Data[i].invoiceMonth;
+          list.InvoiceNo = data.Data[i].InvoiceNo;
+          list.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+        }
+        this.invoicecenterListData.push(list);
+
+      }
+      console.log('DATA**', this.centerInvoiceData)
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
   }
   selectData(data) {
 
@@ -164,24 +203,24 @@ export class InvoiceManualComponent implements OnInit {
 
         var splitmode = this.totalinvoiceAmount % 1;
         // var split = this.totalinvoiceAmount.slice(-3);
-        console.log('splitted round off value**', splitmode.toFixed(2));
+        // console.log('splitted round off value**', splitmode.toFixed(2));
         var splitlasttwodigits = splitmode.toFixed(2);
         if (parseFloat(splitlasttwodigits) == 0) {
-          console.log('success with zero')
+          // console.log('success with zero')
           this.invoicesplit = splitlasttwodigits;
         }
         else {
           let a = 1 - parseFloat(splitlasttwodigits);
           let b = a.toFixed(2);
-          console.log('b*****', b)
+          // console.log('b*****', b)
           let c = 0.50;
           if (b <= c.toString()) {
-            console.log('greater')
+            // console.log('greater')
 
             this.invoicesplit = '+' + b;
           }
           else {
-            console.log('lesser')
+            // console.log('lesser')
             this.invoicesplit = '-' + splitlasttwodigits;
 
           }
@@ -219,14 +258,14 @@ export class InvoiceManualComponent implements OnInit {
     else {
       this.router.navigate(['/error']);
     }
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
+    if (this.ets.cookievalue == "3") {
+      // this.router.navigate(['/despatch-no-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
 
 
-    // }
+    }
     this.entered = this.ets.cookiename;
     this.newInvoice.invoiceGeneratedBy = this.entered;
   }
@@ -237,12 +276,14 @@ export class InvoiceManualComponent implements OnInit {
 
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.groupbyList();
     }
     else if (this.selectmonth == null) {
 
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with month filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else if (this.selectedcenter == null) {
@@ -250,10 +291,12 @@ export class InvoiceManualComponent implements OnInit {
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       console.log('with month filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
+      this.groupbyList();
       this.selectData(this.selectedData)
     }
   }
@@ -265,23 +308,27 @@ export class InvoiceManualComponent implements OnInit {
     if (this.selectedfee == null && this.selectedcenter == null) {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else if (this.selectedfee == null) {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else if (this.selectmonth == null) {
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.groupbyList();
     }
 
   }
@@ -295,23 +342,27 @@ export class InvoiceManualComponent implements OnInit {
     if (this.selectedfee == null && this.selectmonth == null) {
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else if (this.selectedfee == null) {
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else if (this.selectmonth == null) {
       this.selectedData = this.invoiceList.filter(s => s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       console.log('with fee filter******')
       this.selectData(this.selectedData)
+      this.groupbyList();
 
     }
     else {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.CenterId == this.selectedcenter && s.invoiceenter.feesItem == this.selectedfee && s.invoiceenter.isdbaEntered == true)
       this.selectData(this.selectedData)
+      this.groupbyList();
     }
 
 
@@ -319,19 +370,19 @@ export class InvoiceManualComponent implements OnInit {
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)
-      console.log('month**', month)
+      // console.log('month**', month)
       return month;
     }
   }
   onClick(event, id, invoice: Invoice) {
     if (event == true) {
       this.checklist.push(invoice);
-      console.log('push**', this.checklist)
+      // console.log('push**', this.checklist)
     }
     else if (event == false) {
       this.checkboxIndex = this.checklist.findIndex(list => list.invoiceId == id);
       this.checklist.splice(this.checkboxIndex, 1);
-      console.log('pop**', this.checklist)
+      // console.log('pop**', this.checklist)
 
     }
     //   console.log('event***', event);
@@ -340,6 +391,29 @@ export class InvoiceManualComponent implements OnInit {
   }
 
   duplicationCheck() {
+
+
+
+    // this.kcvtpCenterList.push(data)
+
+
+
+    // for (let j = 0; this.kcvtpCenterList.length; j++) {
+    //   var list = this.kcvtpCenterList[j];
+    //   for (let i = 0; i < this.centerInvoiceData.Data.length; i++) {
+    //     var data = this.centerInvoiceData.Data[i];
+    //     if (list != undefined && data != undefined && list.centerName == data.centerName) {
+    //       console.log('sucees')
+    //       list.centerInvoiceNo = data.nextInvoiceNo.toString();
+
+    //     }
+
+    //   }
+    //   this.kcvtpCenterList.push(list);
+
+    // }
+    // console.log('check', this.kcvtpCenterList)
+    // console.log('check', this.invoicecenterListData)
     this.invoiceNoExists = false;
     console.log(this.newInvoice.invoiceNo)
     for (let i = 0; i <= this.invoiceList.length; i++) {
@@ -361,26 +435,92 @@ export class InvoiceManualComponent implements OnInit {
   }
 
   generateInvoice() {
-    this.checklist.forEach(element => {
-      element.invoiceNo = this.newInvoice.invoiceNo;
-      element.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
-      element.isInvoiceEntered = true;
-      element.invoiceGeneratedBy = this.entered;
-      var updates = {}
 
-      updates['/invoice/' + element.invoiceId] = JSON.stringify(element);
-      try {
+    if (this.checklist.length == 0) {
+      alert('Please select any')
+    }
+    else {
+      this.checklist.forEach(element => {
+        element.invoiceNo = this.newInvoice.invoiceNo;
+        element.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
+        element.isInvoiceEntered = true;
+        element.invoiceGeneratedBy = this.entered;
+        var updates = {}
 
-        let up = this.db.database.ref().update(updates);
+        updates['/invoice/' + element.invoiceId] = JSON.stringify(element);
+        try {
 
-      }
-      catch (e) {
+          let up = this.db.database.ref().update(updates);
 
-      }
+        }
+        catch (e) {
+
+        }
+      })
+
+      alert('Invoice Added :' + this.newInvoice.invoiceNo);
+      this.resetform();
+    }
+  }
+
+
+  groupbyList() {
+    let grouplist2Length = this.groupList2.length;
+    this.groupList2.splice(0, grouplist2Length);
+    this.kcvtpCenterList.splice(0, this.kcvtpCenterList.length)
+    this.selectedDataInvoiceItems.splice(0, this.selectedDataInvoiceItems.length);
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+    }
+    this.selectedData.forEach(data => {
+      this.selectedDataInvoiceItems.push(data.invoiceenter)
     })
+    console.log('seleced data', this.selectedDataInvoiceItems)
+    this.groupList = asEnumerable(this.selectedDataInvoiceItems).GroupBy(x => x.CenterId).ToArray();
 
-    alert('Invoice Added :' + this.newInvoice.invoiceNo);
-    this.resetform();
+    for (let j: number = 0; j < this.groupList.length; j++) {
+      var item = this.groupList[j];
+      var newList = new InvoiceCenterList2();
+      // console.log('invList****', inneritem)
+      this.shareAmountTotal = 0;
+      this.taxableamtTotal = 0;
+      for (let l: number = 0; l < item.length; l++) {
+        var inItem = item[l];
+        // console.log('item***1', inneritem)
+        if (newList.dbaNo == null) {
+          newList.dbaNo.push(inItem.dbaNo);
+        }
+        else {
+          newList.dbaNo.push(inItem.dbaNo);
+        }
+        // console.log('dba no', newList.dbaNo)
+        newList.InvoiceNo = inItem.invoiceNo;
+        this.centerList.forEach(data => {
+          if (data.Id == inItem.CenterId) {
+            newList.centerName = data.CenterName;
+
+          }
+        })
+        newList.invoiceMonth = inItem.dbaMonth;
+        (newList.dbaAmount += parseFloat(inItem.dbaAmount)).toFixed(2);
+        let taxamt = (parseFloat(inItem.dbaAmount) / 118) * 18;
+        this.taxableamtTotal = parseFloat(this.taxableamtTotal) + taxamt;
+        newList.taxableAmount = this.taxableamtTotal.toFixed(2);
+        let dbamt = (parseFloat(inItem.dbaAmount) - taxamt) * 0.65;
+        this.shareAmountTotal = parseFloat(this.shareAmountTotal) + dbamt;
+        newList.shareAmount = this.shareAmountTotal.toFixed(2);
+        newList.invoiceDate = inItem.invoiceDate;
+
+      }
+      this.kcvtpCenterList.push(newList);
+
+      console.log('finl data', this.kcvtpCenterList)
+
+    }
   }
 
   //validations

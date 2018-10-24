@@ -71,6 +71,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
   taxableamtTotal;
   checklist: InvoiceCenterList2[] = [];
   checkboxIndex;
+  centerInvoiceData;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -114,6 +115,8 @@ export class KcvtpCenterinvList2Component implements OnInit {
       this.groupbyAllList(this.invoice);
 
     });
+
+   
   }
 
   ngOnInit() {
@@ -156,11 +159,12 @@ export class KcvtpCenterinvList2Component implements OnInit {
           var inItem = inneritem[l];
           // console.log('item***1', inneritem)
           if (newList.dbaNo == null) {
-            newList.dbaNo = inItem.dbaNo + '\t';
+            newList.dbaNo.push(inItem.dbaNo);
           }
           else {
-            newList.dbaNo += inItem.dbaNo.toString() + '\t';
+            newList.dbaNo.push(inItem.dbaNo);
           }
+          console.log('dba no', newList.dbaNo)
           newList.InvoiceNo = inItem.invoiceNo;
           this.centerList.forEach(data => {
             if (data.Id == inItem.CenterId) {
@@ -211,12 +215,20 @@ export class KcvtpCenterinvList2Component implements OnInit {
       let Nsplit = nextYear.toString().slice(-2);
       finyear = currentYear + '-' + Nsplit;
     }
-    this.checklist.forEach(data => {
-      data.centerInvoiceNo = this.newcenterList2.centerInvoiceNo + '/' + finyear
-      this.academic.AddCenterInvoiceList2(data)
-      alert(' Added Successfully**');
+    if (this.checklist.length == 0) {
+      alert('Please select any');
+    }
+    else {
+      this.checklist.forEach(data => {
+        data.centerInvoiceNo = this.newcenterList2.centerInvoiceNo + '/' + finyear
+        this.academic.AddCenterInvoiceList2(data)
+        alert(' Added Successfully**');
 
-    })
+      })
+      this.checklist.splice(0, this.checklist.length);
+      console.log('checklist**', this.checklist)
+    }
+
   }
 
 
@@ -295,12 +307,11 @@ export class KcvtpCenterinvList2Component implements OnInit {
         this.taxableamtTotal = 0;
         for (let l: number = 0; l < inneritem.length; l++) {
           var inItem = inneritem[l];
-          // console.log('item***1', inneritem)
           if (newList.dbaNo == null) {
-            newList.dbaNo = inItem.dbaNo + '\t';
+            newList.dbaNo.push(inItem.dbaNo);
           }
           else {
-            newList.dbaNo += inItem.dbaNo.toString() + '\t';
+            newList.dbaNo.push(inItem.dbaNo);
           }
           newList.InvoiceNo = inItem.invoiceNo;
           this.centerList.forEach(data => {

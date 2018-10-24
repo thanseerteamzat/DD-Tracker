@@ -13,7 +13,7 @@ import { dbaEntry, dbaList, dbaShareReleaseNote } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
-import { InvoiceCenterList2 } from '../models/invoice ';
+import { InvoiceCenterList2, InvoiceCenterList2Data } from '../models/invoice ';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class AcadamicService {
     const body = {
       "Table": "centers", "Where": {
         "CategoryId": "KKC",
-        "DistrictId":district,
+        "DistrictId": district,
       }
     };
     return this.http.post<CenterData>(this.config.pyUrl + 'GetRows', body)
@@ -67,7 +67,7 @@ export class AcadamicService {
 
   }
 
-  public GetKkcDdEntry():Observable<KKCentryData> {
+  public GetKkcDdEntry(): Observable<KKCentryData> {
     console.log('AddSubject in service**************')
 
     const body = { "Table": "kkcddEntry" };
@@ -112,7 +112,7 @@ export class AcadamicService {
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
     const Sub = {
-      
+
       "date": ddEntry.date,
       "feesItem": ddEntry.feesItem,
       "applicationNumber": ddEntry.applicationNumber,
@@ -130,7 +130,7 @@ export class AcadamicService {
     };
     const body = {
       "Table": "kkcddEntry",
-      "Where":{ "kkcId":ddEntry.kkcId},
+      "Where": { "kkcId": ddEntry.kkcId },
       "Data": Sub,
       "UniqueId": "KkcDdId"
     };
@@ -162,8 +162,8 @@ export class AcadamicService {
       "invoiceDate": ddEntry.invoiceDate,
       "invAmtPending": ddEntry.invAmtPending,
       "enteredBy": ddEntry.enteredBy,
-      
-      
+
+
 
     };
     const body = {
@@ -183,8 +183,18 @@ export class AcadamicService {
   }
 
 
+  public GetCenterInvoiceList2(): Observable<InvoiceCenterList2Data> {
+    console.log('AddSubject in service**************')
 
-  public ExportDbaReport(dbaDetails:Array<dbaShareReleaseNote>) {
+    const body = { "Table": "ddtKCVTPInvoiceCenterList2" };
+
+
+    return this.http.post<InvoiceCenterList2Data>(this.config.pyUrl + 'GetRows', body)
+
+  }
+
+
+  public ExportDbaReport(dbaDetails: Array<dbaShareReleaseNote>) {
     // const Sub = {
     //   "despSerialNo": dbaDetails.despSerialNo,
     //   "centerName": dbaDetails.centerName,
@@ -204,7 +214,7 @@ export class AcadamicService {
     };
 
     this.http.post(this.config.pyUrl + 'ExportDBAReport', body)
-      .subscribe(data => {console.log('data****',data) },
+      .subscribe(data => { console.log('data****', data) },
         err => {
           console.log('Error: ' + err.error);
           console.log('Name: ' + err.name);
