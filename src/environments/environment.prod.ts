@@ -8,7 +8,7 @@ export const environment = {
     storageBucket: "utek-ddtracker.appspot.com",
     messagingSenderId: "100955478608"
     
-   
+     
   }
 };
 
