@@ -33,6 +33,8 @@ export class KkcDdentryComponent implements OnInit {
   tempcenter;
   split1;
   vtemp
+  entries;
+  tempentries;
   // centerList: Center[] = [];
   centerList = new Array<Center>();
   courseList = new Array<Course>();
@@ -53,6 +55,7 @@ export class KkcDdentryComponent implements OnInit {
   ddAmount;
   enteredBy;
   SerialNo;
+  splitValue;
   todaydate = new Date;
   districts = [
     { id: '1', name: 'Kannur' },
@@ -70,8 +73,10 @@ export class KkcDdentryComponent implements OnInit {
     { id: '12', name: 'Thiruvananthapuram' },
   ];
   minDate;
+  newddentry: kkcddEntry = new kkcddEntry();
+   
   maxDate;
-  isEditMode;
+  isEditMode:boolean;
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -86,6 +91,14 @@ export class KkcDdentryComponent implements OnInit {
   ) {
     this.ddcreateForm();
 
+    let id = this.route.snapshot.paramMap.get('kkcId');
+    console.log('id***',id);
+    if(id != undefined){
+      this.isEditMode = true ;
+    }
+    else{
+    }  
+   console.log('isedit mode',this.isEditMode)
     this.academic.GetAllCenters().subscribe(resdata => {
       this.centers = resdata;
       console.log(resdata);
@@ -112,7 +125,36 @@ export class KkcDdentryComponent implements OnInit {
     that.academic.GetKkcDdEntry().subscribe(data => {
       that.kkcddEntries = data;
       this.SerialNo = that.kkcddEntries.Data.length + 1;
-    },
+      that.entries =data; 
+      this.tempentries = this.entries.Data;
+      if(id != undefined){
+      for(let i=0 ; i <= this.tempentries.length ; i++){
+        let tempobj = this.tempentries[i];
+        if( tempobj != null  && tempobj.kkcId == id ){
+          this.newddentry.kkcId= tempobj.kkcId;
+          this.newddentry.KkcDdId = tempobj.KkcDdId;
+          this.newddentry.feesItem =tempobj.feesItem;
+          this.newddentry.bank = tempobj.bank;
+          this.newddentry.applicationNumber = tempobj.applicationNumber;
+          this.newddentry.centerName = "";
+          this.newddentry.courseName = "";
+          this.newddentry.date = tempobj.date;
+          this.newddentry.ddAmount = tempobj.ddAmount;
+          this.newddentry.ddDate = tempobj.ddDate;
+          this.newddentry.ddNumber = tempobj.ddNumber;
+          this.newddentry.enteredBy = tempobj.enteredBy;
+          this.newddentry.studentName = tempobj.studentName;
+          this.newddentry.studentRollNumber = tempobj.studentRollNumber;
+          this.newddentry.enteredBy = tempobj.enteredBy;
+          var splitValue =this.newddentry.studentRollNumber;
+          splitValue= splitValue.substr(splitValue.length - 3);
+          this.newddentry.studentRollNumber =splitValue;
+          console.log('split value' , splitValue);
+          console.log('new dd entry',this.newddentry);        
+
+        }
+      }
+    }},
       err => {
         console.log('Error: ' + err.error);
         console.log('Name: ' + err.name);
@@ -147,22 +189,26 @@ export class KkcDdentryComponent implements OnInit {
   register() {
 
     console.log('inside regsiter**')
-    this.kkcddEntry.feesItem = this.feesItem;
+    this.kkcddEntry.feesItem = this.newddentry.feesItem;
+    console.log('today date',this.todaydate)
     this.kkcddEntry.date = this.formatDate(this.todaydate);
-    this.kkcddEntry.ddDate = this.formatDate(this.ddDate);
-    this.kkcddEntry.applicationNumber = this.applicationNumber;
-    this.kkcddEntry.centerName = this.centerName;
-    this.kkcddEntry.studentName = this.studentName;
-    this.kkcddEntry.bank = this.bank;
-    this.kkcddEntry.courseName = this.courseName;
-    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.studentRollNumber;
-    this.kkcddEntry.ddNumber = this.ddNumber;
-    this.kkcddEntry.ddAmount = this.ddAmount;
+    console.log('date',this.kkcddEntry.date)
+
+    this.kkcddEntry.ddDate =this.formatDate(this.ddDate);
+    this.kkcddEntry.applicationNumber = this.newddentry.applicationNumber;
+    this.kkcddEntry.centerName = this.newddentry.centerName;
+    this.kkcddEntry.studentName = this.newddentry.studentName;
+    this.kkcddEntry.bank = this.newddentry.bank;
+    this.kkcddEntry.courseName = this.newddentry.courseName;
+    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber;
+    this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
+    this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
     this.kkcddEntry.enteredBy = this.enteredBy;
     let uniqueId = "DD" + Common.newGuid();
     this.kkcddEntry.kkcId = uniqueId;
-    this.academic.AddKkcDdEntry(this.kkcddEntry)
-    alert('DD Added Successfully**');
+    console.log('kkc dd entry',this.kkcddEntry);
+    // this.academic.AddKkcDdEntry(this.kkcddEntry)
+    alert('DD Added Successfully****');
 
     let that = this;
     that.academic.GetKkcDdEntry().subscribe(data => {
@@ -179,13 +225,63 @@ export class KkcDdentryComponent implements OnInit {
     this.resetForm();
   }
 
+  update() {
+
+    console.log('inside update**')
+    this.kkcddEntry.feesItem = this.newddentry.feesItem;
+   if(this.newddentry.date.length <= 10){
+    this.kkcddEntry.date = this.newddentry.date;
+   }
+   else{
+     this.kkcddEntry.date = this.formatDate(this.newddentry.date);
+   }
+   if(this.newddentry.ddDate.length <= 10){
+    this.kkcddEntry.ddDate = this.newddentry.ddDate;
+   }
+   else{
+    this.kkcddEntry.ddDate = this.formatDate(this.newddentry.ddDate)
+
+   }
+    this.kkcddEntry.applicationNumber = this.newddentry.applicationNumber;
+    this.kkcddEntry.centerName = this.newddentry.centerName;
+    this.kkcddEntry.studentName = this.newddentry.studentName;
+    this.kkcddEntry.bank = this.newddentry.bank;
+    this.kkcddEntry.courseName = this.newddentry.courseName;
+    this.kkcddEntry.studentRollNumber =  'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber ;
+    this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
+    this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
+   
+    this.kkcddEntry.enteredBy = this.newddentry.enteredBy;
+    this.kkcddEntry.kkcId = this.newddentry.kkcId;
+    // let uniqueId = "DD" + Common.newGuid();
+    // this.kkcddEntry.kkcId = uniqueId;
+    console.log('kkc dd entry',this.kkcddEntry);
+    this.academic.updateKKCEntry(this.kkcddEntry)
+    alert('updates succesfully');
+    this.router.navigate[('/kkc-dd-verification')]
+
+    let that = this;
+    that.academic.GetKkcDdEntry().subscribe(data => {
+      that.kkcddEntries = data;
+      console.log("hi************")
+      console.log(that.kkcddEntries, 'KKC DD Entries')
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+  }
+
+
   callType(value) {
     console.log(this.centerList, '*********************************8');
 
     for (let i = 0; i <= this.centerList.length; i++) {
       console.log('i');
       let tempcenterObj = this.centerList[i];
-      if (tempcenterObj != null && tempcenterObj.CenterName == this.centerName) {
+      if (tempcenterObj != null && tempcenterObj.CenterName == this.newddentry.centerName) {
         this.tempcentercode = tempcenterObj.CenterCode;
         console.log('tempcentercode', this.tempcentercode);
 
@@ -193,7 +289,7 @@ export class KkcDdentryComponent implements OnInit {
       // if(tempcenterObj.Data.N)
 
     }
-    console.log('centername', this.centerName);
+    // console.log('centername', this.centerName);
 
     console.log('value', value);
     let split1 = value.split(" ")[1];
@@ -221,11 +317,11 @@ export class KkcDdentryComponent implements OnInit {
     for (let i = 0; i <= this.courseList.length; i++) {
       console.log('i');
       let tempcourseObj = this.courseList[i];
-      console.log(this.courseName);
+      console.log(this.newddentry.courseName);
       console.log(tempcourseObj.Code);
-      if (tempcourseObj != null && tempcourseObj.Name == this.courseName) {
+      if (tempcourseObj != null && tempcourseObj.Name == this.newddentry.courseName) {
         this.tempcoursecode = tempcourseObj.Code;
-        console.log('tempcentercode', this.tempcoursecode);
+        console.log('tempcoursecode', this.tempcoursecode);
 
       }
       // if(tempcenterObj.Data.N)
@@ -268,7 +364,7 @@ export class KkcDdentryComponent implements OnInit {
         // currentDate: [null, Validators.required],
         centerNameVal: [null, Validators.required],
         courseNameVal: [null, Validators.required],
-        rollNumberVal: [null, Validators.required],
+        rollNumberVal: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern('[0-9]*')])],
 
         studentNameVal: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z \-\']+')])],
         ddNumberVal: [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*')])],

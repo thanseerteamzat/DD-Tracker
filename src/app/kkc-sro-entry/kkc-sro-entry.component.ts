@@ -66,6 +66,7 @@ export class KkcSroEntryComponent implements OnInit {
   todaydate = new Date;
   selecteddate;
   selecteddatee;
+  selecteddateee;
   isformOpen: boolean;
   // isEditable;
   isEditMode;
@@ -73,7 +74,7 @@ export class KkcSroEntryComponent implements OnInit {
     { id: '1', name: 'Yes' },
     { id: '2', name: 'No' }
   ];
-
+  ddDate;
   todaydatee = new Date;
   constructor(private ets: EtsService,
     private cookieservice: CookieService,
@@ -390,9 +391,10 @@ export class KkcSroEntryComponent implements OnInit {
     // console.log('fees item', this.feesItem);
     this.selecteddate = this.todaydate;
     this.selecteddatee = this.todaydatee;
+    this.selecteddateee = this.ddDate;
     this.sroEntry.date = this.formatDate(this.selecteddate);
     // console.log(this.sroEntry.date);
-
+   this.sroEntry.ddDate = this.formatDate(this.selecteddateee);
     this.sroEntry.enteredDate = this.formatDate(this.selecteddatee);
     // console.log(this.todaydatee)
     this.sroEntry.bank = this.bank;
@@ -535,6 +537,7 @@ export class KkcSroEntryComponent implements OnInit {
     banks: new FormControl(),
     ddAmount: new FormControl(),
     // centerName :new FormControl(),
+    ddDateVal: new FormControl(),
 
 
   })
@@ -551,7 +554,8 @@ export class KkcSroEntryComponent implements OnInit {
         studentname: [null],
         ddnumber: [null],
         banks: [null],
-        ddAmount: [null]
+        ddAmount: [null],
+        ddDateVal:[null],
 
 
       })
@@ -566,6 +570,7 @@ export class KkcSroEntryComponent implements OnInit {
   get ddnumber() { return this.ddentryForm.get('ddnumber'); }
   get banks() { return this.ddentryForm.get('banks'); }
   get ddAmount() { return this.ddentryForm.get('ddAmount'); }
+  get ddDateVal() { return this.ddentryForm.get('ddDateVal'); }
 
 
 
@@ -584,7 +589,7 @@ export class KkcSroEntryComponent implements OnInit {
         ddnumber: null,
         banks: null,
         ddAmount: null,
-
+      ddDateVal:null,
       })
   }
 

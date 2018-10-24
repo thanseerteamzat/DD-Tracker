@@ -4,7 +4,9 @@
     <div id="content" class="createcontent">
         <div class="form-row">
             <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
-            <h1>KKC DD Entry</h1>
+            <h1 *ngIf='!isEditMode'>KKC DD Entry</h1>
+            <h1 *ngIf='isEditMode'>Edit DD Entry</h1>
+            
             <!-- <h1 >Edit KKC DD Entry</h1> -->
 
         </div>
@@ -12,9 +14,16 @@
             <!-- <ng-container *ngFor="let lstid of ddLastids"> -->
             <div class="row">
 
-                <div class="form-group col-md-3">
+                <div *ngIf="!isEditMode" class="form-group col-md-3">
                     <br>
                     <label style="color: red" for="ddid">KKC DD Serial No :{{SerialNo}} &nbsp;</label>
+                    <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+
+                    <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
+                </div>
+                <div *ngIf="isEditMode" class="form-group col-md-3">
+                    <br>
+                    <label style="color: red" for="ddid">KKC DD Serial No :{{newddentry.KkcDdId}} &nbsp;</label>
                     <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
 
                     <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
@@ -23,7 +32,7 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="feesItem">Fees Item</label>
 
-                    <select formControlName="feesItemVal" [(ngModel)]="feesItem" name="feesItem" class="form-control">
+                    <select formControlName="feesItemVal" [(ngModel)]="newddentry.feesItem" name="feesItem" class="form-control">
                         <option value="" disabled [selected]>--Choose--</option>
                         <ng-container>
                             <option>Course Fee</option>
@@ -51,29 +60,26 @@
 
 
 
-                <div class="form-group col-md-3">
+                <div *ngIf="!isEditMode" class="form-group col-md-3">
                     <label for="date">Date</label>
-
-
                     <div class="form-group">
                         <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDate" [maxDate]="maxDate">
-
-
-
                     </div>
-
-
-                    <!-- <input type="text" id="datepicker"> -->
-                    <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
-
                 </div>
 
 
+                <div *ngIf="isEditMode" class="form-group col-md-3">
+                    <label for="date">Date</label>
+                    <div class="form-group">
+                        <input readonly type="text" name="todaydate" [(ngModel)]="newddentry.date" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDate" [maxDate]="maxDate">
+                    </div>
+                </div>
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="appno">Application No</label>
-                    <input type="text" formControlName="applicationNoVal" [(ngModel)]="applicationNumber" name="appNo" class="form-control">
+                    <input type="text" formControlName="applicationNoVal" [(ngModel)]="newddentry.applicationNumber" name="appNo" class="form-control">
 
                     <div *ngIf="applicationNoVal.invalid && (applicationNoVal.dirty || applicationNoVal.touched)" class="alert-danger">
                         <div *ngIf="applicationNoVal.errors.required">
@@ -114,7 +120,7 @@
                     <label style="color: black" for="center">Centre Name</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <!-- <label for="centercode">Code :</label> -->
-                 Code : {{tempcentercode}}   <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="centerName" class="form-control" name="selectedcenter">
+                 Code : {{tempcentercode}}   <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="newddentry.centerName" class="form-control" name="selectedcenter">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let s of centerList">
                             <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
@@ -134,9 +140,9 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="course">Course Name</label>
 
-                    <select [(ngModel)]="courseName"  formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
+                    <select [(ngModel)]="newddentry.courseName"  formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
                         <option value="">--Choose--</option>
-                        <ng-container *ngFor="let c of courses.Data">
+                        <ng-container *ngFor="let c of courseList">
                             <option [ngValue]="c.Name">{{c.Name}}</option>
                         </ng-container>
 
@@ -153,7 +159,7 @@
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="studentName">Student Name</label>
-                    <input type="text" class="form-control" formControlName="studentNameVal" [(ngModel)]="studentName" name="studentName" placeholder="Student Name">
+                    <input type="text" class="form-control" formControlName="studentNameVal" [(ngModel)]="newddentry.studentName" name="studentName" placeholder="Student Name">
                     <div *ngIf="studentNameVal.invalid && (studentNameVal.dirty || studentNameVal.touched)" class="alert-danger">
                         <div *ngIf="studentNameVal.errors.required">
                             Student Name is required
@@ -178,19 +184,24 @@
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="studentName">Student Roll Number</label>
-                    <input type="text" class="form-control" [(ngModel)]="studentRollNumber" formControlName="rollNumberVal" name="studentRollNumber"
+                    <input type="text" class="form-control" [(ngModel)]="newddentry.studentRollNumber" formControlName="rollNumberVal" name="studentRollNumber"
                         placeholder="Student Roll Number">
-                    <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
-                        <div *ngIf="rollNumberVal.errors.required">
-                            Student Name is required
+                        <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
+                            <div *ngIf="rollNumberVal.errors.required">
+                                Roll Number is Required
+                            </div>
+                            <div *ngIf="rollNumberVal.errors.minlength">
+                                Minimum is 3 digit number
+                            </div>
+                            <div *ngIf="rollNumberVal.errors.maxlength">
+                                Maximum is 3 digit number
+                            </div>
                         </div>
-
-                    </div>
                 </div>
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddNo">DD Number</label>
-                    <input type="text" class="form-control" formControlName="ddNumberVal" [(ngModel)]="ddNumber" name="ddNumber" placeholder="DD Number">
+                    <input type="text" class="form-control" formControlName="ddNumberVal" [(ngModel)]="newddentry.ddNumber" name="ddNumber" placeholder="DD Number">
                     <div *ngIf="ddNumberVal.invalid && (ddNumberVal.dirty || ddNumberVal.touched)" class="alert-danger">
                         <div *ngIf="ddNumberVal.errors.required">
                             DD Number is Required
@@ -208,7 +219,7 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="bank">Bank</label>
 
-                    <select [(ngModel)]="bank" class="form-control" formControlName="bankVal" name="bank">
+                    <select [(ngModel)]="newddentry.bank" class="form-control" formControlName="bankVal" name="bank">
                         <option value="" disabled [selected]>--Choose--</option>
                         <ng-container>
                             <option>AXIS BANK</option>
@@ -253,7 +264,7 @@
 
                     <div *ngIf="bankVal.invalid && (bankVal.dirty || bankVal.touched)" class="alert-danger">
                         <div *ngIf="bankVal.errors.required">
-                            DD Number is required
+                            Bank is required
                         </div>
 
                     </div>
@@ -266,7 +277,7 @@
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddAmount">DD Amount</label>
-                    <input type="text" formControlName="ddAmountVal" [(ngModel)]="ddAmount" name="Amount" class="form-control" placeholder="DD Amount">
+                    <input type="text" formControlName="ddAmountVal" [(ngModel)]="newddentry.ddAmount" name="Amount" class="form-control" placeholder="DD Amount">
                     <div *ngIf="ddAmountVal.invalid && (ddAmountVal.dirty || ddAmountVal.touched)" class="alert-danger">
                         <div *ngIf="ddAmountVal.errors.required">
                             DD Amount is required
@@ -285,22 +296,27 @@
                     <div class="form-group">
                         <input readonly type="text" name="todaydatee" [(ngModel)]="ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}" [minDate]="minDateDD" [maxDate]="maxDateDD">
-
-
-
                     </div>
-
-
-                    <!-- <input type="text" id="datepicker"> -->
-                    <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
-
                 </div>
 
+                <div *ngIf='isEditMode' class="form-group col-md-3">
+                    <label for="date">DD Date(Date should be within last 60 days)</label>
 
 
-                <div class="form-group col-md-3">
+                    <div class="form-group">
+                        <input readonly type="text" name="todaydatee" [(ngModel)]="newddentry.ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}" [minDate]="minDateDD" [maxDate]="maxDateDD">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3" *ngIf="!isEditMode">
                     <label for="enteredby">Entered By </label>
                     <input readonly type="text" [(ngModel)]="enteredBy" name="enteredBy" class="form-control">
+                </div>
+
+                <div class="form-group col-md-3" *ngIf="isEditMode">
+                    <label for="enteredby">Entered By </label>
+                    <input readonly type="text" [(ngModel)]="newddentry.enteredBy" name="newddentry.enteredBy" class="form-control">
                 </div>
 
             </div>
@@ -314,10 +330,10 @@
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <button type="submit" [disabled]="ddentryForm.invalid" (click)="register()" class="btn btn-primary">Save</button>
+                    <button  *ngIf='!isEditMode' type="submit" [disabled]="ddentryForm.invalid" (click)="register()" class="btn btn-primary">Save</button>
                     &nbsp;
 
-                    <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" class="btn btn-primary">Update</button>
+                    <button *ngIf='isEditMode' [disabled]="ddentryForm.invalid" type="submit" (click)="update()" class="btn btn-primary">Update</button>
 
                     <!-- <button  type="submit" class="btn btn-primary">Update</button> -->
                     &nbsp;

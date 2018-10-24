@@ -241,6 +241,13 @@
 
                     </div>
 
+                    <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                        <label for="date">DD Date</label>
+                        <input readonly type="text" name="ddDate" [(ngModel)]="ddDate" class="form-control" formControlName="ddDateVal" #dp="bsDatepicker" bsDatepicker
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+                    </div>
+
+
 
 
                 </div>
@@ -276,6 +283,7 @@
                         <th style="min-width: 120px;">DD Number</th>
                         <th style="min-width: 120px;">Bank</th>
                         <th style="min-width: 120px;">DD Amount</th>
+                        <th style="min-width: 120px;">DD Date</th>
 
                         <th style="min-width: 100px;">Remarks</th>
                         <th></th>
@@ -310,6 +318,8 @@
                             <td>{{ddenter.ddenter.ddNumber}}</td>
                             <td>{{ddenter.ddenter.bank}}</td>
                             <td>{{ddenter.ddenter.ddAmount}}</td>
+                            <td>{{ddenter.ddenter.ddDate}}</td>
+                            
                             <td>{{ddenter.ddenter.remarks}}</td>
                             <td> <button type="button" (click)=entrySelection(ddenter.ddenter.sroId,ddenter.ddenter) class="btn btn-primary">
                                 View Details

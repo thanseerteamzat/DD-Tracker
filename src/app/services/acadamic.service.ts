@@ -111,6 +111,7 @@ export class AcadamicService {
   }
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
+    console.log('here',ddEntry);
     const Sub = {
       
       "date": ddEntry.date,
@@ -136,7 +137,9 @@ export class AcadamicService {
     };
 
     this.http.post(this.config.pyUrl + 'UpdateRows', body)
-      .subscribe(data => { },
+      .subscribe(data => { 
+        console.log('data',data)
+      },
         err => {
           console.log('Error: ' + err.error);
           console.log('Name: ' + err.name);

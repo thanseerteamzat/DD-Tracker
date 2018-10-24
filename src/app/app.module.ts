@@ -158,6 +158,8 @@ const appRoutes: Routes = [
   { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component },
   { path :'kkc-phase-two-entry',component:PhaseTwoKkcEntryComponent},
   // { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component }
+  { path: 'kkc-dd-entry/:kkcId', component:KkcDdentryComponent },
+ 
 ];
 
 

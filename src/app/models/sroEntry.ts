@@ -13,6 +13,7 @@ export class sroEntry{
     ddNumber:string;
     bank:string;
     ddAmount:number;
+    ddDate:string;
     remarks:string;
     centerName:string
 }
