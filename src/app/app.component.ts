@@ -11,8 +11,8 @@ import { EtsService } from './services/ets.service';
 })
 export class AppComponent implements OnInit {
   title = 'DD Tracker';
-  Date = '24/10/2018(6.00pm)';
-  version = 'V 4.4.0'
+  Date = '25/10/2018(2.00pm)';
+  version = 'V 4.5.1'
   // userId:[];
   cookievalue;
   expiredDate: Date;
@@ -25,24 +25,27 @@ export class AppComponent implements OnInit {
       let password = params['p'];
       let privilege = params['q']
       let centerName=params['c']
+      let userType=params['t']
 
       try {
         var u = window.atob(userId);
-        var c =window.atob(centerName);
+        var c = window.atob(centerName);
+        var t = window.atob(userType);
 
         this.ets.cookievalue = privilege;
         this.ets.cookiename = u;
 
         this.ets.cookiecenter=c;
-        
+        this.ets.cookieuser=t;
 
         console.log('aaaaaaaaaaaaaaasaaa', privilege);
         console.log('*********************',c)
+        console.log('usr type',t)
         this.expiredDate = new Date();
         this.expiredDate.setDate(this.expiredDate.getDate() + 1);
-        this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate,this.ets.cookiecenter)
+        this.ets.setCookie(this.ets.cookiename, this.ets.cookievalue, this.expiredDate,this.ets.cookieuser,this.ets.cookiecenter )
    
-      
+      // console.log('cookiee user' ,this.ets.cookieuser )
       }
       catch (e) {
         console.log(e);

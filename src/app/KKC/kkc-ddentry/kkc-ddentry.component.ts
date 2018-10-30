@@ -200,7 +200,7 @@ export class KkcDdentryComponent implements OnInit {
     this.kkcddEntry.studentName = this.newddentry.studentName;
     this.kkcddEntry.bank = this.newddentry.bank;
     this.kkcddEntry.courseName = this.newddentry.courseName;
-    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber;
+    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + '0' + this.newddentry.studentRollNumber;
     this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
     this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
     this.kkcddEntry.enteredBy = this.enteredBy;
@@ -247,7 +247,7 @@ export class KkcDdentryComponent implements OnInit {
     this.kkcddEntry.studentName = this.newddentry.studentName;
     this.kkcddEntry.bank = this.newddentry.bank;
     this.kkcddEntry.courseName = this.newddentry.courseName;
-    this.kkcddEntry.studentRollNumber =  'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber ;
+    this.kkcddEntry.studentRollNumber =  'K18' + this.tempcentercode + this.tempcoursecode + '0' + this.newddentry.studentRollNumber ;
     this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
     this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
    
