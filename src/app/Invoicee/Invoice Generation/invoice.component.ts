@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { Common } from '../../models/common';
 import { dbaList, dbaEntry } from '../../models/dbaEntry';
 import { Center } from '../../models/Center';
-import { invoiceList, Invoice } from '../../models/invoice ';
+import { invoiceList, Invoice, InvoiceCenterList2Data, InvoiceCenterList2 } from '../../models/invoice ';
+import { AcadamicService } from 'src/app/services/acadamic.service';
 
 @Component({
   selector: 'app-invoice',
@@ -63,9 +64,13 @@ export class InvoiceComponent implements OnInit {
     { id: '6', name: 'Inspection' },
     { id: '7', name: 'Duplicate Certificate/Marklist' },
   ];
+  entries;
+  kcvtpCenterlists: InvoiceCenterList2Data
+  invoiceList2 = new Array<InvoiceCenterList2>();
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
+    private academic: AcadamicService
 
   ) {
     let centerResponse = this.ets.centerList;
@@ -83,6 +88,7 @@ export class InvoiceComponent implements OnInit {
     this.ets.GetAllCenters().subscribe(data => {
       that.centers = data;
       this.ets.centerList = this.centers
+
     },
       error => console.log(error),
       () => console.log('Get all complete'));
@@ -111,6 +117,41 @@ export class InvoiceComponent implements OnInit {
 
       });
     });
+
+    that.academic.GetCenterInvoiceList2().subscribe(data => {
+      that.entries = data;
+
+      that.kcvtpCenterlists = data;
+
+      let list = new InvoiceCenterList2();
+
+      for (let i = 0; i <= data.Data.length; i++) {
+        if (data.Data[i] != null) {
+          
+          list.centerInvoiceNo = data.Data[i].centerInvoiceNo;
+          list.centerName = data.Data[i].centerName;
+          list.invoiceMonth = data.Data[i].invoiceMonth
+          list.InvoiceNo = data.Data[i].InvoiceNo;
+          list.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+          list.invoiceDate = data.Data[i].invoiceDate;
+
+          this.invoiceList2.push(list);
+        }
+
+      }
+      console.log('list***', this.invoiceList2)
+    },
+
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+
+
+
+
   }
   selectData(data) {
 
@@ -191,21 +232,14 @@ export class InvoiceComponent implements OnInit {
 
 
   ngOnInit() {
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
+
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
     // }
     // else {
     //   this.router.navigate(['/error']);
-
-
     // }
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
   }
   filterFee(key) {
     this.selectedfee = key;

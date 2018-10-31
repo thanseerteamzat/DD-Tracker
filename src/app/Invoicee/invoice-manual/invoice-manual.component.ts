@@ -251,21 +251,21 @@ export class InvoiceManualComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
-    if (this.ets.cookievalue == "3") {
-      // this.router.navigate(['/despatch-no-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
+    // if (this.ets.cookievalue == "3") {
+    //   // this.router.navigate(['/despatch-no-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
 
 
-    }
+    // }
     this.entered = this.ets.cookiename;
     this.newInvoice.invoiceGeneratedBy = this.entered;
   }
@@ -394,44 +394,44 @@ export class InvoiceManualComponent implements OnInit {
 
 
 
-    // this.kcvtpCenterList.push(data)
+    this.kcvtpCenterList.push(data)
 
 
 
-    // for (let j = 0; this.kcvtpCenterList.length; j++) {
-    //   var list = this.kcvtpCenterList[j];
-    //   for (let i = 0; i < this.centerInvoiceData.Data.length; i++) {
-    //     var data = this.centerInvoiceData.Data[i];
-    //     if (list != undefined && data != undefined && list.centerName == data.centerName) {
-    //       console.log('sucees')
-    //       list.centerInvoiceNo = data.nextInvoiceNo.toString();
+    for (let j = 0; this.kcvtpCenterList.length; j++) {
+      var list = this.kcvtpCenterList[j];
+      for (let i = 0; i < this.centerInvoiceData.Data.length; i++) {
+        var data = this.centerInvoiceData.Data[i];
+        if (list != undefined && data != undefined && list.centerName == data.centerName) {
+          console.log('sucees')
+          list.centerInvoiceNo = data.nextInvoiceNo.toString();
 
-    //     }
+        }
 
-    //   }
-    //   this.kcvtpCenterList.push(list);
+      }
+      this.kcvtpCenterList.push(list);
 
-    // }
+    }
     // console.log('check', this.kcvtpCenterList)
     // console.log('check', this.invoicecenterListData)
-    this.invoiceNoExists = false;
-    console.log(this.newInvoice.invoiceNo)
-    for (let i = 0; i <= this.invoiceList.length; i++) {
-      this.tempinvoiceList = invoiceList[i];
-      console.log(this.invoiceList)
-      if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
-        this.invoiceNoExists = true;
-        break;
-      }
-    }
-    if (this.invoiceNoExists == false) {
-      // console.log(this.invoiceNoExists)
+    // this.invoiceNoExists = false;
+    // console.log(this.newInvoice.invoiceNo)
+    // for (let i = 0; i <= this.invoiceList.length; i++) {
+    //   this.tempinvoiceList = invoiceList[i];
+    //   console.log(this.invoiceList)
+    //   if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
+    //     this.invoiceNoExists = true;
+    //     break;
+    //   }
+    // }
+    // if (this.invoiceNoExists == false) {
+    //   // console.log(this.invoiceNoExists)
 
-      console.log('new enrty')
-    }
-    else {
-      console.log('duplication')
-    }
+    //   console.log('new enrty')
+    // }
+    // else {
+    //   console.log('duplication')
+    // }
   }
 
   generateInvoice() {
