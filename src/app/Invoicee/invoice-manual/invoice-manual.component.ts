@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { invoiceList, Invoice, InvoiceCenterList2, InvoiceCenterList2Data, centerInvNoChkList, tempInvCenterList2 } from '../../models/invoice ';
+import { invoiceList, Invoice, InvoiceCenterList2, InvoiceCenterList2Data, centerInvNoChkList, tempInvCenterList2, groupInvoicebyCenter } from '../../models/invoice ';
 import { Center } from '../../models/Center';
 import { AngularFireDatabase } from '../../../../node_modules/angularfire2/database';
 import { EtsService } from '../../services/ets.service';
@@ -44,6 +44,8 @@ export class InvoiceManualComponent implements OnInit {
   round = 0;
   convertedToWord;
   checklist: Invoice[] = [];
+  groupbyCheckList: Invoice[][];
+  groupedInvoiceCenterList: groupInvoicebyCenter[] = [];
   checkboxIndex;
   invoiceNoExists;
   Months = [
@@ -81,7 +83,14 @@ export class InvoiceManualComponent implements OnInit {
   groupList2 = new Array<Invoice[][]>()
   kcvtpCenterList: tempInvCenterList2[] = [];
   shareAmountTotal;
+  feeAmountTotal;
+  dbaAmountTotal;
   taxableamtTotal;
+  invoice: Invoice[] = [];
+  monthId;
+  monthName;
+  preMonth;
+  previousMonthDataFilter: centerInvNoChkList[];
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -127,6 +136,7 @@ export class InvoiceManualComponent implements OnInit {
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
+        this.invoice.push(ddListItem.invoiceenter)
         this.invoiceList.push(ddListItem);
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.invoiceList)
 
@@ -138,21 +148,33 @@ export class InvoiceManualComponent implements OnInit {
 
     that.academic.GetCenterInvoiceList2().subscribe(data => {
       that.centerInvoicelist = data;
-      console.log('center inv data', that.centerInvoicelist)
       this.centerInvoiceData = data;
-      let list = new centerInvNoChkList();
-      for (let i = 0; i <= data.Data.length; i++) {
-        if (data.Data[i] != null) {
-          list.centerName = data.Data[i].centerName;
-          list.centerInvoiceNo = data.Data[i].centerInvoiceNo;
-          list.invoiceMonth = data.Data[i].invoiceMonth;
-          list.InvoiceNo = data.Data[i].InvoiceNo;
-          list.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+      // console.log('center inv data', that.centerInvoiceData)
+
+      for (let i = 0; i <= this.centerInvoiceData.Data.length; i++) {
+        var list = new centerInvNoChkList();
+
+        let data = this.centerInvoiceData.Data[i]
+        if (data != null) {
+          // console.log('center inv data', data)
+
+          list.centerName = data.centerName;
+          list.centerInvoiceNo = data.centerInvoiceNo;
+          list.invoiceMonth = data.invoiceMonth;
+          list.InvoiceNo = data.InvoiceNo;
+          list.nextInvoiceNo = data.nextInvoiceNo;
+
+          this.ets.centerList.forEach(element => {
+            if (element.CenterName == data.centerName) {
+              console.log('success')
+              list.centerId = element.Id;
+            }
+          })
+
         }
         this.invoicecenterListData.push(list);
 
       }
-      console.log('DATA**', this.centerInvoiceData)
     },
       err => {
         console.log('Error: ' + err.error);
@@ -160,6 +182,9 @@ export class InvoiceManualComponent implements OnInit {
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
       })
+
+    console.log('DATA**', this.invoicecenterListData)
+
   }
   selectData(data) {
 
@@ -251,13 +276,13 @@ export class InvoiceManualComponent implements OnInit {
 
   ngOnInit() {
 
-    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
-    //   console.log('inside if condition *********************')
-    //   // this.router.navigate(['/dd-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
     // if (this.ets.cookievalue == "3") {
     //   // this.router.navigate(['/despatch-no-entry'])
     // }
@@ -304,6 +329,12 @@ export class InvoiceManualComponent implements OnInit {
   filterMonth(key) {
     this.selectmonth = key;
     this.selectedData = null;
+    this.Months.forEach(month => {
+      if (month.name == this.selectedMonth) {
+        this.monthId = month.id;
+      }
+    })
+    console.log('month id**', this.monthId)
 
     if (this.selectedfee == null && this.selectedcenter == null) {
       this.selectedData = this.invoiceList.filter(s => this.getMothFromDate(s.invoiceenter.dbaMonth) == this.selectmonth && s.invoiceenter.isdbaEntered == true)
@@ -392,26 +423,79 @@ export class InvoiceManualComponent implements OnInit {
 
   duplicationCheck() {
 
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
 
-
-    this.kcvtpCenterList.push(data)
-
-
-
-    for (let j = 0; this.kcvtpCenterList.length; j++) {
-      var list = this.kcvtpCenterList[j];
-      for (let i = 0; i < this.centerInvoiceData.Data.length; i++) {
-        var data = this.centerInvoiceData.Data[i];
-        if (list != undefined && data != undefined && list.centerName == data.centerName) {
-          console.log('sucees')
-          list.centerInvoiceNo = data.nextInvoiceNo.toString();
-
-        }
-
-      }
-      this.kcvtpCenterList.push(list);
+      this.centerList.push(cent);
 
     }
+    //group by centername
+    this.groupbyCheckList = asEnumerable(this.checklist).GroupBy(x => x.CenterId).ToArray();
+    console.log('check list group', this.groupbyCheckList)
+    for (let i: number = 0; i < this.groupbyCheckList.length; i++) {
+      var item1 = this.groupbyCheckList[i];
+      var newList = new groupInvoicebyCenter();
+      this.dbaAmountTotal = 0;
+      this.shareamountTotal = 0;
+      this.feeAmountTotal = 0;
+      for (let j: number = 0; j < item1.length; j++) {
+        let inneritem = item1[j];
+        newList.CenterId = inneritem.CenterId;
+        newList.invoiceNo = this.newInvoice.invoiceNo;
+        newList.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
+        newList.dbaNo.push(inneritem.dbaNo);
+        newList.dbaMonth = inneritem.dbaMonth;
+        (newList.shareAmount += parseFloat(inneritem.shareAmount)).toFixed(2);
+        (newList.dbaAmount += parseFloat(inneritem.dbaAmount)).toFixed(2);
+        (newList.feeAmount += parseFloat(inneritem.feeAmount)).toFixed(2);
+
+        this.centerList.forEach(data => {
+          if (data.Id == inneritem.CenterId) {
+            newList.centerName = data.CenterName;
+          }
+        })
+      }
+      this.groupedInvoiceCenterList.push(newList)
+    }
+    console.log('group list**', this.groupedInvoiceCenterList)
+
+    // previous month taking
+
+    let previousMonth = parseFloat(this.monthId) - 1;
+    if (previousMonth.toString().length == 1) {
+      this.preMonth = '0' + previousMonth;
+    }
+    this.Months.forEach(month => {
+      if (month.id == this.preMonth.toString()) {
+        this.monthName = month.name;
+      }
+    })
+
+    //filtering data based on previous monthName 
+    this.previousMonthDataFilter = this.invoicecenterListData.filter(x => this.getMothFromDate(x.invoiceMonth) == this.monthName);
+    for (let i = 0; i < this.groupedInvoiceCenterList.length; i++) {
+      var data = this.groupedInvoiceCenterList[i];
+      // console.log('data', data)
+      for (let j = 0; j < this.previousMonthDataFilter.length; j++) {
+        var innerdata = this.previousMonthDataFilter[j];
+
+        if (data != null && innerdata != null) {
+          // console.log(innerdata.centerName )
+          if (innerdata.centerName == data.centerName) {
+            console.log('succes')
+
+            let split = innerdata.centerInvoiceNo.slice(0, -8);
+            console.log('split data', split)
+
+            // console.log('invoice No:1', innerdata.centerInvoiceNo + 'centername' + innerdata.centerName)
+          }
+        }
+      }
+    }
+
+
+
     // console.log('check', this.kcvtpCenterList)
     // console.log('check', this.invoicecenterListData)
     // this.invoiceNoExists = false;
@@ -433,6 +517,11 @@ export class InvoiceManualComponent implements OnInit {
     //   console.log('duplication')
     // }
   }
+
+  monthChecking() {
+
+  }
+
 
   generateInvoice() {
 
