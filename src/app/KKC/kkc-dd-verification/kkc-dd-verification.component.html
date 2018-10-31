@@ -44,11 +44,13 @@
 
               <th>Entered By</th>
               <th></th>
+
+              <th></th>
           </tr>
       </thead>
       <tbody>
           <ng-container *ngFor='let ddentry of ddList'>
-              <tr *ngIf="ddentry.isVerified != true">
+              <tr *ngIf="ddentry.isVerified != true && ddentry.isddCancelled != true">
                   <td>{{ddList.indexOf(ddentry) + 1}}</td>
                   <!-- <td>{{ddentry.kkcId}}</td> -->
                  
@@ -70,7 +72,9 @@
                   <td>{{ddentry.bank}}</td>
                   <td>{{ddentry.ddDate}}</td>
                   <td>{{ddentry.ddAmount}}</td>
-                  <td>{{ddentry.enteredBy}}</td>                  
+                  <td>{{ddentry.enteredBy}}</td>  
+                  <td>{{ddentry.isddCancelled}}</td>
+                                  
                   <td> <button type="button" (click)=entrySelection(ddentry,ddentry.kkcId) class="btn btn-primary">
                     View Details
                 </button></td>
@@ -158,4 +162,79 @@
   
   
   </div>
+
+
+
+
+  <div style="padding-top: 20px;">
+        <h2>Cancelled DD Entry List </h2>
+      
+      
+      
+        <table class="table table-hover table-responsive table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th height="50">SL NO</th>
+                    <!-- <th>Guid</th> -->
+                    <th>DD SL.No</th>
+                    <th style="min-width: 90px;">Date</th>
+                    <th>Fees Item</th>
+      
+                    <th>Application No</th>
+      
+                    <th style="min-width: 200px;">Centre Name</th>
+                    <th style="min-width: 100px;">Course Name</th>
+                    <th style="min-width: 150px;">Student Name</th>
+                    <th>Roll Number</th>
+      
+                    <th>DD No</th>
+                    <th style="min-width: 120px;">Bank</th>
+      
+                    <th style="min-width: 90px;">DD Date</th>
+      
+                    <th>DD Amount</th>
+      
+                    <th>Entered By</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor='let ddentry of ddList'>
+                    <tr *ngIf="ddentry.isddCancelled == true" >
+                        <td>{{ddList.indexOf(ddentry) + 1}}</td>
+                        <!-- <td>{{ddentry.kkcId}}</td> -->
+                       
+                        <td>{{ddentry.KkcDdId}}</td>
+                        <td>{{ddentry.date}}</td>
+                        <td>{{ddentry.feesItem}}</td>
+      
+                        <td>{{ddentry.applicationNumber}}</td>
+                        <td>{{ddentry.centerName}}</td>
+                        <td> {{ddentry.courseName}}
+                        </td>
+      
+      
+                        <td>{{ddentry.studentName}}</td>
+                        <td>{{ddentry.studentRollNumber}}</td>
+      
+                        <td>{{ddentry.ddNumber}}</td>
+      
+                        <td>{{ddentry.bank}}</td>
+                        <td>{{ddentry.ddDate}}</td>
+                        <td>{{ddentry.ddAmount}}</td>
+                        <td>{{ddentry.enteredBy}}</td>                  
+                        <td>DD Cancelled</td>
+      
+                        <!-- <td>{{ddentryisVerified}}</td> -->
+                        <!--  -->
+      
+                    </tr>
+                </ng-container>
+            </tbody>
+      
+        </table>
+      
+      
+      </div>
+
 </div></div>

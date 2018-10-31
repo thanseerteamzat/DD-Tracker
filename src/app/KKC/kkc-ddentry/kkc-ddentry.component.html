@@ -6,7 +6,7 @@
             <!-- <h2 *ngIf='!isEditMode'>DD Entry</h2> -->
             <h1 *ngIf='!isEditMode'>KKC DD Entry</h1>
             <h1 *ngIf='isEditMode'>Edit DD Entry</h1>
-            
+
             <!-- <h1 >Edit KKC DD Entry</h1> -->
 
         </div>
@@ -102,7 +102,7 @@
                 <div class="form-group col-md-3">
                     <label for="District">District</label>
 
-                    <select (change)="district($event.target.value)"  name="district" class="form-control">
+                    <select (change)="district($event.target.value)" name="district" class="form-control">
                         <option value="" disabled [selected]>--Choose--</option>
                         <ng-container *ngFor="let d of districts">
                             <option [value]="d.name">{{d.name}}</option>
@@ -120,7 +120,9 @@
                     <label style="color: black" for="center">Centre Name</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <!-- <label for="centercode">Code :</label> -->
-                 Code : {{tempcentercode}}   <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="newddentry.centerName" class="form-control" name="selectedcenter">
+                    Code : {{tempcentercode}}
+                    <select #t (change)="callType(t.value)" formControlName="centerNameVal" [(ngModel)]="newddentry.centerName"
+                        class="form-control" name="selectedcenter">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let s of centerList">
                             <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
@@ -140,7 +142,7 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="course">Course Name</label>
 
-                    <select [(ngModel)]="newddentry.courseName"  formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
+                    <select [(ngModel)]="newddentry.courseName" formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let c of courseList">
                             <option [ngValue]="c.Name">{{c.Name}}</option>
@@ -159,7 +161,8 @@
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="studentName">Student Name</label>
-                    <input type="text" class="form-control" formControlName="studentNameVal" [(ngModel)]="newddentry.studentName" name="studentName" placeholder="Student Name">
+                    <input type="text" class="form-control" formControlName="studentNameVal" [(ngModel)]="newddentry.studentName" name="studentName"
+                        placeholder="Student Name">
                     <div *ngIf="studentNameVal.invalid && (studentNameVal.dirty || studentNameVal.touched)" class="alert-danger">
                         <div *ngIf="studentNameVal.errors.required">
                             Student Name is required
@@ -186,17 +189,17 @@
                     <label for="studentName">Student Roll Number</label>
                     <input type="text" class="form-control" [(ngModel)]="newddentry.studentRollNumber" formControlName="rollNumberVal" name="studentRollNumber"
                         placeholder="Student Roll Number">
-                        <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
-                            <div *ngIf="rollNumberVal.errors.required">
-                                Roll Number is Required
-                            </div>
-                            <div *ngIf="rollNumberVal.errors.minlength">
-                                Minimum is 3 digit number
-                            </div>
-                            <div *ngIf="rollNumberVal.errors.maxlength">
-                                Maximum is 3 digit number
-                            </div>
+                    <div *ngIf="rollNumberVal.invalid && (rollNumberVal.dirty || rollNumberVal.touched)" class="alert-danger">
+                        <div *ngIf="rollNumberVal.errors.required">
+                            Roll Number is Required
                         </div>
+                        <div *ngIf="rollNumberVal.errors.minlength">
+                            Minimum is 3 digit number
+                        </div>
+                        <div *ngIf="rollNumberVal.errors.maxlength">
+                            Maximum is 3 digit number
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
@@ -240,12 +243,14 @@
                             <option>INDIAN BANK</option>
                             <option> INDIAN OVERSEAS BANK (IOB)</option>
                             <option>INDUSIND BANK</option>
-                         <option>KANNUR DIS.COOPERATIVE BANK(KDC)</option>
+                            <option>KANNUR DIS.COOPERATIVE BANK(KDC)</option>
 
-                        <option>KARNATAKA BANK</option> 
-                            
+                            <option>KARNATAKA BANK</option>
+
                             <option>KARUR VYSYA BANK</option>
                             <option>KERALA GRAMIN BANK</option>
+                            <option>PEOPLE URBAN COOPERATIVE BANK INTO THE BANK LIST</option>
+
                             <option>PUNJAB NATIONAL BANK</option>
                             <option>SOUTH INDIAN BANK (SIB)</option>
                             <option>SPL PB</option>
@@ -286,8 +291,8 @@
                     </div>
 
                 </div>
-</div>
-<div class="row">
+            </div>
+            <div class="row">
 
                 <div *ngIf='!isEditMode' class="form-group col-md-3">
                     <label for="date">DD Date(Date should be within last 60 days)</label>
@@ -304,8 +309,9 @@
 
 
                     <div class="form-group">
-                        <input readonly type="text" name="todaydatee" [(ngModel)]="newddentry.ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
-                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}" [minDate]="minDateDD" [maxDate]="maxDateDD">
+                        <input readonly type="text" name="todaydatee" [(ngModel)]="newddentry.ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}"
+                            [minDate]="minDateDD" [maxDate]="maxDateDD">
                     </div>
                 </div>
 
@@ -330,7 +336,7 @@
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <button  *ngIf='!isEditMode' type="submit" [disabled]="ddentryForm.invalid" (click)="register()" class="btn btn-primary">Save</button>
+                    <button *ngIf='!isEditMode' type="submit" [disabled]="ddentryForm.invalid" (click)="register()" class="btn btn-primary">Save</button>
                     &nbsp;
 
                     <button *ngIf='isEditMode' [disabled]="ddentryForm.invalid" type="submit" (click)="update()" class="btn btn-primary">Update</button>
@@ -387,7 +393,7 @@
                         <tr>
                             <td>{{kkcddEntries.Data.indexOf(ddentry) + 1}}</td>
                             <!-- <td>{{ddentry.kkcId}}</td> -->
-                           
+
                             <td>{{ddentry.KkcDdId}}</td>
                             <td>{{ddentry.date}}</td>
                             <td>{{ddentry.feesItem}}</td>

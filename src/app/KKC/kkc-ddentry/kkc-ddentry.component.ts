@@ -207,7 +207,7 @@ export class KkcDdentryComponent implements OnInit {
     let uniqueId = "DD" + Common.newGuid();
     this.kkcddEntry.kkcId = uniqueId;
     console.log('kkc dd entry',this.kkcddEntry);
-    // this.academic.AddKkcDdEntry(this.kkcddEntry)
+    this.academic.AddKkcDdEntry(this.kkcddEntry)
     alert('DD Added Successfully****');
 
     let that = this;
