@@ -241,7 +241,7 @@ export class KkcDdentryComponent implements OnInit {
    else{
     this.kkcddEntry.ddDate = this.formatDate(this.newddentry.ddDate)
 
-   }
+   } 
     this.kkcddEntry.applicationNumber = this.newddentry.applicationNumber;
     this.kkcddEntry.centerName = this.newddentry.centerName;
     this.kkcddEntry.studentName = this.newddentry.studentName;
