@@ -6,9 +6,13 @@ export class registerDate
     noofDd:number;
     ddAmount:string;
     centerName:string;
-    isVerified:Boolean;
-    verifiedBy:String;
+    issroVerified:Boolean;
+    sroverifiedBy:String;
+    ishoVerified:Boolean;
+    hoverifiedBy:string;
+
 }
+
 
 export class registerdateList {
     ddenter: registerDate = new registerDate();

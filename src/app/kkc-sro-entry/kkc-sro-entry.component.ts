@@ -22,7 +22,6 @@ export class KkcSroEntryComponent implements OnInit {
   centers: CenterData;
   courseList = new Array<Course>();
   courses: CourseData;
-
   selectedcenter;
   checkvariable;
   tempsroList;
@@ -31,12 +30,12 @@ export class KkcSroEntryComponent implements OnInit {
   dateLists: registerdateList[] = [];
   tempIdforDB;
   tempvariable;
-  isSroLogin:boolean;
+  isSroLogin: boolean;
   tempvariableone;
   tempcentercode;
   tempcenter;
   tempcenterforDate;
-  userType:string;
+  userType: string;
   tempcenterdate;
   sumamount: number = 0;
   countdd: number = 0;
@@ -44,7 +43,6 @@ export class KkcSroEntryComponent implements OnInit {
   split1: string;
   // centerList: Center[] = [];
   centerList = new Array<Center>();
-
   vtemp: string;
   tempAmount;
   sroLists: sroEntryList[] = [];
@@ -54,7 +52,7 @@ export class KkcSroEntryComponent implements OnInit {
   maxDate: Date;
   temptime;
   enteredBy;
-  isHoLogin :boolean;
+  isHoLogin: boolean;
   sroEntry: sroEntry = new sroEntry();
   dateforRegiter = new registerDate();
   ddCollected;
@@ -92,29 +90,28 @@ export class KkcSroEntryComponent implements OnInit {
     private router: Router,
     private config: ConfigService,
     private fb: FormBuilder,
-    private academic:AcadamicService
+    private academic: AcadamicService
   ) {
+    
     this.minDate = new Date();
     this.maxDate = new Date();
     this.ddcreateForm();
     this.minDate.setDate(this.minDate.getDate() - 5);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
-   
     this.academic.GetAllCenters().subscribe(resdata => {
       this.centers = resdata;
       console.log(resdata);
       this.centerList = new Array<Center>();
       for (let i = 0; i <= resdata.Data.length; i++) {
-        if(resdata.Data != null){
-        let c = new Center();
-        c.Id = resdata.Data[i].Id;
-        c.CenterCode = resdata.Data[i].CenterCode;
-        c.CenterName = resdata.Data[i].CenterName;
-        c.DistrictId = resdata.Data[i].DistrictId;
-        this.centerList.push(c);
+        if (resdata.Data != null) {
+          let c = new Center();
+          c.Id = resdata.Data[i].Id;
+          c.CenterCode = resdata.Data[i].CenterCode;
+          c.CenterName = resdata.Data[i].CenterName;
+          c.DistrictId = resdata.Data[i].DistrictId;
+          this.centerList.push(c);
         }
       }
-
     },
       err => {
         console.log('Error: ' + err.error);
@@ -122,39 +119,31 @@ export class KkcSroEntryComponent implements OnInit {
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
       })
-    
-      this.academic.GetAllCourses().subscribe(courseData => {
-        this.courses = courseData;
-        this.courseList = new Array<Course>();
-        for (let i = 0; i <= courseData.Data.length; i++) {
-          let cou = new Course();
-          cou.Code = this.courses.Data[i].Code;
-          cou.Name = courseData.Data[i].Name;
-          this.courseList.push(cou);
-        }
-  
-      },
-        err => {
-          console.log('Error: ' + err.error);
-          console.log('Name: ' + err.name);
-          console.log('Message: ' + err.message);
-          console.log('Status: ' + err.status);
-        })
-  
-    
-    
-    
-    
-    
-      let thatt = this;
+    this.academic.GetAllCourses().subscribe(courseData => {
+      this.courses = courseData;
+      this.courseList = new Array<Course>();
+      for (let i = 0; i <= courseData.Data.length; i++) {
+        let cou = new Course();
+        cou.Code = this.courses.Data[i].Code;
+        cou.Name = courseData.Data[i].Name;
+        this.courseList.push(cou);
+      }
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+    let thatt = this;
     this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
       thatt.courses = data;
       console.log('courses', thatt.courses)
     },
       error => console.log(error),
       () => console.log('courses'));
-      let itemReferance = db.object('dateforsro');
-      itemReferance.snapshotChanges().subscribe(action => {
+    let itemReferance = db.object('dateforsro');
+    itemReferance.snapshotChanges().subscribe(action => {
       this.dateLists = [];
       var quatationsList = action.payload.val();
       let quotationobj = Common.snapshotToArray(action.payload);
@@ -169,7 +158,6 @@ export class KkcSroEntryComponent implements OnInit {
         this.dateLists.push(ddListItem);
       });
     });
-
     let itemReff = db.object('sroEntry');
     itemReff.snapshotChanges().subscribe(action => {
       this.sroLists = [];
@@ -182,7 +170,6 @@ export class KkcSroEntryComponent implements OnInit {
         if (qobj.sroId != undefined) {
           qobj.sroId = qobj.sroId.replace("/", "");
         }
-
         ddListItem.ddenter = qobj;
         this.sroLists.push(ddListItem);
       });
@@ -198,11 +185,9 @@ export class KkcSroEntryComponent implements OnInit {
           sumamount = parseFloat(sumamount.toString()) + parseFloat(topicObj.ddenter.ddAmount.toString());
           this.sumamount = sumamount;
           this.countdd = count;
-
         }
       }
     });
-
     let itemRef = db.object('sroId');
     itemRef.snapshotChanges().subscribe(action => {
       var quatationsList = action.payload.val();
@@ -216,39 +201,33 @@ export class KkcSroEntryComponent implements OnInit {
         // console.log('aaaaaaaaaaaaaaaaaaaa', this.ddLastids)
         this.count = obj.lastId;
         this.fromLastId = obj.Id;
-
       });
     });
   }
-
   ngOnInit() {
     this.enteredBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;
+    console.log(this.selectedcenter)
     console.log('entered by', this.enteredBy);
-    this.userType= this.ets.cookieuser;
+    this.userType = this.ets.cookieuser;
     console.log(this.userType);
-    
-   
-    if((this.userType == "SRO" || this.userType== "KKC")){
-      console.log('it is sro');      
+    if ((this.userType == "SRO" || this.userType == "KKC")) {
+      console.log('it is sro');
       this.isSroLogin = true;
     }
-    else{
-    console.log('It is not sro')
+    else {
+      console.log('It is not sro')
     }
     // if(this.userType.indexOf('Admin') !== -1 && this.ets.cookieuser != null){
     //   console.log('it is ho');      
     //   this.isHoLogin = true;
     // }
-
-
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
     }
     else {
       this.router.navigate(['/error']);
     }
-
   }
   formOpen(value) {
     // console.log(value);
@@ -259,110 +238,93 @@ export class KkcSroEntryComponent implements OnInit {
       this.isformOpen = false;
     }
   }
-
   beforeregister(key, dlastid: sroId) {
+    console.log('selected center', this.selectedcenter)
     this.tempvariable = this.Amount;
     // this.tempvariableone = this.ddNumber;
     this.tempvariableone = this.ddCollected
     this.tempdateeCount = this.formatDate(this.todaydate)
     var alreadyNoExists: boolean;
-    var alreadyYesExists:boolean;
-
-
+    var alreadyYesExists: boolean;
     for (let i = 0; i <= this.sroLists.length; i++) {
       let datetempobj = this.sroLists[i];
       if (datetempobj != null && datetempobj.ddenter.date == this.tempdateeCount
         && datetempobj.ddenter.isddCollected == 'Yes' && this.ddCollected == 'No'
         && datetempobj.ddenter.enteredBy == this.enteredBy) {
-          console.log('already dd collected');
-          alreadyYesExists = true; 
-          // alert('already you collected today , so cannot no ')
-          break;
-
-        }
-      else{
-        alreadyYesExists = false;
-      }}
-
-   
-    if(alreadyYesExists == true){
-      alert(' already dd collected today');
-    }  
-    else{
-
-      
-    
-
-
-    for (let i = 0; i <= this.sroLists.length; i++) {
-      let datetempobj = this.sroLists[i];
-      if (datetempobj != null && datetempobj.ddenter.date == this.tempdateeCount
-        && datetempobj.ddenter.isddCollected == 'No'
-        && datetempobj.ddenter.enteredBy == this.enteredBy) {
-        alreadyNoExists = true;
-        console.log('sorry, you already entered as dd is not collected on ',datetempobj.ddenter.date)
+        console.log('already dd collected');
+        alreadyYesExists = true;
+        // alert('already you collected today , so cannot no ')
         break;
       }
       else {
-        alreadyNoExists = false;
-        console.log('everything is fine *************************')
+        alreadyYesExists = false;
       }
     }
-    console.log(alreadyNoExists)
-
-    if (alreadyNoExists == false) {
-
-      this.register(key, dlastid);
-      var tempAmount = 0;
-      var datealreadyExists;
-      let dateObj = new sroEntryList;
-      this.tempcenterdate = this.selectedcenter;
+    if (alreadyYesExists == true) {
+      alert(' already dd collected today');
+    }
+    else {
       for (let i = 0; i <= this.sroLists.length; i++) {
-        dateObj = this.sroLists[i];
-        if (dateObj != null && dateObj.ddenter.date == this.tempdateeCount && dateObj.ddenter.centerName == this.selectedcenter) {
-          console.log('date already entered');
-          datealreadyExists = true;
+        let datetempobj = this.sroLists[i];
+        if (datetempobj != null && datetempobj.ddenter.date == this.tempdateeCount
+          && datetempobj.ddenter.isddCollected == 'No'
+          && datetempobj.ddenter.enteredBy == this.enteredBy) {
+          alreadyNoExists = true;
+          console.log('sorry, you already entered as dd is not collected on ', datetempobj.ddenter.date)
           break;
         }
         else {
-          datealreadyExists = false;
+          alreadyNoExists = false;
+          console.log('everything is fine *************************')
         }
       }
-
-      if (datealreadyExists == false) {
-        this.registerDate(key, dlastid,this.tempcenterdate)
-      }
-      else {
-        // if (dateObj.ddenter.ddNumber != null)
-
-        if (this.tempvariableone == 'Yes') {
-          this.updateDate(key, dlastid, this.tempdateeCount, this.tempcenterdate);
+      console.log(alreadyNoExists)
+      if (alreadyNoExists == false) {
+        this.register(key, dlastid);
+        var tempAmount = 0;
+        var datealreadyExists;
+        let dateObj = new sroEntryList;
+        console.log('selected center', this.selectedcenter)
+        this.tempcenterdate = this.selectedcenter;
+        for (let i = 0; i <= this.sroLists.length; i++) {
+          dateObj = this.sroLists[i];
+          if (dateObj != null && dateObj.ddenter.date == this.tempdateeCount && dateObj.ddenter.centerName == this.selectedcenter) {
+            console.log('date already entered');
+            datealreadyExists = true;
+            break;
+          }
+          else {
+            datealreadyExists = false;
+          }
+        }
+        if (datealreadyExists == false) {
+          console.log(this.tempcenterdate, 'here')
+          this.registerDate(key, dlastid, this.tempcenterdate)
         }
         else {
-          // alert('error');
+          // if (dateObj.ddenter.ddNumber != null)
+          if (this.tempvariableone == 'Yes') {
+            this.updateDate(key, dlastid, this.tempdateeCount, this.tempcenterdate);
+          }
+          else {
+            // alert('error');
+          }
         }
       }
-
-
+      else {
+        alert('sorry, you already entered as dd is not collected on ' + this.tempdateeCount);
+      }
     }
-    else {
-
-      alert('sorry, you already entered as dd is not collected on '+this.tempdateeCount);
-
-    }
-  }}
+  }
   updateDate(key, dlastid, tempdate, tempcenter) {
     let vamount = this.tempvariable;
     var amount: number;
     console.log('update works************')
     amount = this.tempvariable;
-
-
     let count = 1;
     for (let i = 0; i < this.sroLists.length; i++) {
       // console.log('inside Looop')
       let tempObj = this.sroLists[i];
-
       if (tempObj != null && amount != null && tempObj.ddenter.ddAmount != null && tempObj.ddenter.date == tempdate && tempObj.ddenter.centerName == tempcenter) {
         console.log('inside if condition')
         amount = parseFloat(amount.toString()) + parseFloat(tempObj.ddenter.ddAmount.toString());
@@ -373,12 +335,10 @@ export class KkcSroEntryComponent implements OnInit {
     for (let i = 0; i <= this.dateLists.length; i++) {
       let dateObj = this.dateLists[i]
       if (dateObj != null && dateObj.ddenter.centerName == tempcenter && dateObj.ddenter.date == tempdate) {
-
         this.tempIdforDB = dateObj.ddenter.Id;
       }
     }
     var updates = {};
-
     this.dateforRegiter.ddAmount = amount.toString();
     // var temp = 1 + this.count;
     this.dateforRegiter.noofDd = count;
@@ -393,28 +353,23 @@ export class KkcSroEntryComponent implements OnInit {
       console.log(x);
     }
   }
-  registerDate(key, dlastid,tempcenter) {
-
-    console.log('selected center',tempcenter);
+  registerDate(key, dlastid, tempcenter) {
+    console.log('selected center', tempcenter);
     let uniqueId = "/Q" + Common.newGuid();
     // console.log("****" + uniqueId);
     this.dateforRegiter.Id = uniqueId;
     if (this.tempvariableone == 'Yes') {
       this.dateforRegiter.noofDd = 1;
       this.dateforRegiter.ddAmount = this.tempvariable;
-
       console.log('exists');
     }
     else {
       this.dateforRegiter.noofDd = 0;
       var a = 0;
       this.dateforRegiter.ddAmount = a.toString();
-
-
-
     }
-    console.log('selected center',this.selectedcenter)
-    console.log('selected center',this.selectedcenter)
+    console.log('selected center', this.selectedcenter)
+    console.log('selected center', this.selectedcenter)
     this.dateforRegiter.centerName = this.selectedcenter;
     this.tempdate = this.formatDate(this.todaydate);
     this.dateforRegiter.date = this.tempdate;
@@ -429,12 +384,8 @@ export class KkcSroEntryComponent implements OnInit {
     catch (ex) {
       alert("Error in adding date");
     }
-
-
   }
   register(key, dlastid: sroId) {
-
-
     var counter = parseInt(this.count) + 1;
     //updating lastid
     var updates = {};
@@ -442,157 +393,85 @@ export class KkcSroEntryComponent implements OnInit {
     updates['/sroId/' + key] = JSON.stringify(dlastid);
     let up = this.db.database.ref().update(updates);
     this.sroEntry.sroId = counter.toString();
-
-
-    // console.log(key);
     console.log(dlastid.lastId)
-    // console.log('inside function')
     this.sroEntry.enteredBy = this.enteredBy;
-
     this.sroEntry.ddAmount = this.Amount;
-    // console.log('amount', this.Amount);
     this.sroEntry.applicationNumber = this.appNo;
-    // console.log('app Number', this.appNo)
     this.sroEntry.feesItem = this.feesItem;
-    // console.log('fees item', this.feesItem);
     this.selecteddate = this.todaydate;
     this.selecteddatee = this.todaydatee;
     this.selecteddateee = this.ddDate;
     this.sroEntry.date = this.formatDate(this.selecteddate);
-    // console.log(this.sroEntry.date);
-   this.sroEntry.ddDate = this.formatDate(this.selecteddateee);
+    this.sroEntry.ddDate = this.formatDate(this.selecteddateee);
     this.sroEntry.enteredDate = this.formatDate(this.selecteddatee);
-    // console.log(this.todaydatee)
     this.sroEntry.bank = this.bank;
-    // console.log('bank', this.bank)
     this.sroEntry.ddNumber = this.ddNumber;
-    // console.log('number********', this.ddNumber)
     this.sroEntry.studentName = this.studentName;
-    // console.log('student name', this.studentName)
-
-    // console.log('sroooo enteredby', this.sroEntry.enteredBy);
     this.temptime = this.mytime
     this.sroEntry.time = this.formatTime(this.temptime);
-    // console.log(this.mytime)
     this.sroEntry.isddCollected = this.ddCollected
     this.sroEntry.remarks = this.remarks;
     this.sroEntry.ddAmount = this.Amount;
     this.sroEntry.centerName = this.selectedcenter;
     this.sroEntry.courseName = this.selectedcourse;
     let uniqueId = "/Q" + Common.newGuid();
-    // console.log("****" + uniqueId);
-    // this.erpdespatch.erpdespId = uniqueId;
-
     let InvoiceEntryJson = JSON.stringify(this.sroEntry);
-    // console.log(InvoiceEntryJson);
     try {
       this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
       alert("Added Successfully Please Note Inward Invoice Entry Serial No :" + this.sroEntry.sroId);
       this.isformOpen = false;
       this.resetForm();
-      // this.tempdata=[];
-      // this.tempdata=this.erpdespatchList;
-      // this.router.navigateByUrl('/dd-entry', { skipLocationChange: true });
-
       this.router.navigate(['/sro-entry']);
-      // this.router.navigate(['/erp-despatch-entry']);
     }
     catch (ex) {
       alert("Error in adding Quotation ");
     }
     this.selectedcenter = this.ets.cookiecenter;
   }
-
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear();
-
-
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-
     return [day, month, year].join('-');
   }
-
   formatTime(time) {
     var d = new Date(time),
       hours = '' + (d.getHours() + 1),
       minutes = '' + d.getMinutes(),
       seconds = d.getSeconds();
-
-
     if (hours.length < 2) hours = '0' + hours;
     if (minutes.length < 2) minutes = '0' + minutes;
-
-
     return [hours, minutes].join('-');
   }
-
-
-
   callType(value) {
-
-
-    // this.tempcentercode = null;
     this.selectedcenterr = value;
     this.split1 = this.selectedcenterr.split(" ")[1];
-    // console.log(this.split1);
-
-    // this.split1 = value.substring( 0, value.indexOf(":"));
-    //  console.log(this.split1)
-    // this.split1=this.selectedcenterr.split(":")[0];
     for (let i = 0; i < this.ets.centerList.length; i++) {
-      //variable for check reference
-
       var temp = this.ets.centerList[i];
-      // console.log('*****',temp)
       if (temp.Id == this.split1) {
         this.vtemp = temp.CenterName;
-
-        // this.selectedcenterr=value;
-        // console.log(this.vtemp);
-
-
       }
-
-
       let centerResponse = this.ets.centerList;
-      //  Iterate throw all keys.
       for (let cent of centerResponse) {
-
         this.centerList.push(cent);
-
       }
-
       this.code = 'Code:';
       try {
-
         for (let i = 0; i <= this.centerList.length; i++) {
           this.tempcenter = this.centerList[i];
           if (this.tempcenter.Id == this.split1) {
             this.tempcentercode = this.tempcenter.CenterCode;
-
           }
         }
-
       }
       catch (e) {
-
       }
-
-
     }
-
-
-
   }
-
-
-
   ddentryForm = new FormGroup({
-
     isddcollected: new FormControl(),
     remarkss: new FormControl(),
     feesitem: new FormControl(),
@@ -604,8 +483,6 @@ export class KkcSroEntryComponent implements OnInit {
     ddAmount: new FormControl(),
     // centerName :new FormControl(),
     ddDateVal: new FormControl(),
-
-
   })
   ddcreateForm() {
     this.ddentryForm = this.fb.group(
@@ -621,12 +498,9 @@ export class KkcSroEntryComponent implements OnInit {
         ddnumber: [null],
         banks: [null],
         ddAmount: [null],
-        ddDateVal:[null],
-
-
+        ddDateVal: [null],
       })
   }
-
   get isddcollected() { return this.ddentryForm.get('isddcollected'); }
   // get centerName() { return this.ddentryForm.get('centerName'); }
   get feesitem() { return this.ddentryForm.get('feesitem'); }
@@ -637,11 +511,6 @@ export class KkcSroEntryComponent implements OnInit {
   get banks() { return this.ddentryForm.get('banks'); }
   get ddAmount() { return this.ddentryForm.get('ddAmount'); }
   get ddDateVal() { return this.ddentryForm.get('ddDateVal'); }
-
-
-
-
-
   resetForm() {
     this.ddentryForm.reset(
       {
@@ -655,19 +524,14 @@ export class KkcSroEntryComponent implements OnInit {
         ddnumber: null,
         banks: null,
         ddAmount: null,
-      ddDateVal:null,
+        ddDateVal: null,
       })
   }
-
-
   entrySelection(sroId, ddentry: sroEntry) {
-
     console.log('inside functionl entry selection', sroId)
-    // console.log(ddentry.entryPros);
-    // console.log(ddentry.ddlastId)
-    // if (ddentry.entryPros == false) {
-      this.router.navigate(['/sro-entry-details/' + sroId])
-   
+    this.router.navigate(['/sro-entry-details/' + sroId])
   }
-
+  testfunction() {
+    console.log(this.selectedcenter)
+  }
 }

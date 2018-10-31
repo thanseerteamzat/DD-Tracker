@@ -39,7 +39,7 @@
     </thead>
     <tbody>
         <ng-container *ngFor='let ddenter of dateLists '>
-            <tr>
+            <tr [ngClass]="{bgRed: ddenter.ddenter.issroVerified != true}" *ngIf="ddenter.ddenter.ishoVerified != true "  >
             <!-- <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" > -->
                 <td>{{dateLists.indexOf(ddenter) + 1}}</td>
                 <td>{{ddenter.ddenter.date}}</td>
@@ -48,9 +48,50 @@
                 <td>{{ddenter.ddenter.centerName}}</td>
                 
 <td><button type="button" (click)=Verify(ddenter.ddenter.Id,ddenter.ddenter) class="btn btn-primary">
-    Verify
+  Ho Verify
 </button>
 </td>
+            </tr>
+        </ng-container>
+    </tbody>
+
+</table>
+
+
+
+
+
+<h1>SRO Entry List </h1>
+<!-- <button  type="submit"  class="btn btn-primary">Save</button> -->
+
+
+<table class="table table-hover table-responsive table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th height="50" bgcolor="#6599F">SL NO</th>
+            <th>Date</th>
+            <th style="min-width: 90px;">No of DD</th>
+
+            <th style="min-width: 100px;">DD Amount</th>
+            <th style="min-width: 100px;">Center Name</th>
+             
+
+            <th style="min-width: 100px;">Verified By</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor='let ddenter of dateLists '>
+            <tr [ngClass]="{bgRed: ddenter.ddenter.issroVerified != true}" *ngIf="ddenter.ddenter.ishoVerified == true "  >
+            <!-- <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" > -->
+                <td>{{dateLists.indexOf(ddenter) + 1}}</td>
+                <td>{{ddenter.ddenter.date}}</td>
+                <td>{{ddenter.ddenter.noofDd}}</td>
+                <td>{{ddenter.ddenter.ddAmount}}</td>
+                <td>{{ddenter.ddenter.centerName}}</td>
+                <td>{{ddenter.ddenter.hoverifiedBy}}</td>
+                
+
             </tr>
         </ng-container>
     </tbody>

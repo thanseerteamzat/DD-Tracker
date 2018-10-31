@@ -91,8 +91,8 @@ export class SrohoverificationComponent implements OnInit {
         if (confirm('Are you sure to verify this entry')) {
 
           // this. = true;
-          ddentry.isVerified = true;
-          ddentry.verifiedBy = this.verifiedBy;
+          ddentry.ishoVerified = true;
+          ddentry.hoverifiedBy = this.verifiedBy;
 
 
           var updates = {};

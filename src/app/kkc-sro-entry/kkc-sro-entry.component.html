@@ -71,17 +71,17 @@
                         <input readonly type="text" name="enteredBy" class="form-control" [(ngModel)]="enteredBy">
 
                     </div>
-                    <div *ngIf="isSroLogin" style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <div *ngIf="isSroLogin" style="color: red" class="form-group col-md-3" >
                         <label style="color: black" for="center">Centre Name</label>
                       
-                        <input readonly type="text" class="form-control"  name="selectedcenter" formControlName="centerName" [(ngModel)]="selectedcenter" >
+                        <input readonly type="text" class="form-control"  name="selectedcenter"  [(ngModel)]="selectedcenter" >
                        
                     </div>
 
                     <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
                         <label style="color: black" for="center">Centre Name</label>
                         <!-- <label for="centercode">Code :</label> -->
-                             <select  class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                             <select (change)="testfunction()" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
                             <option value="">--Choose--</option>
                             <ng-container *ngFor="let s of centerList">
                                 <option [ngValue]="s.CenterName">{{s.CenterName}}</option>

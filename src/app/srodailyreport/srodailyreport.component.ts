@@ -23,7 +23,7 @@ export class SrodailyreportComponent implements OnInit {
   selectedData;
   centers: CenterData;
   isEditMode;
-  verifiedBy;
+  sroverifiedBy;
   ackData;
   selectedcenter;
   ishoLogin:boolean; 
@@ -128,7 +128,7 @@ export class SrodailyreportComponent implements OnInit {
     console.log('It is not sro')
     }
 
-    this.verifiedBy = this.ets.cookiename;
+    this.sroverifiedBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;
     // console.log('entered by',this.enteredBy);
     if(this.selectedcenter == null)
@@ -182,9 +182,40 @@ export class SrodailyreportComponent implements OnInit {
       return month;
     }
 
+   
   }
   
+  save(key , ddentry:registerDate){
+    
+    this.db.database.ref(`dateforsro/${key}`).once("value", snapshot => {
 
+      let sid = snapshot.key;
+      if (snapshot.exists()) {
+
+
+        if (confirm('Are you sure to verify this entry')) {
+
+          // this. = true;
+          ddentry.issroVerified = true;
+          ddentry.sroverifiedBy = this.sroverifiedBy;
+
+
+          var updates = {};
+          updates['/dateforsro/' + sid] = JSON.stringify(ddentry);
+          try {
+            let up = this.db.database.ref().update(updates);
+            // this.router.navigate(['/']);
+          }
+          catch (ex) {
+            alert("Error in verifying dd");
+          }
+        }
+        // console.log('ddddd', ddentry)
+
+      }
+    });
+
+  }
   
 
 }
