@@ -9,21 +9,26 @@
       </div>
     
     <div style="padding-top: 15px" class="row">
-      <div  class="form-group col-md-3">
+      <div  *ngIf="isSroLogin" class="form-group col-md-3">
         <label>Center Name</label>
         <input readonly type="text" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
 
       </div>
-        <!-- <div  class="form-group col-md-3">
-          <label>Center Name</label>
-   <select #t  [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
-                            <option value="">--Choose--</option>
-                            <ng-container *ngFor="let s of centers">
-                                <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
-                            </ng-container>
+      <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
+        <label style="color: black" for="center">Centre Name</label>
+        <!-- <label for="centercode">Code :</label> -->
+             <select  class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+            <option value="">--Choose--</option>
+            <ng-container *ngFor="let s of centerList">
+                <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+            </ng-container>
 
-                        </select>  
-        </div> -->
+        </select>
+
+      
+    </div>
+
+
 
         <div class="form-group col-md-3">
           <label>Month</label>
@@ -57,7 +62,7 @@
                          
                         <th style="min-width: 100px;"></th>
 
-                        <th style="min-width: 100px;">Verified By</th>
+                        <th *ngIf="!isSroLogin" style="min-width: 100px;">Verified By</th>
 
                     </tr>
                 </thead>
@@ -72,7 +77,7 @@
                             <td>{{ddenter.ddenter.centerName}}</td>
                             
                             <td><button type="button" class="btn btn-primary">Edit</button></td>          
-                            <td>{{verifiedBy}}</td>
+                            <td>{{ddenter.ddenter.verifiedBy}}</td>
 
                         </tr>
                     </ng-container>

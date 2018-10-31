@@ -9,34 +9,42 @@ import { Common } from '../models/common';
 import { sroEntry, sroEntryList } from '../models/sroEntry';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { sroId } from '../models/sroId';
-import { Center } from '../models/Center';
-import { Course } from '../models/Course';
+import { Center, CenterData } from '../models/Center';
+import { Course, CourseData } from '../models/Course';
 import { registerDate, registerdateList } from '../models/registerDate';
+import { AcadamicService } from '../services/acadamic.service';
 @Component({
   selector: 'app-kkc-sro-entry',
   templateUrl: './kkc-sro-entry.component.html',
   styleUrls: ['./kkc-sro-entry.component.css']
 })
 export class KkcSroEntryComponent implements OnInit {
-  centers: Center[];
+  centers: CenterData;
+  courseList = new Array<Course>();
+  courses: CourseData;
+
   selectedcenter;
   checkvariable;
   tempsroList;
-  courses: Course[];
+  // courses: Course[];
   code;
   dateLists: registerdateList[] = [];
   tempIdforDB;
   tempvariable;
+  isSroLogin:boolean;
   tempvariableone;
   tempcentercode;
   tempcenter;
   tempcenterforDate;
+  userType:string;
   tempcenterdate;
   sumamount: number = 0;
   countdd: number = 0;
   selectedcenterr: string = "";
   split1: string;
-  centerList: Center[] = [];
+  // centerList: Center[] = [];
+  centerList = new Array<Center>();
+
   vtemp: string;
   tempAmount;
   sroLists: sroEntryList[] = [];
@@ -46,6 +54,7 @@ export class KkcSroEntryComponent implements OnInit {
   maxDate: Date;
   temptime;
   enteredBy;
+  isHoLogin :boolean;
   sroEntry: sroEntry = new sroEntry();
   dateforRegiter = new registerDate();
   ddCollected;
@@ -81,25 +90,63 @@ export class KkcSroEntryComponent implements OnInit {
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router,
-    // private http: HttpClient,
     private config: ConfigService,
     private fb: FormBuilder,
+    private academic:AcadamicService
   ) {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.ddcreateForm();
     this.minDate.setDate(this.minDate.getDate() - 5);
     this.maxDate.setDate(this.maxDate.getDate() + 0);
-    let that = this;
-    this.ets.GetAllCenters().subscribe(data => {
-      that.centers = data;
-      this.ets.centerList = this.centers;
+   
+    this.academic.GetAllCenters().subscribe(resdata => {
+      this.centers = resdata;
+      console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        if(resdata.Data != null){
+        let c = new Center();
+        c.Id = resdata.Data[i].Id;
+        c.CenterCode = resdata.Data[i].CenterCode;
+        c.CenterName = resdata.Data[i].CenterName;
+        c.DistrictId = resdata.Data[i].DistrictId;
+        this.centerList.push(c);
+        }
+      }
+
     },
-      error => console.log(error),
-      () => console.log('Get all complete'));
-    this.selectedcenter = this.ets.cookiecenter;
-    console.log('selected center*********************', this.selectedcenter)
-    let thatt = this;
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+    
+      this.academic.GetAllCourses().subscribe(courseData => {
+        this.courses = courseData;
+        this.courseList = new Array<Course>();
+        for (let i = 0; i <= courseData.Data.length; i++) {
+          let cou = new Course();
+          cou.Code = this.courses.Data[i].Code;
+          cou.Name = courseData.Data[i].Name;
+          this.courseList.push(cou);
+        }
+  
+      },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        })
+  
+    
+    
+    
+    
+    
+      let thatt = this;
     this.ets.GetAllCourses(this.selectedcenter).subscribe(data => {
       thatt.courses = data;
       console.log('courses', thatt.courses)
@@ -178,6 +225,23 @@ export class KkcSroEntryComponent implements OnInit {
     this.enteredBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;
     console.log('entered by', this.enteredBy);
+    this.userType= this.ets.cookieuser;
+    console.log(this.userType);
+    
+   
+    if((this.userType == "SRO" || this.userType== "KKC")){
+      console.log('it is sro');      
+      this.isSroLogin = true;
+    }
+    else{
+    console.log('It is not sro')
+    }
+    // if(this.userType.indexOf('Admin') !== -1 && this.ets.cookieuser != null){
+    //   console.log('it is ho');      
+    //   this.isHoLogin = true;
+    // }
+
+
     if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
     }
@@ -266,7 +330,7 @@ export class KkcSroEntryComponent implements OnInit {
       }
 
       if (datealreadyExists == false) {
-        this.registerDate(key, dlastid)
+        this.registerDate(key, dlastid,this.tempcenterdate)
       }
       else {
         // if (dateObj.ddenter.ddNumber != null)
@@ -329,9 +393,9 @@ export class KkcSroEntryComponent implements OnInit {
       console.log(x);
     }
   }
-  registerDate(key, dlastid) {
+  registerDate(key, dlastid,tempcenter) {
 
-
+    console.log('selected center',tempcenter);
     let uniqueId = "/Q" + Common.newGuid();
     // console.log("****" + uniqueId);
     this.dateforRegiter.Id = uniqueId;
@@ -349,6 +413,8 @@ export class KkcSroEntryComponent implements OnInit {
 
 
     }
+    console.log('selected center',this.selectedcenter)
+    console.log('selected center',this.selectedcenter)
     this.dateforRegiter.centerName = this.selectedcenter;
     this.tempdate = this.formatDate(this.todaydate);
     this.dateforRegiter.date = this.tempdate;
@@ -546,7 +612,7 @@ export class KkcSroEntryComponent implements OnInit {
       {
         // currentDate: [null, Validators.required],
         isddcollected: [null, Validators.required],
-        centerName: [null, Validators.required],
+        // centerName: [null],
         remarkss: [null],
         feesitem: [null],
         appno: [null],
@@ -581,7 +647,7 @@ export class KkcSroEntryComponent implements OnInit {
       {
         // currentDate: null,
         remarkss: null,
-        centerName: null,
+        // centerName: null,
         feesitem: null,
         appno: null,
         courseName: null,

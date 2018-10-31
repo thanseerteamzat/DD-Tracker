@@ -20,6 +20,7 @@ export class kkcddEntry {
     ddDate: string;
     enteredBy: string;
     isVerified: boolean;
+    isddCancelled:boolean;
 
 
 

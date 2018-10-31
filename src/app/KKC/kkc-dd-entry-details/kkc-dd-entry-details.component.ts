@@ -130,11 +130,31 @@ verify(key,entry:kkcddEntry){
     entry.isVerified = true ;
   
   that.academic.updateKKCEntry(entry);
-  alert('Updated Successfully')
+  alert('Verified Successfully');
+  this.router.navigate(['/kkc-dd-verification'])
   }
     
 
 
+
+}
+
+
+cancelDd(key, entry:kkcddEntry){
+
+  console.log(key);
+  console.log(entry);
+  let that = this;
+  if (confirm('Are you sure to Cancel this dd entry')) {
+    entry.isddCancelled = true ;
+
+  console.log
+  
+  that.academic.updateKKCEntry(entry);
+  alert('DD Cancelled  Successfully');
+  this.router.navigate(['/kkc-dd-verification'])
+  
+  }
 
 }
 }

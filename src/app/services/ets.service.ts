@@ -25,6 +25,7 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public cookiecenter: string;
+  public cookieuser:string;
 
   public expirydate: Date;
   public convertedWord: string;
@@ -76,8 +77,8 @@ export class EtsService {
 
 
   }
-  setCookie(cookiename, cookievalue, setcenter, expirydate) {
-    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate)
+  setCookie(cookiename, cookievalue, setcenter, expirydate, cookieuser) {
+    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate , cookieuser )
 
   }
 

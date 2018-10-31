@@ -6,6 +6,8 @@ export class registerDate
     noofDd:number;
     ddAmount:string;
     centerName:string;
+    isVerified:Boolean;
+    verifiedBy:String;
 }
 
 export class registerdateList {

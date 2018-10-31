@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../services/config.service';
 import { FormBuilder } from '@angular/forms';
 import { Common } from '../models/common';
+import { EtsService } from '../services/ets.service';
 
 @Component({
   selector: 'app-srohoverification',
@@ -17,13 +18,14 @@ export class SrohoverificationComponent implements OnInit {
 
   todaydate=new Date;
   dateLists: registerdateList[] = [];
-  
+  verifiedBy;  
   
   constructor(    private cookieservice: CookieService,
     private route: ActivatedRoute,
   private db: AngularFireDatabase,
   private router: Router,
   private http: HttpClient,
+  private ets:EtsService,
   private config: ConfigService,
   private fb: FormBuilder) { 
 
@@ -60,6 +62,9 @@ export class SrohoverificationComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.verifiedBy =this.ets.cookiename;
+  
   }
   
   formatDate(date) {
@@ -75,4 +80,36 @@ export class SrohoverificationComponent implements OnInit {
     return [day, month, year].join('-');
   }
 
+  Verify(key , ddentry:registerDate){
+
+    this.db.database.ref(`dateforsro/${key}`).once("value", snapshot => {
+
+      let sid = snapshot.key;
+      if (snapshot.exists()) {
+
+
+        if (confirm('Are you sure to verify this entry')) {
+
+          // this. = true;
+          ddentry.isVerified = true;
+          ddentry.verifiedBy = this.verifiedBy;
+
+
+          var updates = {};
+          updates['/dateforsro/' + sid] = JSON.stringify(ddentry);
+          try {
+            let up = this.db.database.ref().update(updates);
+            // this.router.navigate(['/']);
+          }
+          catch (ex) {
+            alert("Error in verifying dd");
+          }
+        }
+        // console.log('ddddd', ddentry)
+
+      }
+    });
+
+
+  }
 }

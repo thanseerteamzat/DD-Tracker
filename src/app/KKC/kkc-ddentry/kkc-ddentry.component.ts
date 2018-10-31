@@ -200,14 +200,14 @@ export class KkcDdentryComponent implements OnInit {
     this.kkcddEntry.studentName = this.newddentry.studentName;
     this.kkcddEntry.bank = this.newddentry.bank;
     this.kkcddEntry.courseName = this.newddentry.courseName;
-    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber;
+    this.kkcddEntry.studentRollNumber = 'K18' + this.tempcentercode + this.tempcoursecode + '0' + this.newddentry.studentRollNumber;
     this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
     this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
     this.kkcddEntry.enteredBy = this.enteredBy;
     let uniqueId = "DD" + Common.newGuid();
     this.kkcddEntry.kkcId = uniqueId;
     console.log('kkc dd entry',this.kkcddEntry);
-    // this.academic.AddKkcDdEntry(this.kkcddEntry)
+    this.academic.AddKkcDdEntry(this.kkcddEntry)
     alert('DD Added Successfully****');
 
     let that = this;
@@ -241,13 +241,13 @@ export class KkcDdentryComponent implements OnInit {
    else{
     this.kkcddEntry.ddDate = this.formatDate(this.newddentry.ddDate)
 
-   }
+   } 
     this.kkcddEntry.applicationNumber = this.newddentry.applicationNumber;
     this.kkcddEntry.centerName = this.newddentry.centerName;
     this.kkcddEntry.studentName = this.newddentry.studentName;
     this.kkcddEntry.bank = this.newddentry.bank;
     this.kkcddEntry.courseName = this.newddentry.courseName;
-    this.kkcddEntry.studentRollNumber =  'K18' + this.tempcentercode + this.tempcoursecode + this.newddentry.studentRollNumber ;
+    this.kkcddEntry.studentRollNumber =  'K18' + this.tempcentercode + this.tempcoursecode + '0' + this.newddentry.studentRollNumber ;
     this.kkcddEntry.ddNumber = this.newddentry.ddNumber;
     this.kkcddEntry.ddAmount = this.newddentry.ddAmount;
    

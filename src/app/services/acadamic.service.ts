@@ -127,6 +127,7 @@ export class AcadamicService {
       "ddDate": ddEntry.ddDate,
       "enteredBy": ddEntry.enteredBy,
       "isVerified": ddEntry.isVerified,
+      "isddCancelled":ddEntry.isddCancelled
 
     };
     const body = {

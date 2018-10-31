@@ -71,25 +71,25 @@
                         <input readonly type="text" name="enteredBy" class="form-control" [(ngModel)]="enteredBy">
 
                     </div>
-                    <div style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <div *ngIf="isSroLogin" style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
+                        <label style="color: black" for="center">Centre Name</label>
+                      
+                        <input readonly type="text" class="form-control"  name="selectedcenter" formControlName="centerName" [(ngModel)]="selectedcenter" >
+                       
+                    </div>
+
+                    <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
                         <label style="color: black" for="center">Centre Name</label>
                         <!-- <label for="centercode">Code :</label> -->
-                        <!-- <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" formControlName="centerName" class="form-control" name="selectedcenter">
+                             <select  class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
                             <option value="">--Choose--</option>
-                            <ng-container *ngFor="let s of centers">
+                            <ng-container *ngFor="let s of centerList">
                                 <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
                             </ng-container>
-
-                        </select> -->
-                        <input readonly type="text" class="form-control"  name="selectedcenter" formControlName="centerName" [(ngModel)]="selectedcenter" >
-                        <!-- <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
-                            <div *ngIf="centerName.errors.required">
-                                Please select a center
-                            </div>
-
-                        </div> -->
-
-
+    
+                        </select>
+    
+                      
                     </div>
 
 
@@ -158,7 +158,7 @@
 
                         <select [(ngModel)]="selectedcourse" formControlName="courseName" class="form-control" name="selectedcourse">
                             <option value="">--Choose--</option>
-                            <ng-container *ngFor="let c of courses">
+                            <ng-container *ngFor="let c of courseList">
                                 <option [ngValue]="c.Name">{{c.Name}}</option>
                             </ng-container>
 

@@ -5,10 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ConfigService } from '../services/config.service';
 import { FormBuilder } from '@angular/forms';
-import { Center } from '../models/Center';
+import { Center, CenterData } from '../models/Center';
 import { sroEntryList, sroEntry } from '../models/sroEntry';
 import { Common } from '../models/common';
 import { registerdateList, registerDate } from '../models/registerDate';
+import { AcadamicService } from '../services/acadamic.service';
 
 @Component({
   selector: 'app-srodailyreport',
@@ -16,7 +17,11 @@ import { registerdateList, registerDate } from '../models/registerDate';
   styleUrls: ['./srodailyreport.component.css']
 })
 export class SrodailyreportComponent implements OnInit {
+  centerList = new Array<Center>();
+  userType:string;
+  isSroLogin:boolean;
   selectedData;
+  centers: CenterData;
   isEditMode;
   verifiedBy;
   ackData;
@@ -24,7 +29,7 @@ export class SrodailyreportComponent implements OnInit {
   ishoLogin:boolean; 
   dateLists: registerdateList[] = [];
   selectedmonth;  
-  centers: Center[];
+  // centers: Center[];
   months = [
     { id: '01', name: 'JAN' },
     { id: '02', name: 'FEB' },
@@ -51,18 +56,38 @@ export class SrodailyreportComponent implements OnInit {
   private router: Router,
   // private http: HttpClient,
   private config: ConfigService,
-  private fb: FormBuilder,) {
+  private fb: FormBuilder,
+  private academic:AcadamicService) {
 
 
 
-    let that = this;
-    this.ets.GetAllCenters().subscribe(data => {
-      that.centers = data;
-      this.ets.centerList = this.centers;
+    this.academic.GetAllCenters().subscribe(resdata => {
+      this.centers = resdata;
+      console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        if(resdata.Data != null){
+        let c = new Center();
+        c.Id = resdata.Data[i].Id;
+        c.CenterCode = resdata.Data[i].CenterCode;
+        c.CenterName = resdata.Data[i].CenterName;
+        c.DistrictId = resdata.Data[i].DistrictId;
+        this.centerList.push(c);
+        }
+      }
 
     },
-      error => console.log(error),
-      () => console.log('Get all complete'));
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+  
+
+
+
+      
 
       let itemReff = db.object('dateforsro');
       itemReff.snapshotChanges().subscribe(action => {
@@ -90,13 +115,18 @@ export class SrodailyreportComponent implements OnInit {
         });
       });
       console.log('ack data',this.ackData);         
-      
-  
-
-
    }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.userType= this.ets.cookieuser;
+    console.log(this.userType);
+    if((this.userType == "SRO" || this.userType== "KKC")){
+      console.log('sro Login');      
+      this.isSroLogin = true; 
+    }
+    else {
+    console.log('It is not sro')
+    }
 
     this.verifiedBy = this.ets.cookiename;
     this.selectedcenter = this.ets.cookiecenter;

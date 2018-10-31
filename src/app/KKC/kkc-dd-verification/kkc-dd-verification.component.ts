@@ -72,7 +72,8 @@ export class KkcDdVerificationComponent implements OnInit {
         entry.feesItem = data.Data[i].feesItem;
         entry.kkcId = data.Data[i].kkcId;
          entry.KkcDdId = data.Data[i].KkcDdId;
-        entry.isVerified=data.Data[i].isVerified       
+        entry.isVerified=data.Data[i].isVerified;
+        entry.isddCancelled = data.Data[i].isddCancelled;       
         entry.KkcDdId = data.Data[i].KkcDdId;
 
         this.ddList.push(entry);
