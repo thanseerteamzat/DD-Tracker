@@ -24,6 +24,29 @@ export class Invoice {
     invoiceGeneratedBy: string;
 }
 
+export class groupInvoicebyCenter {
+    constructor() {
+        this.shareAmount = 0;
+        this.dbaAmount = 0;
+        this.feeAmount = 0;
+    }
+
+    invoiceId: string;
+    dbaNo: Array<String> = [];;
+    CenterCode: string;
+    CenterId: string;
+    centerName:string;
+    dbaAmount: number;;
+    feeAmount: number;;
+    share: Number;
+    shareAmount: number;
+    dbaMonth: string;
+    invoiceNo: string;
+    invoiceDate: string;
+    invAmtPending: boolean;
+    enteredby: string;
+    invoiceGeneratedBy: string;
+}
 export class invoiceList {
     invoiceenter: Invoice = new Invoice();
     center: Center = new Center();
@@ -111,10 +134,15 @@ export class tempInvCenterList2 {
     enteredBy: string;
 }
 
+
+export class centerInvNoChkListData {
+    public Data = new Array<centerInvNoChkList>()
+}
 export class centerInvNoChkList {
     InvoiceNo: string;
     centerInvoiceNo: string;
     nextInvoiceNo: number;
     centerName: string;
     invoiceMonth: string;
+    centerId: string
 }
