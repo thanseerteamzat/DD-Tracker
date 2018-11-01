@@ -5,6 +5,7 @@ import { EtsService } from 'src/app/services/ets.service';
 import { Router } from '@angular/router';
 import { AcadamicService } from 'src/app/services/acadamic.service';
 import { InvoiceCenterList2, InvoiceCenterList2Data } from 'src/app/models/invoice ';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-center-invoice-list2',
@@ -15,7 +16,7 @@ export class CenterInvoiceList2Component implements OnInit {
   centerList: Center[] = [];
   centers;
   list: InvoiceCenterList2Data;
-  centerInvoiceList2: InvoiceCenterList2[] = [];
+  centerInvoiceList2 = new Array<InvoiceCenterList2>();
   selectedData;
   selectedMonth;
   selectedCenter;
@@ -67,45 +68,46 @@ export class CenterInvoiceList2Component implements OnInit {
         console.log('Name: ' + err.name);
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
-      })
+      }),
 
 
 
-    that.academic.GetCenterInvoiceList2().subscribe(data => {
-      that.list = data;
+      that.academic.GetCenterInvoiceList2().subscribe(data => {
+        that.list = data;
+        this.centerInvoiceList2 = new Array<InvoiceCenterList2>();
+        for (let i = 0; i <= data.Data.length; i++) {
+          let invList = new InvoiceCenterList2();
+          if (data.Data[i] != null) {
+            invList.dbaNo = data.Data[i].dbaNo;
+            invList.InvoiceNo = data.Data[i].InvoiceNo;
+            invList.centerName = data.Data[i].centerName;
+            invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
+            invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+            invList.centerName = data.Data[i].centerName;
+            invList.invoiceMonth = data.Data[i].invoiceMonth;
+            invList.dbaAmount = data.Data[i].dbaAmount;
+            invList.shareAmount = data.Data[i].shareAmount;
+            invList.taxableAmount = data.Data[i].taxableAmount;
+            invList.invoiceDate = data.Data[i].invoiceDate;
+            invList.enteredBy = data.Data[i].enteredBy;
+            this.centerInvoiceList2.push(invList);
 
-    },
-      err => {
-        console.log('Error: ' + err.error);
-        console.log('Name: ' + err.name);
-        console.log('Message: ' + err.message);
-        console.log('Status: ' + err.status);
-      })
 
-    console.log('list data**', this.list)
-    // let invList = new InvoiceCenterList2();
-    // if (this.list.Data != null) {
-    //   for (let i = 0; i <= this.list.Data.length; i++) {
-    //     var data = this.list.Data[i];
-    //     if (data != null) {
-    //       invList.dbaNo = data.dbaNo;
-    //       invList.InvoiceNo = data.InvoiceNo;
-    //       invList.centerName = data.centerName;
-    //       invList.centerInvoiceNo = data.centerInvoiceNo
-    //       invList.nextInvoiceNo = data.nextInvoiceNo;
-    //       invList.centerName = data.centerName;
-    //       invList.invoiceMonth = data.invoiceMonth;
-    //       invList.dbaAmount = data.dbaAmount;
-    //       invList.shareAmount = data.shareAmount;
-    //       invList.taxableAmount = data.taxableAmount;
-    //       invList.invoiceDate = data.invoiceDate;
-    //       invList.enteredBy = data.enteredBy;
-    //     }
-    //     this.centerInvoiceList2.push(invList);
+          }
 
-    //   }
-    // }
-    // console.log('DATA***', this.centerInvoiceList2)
+
+        }
+
+        console.log('DATA***', this.centerInvoiceList2)
+      },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        })
+
+
 
   }
 
