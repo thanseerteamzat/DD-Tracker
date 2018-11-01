@@ -17,7 +17,7 @@ import { CenterData, Center } from '../models/Center';
   styleUrls: ['./srohoverification.component.css']
 })
 export class SrohoverificationComponent implements OnInit {
-
+  isSroLogin:boolean;
   todaydate=new Date;
   dateLists: registerdateList[] = [];
   verifiedBy;  
