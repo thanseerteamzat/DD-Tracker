@@ -30,7 +30,7 @@
       <label>Filter DD's with Centre Name : </label>&nbsp;
       <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
-        <ng-container *ngFor="let s of centers">
+        <ng-container *ngFor="let s of centerList">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>
         </ng-container>
 
@@ -72,7 +72,7 @@
 
      
       <br>
-      <button type="submit" class="btn btn-primary" [disabled]="invoiceForm.invalid"  (click)="generateInvoice()">Generate Invoice</button>
+      <button type="submit" class="btn btn-primary" [disabled]="invoiceForm.invalid"  (click)="duplicationCheck()">Generate Invoice</button>
   </div>
     </div>
     <div style="padding-top: 50px;">

@@ -13,7 +13,7 @@ import { dbaEntry, dbaList, dbaShareReleaseNote } from '../models/dbaEntry';
 import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
-import { InvoiceCenterList2, InvoiceCenterList2Data } from '../models/invoice ';
+import { InvoiceCenterList2, InvoiceCenterList2Data, centerUpdate, centerInvNoChkListData } from '../models/invoice ';
 
 @Injectable({
   providedIn: 'root'
@@ -111,7 +111,7 @@ export class AcadamicService {
   }
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
-    console.log('here',ddEntry);
+    console.log('here', ddEntry);
     const Sub = {
 
       "date": ddEntry.date,
@@ -127,7 +127,7 @@ export class AcadamicService {
       "ddDate": ddEntry.ddDate,
       "enteredBy": ddEntry.enteredBy,
       "isVerified": ddEntry.isVerified,
-      "isddCancelled":ddEntry.isddCancelled
+      "isddCancelled": ddEntry.isddCancelled
 
     };
     const body = {
@@ -138,8 +138,8 @@ export class AcadamicService {
     };
 
     this.http.post(this.config.pyUrl + 'UpdateRows', body)
-      .subscribe(data => { 
-        console.log('data',data)
+      .subscribe(data => {
+        console.log('data', data)
       },
         err => {
           console.log('Error: ' + err.error);
@@ -198,21 +198,34 @@ export class AcadamicService {
   }
 
 
+  public updateLastInvoiceNo(center: Center) {
+    // console.log('here', center);
+    const Sub = {
+
+      "lastInvoiceNo": center.lastInvoiceNo,
+    };
+    const body = {
+      "Table": "centers",
+      "Where": { "Id": center.Id },
+      "Data": Sub,
+      // "UniqueId": "Id"
+    };
+
+    this.http.post(this.config.pyUrl + 'UpdateRows', body)
+      .subscribe(data => {
+        // console.log('data', data)
+      },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
   public ExportDbaReport(dbaDetails: Array<dbaShareReleaseNote>) {
-    // const Sub = {
-    //   "despSerialNo": dbaDetails.despSerialNo,
-    //   "centerName": dbaDetails.centerName,
-    //   "batchNo": dbaDetails.batchNo,
-    //   "depDate": dbaDetails.depDate,
-    //   "feesItem": dbaDetails.feesItem,
-    //   "total": dbaDetails.total,
-    //   "tax": dbaDetails.tax,
-    //   "fwt": dbaDetails.fwt,
-    //   "amt": dbaDetails.amt,
-    //   "rate": dbaDetails.rate,
 
-
-    // };
     const body = {
       "Data": dbaDetails
     };
@@ -227,6 +240,6 @@ export class AcadamicService {
         });
   }
 
-  
+
 
 }

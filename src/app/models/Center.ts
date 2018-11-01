@@ -8,5 +8,6 @@ export class Center {
     public CenterPlace: string;
     public DistrictId: string;
     public CategoryId: string;
+    public lastInvoiceNo:string;
 
 }

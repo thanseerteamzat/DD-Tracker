@@ -90,7 +90,10 @@ export class InvoiceManualComponent implements OnInit {
   monthId;
   monthName;
   preMonth;
+  taxamountTot;
   previousMonthDataFilter: centerInvNoChkList[];
+  centerInvoiceNoList: InvoiceCenterList2[] = [];
+  invoiceCenterData;
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -112,12 +115,30 @@ export class InvoiceManualComponent implements OnInit {
 
     let that = this;
     //center list from api
-    this.ets.GetAllCenters().subscribe(data => {
-      that.centers = data;
-      this.ets.centerList = this.centers
+    this.academic.GetAllKCVTPCenters().subscribe(resdata => {
+      this.centers = resdata;
+      console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        let c = new Center();
+        if (resdata.Data[i] != null) {
+          c.Id = resdata.Data[i].Id;
+          c.CenterCode = resdata.Data[i].CenterCode;
+          c.CenterName = resdata.Data[i].CenterName;
+          c.DistrictId = resdata.Data[i].DistrictId;
+          c.lastInvoiceNo = resdata.Data[i].lastInvoiceNo;
+          this.centerList.push(c);
+
+        }
+      }
+
     },
-      error => console.log(error),
-      () => console.log('Get all complete'));
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
 
 
     let dlRef = db.object('invoice');
@@ -131,7 +152,7 @@ export class InvoiceManualComponent implements OnInit {
         let obj: Invoice = JSON.parse(element);
         ddListItem.invoiceenter = obj;
 
-        let centList = this.ets.centerList.filter(s => s.Id == (obj.CenterId));
+        let centList = this.centerList.filter(s => s.Id == (obj.CenterId));
         // console.log('2222222222222222222222222222',custList)
         if (centList.length > 0) {
           ddListItem.center = centList[0];
@@ -276,21 +297,14 @@ export class InvoiceManualComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !==-1 ) || (this.ets.cookievalue == "All"))  {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
-    // if (this.ets.cookievalue == "3") {
-    //   // this.router.navigate(['/despatch-no-entry'])
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
     // }
     // else {
     //   this.router.navigate(['/error']);
-
-
     // }
+
     this.entered = this.ets.cookiename;
     this.newInvoice.invoiceGeneratedBy = this.entered;
   }
@@ -423,22 +437,15 @@ export class InvoiceManualComponent implements OnInit {
 
   duplicationCheck() {
 
-    let centerResponse = this.ets.centerList;
-    //  Iterate throw all keys.
-    for (let cent of centerResponse) {
 
-      this.centerList.push(cent);
-
-    }
     //group by centername
     this.groupbyCheckList = asEnumerable(this.checklist).GroupBy(x => x.CenterId).ToArray();
-    console.log('check list group', this.groupbyCheckList)
     for (let i: number = 0; i < this.groupbyCheckList.length; i++) {
       var item1 = this.groupbyCheckList[i];
       var newList = new groupInvoicebyCenter();
       this.dbaAmountTotal = 0;
       this.shareamountTotal = 0;
-      this.feeAmountTotal = 0;
+      this.taxamountTot = 0;
       for (let j: number = 0; j < item1.length; j++) {
         let inneritem = item1[j];
         newList.CenterId = inneritem.CenterId;
@@ -446,10 +453,13 @@ export class InvoiceManualComponent implements OnInit {
         newList.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
         newList.dbaNo.push(inneritem.dbaNo);
         newList.dbaMonth = inneritem.dbaMonth;
-        (newList.shareAmount += parseFloat(inneritem.shareAmount)).toFixed(2);
+        let taxamt = (parseFloat(inneritem.dbaAmount) / 118) * 18;
+        this.taxamountTot = parseFloat(this.taxamountTot) + taxamt;
+        newList.taxableAmount = this.taxamountTot.toFixed(2);
+        let dbamt = (parseFloat(inneritem.dbaAmount) - taxamt) * 0.65;
+        this.shareAmountTotal = parseFloat(this.shareAmountTotal) + dbamt;
+        newList.shareAmount = this.shareAmountTotal.toFixed(2);
         (newList.dbaAmount += parseFloat(inneritem.dbaAmount)).toFixed(2);
-        (newList.feeAmount += parseFloat(inneritem.feeAmount)).toFixed(2);
-
         this.centerList.forEach(data => {
           if (data.Id == inneritem.CenterId) {
             newList.centerName = data.CenterName;
@@ -458,40 +468,30 @@ export class InvoiceManualComponent implements OnInit {
       }
       this.groupedInvoiceCenterList.push(newList)
     }
-    console.log('group list**', this.groupedInvoiceCenterList)
-
-    // previous month taking
-
-    let previousMonth = parseFloat(this.monthId) - 1;
-    if (previousMonth.toString().length == 1) {
-      this.preMonth = '0' + previousMonth;
-    }
-    this.Months.forEach(month => {
-      if (month.id == this.preMonth.toString()) {
-        this.monthName = month.name;
-      }
-    })
-
-    //filtering data based on previous monthName 
-    this.previousMonthDataFilter = this.invoicecenterListData.filter(x => this.getMothFromDate(x.invoiceMonth) == this.monthName);
-    for (let i = 0; i < this.groupedInvoiceCenterList.length; i++) {
-      var data = this.groupedInvoiceCenterList[i];
-      // console.log('data', data)
-      for (let j = 0; j < this.previousMonthDataFilter.length; j++) {
-        var innerdata = this.previousMonthDataFilter[j];
-
+    for (let i = 0; i < this.centerList.length; i++) {
+      var data = this.centerList[i];
+      var invoiceList2 = new InvoiceCenterList2();
+      for (let j = 0; j < this.groupedInvoiceCenterList.length; j++) {
+        var innerdata = this.groupedInvoiceCenterList[j];
         if (data != null && innerdata != null) {
-          // console.log(innerdata.centerName )
-          if (innerdata.centerName == data.centerName) {
-            console.log('succes')
+          if (innerdata.centerName == data.CenterName) {
+            let centerInvNo = parseInt(data.lastInvoiceNo) + 1;
+            invoiceList2.dbaNo = innerdata.dbaNo;
+            invoiceList2.InvoiceNo = innerdata.invoiceNo;
+            invoiceList2.centerInvoiceNo = centerInvNo.toString();
+            invoiceList2.centerName = innerdata.centerName;
+            // invoiceList2.nextInvoiceNo = innerdata.CenterId;
+            invoiceList2.invoiceMonth = innerdata.dbaMonth;
+            invoiceList2.dbaAmount = innerdata.dbaAmount;
+            invoiceList2.shareAmount = innerdata.shareAmount;
+            invoiceList2.taxableAmount = innerdata.taxableAmount;
+            invoiceList2.invoiceDate = innerdata.invoiceDate;
+            this.centerInvoiceNoList.push(invoiceList2);
 
-            let split = innerdata.centerInvoiceNo.slice(0, -8);
-            console.log('split data', split)
-
-            // console.log('invoice No:1', innerdata.centerInvoiceNo + 'centername' + innerdata.centerName)
           }
         }
       }
+      console.log('DATA***', this.centerInvoiceNoList)
     }
 
 

@@ -28,16 +28,16 @@ export class groupInvoicebyCenter {
     constructor() {
         this.shareAmount = 0;
         this.dbaAmount = 0;
-        this.feeAmount = 0;
+        this.taxableAmount = 0;
     }
 
     invoiceId: string;
     dbaNo: Array<String> = [];;
     CenterCode: string;
     CenterId: string;
-    centerName:string;
+    centerName: string;
     dbaAmount: number;;
-    feeAmount: number;;
+    taxableAmount: number;;
     share: Number;
     shareAmount: number;
     dbaMonth: string;
@@ -145,4 +145,11 @@ export class centerInvNoChkList {
     centerName: string;
     invoiceMonth: string;
     centerId: string
+}
+
+export class centerUpdate {
+    centerId: number;
+    centerName: string;
+    lastInvoiceNo: number;
+
 }
