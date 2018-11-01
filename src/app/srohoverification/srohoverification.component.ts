@@ -22,7 +22,7 @@ export class SrohoverificationComponent implements OnInit {
   dateLists: registerdateList[] = [];
   verifiedBy;  
   centerList = new Array<Center>();
-  centers: CenterData;
+  centers: CenterData; 
   selectedData;
   constructor(    private cookieservice: CookieService,
     private route: ActivatedRoute,
