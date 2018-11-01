@@ -105,7 +105,7 @@ export class CenterInvoiceList2Component implements OnInit {
 
     //   }
     // }
-    // console.log('DATA**', this.centerInvoiceList2)
+    // console.log('DATA***', this.centerInvoiceList2)
 
   }
 
