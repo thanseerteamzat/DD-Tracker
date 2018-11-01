@@ -14,6 +14,20 @@
         <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
     </div>
+    <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
+            <label style="color: black" for="center">Filter with Centre Name</label>
+            <!-- <label for="centercode">Code :</label> -->
+                 <select (change)="filterwithCenter(selectedcenter)" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                <option value="">--Choose--</option>
+                <ng-container *ngFor="let s of centerList">
+                    <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+                </ng-container>
+
+            </select>
+             
+        </div>
+
+
 </div>
 
 
@@ -38,10 +52,10 @@
         </tr>
     </thead>
     <tbody>
-        <ng-container *ngFor='let ddenter of dateLists '>
+        <ng-container *ngFor="let ddenter of selectedData | sortgrid: '-date' ">
             <tr [ngClass]="{bgRed: ddenter.ddenter.issroVerified != true}" *ngIf="ddenter.ddenter.ishoVerified != true "  >
             <!-- <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null" > -->
-                <td>{{dateLists.indexOf(ddenter) + 1}}</td>
+                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
                 <td>{{ddenter.ddenter.date}}</td>
                 <td>{{ddenter.ddenter.noofDd}}</td>
                 <td>{{ddenter.ddenter.ddAmount}}</td>
