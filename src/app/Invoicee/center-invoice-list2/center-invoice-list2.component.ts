@@ -112,20 +112,22 @@ export class CenterInvoiceList2Component implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
   }
 
-  filterMonth(key) {
-    console.log('key', key)
+  filterMonth(month) {
+    console.log('key', month)
+
 
 
   }
+
 
 
   getMothFromDate(dateData) {
