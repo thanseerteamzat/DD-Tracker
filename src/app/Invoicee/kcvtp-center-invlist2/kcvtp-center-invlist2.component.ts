@@ -38,6 +38,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
   ackData;
   invoiceList: invoiceList[] = [];
   invoice: Invoice[] = [];
+  centerInvoiceNo;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -72,6 +73,9 @@ export class KcvtpCenterinvList2Component implements OnInit {
   checklist: InvoiceCenterList2[] = [];
   checkboxIndex;
   centerInvoiceData;
+  list;
+  centerInvoiceList2: InvoiceCenterList2[] = [];
+  invoiceCenterData
   constructor(private db: AngularFireDatabase,
     private ets: EtsService,
     private router: Router,
@@ -88,13 +92,31 @@ export class KcvtpCenterinvList2Component implements OnInit {
 
     let that = this;
     //center list from api
-    this.ets.GetAllCenters().subscribe(data => {
-      that.centers = data.filter(c => c.CategoryId == 'KCVTP');
-      this.ets.centerList = this.centers
+    this.academic.GetAllKCVTPCenters().subscribe(resdata => {
+      this.centers = resdata;
+      // console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        let c = new Center();
+        if (resdata.Data[i] != null) {
+          c.Id = resdata.Data[i].Id;
+          c.CenterCode = resdata.Data[i].CenterCode;
+          c.CenterName = resdata.Data[i].CenterName;
+          c.DistrictId = resdata.Data[i].DistrictId;
+          c.lastInvoiceNo = resdata.Data[i].lastInvoiceNo;
+          this.centerList.push(c);
+
+        }
+      }
 
     },
-      error => console.log(error),
-      () => console.log('Get all complete', this.centers));
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+
 
 
     let dlRef = db.object('invoice');
@@ -105,7 +127,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
         let ddListItem = new invoiceList();
         let obj: Invoice = JSON.parse(element);
         ddListItem.invoiceenter = obj;
-        let centList = that.ets.centerList.filter(s => s.Id == (obj.CenterId));
+        let centList = that.centerList.filter(s => s.Id == (obj.CenterId));
         if (centList.length > 0) {
           ddListItem.center = centList[0];
         }
@@ -116,7 +138,39 @@ export class KcvtpCenterinvList2Component implements OnInit {
 
     });
 
-   
+
+    that.academic.GetCenterInvoiceList2().subscribe(data => {
+      that.list = data;
+
+      let invList = new InvoiceCenterList2();
+
+      for (let i = 0; i <= data.Data.length; i++) {
+        if (data.Data[i] != null) {
+          invList.dbaNo = data.Data[i].dbaNo;
+
+          invList.InvoiceNo = data.Data[i].InvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
+          invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.invoiceMonth = data.Data[i].invoiceMonth;
+          invList.dbaAmount = data.Data[i].dbaAmount;
+          invList.shareAmount = data.Data[i].shareAmount;
+          invList.taxableAmount = data.Data[i].taxableAmount;
+          invList.invoiceDate = data.Data[i].invoiceDate;
+          invList.enteredBy = data.Data[i].enteredBy;
+          this.centerInvoiceList2.push(invList);
+        }
+      }
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+
+
   }
 
   ngOnInit() {
@@ -164,7 +218,7 @@ export class KcvtpCenterinvList2Component implements OnInit {
           else {
             newList.dbaNo.push(inItem.dbaNo);
           }
-          console.log('dba no', newList.dbaNo)
+          // console.log('dba no', newList.dbaNo)
           newList.InvoiceNo = inItem.invoiceNo;
           this.centerList.forEach(data => {
             if (data.Id == inItem.CenterId) {
@@ -220,11 +274,14 @@ export class KcvtpCenterinvList2Component implements OnInit {
     }
     else {
       this.checklist.forEach(data => {
+
         data.centerInvoiceNo = this.newcenterList2.centerInvoiceNo + '/' + finyear
         this.academic.AddCenterInvoiceList2(data)
-        alert(' Added Successfully**');
+        // alert(' Added Successfully**');
 
       })
+      alert('Added Successfully')
+      this.centerInvoiceNo = '';
       this.checklist.splice(0, this.checklist.length);
       console.log('checklist**', this.checklist)
     }
