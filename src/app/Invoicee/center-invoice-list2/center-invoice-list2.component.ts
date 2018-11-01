@@ -136,5 +136,10 @@ export class CenterInvoiceList2Component implements OnInit {
       return month;
     }
   }
+  filterCenter(key){
 
+  }
+  register(){
+    
+  }
 }

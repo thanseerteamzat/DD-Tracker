@@ -420,13 +420,13 @@ export class KkcSroEntryComponent implements OnInit {
       this.db.database.ref('sroEntry').child(counter.toString()).set(InvoiceEntryJson);
       alert("Added Successfully Please Note Inward Invoice Entry Serial No :" + this.sroEntry.sroId);
       this.isformOpen = false;
-      this.resetForm();
+      // this.resetForm();
       this.router.navigate(['/sro-entry']);
     }
     catch (ex) {
       alert("Error in adding Quotation ");
     }
-    this.selectedcenter = this.ets.cookiecenter;
+    // this.selectedcenter = this.ets.cookiecenter;
   }
   formatDate(date) {
     var d = new Date(date),
