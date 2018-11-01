@@ -132,12 +132,14 @@
           </div>
           <div *ngIf="ets.cookievalue != null && ((ets.cookievalue.indexOf('x2') !==-1 )||(ets.cookievalue.indexOf('All') !==-1 ))"
             class="dropdown">
-            <button class="dropbtn">DD Verification</button>
+            <button class="dropbtn">Verification</button>
             <div class="dropdown-content">
               <a routerLink="/dd-verification">KCVTP</a>
               <a routerLink="kkc-dd-verification">KKC</a>
               <a routerLink="/adjverification">Adj Entry</a>
               <a routerLink="invoiceentryverification">Invoice Entry</a>
+              <a routerLink="/srohoverification">Ho Verification for Daily Entry</a>
+              
             </div>
           </div>
 
@@ -157,7 +159,6 @@
             <div class="dropdown-content">
               <a routerLink="/sro-entry">KKC SRO Daily Entry</a>
               <a routerLink="/sro-entry-report">KKC SRO Daily Report</a>
-              <a routerLink="/srohoverification">Ho Verification</a>
 
               <!-- <a>KKC</a> -->
               <!-- <a routerLink="/adjdespatch-no-entry">Adj Entry</a> -->
