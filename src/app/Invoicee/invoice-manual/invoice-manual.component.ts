@@ -204,7 +204,7 @@ export class InvoiceManualComponent implements OnInit {
         console.log('Status: ' + err.status);
       })
 
-    console.log('DATA**', this.invoicecenterListData)
+    // console.log('DATA**', this.invoicecenterListData)
 
   }
   selectData(data) {
@@ -435,9 +435,7 @@ export class InvoiceManualComponent implements OnInit {
     // console.log('invoice***', invoice)
   }
 
-  duplicationCheck() {
-
-
+  centerInvoiceNoGeneration() {
     //group by centername
     this.groupbyCheckList = asEnumerable(this.checklist).GroupBy(x => x.CenterId).ToArray();
     for (let i: number = 0; i < this.groupbyCheckList.length; i++) {
@@ -449,17 +447,14 @@ export class InvoiceManualComponent implements OnInit {
       for (let j: number = 0; j < item1.length; j++) {
         let inneritem = item1[j];
         newList.CenterId = inneritem.CenterId;
-        newList.invoiceNo = this.newInvoice.invoiceNo;
+        newList.invoiceNo = this.newInvoice.invoiceNo + '/' + this.ets.FullFormatFinancialYear;
         newList.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
         newList.dbaNo.push(inneritem.dbaNo);
         newList.dbaMonth = inneritem.dbaMonth;
-        let taxamt = (parseFloat(inneritem.dbaAmount) / 118) * 18;
-        this.taxamountTot = parseFloat(this.taxamountTot) + taxamt;
-        newList.taxableAmount = this.taxamountTot.toFixed(2);
-        let dbamt = (parseFloat(inneritem.dbaAmount) - taxamt) * 0.65;
-        this.shareAmountTotal = parseFloat(this.shareAmountTotal) + dbamt;
-        newList.shareAmount = this.shareAmountTotal.toFixed(2);
         (newList.dbaAmount += parseFloat(inneritem.dbaAmount)).toFixed(2);
+        let taxamt = (parseFloat(inneritem.dbaAmount) / 118) * 18;
+        this.taxamountTot = parseFloat(this.taxamountTot) + parseFloat(taxamt.toString());
+        newList.taxableAmount = this.taxamountTot.toFixed(2);
         this.centerList.forEach(data => {
           if (data.Id == inneritem.CenterId) {
             newList.centerName = data.CenterName;
@@ -468,6 +463,7 @@ export class InvoiceManualComponent implements OnInit {
       }
       this.groupedInvoiceCenterList.push(newList)
     }
+    // code for saving centerinvoice no
     for (let i = 0; i < this.centerList.length; i++) {
       var data = this.centerList[i];
       var invoiceList2 = new InvoiceCenterList2();
@@ -478,47 +474,65 @@ export class InvoiceManualComponent implements OnInit {
             let centerInvNo = parseInt(data.lastInvoiceNo) + 1;
             invoiceList2.dbaNo = innerdata.dbaNo;
             invoiceList2.InvoiceNo = innerdata.invoiceNo;
-            invoiceList2.centerInvoiceNo = centerInvNo.toString();
+            invoiceList2.centerInvoiceNo = centerInvNo.toString() + '/' + this.ets.financialYear;
             invoiceList2.centerName = innerdata.centerName;
             // invoiceList2.nextInvoiceNo = innerdata.CenterId;
             invoiceList2.invoiceMonth = innerdata.dbaMonth;
             invoiceList2.dbaAmount = innerdata.dbaAmount;
-            invoiceList2.shareAmount = innerdata.shareAmount;
+            let shareamt = (innerdata.dbaAmount - innerdata.taxableAmount) * 0.65;
+            invoiceList2.shareAmount = parseFloat(shareamt.toFixed(2));
             invoiceList2.taxableAmount = innerdata.taxableAmount;
             invoiceList2.invoiceDate = innerdata.invoiceDate;
+            invoiceList2.enteredBy = this.entered;
             this.centerInvoiceNoList.push(invoiceList2);
 
           }
         }
       }
-      console.log('DATA***', this.centerInvoiceNoList)
+    }
+    // console.log('DATA****', this.centerInvoiceNoList)
+
+
+
+    for (let i = 0; i < this.centerInvoiceNoList.length; i++) {
+      var tempdata = this.centerInvoiceNoList[i];
+      this.academic.AddCenterInvoiceList2(tempdata);
+      for (let j = 0; j < this.centerList.length; j++) {
+        let centerData = this.centerList[j];
+        if (tempdata != null && centerData != null) {
+          if (centerData.CenterName == tempdata.centerName) {
+            let centerNo = parseInt(centerData.lastInvoiceNo) + 1;
+            centerData.lastInvoiceNo = centerNo.toString();
+            this.academic.updateLastInvoiceNo(centerData);
+          }
+        }
+      }
     }
 
-
-
-    // console.log('check', this.kcvtpCenterList)
-    // console.log('check', this.invoicecenterListData)
-    // this.invoiceNoExists = false;
-    // console.log(this.newInvoice.invoiceNo)
-    // for (let i = 0; i <= this.invoiceList.length; i++) {
-    //   this.tempinvoiceList = invoiceList[i];
-    //   console.log(this.invoiceList)
-    //   if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
-    //     this.invoiceNoExists = true;
-    //     break;
-    //   }
-    // }
-    // if (this.invoiceNoExists == false) {
-    //   // console.log(this.invoiceNoExists)
-
-    //   console.log('new enrty')
-    // }
-    // else {
-    //   console.log('duplication')
-    // }
   }
 
-  monthChecking() {
+
+
+  duplicateChecking() {
+
+    this.invoiceNoExists = false;
+    console.log(this.newInvoice.invoiceNo)
+    for (let i = 0; i <= this.invoiceList.length; i++) {
+      this.tempinvoiceList = invoiceList[i];
+      console.log(this.invoiceList)
+      if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
+        this.invoiceNoExists = true;
+        break;
+      }
+    }
+    if (this.invoiceNoExists == false) {
+      // console.log(this.invoiceNoExists)
+
+      console.log('new enrty')
+    }
+    else {
+      console.log('duplication')
+    }
 
   }
 
@@ -530,7 +544,7 @@ export class InvoiceManualComponent implements OnInit {
     }
     else {
       this.checklist.forEach(element => {
-        element.invoiceNo = this.newInvoice.invoiceNo;
+        element.invoiceNo = this.newInvoice.invoiceNo + '/' + this.ets.FullFormatFinancialYear;
         element.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
         element.isInvoiceEntered = true;
         element.invoiceGeneratedBy = this.entered;
@@ -546,9 +560,11 @@ export class InvoiceManualComponent implements OnInit {
 
         }
       })
-
+      this.centerInvoiceNoGeneration();
       alert('Invoice Added :' + this.newInvoice.invoiceNo);
       this.resetform();
+      this.groupedInvoiceCenterList.splice(0, this.groupedInvoiceCenterList.length);
+      this.centerInvoiceNoList.splice(0, this.centerInvoiceNoList.length);
     }
   }
 

@@ -17,7 +17,7 @@ export class CenterInvoiceList2Component implements OnInit {
   centers;
   list: InvoiceCenterList2Data;
   centerInvoiceList2 = new Array<InvoiceCenterList2>();
-  selectedData;
+  selectedData: InvoiceCenterList2[];
   selectedMonth;
   selectedCenter;
   centerInvoiceNo;
@@ -68,44 +68,11 @@ export class CenterInvoiceList2Component implements OnInit {
         console.log('Name: ' + err.name);
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
-      }),
+      })
+
+    this.loadDataDefault();
 
 
-
-      that.academic.GetCenterInvoiceList2().subscribe(data => {
-        that.list = data;
-        this.centerInvoiceList2 = new Array<InvoiceCenterList2>();
-        for (let i = 0; i <= data.Data.length; i++) {
-          let invList = new InvoiceCenterList2();
-          if (data.Data[i] != null) {
-            invList.dbaNo = data.Data[i].dbaNo;
-            invList.InvoiceNo = data.Data[i].InvoiceNo;
-            invList.centerName = data.Data[i].centerName;
-            invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
-            invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
-            invList.centerName = data.Data[i].centerName;
-            invList.invoiceMonth = data.Data[i].invoiceMonth;
-            invList.dbaAmount = data.Data[i].dbaAmount;
-            invList.shareAmount = data.Data[i].shareAmount;
-            invList.taxableAmount = data.Data[i].taxableAmount;
-            invList.invoiceDate = data.Data[i].invoiceDate;
-            invList.enteredBy = data.Data[i].enteredBy;
-            this.centerInvoiceList2.push(invList);
-
-
-          }
-
-
-        }
-
-        console.log('DATA***', this.centerInvoiceList2)
-      },
-        err => {
-          console.log('Error: ' + err.error);
-          console.log('Name: ' + err.name);
-          console.log('Message: ' + err.message);
-          console.log('Status: ' + err.status);
-        })
 
 
 
@@ -121,14 +88,56 @@ export class CenterInvoiceList2Component implements OnInit {
     // }
   }
 
+
+  loadDataDefault() {
+    let that = this;
+    that.academic.GetCenterInvoiceList2().subscribe(data => {
+      that.list = data;
+      this.centerInvoiceList2 = new Array<InvoiceCenterList2>();
+      for (let i = 0; i <= data.Data.length; i++) {
+        let invList = new InvoiceCenterList2();
+        if (data.Data[i] != null) {
+          invList.dbaNo = data.Data[i].dbaNo;
+          invList.InvoiceNo = data.Data[i].InvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
+          invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.invoiceMonth = data.Data[i].invoiceMonth;
+          invList.dbaAmount = data.Data[i].dbaAmount;
+          invList.shareAmount = data.Data[i].shareAmount;
+          invList.taxableAmount = data.Data[i].taxableAmount;
+          invList.invoiceDate = data.Data[i].invoiceDate;
+          invList.enteredBy = data.Data[i].enteredBy;
+          this.centerInvoiceList2.push(invList);
+        }
+      }
+      console.log('DATA***', this.centerInvoiceList2)
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+
+  }
+  listDatabyFiltering() {
+
+  }
   filterMonth(month) {
     console.log('key', month)
-
+    this.selectedData
 
 
   }
+  filterCenter(center) {
 
 
+  }
+  register() {
+
+  }
 
   getMothFromDate(dateData) {
     if (dateData != null) {
@@ -136,10 +145,5 @@ export class CenterInvoiceList2Component implements OnInit {
       return month;
     }
   }
-  filterCenter(key){
 
-  }
-  register(){
-    
-  }
 }
