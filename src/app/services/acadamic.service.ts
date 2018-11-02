@@ -14,6 +14,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { despatchList } from '../models/despatch';
 import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
 import { InvoiceCenterList2, InvoiceCenterList2Data, centerUpdate, centerInvNoChkListData } from '../models/invoice ';
+import { kkcerpDespatch, erpData } from '../models/kkcErpdespatch';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,63 @@ export class AcadamicService {
           console.log('Status: ' + err.status);
         });
   }
+
+  public GeterpEntry(): Observable<erpData> {
+    console.log('AddSubject in service**************')
+
+    const body = { "Table": "kkcErpEntry" };
+
+
+    return this.http.post<erpData>(this.config.pyUrl + 'GetRows', body)
+
+  }
+
+
+
+
+
+  public AddKkcErpEntry(erpEntry: kkcerpDespatch) {
+    const Sub = {
+      "unique": erpEntry.unique,
+      "date": erpEntry.date,
+      "erpAmount": erpEntry.erpAmount,
+      "erpdate": erpEntry.erpdate,
+      "centerName": erpEntry.centerName,
+      "erpdespNo": erpEntry.erpdespNo,
+      "noofDd": erpEntry.noofDd,
+      "remarks": erpEntry.remarks,
+
+    };
+    const body = {
+      "Table": "kkcErpEntry",
+      "Data": Sub,
+    };
+
+    this.http.post(this.config.pyUrl + 'AddRow', body)
+      .subscribe(data => { },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
     console.log('here', ddEntry);

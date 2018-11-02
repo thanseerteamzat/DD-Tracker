@@ -1,0 +1,157 @@
+<div style="margin-left: 50px;" class="wrapper ">
+    <div id="content" class="createcontent">
+        <div class="form-row">
+            <h1>KKC ERP Despatch Entry</h1>
+            <br>
+            <br>
+        </div>
+        <form name="form">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <br>
+                    <label for="ddid">ERP Desp Sl No : &nbsp;</label>
+                    <span *ngIf='!isEditMode' style="color: red">{{serialNo}}</span>
+                </div>
+
+
+                <div class="form-group col-md-3">
+
+                    <label for="date">Date</label>
+
+                    <input readonly type="text" name="todaydatee" [(ngModel)]="Date" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <label for="">ERP Despatch No</label>
+    
+    
+                    <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo">
+                    <button type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
+
+                    <!-- <div *ngIf="erpdespnoVal.invalid && (erpdespnoVal.dirty || erpdespnoVal.touched)" class="alert-danger">
+                        <div *ngIf="erpdespnoVal.errors.required">
+                            ERP desp number is required
+                        </div>
+                    </div> -->
+
+
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+
+                    <label for="date">ERP Date</label>
+
+                    <input readonly type="text" name="todaydatee" [(ngModel)]="erpDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                        containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
+                </div>
+
+
+
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="center">Center Name</label>
+                    <input type="text" formControlName="centerNameVal" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
+
+                    <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
+                        <div *ngIf="centerNameVal.errors.required">
+                            Please use get center
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="noofdd">No.of DD</label>
+                    <input type="text" [(ngModel)]="noofDd" formControlName="noodDdVal" name="selectednodd" class="form-control">
+                    <div *ngIf="noodDdVal.invalid && (noodDdVal.dirty || noodDdVal.touched)" class="alert-danger">
+                        <div *ngIf="noodDdVal.errors.required">
+                            No of DD is Required
+                        </div>
+                        <div *ngIf="noodDdVal.errors.pattern">
+                            Please enter digit format
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="amount">DD Amount</label>
+                    <input type="text" formControlName="ddamountVal" [(ngModel)]="erpAmount" name="selectedamount" class="form-control">
+
+                    <div *ngIf="ddamountVal.invalid && (ddamountVal.dirty || ddamountVal.touched)" class="alert-danger">
+                        <div *ngIf="ddamountVal.errors.required">
+                            DD Amount is Required
+                        </div>
+                        <div *ngIf="ddamountVal.errors.pattern">
+                            Please enter digit format
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-3">
+
+                    <label for="amount">Remarks</label>
+                    <input type="text" [(ngModel)]="remarks" name="selectedremarks" class="form-control">
+
+
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+
+
+                    <button [disabled]="ddentryForm.invalid" *ngIf='!isEditMode' (click)="register()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </div>
+
+        </form>
+
+        <div style="padding-top: 20px;"></div>
+
+
+            
+
+            <table class="table table-hover table-responsive table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ERP Sl.No</th>
+                        <th>Date</th>
+                        <th>ERP Despatch No</th>
+                        <th>ERP Date</th>
+                        <th>Center Name</th>
+                        <th>No.od DD</th>
+                        <th>DD Amount</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor='let ddentry of erpList '>
+                        <tr>
+                            <td>{{ddentry.ID}}</td>
+                            <td>{{ddentry.date}}</td>
+                            <td>{{ddentry.erpdespNo}}</td>
+                            <td>{{ddentry.erpdate}}</td>
+
+                            <td>{{ddentry.centerName}}</td>
+                            <td>{{ddentry.noofDd}}</td>
+                            <td> {{ddentry.erpAmount}}</td>
+                            <td>{{ddentry.remarks}}</td>
+
+
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+            </table>
+
+    </div>
+</div>
