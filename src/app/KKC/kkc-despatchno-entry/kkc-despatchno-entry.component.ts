@@ -36,6 +36,7 @@ export class KkcDespatchnoEntryComponent implements OnInit {
   tempentry;
   entered;
   checkList = new Array<kkcddEntryTemp>();
+  tempcentercode;
   feesItems = [
     { id: '1', name: 'Course Fee' },
     { id: '2', name: 'Prospectus' },

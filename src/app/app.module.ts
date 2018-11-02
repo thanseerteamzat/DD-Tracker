@@ -88,6 +88,7 @@ import { kkcddEntry } from './models/KKC/kkcddentry';
 import { CenterInvoiceList2Component } from './Invoicee/center-invoice-list2/center-invoice-list2.component';
 import { SortbyDatePipe } from './sortby-date.pipe';
 import { KkcDespatchnoEntryComponent } from './KKC/kkc-despatchno-entry/kkc-despatchno-entry.component';
+import { KkcErpDespatchEntryComponent } from './kkc-erp-despatch-entry/kkc-erp-despatch-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -169,7 +170,8 @@ const appRoutes: Routes = [
   // { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component }
   { path: 'kkc-dd-entry/:kkcId', component: KkcDdentryComponent },
   { path: 'kcvtp-ceterList-2', component: CenterInvoiceList2Component },
-  { path: 'kkc-despatchEntry', component: KkcDespatchnoEntryComponent }
+  { path: 'kkc-despatchEntry', component: KkcDespatchnoEntryComponent },
+  { path: 'kkc-erp-despatch-entry', component: KkcErpDespatchEntryComponent }
 
 ];
 
@@ -242,7 +244,8 @@ const appRoutes: Routes = [
     KkcDdEntryDetailsComponent,
     CenterInvoiceList2Component,
     SortbyDatePipe,
-    KkcDespatchnoEntryComponent
+    KkcDespatchnoEntryComponent,
+    KkcErpDespatchEntryComponent
 
   ],
   imports: [
