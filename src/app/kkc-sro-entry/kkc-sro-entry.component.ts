@@ -47,6 +47,7 @@ export class KkcSroEntryComponent implements OnInit {
   tempAmount;
   sroLists: sroEntryList[] = [];
   remarks;
+  
   mytime: Date = new Date();
   minDate: Date;
   maxDate: Date;

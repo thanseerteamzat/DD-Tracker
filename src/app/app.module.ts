@@ -86,6 +86,7 @@ import { KkcDdVerificationComponent } from './KKC/kkc-dd-verification/kkc-dd-ver
 import { KkcDdEntryDetailsComponent } from './KKC/kkc-dd-entry-details/kkc-dd-entry-details.component'
 import { kkcddEntry } from './models/KKC/kkcddentry';
 import { CenterInvoiceList2Component } from './Invoicee/center-invoice-list2/center-invoice-list2.component';
+import { SortbyDatePipe } from './sortby-date.pipe';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -237,7 +238,8 @@ const appRoutes: Routes = [
     SroEntryDetailsComponent,
     KkcDdVerificationComponent,
     KkcDdEntryDetailsComponent,
-    CenterInvoiceList2Component
+    CenterInvoiceList2Component,
+    SortbyDatePipe
 
   ],
   imports: [

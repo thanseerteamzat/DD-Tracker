@@ -8,6 +8,8 @@ import { ConfigService } from '../services/config.service';
 import { FormBuilder } from '@angular/forms';
 import { Common } from '../models/common';
 import { EtsService } from '../services/ets.service';
+import { AcadamicService } from '../services/acadamic.service';
+import { CenterData, Center } from '../models/Center';
 
 @Component({
   selector: 'app-srohoverification',
@@ -15,11 +17,13 @@ import { EtsService } from '../services/ets.service';
   styleUrls: ['./srohoverification.component.css']
 })
 export class SrohoverificationComponent implements OnInit {
-
+  isSroLogin:boolean;
   todaydate=new Date;
   dateLists: registerdateList[] = [];
   verifiedBy;  
-  
+  centerList = new Array<Center>();
+  centers: CenterData; 
+  selectedData;
   constructor(    private cookieservice: CookieService,
     private route: ActivatedRoute,
   private db: AngularFireDatabase,
@@ -27,8 +31,31 @@ export class SrohoverificationComponent implements OnInit {
   private http: HttpClient,
   private ets:EtsService,
   private config: ConfigService,
-  private fb: FormBuilder) { 
+  private fb: FormBuilder,
+  private academic:AcadamicService) { 
 
+
+    this.academic.GetAllCenters().subscribe(resdata => {
+      this.centers = resdata;
+      console.log(resdata);
+      this.centerList = new Array<Center>();
+      for (let i = 0; i <= resdata.Data.length; i++) {
+        if (resdata.Data != null) {
+          let c = new Center();
+          c.Id = resdata.Data[i].Id;
+          c.CenterCode = resdata.Data[i].CenterCode;
+          c.CenterName = resdata.Data[i].CenterName;
+          c.DistrictId = resdata.Data[i].DistrictId;
+          this.centerList.push(c);
+        }
+      }
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
     let itemReff = db.object('dateforsro');
     itemReff.snapshotChanges().subscribe(action => {
       this.dateLists = [];
@@ -41,19 +68,11 @@ export class SrohoverificationComponent implements OnInit {
         if (qobj.Id != undefined) {
           qobj.Id = qobj.Id.replace("/", "");
         }
-
-        ddListItem.ddenter = qobj;
-
-        // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-        // // console.log('2222222222222222222222222222',custList)
-        // if (custList.length > 0) {
-        //   ddListItem.center = custList[0];
-        // }
-
+        ddListItem.ddenter = qobj;     
         this.dateLists.push(ddListItem);
-        // console.log('length***************************',this.sroLists.length);
       });
     });
+   this.selectedData=this.dateLists;
     
 
 
@@ -111,5 +130,12 @@ export class SrohoverificationComponent implements OnInit {
     });
 
 
+  }
+  filterwithCenter(key){
+
+    this.selectedData = this.dateLists.filter(s => s.ddenter.centerName == key);
+    console.log(this.selectedData);
+    
+    
   }
 }
