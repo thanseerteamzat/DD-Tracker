@@ -87,6 +87,7 @@ import { KkcDdEntryDetailsComponent } from './KKC/kkc-dd-entry-details/kkc-dd-en
 import { kkcddEntry } from './models/KKC/kkcddentry';
 import { CenterInvoiceList2Component } from './Invoicee/center-invoice-list2/center-invoice-list2.component';
 import { SortbyDatePipe } from './sortby-date.pipe';
+import { KkcDespatchnoEntryComponent } from './KKC/kkc-despatchno-entry/kkc-despatchno-entry.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -143,16 +144,16 @@ const appRoutes: Routes = [
   { path: 'dd-despatch-ack', component: DdDespatchAckComponent },
   { path: 'sro-entry', component: KkcSroEntryComponent },
   { path: 'sro-entry/:sroId', component: KkcSroEntryComponent },
-  
+
   { path: 'despatch-ack-details', component: DespatchAckDetailsComponent },
   { path: 'sro-entry-report', component: SrodailyreportComponent },
   { path: 'kcvtp-centers-invoice', component: KcvtpCenterInvoiceDetailsComponent },
   { path: 'invoice-Amount-pending', component: InvoiceAmountPendingComponent },
   { path: 'srohoverification', component: SrohoverificationComponent },
-  { path: 'sro-entry-details',component:SroEntryDetailsComponent},
-  { path: 'sro-entry-details/:sroId',component:SroEntryDetailsComponent},
-  
-  
+  { path: 'sro-entry-details', component: SroEntryDetailsComponent },
+  { path: 'sro-entry-details/:sroId', component: SroEntryDetailsComponent },
+
+
   { path: 'kkc-batchno-entry', component: KkcBatchNoEntryComponent },
   { path: 'kkc-dd-entry', component: KkcDdentryComponent },
   { path: 'kkc-dd-verification', component: KkcDdVerificationComponent },
@@ -167,7 +168,8 @@ const appRoutes: Routes = [
   { path: 'kkc-phase-two-entry', component: PhaseTwoKkcEntryComponent },
   // { path: 'kcvtp-center-invlist2', component: KcvtpCenterinvList2Component }
   { path: 'kkc-dd-entry/:kkcId', component: KkcDdentryComponent },
-  { path: 'kcvtp-ceterList-2', component: CenterInvoiceList2Component }
+  { path: 'kcvtp-ceterList-2', component: CenterInvoiceList2Component },
+  { path: 'kkc-despatchEntry', component: KkcDespatchnoEntryComponent }
 
 ];
 
@@ -239,7 +241,8 @@ const appRoutes: Routes = [
     KkcDdVerificationComponent,
     KkcDdEntryDetailsComponent,
     CenterInvoiceList2Component,
-    SortbyDatePipe
+    SortbyDatePipe,
+    KkcDespatchnoEntryComponent
 
   ],
   imports: [

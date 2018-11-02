@@ -207,19 +207,14 @@ export class DespatchNoEntryComponent implements OnInit {
     }
 
     ngOnInit() {
-        // if (this.ets.cookievalue == "3") {
-        //     // this.router.navigate(['/despatch-no-entry'])
-        // }
-        // else {
-        //     this.router.navigate(['/error']);
-        // }
-        if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x7') !==-1 ) || (this.ets.cookievalue == "All"))  {
+
+        if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x7') !== -1) || (this.ets.cookievalue == "All")) {
             console.log('inside if condition *********************')
             // this.router.navigate(['/dd-entry'])
-          }
-          else {
+        }
+        else {
             this.router.navigate(['/error']);
-          }
+        }
 
         this.entered = this.ets.cookiename;
         this.despatch.enteredBy = this.entered;
@@ -268,15 +263,6 @@ export class DespatchNoEntryComponent implements OnInit {
         }
         if (this.selectfee == null) {
             this.selectedData = this.ddLists.filter(s => s.ddenter.centerId == key && s.ddenter.isVerified == true && s.ddenter.isdespatchEntered == null);
-            // this.selectedData.forEach(element => {
-            //     if (element.ddenter.courseName == 'PDPPT') {
-            //         this.batchNo = 'BN' + '/' + this.tempcentercode + '/' + '001' + '/' + finyear;
-            //     }
-            //     else if (element.ddenter.courseName == 'DMTT') {
-            //         this.batchNo = 'BN' + '/' + this.tempcentercode + '/' + '002' + '/' + finyear;
-
-            //     }
-            // })
 
             for (let i = 0; i <= this.checklist.length; i++) {
                 this.checklist.splice(i, this.checklist.length);
@@ -415,7 +401,7 @@ export class DespatchNoEntryComponent implements OnInit {
         var splityear = styear.slice(-2)
         var splitnextyear = stnextyear.slice(-2);
         // console.log(list)
-        this.despatchFormat = "IDE" +'/'+ this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+        this.despatchFormat = "IDE" + '/' + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
         this.despatch.despatchNo = this.despatchFormat;
         // console.log('this.despatchFormat', this.despatchFormat)
         // console.log('this.checklist.length', this.checklist.length)

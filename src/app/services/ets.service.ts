@@ -45,7 +45,7 @@ export class EtsService {
       let Csplit = currentYear.toString().slice(-2);
       let Nsplit = nextYear.toString().slice(-2);
       finyear = Csplit + '-' + Nsplit;
-      fullfinYear = currentYear + nextYear;
+      fullfinYear = currentYear + '-' + nextYear;
     }
     this.financialYear = finyear
     this.FullFormatFinancialYear = fullfinYear;

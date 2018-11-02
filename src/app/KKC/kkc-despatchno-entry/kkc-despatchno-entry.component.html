@@ -1,0 +1,139 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>KKC -Despatch No Entry</h2>
+  <div *ngFor="let s of previousEntryPendingList">
+    <span style="color: red">
+      Pending Despatch in previous month:
+    </span>
+  </div>
+  <!-- <ng-container *ngFor="let lstid of despatchLastids"> -->
+
+  <div class="row" style="padding-top: 30px;">
+    <input type="hidden" [(ngModel)]="tempcentercode" value=" {{tempcentercode}}">
+    <div class="form-group col-md-3">
+      <!-- {{tempcentercode}} -->
+      <label>Filter DD's with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" (change)="filterCenter(selectedcenter)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let s of centerList">
+          <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+
+    </div>
+
+    <div class="form-group col-md-3">
+
+      <label>Filter DD's with Fee Type: </label>&nbsp;
+      <select [(ngModel)]="selectedFee" class="form-control" name="selectedFee" (change)="filterFee(selectedFee)">
+        <option value="" [selected]="selectedFee !=0" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of feesItems">
+          <option [ngValue]="s.name">{{s.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="form-group col-md-3" [formGroup]="despatchform">
+
+      <label>Note : Select DD's and Enter Despatch No here </label>&nbsp;
+      <input type="text" [(ngModel)]="newDespatchEntry.despatchNo" class="form-control" formControlName="despatchNo">
+      <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
+          <div *ngIf="despatchNo.errors.required">
+            Despatch No is Required
+          </div>
+          <div *ngIf="despatchNo.errors.pattern">
+            Please enter valid input(number)
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-3" [formGroup]="despatchform">
+
+      <label>Despatch Date</label>&nbsp;
+      <input type="date" [(ngModel)]="newDespatchEntry.despatchDate" class="form-control" formControlName="despatchdate">
+      <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
+          <div *ngIf="despatchdate.errors.required">
+            Please Select Date
+          </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- <div class="form-group col-md-3" [formGroup]="despatchform">
+
+      <br>
+      <button type="submit" class="btn btn-primary" [disabled]="despatchform.invalid" (click)=" register(lst\)">Submit</button>
+    </div> -->
+    <div class="form-group col-md-3">
+      <label>Count:</label>
+
+      <span style="color: red;padding-left: 20px">{{checklisttotal}}</span>
+
+      <div>
+        <label>Selected DD.Total :</label>
+        <span style="color: red;padding-left: 20px">{{checklistddTotal}}</span>
+      </div>
+    </div>
+
+
+    <div style="padding-top: 50px;">
+
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Sl.No</th>
+            <!-- <th>DD SL.No</th> -->
+            <th style="min-width: 90px;">Date</th>
+            <th>Application No</th>
+            <th style="min-width: 200px;">Centre Name</th>
+            <th style="min-width: 100px;">Course Name</th>
+            <th style="min-width: 150px;">Student Name</th>
+            <th>DD No</th>
+            <th style="min-width: 120px;">Bank</th>
+            <th style="min-width: 90px;">DD Date</th>
+            <th>DD Amount</th>
+            <th>Entered By</th>
+            <th style="min-width: 100px;">Fees Item</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor='let ddenter of ddList  '>
+            <tr>
+              <!-- <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null"> -->
+            <tr>
+              <td>{{ddList.indexOf(ddenter) + 1}}</td>
+              <!-- <td>{{ddenter.KkcDdId}}</td> -->
+              <td>{{ddenter.date}}</td>
+              <td>{{ddenter.applicationNumber}}</td>
+              <td>{{ddenter.centerName}}</td>
+              <td>{{ddenter.courseName}}</td>
+              <td>{{ddenter.studentName}}</td>
+              <td>{{ddenter.ddNumber}}</td>
+              <td>{{ddenter.bank}}</td>
+              <td>{{ddenter.ddDate}}</td>
+              <td>{{ddenter.ddAmount}}</td>
+              <td>{{ddenter.enteredBy}}</td>
+              <td>{{ddenter.feesItem}}</td>
+              <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
+              <td>
+                <input type="checkbox" (change)="onClick($event.target.checked,ddenter.kkcId,ddenter ,ddList.indexOf(ddenter))"
+                  name="">
+
+              </td>
+
+
+            </tr>
+          </ng-container>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+  <!-- </ng-container> -->
+</div>

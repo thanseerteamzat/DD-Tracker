@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AcadamicService } from 'src/app/services/acadamic.service';
 import { InvoiceCenterList2, InvoiceCenterList2Data } from 'src/app/models/invoice ';
 import { element } from 'protractor';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 @Component({
   selector: 'app-center-invoice-list2',
@@ -17,10 +18,13 @@ export class CenterInvoiceList2Component implements OnInit {
   centers;
   list: InvoiceCenterList2Data;
   centerInvoiceList2 = new Array<InvoiceCenterList2>();
+  filtercenterInvoiceList2 = new Array<InvoiceCenterList2>();
   selectedData: InvoiceCenterList2[];
   selectedMonth;
   selectedCenter;
   centerInvoiceNo;
+  selectmonth;
+  selectcenter;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -79,13 +83,13 @@ export class CenterInvoiceList2Component implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-    //   console.log('inside if condition *********************')
-    //   // this.router.navigate(['/dd-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
   }
 
 
@@ -110,9 +114,10 @@ export class CenterInvoiceList2Component implements OnInit {
           invList.invoiceDate = data.Data[i].invoiceDate;
           invList.enteredBy = data.Data[i].enteredBy;
           this.centerInvoiceList2.push(invList);
+          this.filtercenterInvoiceList2.push(invList)
         }
       }
-      console.log('DATA***', this.centerInvoiceList2)
+      // console.log('DATA***', this.centerInvoiceList2)
     },
       err => {
         console.log('Error: ' + err.error);
@@ -123,22 +128,54 @@ export class CenterInvoiceList2Component implements OnInit {
 
   }
   listDatabyFiltering() {
-
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData.forEach(data => {
+      this.centerInvoiceList2.push(data);
+    })
   }
   filterMonth(month) {
-    console.log('key', month)
-    this.selectedData
+    this.selectmonth = month;
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData = null;
+    if (this.selectcenter == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
+    else if (this.selectmonth == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter)
+      this.listDatabyFiltering()
 
+    }
+    else {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter
+        && this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
 
   }
   filterCenter(center) {
+    this.selectcenter = center;
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData = null;
 
+    if (this.selectmonth == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter)
+      this.listDatabyFiltering()
+
+    }
+    else if (this.selectcenter == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
+
+    else {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter
+        && this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
 
   }
-  register() {
-
-  }
-
+  
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)

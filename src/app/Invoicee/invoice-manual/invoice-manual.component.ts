@@ -297,13 +297,13 @@ export class InvoiceManualComponent implements OnInit {
 
   ngOnInit() {
 
-    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
-    //   console.log('inside if condition *********************')
-    //   // this.router.navigate(['/dd-entry'])
-    // }
-    // else {
-    //   this.router.navigate(['/error']);
-    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+      console.log('inside if condition *********************')
+      // this.router.navigate(['/dd-entry'])
+    }
+    else {
+      this.router.navigate(['/error']);
+    }
 
     this.entered = this.ets.cookiename;
     this.newInvoice.invoiceGeneratedBy = this.entered;
@@ -422,17 +422,13 @@ export class InvoiceManualComponent implements OnInit {
   onClick(event, id, invoice: Invoice) {
     if (event == true) {
       this.checklist.push(invoice);
-      // console.log('push**', this.checklist)
     }
     else if (event == false) {
       this.checkboxIndex = this.checklist.findIndex(list => list.invoiceId == id);
       this.checklist.splice(this.checkboxIndex, 1);
-      // console.log('pop**', this.checklist)
 
     }
-    //   console.log('event***', event);
-    // console.log('id***', id)
-    // console.log('invoice***', invoice)
+
   }
 
   centerInvoiceNoGeneration() {
@@ -458,6 +454,7 @@ export class InvoiceManualComponent implements OnInit {
         this.centerList.forEach(data => {
           if (data.Id == inneritem.CenterId) {
             newList.centerName = data.CenterName;
+            newList.CenterCode = data.CenterCode;
           }
         })
       }
@@ -474,7 +471,22 @@ export class InvoiceManualComponent implements OnInit {
             let centerInvNo = parseInt(data.lastInvoiceNo) + 1;
             invoiceList2.dbaNo = innerdata.dbaNo;
             invoiceList2.InvoiceNo = innerdata.invoiceNo;
-            invoiceList2.centerInvoiceNo = centerInvNo.toString() + '/' + this.ets.financialYear;
+            if (centerInvNo >= 0 && centerInvNo <= 9) {
+              invoiceList2.centerInvoiceNo = innerdata.CenterCode + '/' + '00' + centerInvNo.toString() + '/' + this.ets.financialYear;
+
+            }
+            else if (centerInvNo >= 10 && centerInvNo <= 99) {
+              invoiceList2.centerInvoiceNo = innerdata.CenterCode + '/' + '0' + centerInvNo.toString() + '/' + this.ets.financialYear;
+
+            }
+            else if (centerInvNo >= 100 && centerInvNo <= 999) {
+              invoiceList2.centerInvoiceNo = innerdata.CenterCode + '/' + centerInvNo.toString() + '/' + this.ets.financialYear;
+
+            }
+            else {
+              invoiceList2.centerInvoiceNo = innerdata.CenterCode + '/' + centerInvNo.toString() + '/' + this.ets.financialYear;
+
+            }
             invoiceList2.centerName = innerdata.centerName;
             // invoiceList2.nextInvoiceNo = innerdata.CenterId;
             invoiceList2.invoiceMonth = innerdata.dbaMonth;
@@ -516,22 +528,22 @@ export class InvoiceManualComponent implements OnInit {
   duplicateChecking() {
 
     this.invoiceNoExists = false;
-    console.log(this.newInvoice.invoiceNo)
-    for (let i = 0; i <= this.invoiceList.length; i++) {
-      this.tempinvoiceList = invoiceList[i];
-      console.log(this.invoiceList)
-      if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceenter.invoiceNo == this.newInvoice.invoiceNo) {
+    let invoiceno = this.newInvoice.invoiceNo + '/' + this.ets.FullFormatFinancialYear;
+
+    for (let i = 0; i <= this.invoice.length; i++) {
+      this.tempinvoiceList = this.invoice[i];
+      if (this.tempinvoiceList != null && this.tempinvoiceList.invoiceNo == invoiceno) {
         this.invoiceNoExists = true;
         break;
       }
     }
     if (this.invoiceNoExists == false) {
-      // console.log(this.invoiceNoExists)
-
       console.log('new enrty')
+      this.generateInvoice()
     }
     else {
       console.log('duplication')
+      alert('Invoice No Already Exists')
     }
 
   }
@@ -584,7 +596,6 @@ export class InvoiceManualComponent implements OnInit {
     this.selectedData.forEach(data => {
       this.selectedDataInvoiceItems.push(data.invoiceenter)
     })
-    console.log('seleced data', this.selectedDataInvoiceItems)
     this.groupList = asEnumerable(this.selectedDataInvoiceItems).GroupBy(x => x.CenterId).ToArray();
 
     for (let j: number = 0; j < this.groupList.length; j++) {
@@ -623,7 +634,6 @@ export class InvoiceManualComponent implements OnInit {
       }
       this.kcvtpCenterList.push(newList);
 
-      console.log('finl data', this.kcvtpCenterList)
 
     }
   }
