@@ -154,6 +154,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         erpEntry.erpdespNo = data.Data[i].erpdespNo;
         erpEntry.noofDd = data.Data[i].noofDd;
         erpEntry.remarks = data.Data[i].remarks;
+        erpEntry.unique = data.Data[i].unique;
         this.erpList.push(erpEntry);
         }
       }
@@ -228,6 +229,10 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     )
   }
 
+  entrySelection(key , erpentry : kkcerpDespatch){
 
+    console.log(key);
+    console.log(erpentry)
+  }
 
 }

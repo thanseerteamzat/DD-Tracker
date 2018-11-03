@@ -131,6 +131,7 @@
                         <th>No.od DD</th>
                         <th>DD Amount</th>
                         <th>Remarks</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,7 +146,11 @@
                             <td>{{ddentry.noofDd}}</td>
                             <td> {{ddentry.erpAmount}}</td>
                             <td>{{ddentry.remarks}}</td>
-
+                            <td>
+                                <button type="button" (click)=entrySelection(ddentry.unique,ddentry) class="btn btn-primary">
+                                    View Details
+                                </button>
+                            </td>
 
                         </tr>
                     </ng-container>
