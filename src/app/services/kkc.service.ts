@@ -84,7 +84,7 @@ export class KkcService {
 
   public GetdespatchEntry(): Observable<KKCDespatchData> {
     const body = { "Table": "kkcDespatchEntry" };
-    return this.http.post<KKCDespatchData>(this.config.pytestUrl + 'GetRows', body)
+    return this.http.post<KKCDespatchData>(this.config.pyUrl + 'GetRows', body)
 
   }
 
