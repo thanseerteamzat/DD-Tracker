@@ -1,10 +1,10 @@
 <div class="wrapper" style="margin-left: 50px">
   <h2>KKC -Despatch No Entry</h2>
-  <!-- <div *ngFor="let s of previousEntryPendingList">
+  <div *ngFor="let s of previousEntryPendingList">
     <span style="color: red">
-      Pending Despatch in previous month:
+      Pending Despatch in previous month:{{s.erpdespNo}}
     </span>
-  </div> -->
+  </div>
   <!-- <ng-container *ngFor="let lstid of despatchLastids"> -->
 
   <div class="row" style="padding-top: 30px;">
@@ -37,7 +37,7 @@
 
     <div class="form-group col-md-3" [formGroup]="despatchform">
 
-      <label>Note : Select DD's and Enter Despatch No here </label>&nbsp;
+      <label>Note :Select DD's and Enter Despatch No (eg: 125/8 ; 125 is Despatch No ,8 is month) </label>&nbsp;
       <input type="text" [(ngModel)]="newDespatchEntry.despatchNo" class="form-control" formControlName="despatchNo">
       <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
         <div *ngIf="despatchNo.errors.required">
@@ -48,6 +48,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
     <div class="form-group col-md-3" [formGroup]="despatchform">
 
       <label>Despatch Date</label>&nbsp;
@@ -62,11 +64,11 @@
 
 
 
-    <!-- <div class="form-group col-md-3" [formGroup]="despatchform">
+    <div class="form-group col-md-3" [formGroup]="despatchform">
 
       <br>
-      <button type="submit" class="btn btn-primary" [disabled]="despatchform.invalid" (click)=" register(lst\)">Submit</button>
-    </div> -->
+      <button type="submit" class="btn btn-primary" [disabled]="despatchform.invalid" (click)=" erpdespatchEntryMonthCheck()">Submit</button>
+    </div>
     <div class="form-group col-md-3">
       <label>Count:</label>
 
@@ -103,8 +105,8 @@
         <tbody>
           <ng-container *ngFor='let ddenter of ddList  '>
             <tr>
-              <!-- <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null"> -->
-            <tr>
+            <tr *ngIf="ddenter.isVerified  == true && ddenter.despatchNo == null">
+
               <td>{{ddList.indexOf(ddenter) + 1}}</td>
               <!-- <td>{{ddenter.KkcDdId}}</td> -->
               <td>{{ddenter.date}}</td>

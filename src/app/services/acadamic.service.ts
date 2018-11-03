@@ -74,7 +74,7 @@ export class AcadamicService {
     const body = { "Table": "kkcddEntry" };
 
 
-    return this.http.post<KKCentryData>(this.config.pyUrl + 'GetRows', body)
+    return this.http.post<KKCentryData>(this.config.pytestUrl + 'GetRows', body)
 
   }
   public AddKkcDdEntry(ddEntry: kkcddEntry) {

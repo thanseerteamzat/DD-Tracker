@@ -69,6 +69,7 @@ export class DespatchNoEntryComponent implements OnInit {
     previousdatecountErp: erpdespatchList[];
     previousdatecountDespatch;
     erpPreviousMonthEntryExists;
+    previousmonthsplit;
     // batchNo;
     previousEntryPendingList: erpdespatchList[];;
     constructor(private db: AngularFireDatabase,
@@ -352,12 +353,19 @@ export class DespatchNoEntryComponent implements OnInit {
         this.erpPreviousMonthEntryExists = false;
         let despno = this.newddEntry.despatchNo;
         let split = despno.slice(-2);
-        let previousmonthsplit = '0' + (parseInt(split) - 1);
+        if (split.length >= 2) {
+            this.previousmonthsplit = (parseInt(split) - 1);
+            console.log('previousmonthsplit***', this.previousmonthsplit)
+          }
+          else if (split.length <= 1) {
+            this.previousmonthsplit = '0' + (parseInt(split) - 1);
+            console.log('previousmonthsplit***', this.previousmonthsplit)
+          }
         // console.log('split***', split)
         for (let i = 0; i <= this.erpLists.length; i++) {
             this.erplistvariable = this.erpLists[i];
             this.currentdatecountErp = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == split).length;
-            this.previousdatecountErp = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit);
+            this.previousdatecountErp = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == this.previousmonthsplit);
             // console.log('current erp date length', this.previousdatecountErp);
         }
         for (let j = 0; j <= this.previousdatecountErp.length; j++) {
@@ -376,7 +384,7 @@ export class DespatchNoEntryComponent implements OnInit {
             this.erpdespatchEntryCheck(key);
         }
         else {
-            this.previousEntryPendingList = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == previousmonthsplit && s.ddenter.isdespatchEntered == false);
+            this.previousEntryPendingList = this.erpLists.filter(s => this.getMothFromDate(s.ddenter.erpdate) == this.previousmonthsplit && s.ddenter.isdespatchEntered == false);
             alert('Previous Month Despatch Entry is pending. Please update...');
 
         }

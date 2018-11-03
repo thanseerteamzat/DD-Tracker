@@ -2,7 +2,7 @@
     <h2>Despatch No Entry</h2>
     <div *ngFor="let s of previousEntryPendingList">
         <span style="color: red">
-            Pending Despatch in previous month:  {{s.ddenter.erpdespNo}}
+            Pending Despatch in previous month: {{s.ddenter.erpdespNo}}
         </span>
     </div>
     <ng-container *ngFor="let lstid of despatchLastids">
@@ -39,7 +39,7 @@
 
             <div class="form-group col-md-3" [formGroup]="despatchform">
 
-                <label>Note : Select DD's and Enter Despatch No here </label>&nbsp;
+                <label>Note :Select DD's and Enter Despatch No (eg: 125/8 ; 125 is Despatch No ,8 is month)</label>&nbsp;
                 <input type="text" [(ngModel)]="newddEntry.despatchNo" class="form-control" formControlName="despatchNo">
                 <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
                     <div *ngIf="despatchNo.errors.required">
@@ -50,6 +50,8 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="form-group col-md-3" [formGroup]="despatchform">
 
                 <label>Despatch Date</label>&nbsp;
@@ -112,41 +114,41 @@
                     <tbody>
                         <ng-container *ngFor='let ddenter of selectedData  '>
                             <tr>
-                                <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null">
-                                    <td>{{selectedData.indexOf(ddenter) + 1}}</td>
-                                    <td>{{ddenter.ddenter?.ddlastId}}</td>
+                            <tr *ngIf="ddenter.ddenter?.isVerified  == true && ddenter.ddenter.despatchNo == null">
+                                <td>{{selectedData.indexOf(ddenter) + 1}}</td>
+                                <td>{{ddenter.ddenter?.ddlastId}}</td>
 
-                                    <td>{{ddenter.ddenter?.dDate}}</td>
-                                    <td>{{ddenter.ddenter?.appNo}}</td>
+                                <td>{{ddenter.ddenter?.dDate}}</td>
+                                <td>{{ddenter.ddenter?.appNo}}</td>
 
-                                    <td>{{ddenter.center?.CenterName}}</td>
-                                    <td>{{ddenter.ddenter?.courseName}}</td>
+                                <td>{{ddenter.center?.CenterName}}</td>
+                                <td>{{ddenter.ddenter?.courseName}}</td>
 
-                                    <td>{{ddenter.ddenter?.studentName}}</td>
-                                    <td>{{ddenter.ddenter?.ddNumber}}</td>
-                                    <td>{{ddenter.ddenter?.bank}}</td>
+                                <td>{{ddenter.ddenter?.studentName}}</td>
+                                <td>{{ddenter.ddenter?.ddNumber}}</td>
+                                <td>{{ddenter.ddenter?.bank}}</td>
 
-                                    <td>{{ddenter.ddenter?.ddDate}}</td>
+                                <td>{{ddenter.ddenter?.ddDate}}</td>
 
-                                    <td>{{ddenter.ddenter?.Amount}}</td>
+                                <td>{{ddenter.ddenter?.Amount}}</td>
 
-                                    <td>{{ddenter.ddenter?.enteredBy}}</td>
-                                    <td>{{ddenter.ddenter?.feesItem}}</td>
-                                    <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
+                                <td>{{ddenter.ddenter?.enteredBy}}</td>
+                                <td>{{ddenter.ddenter?.feesItem}}</td>
+                                <!-- <td>{{ddenter.ddenter?.ddId}}</td> -->
 
-                                    <td>
-                                        <input type="checkbox" (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter ,selectedData.indexOf(ddenter))"
-                                            name="">
-                                        <!-- <div *ngIf="despatchbox.invalid && (despatchbox.dirty || despatchbox.touched)" class="alert-danger">
+                                <td>
+                                    <input type="checkbox" (change)="onClick($event.target.checked,ddenter.ddenter.ddlastId,ddenter.ddenter ,selectedData.indexOf(ddenter))"
+                                        name="">
+                                    <!-- <div *ngIf="despatchbox.invalid && (despatchbox.dirty || despatchbox.touched)" class="alert-danger">
                                             <div *ngIf="despatchbox.errors.required">
                                              Please Select(Any)
                                             </div> 
                                             
                                         </div> -->
-                                    </td>
+                                </td>
 
 
-                                </tr>
+                            </tr>
                         </ng-container>
                     </tbody>
 
