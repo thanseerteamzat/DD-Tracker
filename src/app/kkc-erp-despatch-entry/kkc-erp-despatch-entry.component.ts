@@ -36,6 +36,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   erpList = new Array<kkcerpDespatch>();
   serialNo : number;
   selectederpDate;
+  isEditMode;
   constructor(private academic: AcadamicService,
     private route: ActivatedRoute,
     private db: AngularFireDatabase,

@@ -211,19 +211,20 @@ export class AcadamicService {
 
 
   // public ExportDbaReport(dbaDetails: dbaShareReleaseNote) {
-  public AddCenterInvoiceList2(ddEntry: InvoiceCenterList2) {
+  public AddCenterInvoiceList2(invoiceEntry: InvoiceCenterList2) {
+    // console.log('centerno data', invoiceEntry);
     const Sub = {
-      "dbaNo": ddEntry.dbaNo,
-      "InvoiceNo": ddEntry.InvoiceNo,
-      "centerInvoiceNo": ddEntry.centerInvoiceNo,
-      "centerName": ddEntry.centerName,
-      "invoiceMonth": ddEntry.invoiceMonth,
-      "dbaAmount": ddEntry.dbaAmount,
-      "shareAmount": ddEntry.shareAmount,
-      "taxableAmount": ddEntry.taxableAmount,
-      "invoiceDate": ddEntry.invoiceDate,
-      "invAmtPending": ddEntry.invAmtPending,
-      "enteredBy": ddEntry.enteredBy,
+      "dbaNo": invoiceEntry.dbaNo,
+      "InvoiceNo": invoiceEntry.InvoiceNo,
+      "centerInvoiceNo": invoiceEntry.centerInvoiceNo,
+      "centerName": invoiceEntry.centerName,
+      "invoiceMonth": invoiceEntry.invoiceMonth,
+      "dbaAmount": invoiceEntry.dbaAmount,
+      "shareAmount": invoiceEntry.shareAmount,
+      "taxableAmount": invoiceEntry.taxableAmount,
+      "invoiceDate": invoiceEntry.invoiceDate,
+      "invAmtPending": invoiceEntry.invAmtPending,
+      "enteredBy": invoiceEntry.enteredBy,
 
 
 

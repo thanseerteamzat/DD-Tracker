@@ -288,6 +288,18 @@ export class KcvtpCenterinvList2Component implements OnInit {
 
   }
 
+  updateCenterLastInvoiceNo() {
+    console.log('center', this.selectedcenter);
+    this.centerList.forEach(data => {
+      if (data.Id == this.selectedcenter) {
+        data.lastInvoiceNo = this.newcenterList2.centerInvoiceNo;
+        this.academic.updateLastInvoiceNo(data);
+      }
+    })
+    alert('Added Successfully');
+    this.newcenterList2.centerInvoiceNo = '';
+  }
+
 
 
   filterMonth(key) {
@@ -315,25 +327,25 @@ export class KcvtpCenterinvList2Component implements OnInit {
   }
   filterCenter(key) {
     this.selectedcenter = key;
-    this.selectedData = null;
-    let KcvtpListlength = this.kcvtpCenterList.length;
-    this.kcvtpCenterList.splice(0, KcvtpListlength);
-    if (this.selectmonth == null) {
-      this.selectedData = this.invoice.filter(s => s.CenterId ==
-        this.selectedcenter && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-      this.groupbyList();
-    }
-    else if (this.selectedcenter == null) {
-      this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
-        this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-      this.groupbyList();
-    }
-    else {
-      this.selectedData = this.invoice.filter(s => s.CenterId ==
-        this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
-        this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
-      this.groupbyList();
-    }
+    // this.selectedData = null;
+    // let KcvtpListlength = this.kcvtpCenterList.length;
+    // this.kcvtpCenterList.splice(0, KcvtpListlength);
+    // if (this.selectmonth == null) {
+    //   this.selectedData = this.invoice.filter(s => s.CenterId ==
+    //     this.selectedcenter && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+    //   this.groupbyList();
+    // }
+    // else if (this.selectedcenter == null) {
+    //   this.selectedData = this.invoice.filter(s => this.getMothFromDate(s.dbaMonth) ==
+    //     this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+    //   this.groupbyList();
+    // }
+    // else {
+    //   this.selectedData = this.invoice.filter(s => s.CenterId ==
+    //     this.selectedcenter && this.getMothFromDate(s.dbaMonth) ==
+    //     this.selectmonth && s.isInvoiceEntered == true && s.feesItem == 'Course Fee')
+    //   this.groupbyList();
+    // }
   }
 
   groupbyList() {

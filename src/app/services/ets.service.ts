@@ -25,11 +25,12 @@ export class EtsService {
   public cookiename: string;
   public cookievalue: string;
   public cookiecenter: string;
-  public cookieuser:string;
+  public cookieuser: string;
 
   public expirydate: Date;
   public convertedWord: string;
   public financialYear: string;
+  public FullFormatFinancialYear: string;
   url = 'http://localhost:2000/'
 
   constructor(private http: HttpClient,
@@ -39,12 +40,15 @@ export class EtsService {
     let previousYear = (new Date()).getFullYear() - 1;
     let nextYear = (new Date()).getFullYear() + 1;
     let finyear = null;
+    let fullfinYear = null;
     if ((new Date()).getMonth() > 4) {
       let Csplit = currentYear.toString().slice(-2);
       let Nsplit = nextYear.toString().slice(-2);
       finyear = Csplit + '-' + Nsplit;
+      fullfinYear = currentYear + '-' + nextYear;
     }
     this.financialYear = finyear
+    this.FullFormatFinancialYear = fullfinYear;
   }
 
   GetAllCenters = (): Observable<any> => {
@@ -65,7 +69,7 @@ export class EtsService {
     return this.http.get(this.config.apiUrlKKC + 'payment.php?from=' + fromDate + '&to=' + toDate + '&skip=' + skipValue + '&limit=' + limitValue + '&CenterCategory=kkc')
 
   }
-  GetStudentsFromKKC = () :Observable<any> => {
+  GetStudentsFromKKC = (): Observable<any> => {
     return this.http.get(this.config.apiUrlKKC + 'payment.php')
 
   }
@@ -78,7 +82,7 @@ export class EtsService {
 
   }
   setCookie(cookiename, cookievalue, setcenter, expirydate, cookieuser) {
-    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate , cookieuser )
+    return this.cookieService.set(cookiename, cookievalue, setcenter, expirydate, cookieuser)
 
   }
 

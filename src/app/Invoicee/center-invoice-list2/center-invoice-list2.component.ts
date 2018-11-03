@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AcadamicService } from 'src/app/services/acadamic.service';
 import { InvoiceCenterList2, InvoiceCenterList2Data } from 'src/app/models/invoice ';
 import { element } from 'protractor';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 @Component({
   selector: 'app-center-invoice-list2',
@@ -17,10 +18,13 @@ export class CenterInvoiceList2Component implements OnInit {
   centers;
   list: InvoiceCenterList2Data;
   centerInvoiceList2 = new Array<InvoiceCenterList2>();
-  selectedData;
+  filtercenterInvoiceList2 = new Array<InvoiceCenterList2>();
+  selectedData: InvoiceCenterList2[];
   selectedMonth;
   selectedCenter;
   centerInvoiceNo;
+  selectmonth;
+  selectcenter;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -68,44 +72,11 @@ export class CenterInvoiceList2Component implements OnInit {
         console.log('Name: ' + err.name);
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
-      }),
+      })
+
+    this.loadDataDefault();
 
 
-
-      that.academic.GetCenterInvoiceList2().subscribe(data => {
-        that.list = data;
-        this.centerInvoiceList2 = new Array<InvoiceCenterList2>();
-        for (let i = 0; i <= data.Data.length; i++) {
-          let invList = new InvoiceCenterList2();
-          if (data.Data[i] != null) {
-            invList.dbaNo = data.Data[i].dbaNo;
-            invList.InvoiceNo = data.Data[i].InvoiceNo;
-            invList.centerName = data.Data[i].centerName;
-            invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
-            invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
-            invList.centerName = data.Data[i].centerName;
-            invList.invoiceMonth = data.Data[i].invoiceMonth;
-            invList.dbaAmount = data.Data[i].dbaAmount;
-            invList.shareAmount = data.Data[i].shareAmount;
-            invList.taxableAmount = data.Data[i].taxableAmount;
-            invList.invoiceDate = data.Data[i].invoiceDate;
-            invList.enteredBy = data.Data[i].enteredBy;
-            this.centerInvoiceList2.push(invList);
-
-
-          }
-
-
-        }
-
-        console.log('DATA***', this.centerInvoiceList2)
-      },
-        err => {
-          console.log('Error: ' + err.error);
-          console.log('Name: ' + err.name);
-          console.log('Message: ' + err.message);
-          console.log('Status: ' + err.status);
-        })
 
 
 
@@ -121,23 +92,95 @@ export class CenterInvoiceList2Component implements OnInit {
     }
   }
 
-  filterMonth(key) {
-    console.log('key', key)
 
+  loadDataDefault() {
+    let that = this;
+    that.academic.GetCenterInvoiceList2().subscribe(data => {
+      that.list = data;
+      this.centerInvoiceList2 = new Array<InvoiceCenterList2>();
+      for (let i = 0; i <= data.Data.length; i++) {
+        let invList = new InvoiceCenterList2();
+        if (data.Data[i] != null) {
+          invList.dbaNo = data.Data[i].dbaNo;
+          invList.InvoiceNo = data.Data[i].InvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.centerInvoiceNo = data.Data[i].centerInvoiceNo
+          invList.nextInvoiceNo = data.Data[i].nextInvoiceNo;
+          invList.centerName = data.Data[i].centerName;
+          invList.invoiceMonth = data.Data[i].invoiceMonth;
+          invList.dbaAmount = data.Data[i].dbaAmount;
+          invList.shareAmount = data.Data[i].shareAmount;
+          invList.taxableAmount = data.Data[i].taxableAmount;
+          invList.invoiceDate = data.Data[i].invoiceDate;
+          invList.enteredBy = data.Data[i].enteredBy;
+          this.centerInvoiceList2.push(invList);
+          this.filtercenterInvoiceList2.push(invList)
+        }
+      }
+      // console.log('DATA***', this.centerInvoiceList2)
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
 
   }
+  listDatabyFiltering() {
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData.forEach(data => {
+      this.centerInvoiceList2.push(data);
+    })
+  }
+  filterMonth(month) {
+    this.selectmonth = month;
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData = null;
+    if (this.selectcenter == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
+    else if (this.selectmonth == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter)
+      this.listDatabyFiltering()
 
+    }
+    else {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter
+        && this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
 
+  }
+  filterCenter(center) {
+    this.selectcenter = center;
+    this.centerInvoiceList2.splice(0, this.centerInvoiceList2.length);
+    this.selectedData = null;
+
+    if (this.selectmonth == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter)
+      this.listDatabyFiltering()
+
+    }
+    else if (this.selectcenter == null) {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
+
+    else {
+      this.selectedData = this.filtercenterInvoiceList2.filter(c => c.centerName == this.selectcenter
+        && this.getMothFromDate(c.invoiceMonth) == this.selectmonth)
+      this.listDatabyFiltering()
+    }
+
+  }
+  
   getMothFromDate(dateData) {
     if (dateData != null) {
       var month = dateData.toString().slice(0, 3)
       return month;
     }
   }
-  filterCenter(key){
 
-  }
-  register(){
-    
-  }
 }

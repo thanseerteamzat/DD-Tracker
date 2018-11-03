@@ -10,6 +10,8 @@ export class ConfigService {
   public pyUrl="http://35.190.162.90:81/";
   public testpyUrl="http://35.190.162.90:89/"
   
+  public pytestUrl="http://35.190.162.90:89/"
+
   
   constructor() { }
 }

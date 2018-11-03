@@ -4,7 +4,7 @@
     <div class="form-group col-md-3">
 
       <label>Filter with Month : </label>&nbsp;
-      <select   [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+      <select disabled  [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
         <option value="">--Choose--</option>
         <ng-container *ngFor="let month of Months">
           <option [ngValue]="month.name">{{month.name}}</option>
@@ -43,7 +43,7 @@
     </div>
     <div class="form-group col-md-3">
       <br>
-      <button type="submit" name="invno"  (click)="register()" class="btn btn-primary">submit</button>
+      <button type="submit" name="invno"  (click)="updateCenterLastInvoiceNo()" class="btn btn-primary">submit</button>
     </div>
     <!-- <div class="form-group col-md-3">
       <label>Count:</label>
