@@ -17,9 +17,7 @@
         <ng-container *ngFor="let s of centerList">
           <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
         </ng-container>
-
       </select>
-
     </div>
 
     <div class="form-group col-md-3">
@@ -42,24 +40,24 @@
       <label>Note : Select DD's and Enter Despatch No here </label>&nbsp;
       <input type="text" [(ngModel)]="newDespatchEntry.despatchNo" class="form-control" formControlName="despatchNo">
       <div *ngIf="despatchNo.invalid && (despatchNo.dirty || despatchNo.touched)" class="alert-danger">
-          <div *ngIf="despatchNo.errors.required">
-            Despatch No is Required
-          </div>
-          <div *ngIf="despatchNo.errors.pattern">
-            Please enter valid input(number)
-          </div>
+        <div *ngIf="despatchNo.errors.required">
+          Despatch No is Required
         </div>
+        <div *ngIf="despatchNo.errors.pattern">
+          Please enter valid input(number)
+        </div>
+      </div>
     </div>
     <div class="form-group col-md-3" [formGroup]="despatchform">
 
       <label>Despatch Date</label>&nbsp;
       <input type="date" [(ngModel)]="newDespatchEntry.despatchDate" class="form-control" formControlName="despatchdate">
       <div *ngIf="despatchdate.invalid && (despatchdate.dirty || despatchdate.touched)" class="alert-danger">
-          <div *ngIf="despatchdate.errors.required">
-            Please Select Date
-          </div>
-
+        <div *ngIf="despatchdate.errors.required">
+          Please Select Date
         </div>
+
+      </div>
     </div>
 
 
