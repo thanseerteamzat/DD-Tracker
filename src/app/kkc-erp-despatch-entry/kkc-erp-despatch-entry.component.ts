@@ -23,20 +23,21 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   tempcenterList;
   erpEntries : erpData;
   selectedcenter;
+  newerpentry:kkcerpDespatch = new kkcerpDespatch();
   // kkcerpdespatch: kkcerpDespatch;
   kkcerpdespatch: kkcerpDespatch = new kkcerpDespatch();
-
-  remarks;
+  id;
+  // remarks;
   erpdespNo;
-  erpAmount;
-  noofDd;
+  // erpAmount;
+  // noofDd;
   erpDate = new Date;
   Date = new Date;
   selectedDate;
   erpList = new Array<kkcerpDespatch>();
   serialNo : number;
   selectederpDate;
-  isEditMode;
+  isEditMode : boolean;
   constructor(private academic: AcadamicService,
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
@@ -47,12 +48,15 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     private fb: FormBuilder,
     private cookieservice: CookieService
   ) {
-
+    this.id = this.route.snapshot.paramMap.get('erpId');
     this.getAllkkccenters();
     this.ddcreateForm();
     this.getErpEntry();    
-    
-  }
+    if(this.id != undefined){     
+       this.isEditMode  = true;
+       console.log('isEditmode',this.isEditMode)
+     }    
+    }
 
   ngOnInit() {
   }
@@ -66,7 +70,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       console.log(resdata);
       this.centerList = new Array<Center>();
       for (let i = 0; i <= resdata.Data.length; i++) {
-        if (resdata.Data != null) {
+        if (resdata.Data[i] != null) {
           let c = new Center();
           c.Id = resdata.Data[i].Id;
           c.CenterCode = resdata.Data[i].CenterCode;
@@ -109,10 +113,10 @@ export class KkcErpDespatchEntryComponent implements OnInit {
 
     let uniqueId = "ERP" + Common.newGuid();
     this.kkcerpdespatch.unique = uniqueId;
-    this.kkcerpdespatch.remarks = this.remarks;
-    this.kkcerpdespatch.noofDd = this.noofDd;
+    this.kkcerpdespatch.remarks = this.newerpentry.remarks;
+    this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
     this.kkcerpdespatch.centerName = this.selectedcenter;
-    this.kkcerpdespatch.erpAmount = this.erpAmount;
+    this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
     this.selectedDate = this.Date;
     this.kkcerpdespatch.date = this.formatDate(this.selectedDate);
     this.selectederpDate = this.erpDate;
@@ -134,8 +138,47 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   
   }
 
-  getErpEntry(){
+  update(){
+    console.log('inside update function')
 
+    this.kkcerpdespatch.centerName = this.selectedcenter;
+
+    if(this.newerpentry.date.length <= 10){
+      this.kkcerpdespatch.date = this.newerpentry.date;
+    }
+    else{
+      this.kkcerpdespatch.date = this.formatDate(this.newerpentry.date)
+    }
+
+    if(this.newerpentry.erpdate.length <= 10){
+      this.kkcerpdespatch.erpdate = this.newerpentry.erpdate;
+    }
+    else{
+      this.kkcerpdespatch.erpdate = this.formatDate(this.newerpentry.erpdate)
+    }
+  
+    this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
+    this.kkcerpdespatch.erpdespNo = this.erpdespNo;
+    this.kkcerpdespatch.ID = this.newerpentry.ID;
+    this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
+    this.kkcerpdespatch.remarks = this.newerpentry.remarks;
+    this.kkcerpdespatch.unique = this.newerpentry.unique;
+    console.log(this.kkcerpdespatch);
+    if (confirm('Are you sure to update details')) {
+
+    this.academic.updateKkcErpEntry(this.kkcerpdespatch);
+
+    alert('updated successfully')
+    }
+    this.getErpEntry();
+    console.log('hai')
+this.resetForm();
+    this.router.navigate[('../dd-entry')];
+    
+  }
+
+  getErpEntry(){
+    
     let that = this;
     that.academic.GeterpEntry().subscribe(data => {
       that.erpEntries = data;
@@ -156,12 +199,12 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         erpEntry.noofDd = data.Data[i].noofDd;
         erpEntry.remarks = data.Data[i].remarks;
         erpEntry.unique = data.Data[i].unique;
+        erpEntry.isdespatchEntered = data.Data[i].isdespatchEntered
         this.erpList.push(erpEntry);
         }
       }
       console.log('erpEntry',this.erpList)
-
-
+      this.geteditEntry();    
       
       },
 
@@ -230,10 +273,31 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     )
   }
 
-  entrySelection(key , erpentry : kkcerpDespatch){
+  entrySelection(erpId , erpentry : kkcerpDespatch){
+    console.log(erpentry);
+    this.router.navigate(['/kkc-erp-desp-details/' + erpId])
+    
+  }
 
-    console.log(key);
-    console.log(erpentry)
+  geteditEntry(){
+    if( this.id != undefined){
+      for(let i=0 ; i <= this.erpList.length ; i++){
+        let erpObj = this.erpList[i];
+        if(erpObj != null && erpObj.unique == this.id){
+           this.newerpentry.unique = erpObj.unique;
+           this.newerpentry.centerName = erpObj.centerName;
+           this.newerpentry.date = erpObj.date;
+           this.newerpentry.erpAmount = erpObj.erpAmount;
+           this.newerpentry.erpdate = erpObj.erpdate;
+           this.newerpentry.erpdespNo = erpObj.erpdespNo;
+           this.newerpentry.ID = erpObj.ID;
+           this.newerpentry.noofDd = erpObj.noofDd;
+           this.newerpentry.remarks = erpObj.remarks; 
+        }
+      }
+      console.log('*****************************',this.newerpentry)
+    }
+
   }
 
 }
