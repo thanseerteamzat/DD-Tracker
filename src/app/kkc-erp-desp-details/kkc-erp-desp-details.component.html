@@ -1,0 +1,84 @@
+<div style="margin-left: 50px;" class="wrapper ">
+  <div id="content" class="createcontent">
+    <div class="form-row">
+      <h1>KKC ERP Despatch Entry Details</h1>
+
+    </div>
+
+    <div *ngIf='!isEditable' style="float:left;margin-left: 65%;margin-top: 4%">
+
+      <button type="button" class="btn btn-primary">
+        <a [routerLink]="['/kkc-erp-despatch-entry', newerpentry.unique]">Edit Entry</a>
+
+
+      </button>&nbsp;&nbsp; &nbsp; &nbsp;
+      <button type="button" class="btn btn-primary">
+        <a [routerLink]="['/kkc-erp-despatch-entry']">Cancel</a>
+      </button>
+
+      &nbsp;&nbsp;
+
+    </div>
+
+
+    <br>
+    <br>
+    <form name="form">
+      <div class="row">
+
+        <div class="form-group col-md-3">
+          <br>
+          <label for="ddid">ERP Despatch Sl No: &nbsp;</label>
+          <span *ngIf='!isEditMode' style="color: red">{{newerpentry.ID}}</span>
+          <!-- <span *ngIf='isEditMode' style="color: red">{{newddEntry.ddlastId}}</span> -->
+
+          <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="date">Date</label>
+          <input readonly type="text" name="todaydate" [(ngModel)]="newerpentry.date" class="form-control" #dp="bsDatepicker" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="">ERP Despatch No</label>
+          <input readonly #text type="text" class="form-control" [(ngModel)]="newerpentry.erpdespNo" name="erpdespNo">
+          <button type="button" class="form-control">Get Center</button>
+
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label for="erpdate">ERP Date</label>
+          <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+
+        </div>
+        <div class="form-group col-md-3">
+          <label for="center">Center Name</label>
+          <input readonly type="text" [(ngModel)]="newerpentry.centerName" class="form-control" name="selectedcenter">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="noofdd">No.of DD</label>
+          <input readonly type="text" [(ngModel)]="newerpentry.noofDd" name="selectednodd" class="form-control">
+
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label for="amount">DD Amount</label>
+          <input readonly type="text" [(ngModel)]="newerpentry.erpAmount" name="selectedamount" class="form-control">
+
+
+        </div>
+
+
+
+      </div>
+    </form>
+
+
+  </div>

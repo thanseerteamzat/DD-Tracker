@@ -90,6 +90,8 @@ import { SortbyDatePipe } from './sortby-date.pipe';
 import { KkcDespatchnoEntryComponent } from './KKC/kkc-despatchno-entry/kkc-despatchno-entry.component';
 import { KkcErpDespatchEntryComponent } from './kkc-erp-despatch-entry/kkc-erp-despatch-entry.component';
 import { KkcDespatchStudListComponent } from './KKC/kkc-despatch-stud-list/kkc-despatch-stud-list.component';
+import { KkcErpDespDetailsComponent } from './kkc-erp-desp-details/kkc-erp-desp-details.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -173,8 +175,14 @@ const appRoutes: Routes = [
   { path: 'kcvtp-ceterList-2', component: CenterInvoiceList2Component },
   { path: 'kkc-despatchEntry', component: KkcDespatchnoEntryComponent },
   { path: 'kkc-erp-despatch-entry', component: KkcErpDespatchEntryComponent },
-  { path: 'kkc-desp-studlist', component: KkcDespatchStudListComponent }
+  { path: 'kkc-desp-studlist', component: KkcDespatchStudListComponent },
 
+  { path: 'kkc-erp-despatch-entry/:erpId', component: KkcErpDespatchEntryComponent },
+  
+  { path: 'kkc-erp-desp-details', component:KkcErpDespDetailsComponent},
+  { path: 'kkc-erp-desp-details/:erpId', component:KkcErpDespDetailsComponent},
+  { path : 'refresh',component:RefreshComponent}
+  
 ];
 
 
@@ -248,7 +256,9 @@ const appRoutes: Routes = [
     SortbyDatePipe,
     KkcDespatchnoEntryComponent,
     KkcErpDespatchEntryComponent,
-    KkcDespatchStudListComponent
+    KkcDespatchStudListComponent,
+    KkcErpDespDetailsComponent,
+    RefreshComponent
 
   ],
   imports: [

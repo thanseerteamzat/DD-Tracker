@@ -74,7 +74,7 @@ export class AcadamicService {
     const body = { "Table": "kkcddEntry" };
 
 
-    return this.http.post<KKCentryData>(this.config.pytestUrl + 'GetRows', body)
+    return this.http.post<KKCentryData>(this.config.pyUrl + 'GetRows', body)
 
   }
   public AddKkcDdEntry(ddEntry: kkcddEntry) {
@@ -117,7 +117,7 @@ export class AcadamicService {
     const body = { "Table": "kkcErpEntry" };
 
 
-    return this.http.post<erpData>(this.config.testpyUrl + 'GetRows', body)
+    return this.http.post<erpData>(this.config.pyUrl + 'GetRows', body)
 
   }
 
@@ -142,7 +142,7 @@ export class AcadamicService {
       "Data": Sub,
     };
 
-    this.http.post(this.config.testpyUrl + 'AddRow', body)
+    this.http.post(this.config.pyUrl + 'AddRow', body)
       .subscribe(data => { },
         err => {
           console.log('Error: ' + err.error);
@@ -207,6 +207,41 @@ export class AcadamicService {
         });
   }
 
+
+  public updateKkcErpEntry(erpEntry: kkcerpDespatch) {
+    console.log('here', erpEntry);
+    const Sub = {
+
+      "centerName": erpEntry.centerName,
+      "date": erpEntry.date,
+      "erpAmount": erpEntry.erpAmount,
+      "erpdate": erpEntry.erpdate,
+      "erpdespNo": erpEntry.erpdespNo,
+      // "ID": erpEntry.ID,
+      "noofDd": erpEntry.noofDd,
+      "remarks": erpEntry.remarks,
+      // "unique": erpEntry.unique,
+     
+    };
+    const body = {
+      "Table": "kkcErpEntry",
+      "Where": { "unique": erpEntry.unique },
+      "Data": Sub,
+      "UniqueId": "unique"
+      
+    };
+
+    this.http.post(this.config.pyUrl + 'UpdateRows', body)
+      .subscribe(data => {
+        console.log('data', data)
+      },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
 
 
 
