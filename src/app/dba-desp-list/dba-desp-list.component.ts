@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { despatchtemp, Despatch, despatchList } from '../models/despatch';
 import { dbaLastid } from '../models/dbalastId';
-import { dbaEntry } from '../models/dbaEntry';
+import { dbaEntry, dbaList, dbaShareReleaseNote } from '../models/dbaEntry';
 import { Invoice } from '../models/invoice ';
 import { ddEntry, ddList } from '../models/ddEntry';
 import { Center } from '../models/Center';
@@ -9,6 +9,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { EtsService } from '../services/ets.service';
 import { Router } from '@angular/router';
 import { Common } from '../models/common';
+import { AcadamicService } from '../services/acadamic.service';
 
 @Component({
     selector: 'app-dba-desp-list',
@@ -93,10 +94,12 @@ export class DbaDespListComponent implements OnInit {
     dbanoExits;
     tempdbalist;
     dbaservice;
+    dbaMailContent = new Array<dbaShareReleaseNote>();
     constructor(
         private db: AngularFireDatabase,
         private ets: EtsService,
         private router: Router,
+        private academic: AcadamicService
 
     ) {
 
@@ -239,13 +242,13 @@ export class DbaDespListComponent implements OnInit {
     ngOnInit() {
 
 
-        if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !==-1 ) || (this.ets.cookievalue == "All"))  {
+        if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y1') !== -1) || (this.ets.cookievalue == "All")) {
             console.log('inside if condition *********************')
             // this.router.navigate(['/dd-entry'])
-          }
-          else {
+        }
+        else {
             this.router.navigate(['/error']);
-          }
+        }
 
         // if (this.ets.cookievalue == "3") {
         //     // this.router.navigate(['/despatch-no-entry'])
@@ -356,9 +359,24 @@ export class DbaDespListComponent implements OnInit {
             return month;
         }
     }
-    onSend(data) {
-        console.log('data***', data);
-        this.ets.sendData(data);
+    onSend(data: despatchList[]) {
+        data.forEach(details => {
+            let newdata = new dbaShareReleaseNote();
+            newdata.despSerialNo = details.despatchList.despId;
+            newdata.centerName = details.center.CenterName;
+            newdata.batchNo = details.despatchList.batchNo;
+            newdata.despNo = details.despatchList.despatchNo;
+            newdata.depDate = details.despatchList.despatchDate;
+            newdata.feesItem = details.despatchList.feeItem;
+            newdata.total = parseFloat(details.despatchList.totalAmount.toString());
+            newdata.tax = parseFloat(details.despatchList.taxAmount.toString());
+            newdata.fwt = parseFloat(details.despatchList.FWT.toString());
+            newdata.amt = parseFloat(details.despatchList.Amount.toString());
+            newdata.rate = details.despatchList.Rate.toString();
+            newdata.dbaNo = details.despatchList.dbaNo;
+            this.dbaMailContent.push(newdata)
+        })
+        this.academic.sendDBAdespList(this.dbaMailContent);
     }
 
 

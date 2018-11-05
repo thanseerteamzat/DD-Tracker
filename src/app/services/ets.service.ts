@@ -88,21 +88,21 @@ export class EtsService {
 
 
 
-  public sendData(dbaData: dbaList): Observable<dbaList> {
-    // dbaData.centerCode = '2'
-    // mailData.To = 'utek@utek.in';
-    // mailData.CC = 'md@utek.in';
-    // mailData.CC1 = 'nk@utek.in';
-    // mailData.CC2 = 'utekatl@gmail.com';
-    // mailData.CC3 = '';
-    // mailData.CC4 = '';
-    console.log(dbaData);
-    return this.http.post<dbaList>(this.url, dbaData, this.httpOptions)
-      .pipe(
+  // public sendData(dbaData: dbaList): Observable<dbaList> {
+  //   console.log('data***', dbaData);
+  //   // dbaData.centerCode = '2'
+  //   // mailData.To = 'utek@utek.in';
+  //   // mailData.CC = 'md@utek.in';
+  //   // mailData.CC1 = 'nk@utek.in';
+  //   // mailData.CC2 = 'utekatl@gmail.com';
+  //   // mailData.CC3 = '';
+  //   // mailData.CC4 = '';
+  //   return this.http.post<dbaList>(this.url, dbaData, this.httpOptions)
+  //     .pipe(
 
-        catchError(this.handleError)
-      )
-  }
+  //       catchError(this.handleError)
+  //     )
+  // }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

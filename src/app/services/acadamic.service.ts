@@ -121,7 +121,7 @@ export class AcadamicService {
 
   }
 
- 
+
 
 
 
@@ -151,22 +151,6 @@ export class AcadamicService {
           console.log('Status: ' + err.status);
         });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
     console.log('here', ddEntry);
@@ -221,14 +205,14 @@ export class AcadamicService {
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
       // "unique": erpEntry.unique,
-     
+
     };
     const body = {
       "Table": "kkcErpEntry",
       "Where": { "unique": erpEntry.unique },
       "Data": Sub,
       "UniqueId": "unique"
-      
+
     };
 
     this.http.post(this.config.pyUrl + 'UpdateRows', body)
@@ -332,6 +316,23 @@ export class AcadamicService {
           console.log('Message: ' + err.message);
           console.log('Status: ' + err.status);
         });
+  }
+
+  public sendDBAdespList(dbaData: Array<dbaShareReleaseNote>) {
+    console.log('data', dbaData);
+
+    const body = {
+      "Data": dbaData
+    };
+
+    // this.http.post(this.config.pyUrl + 'ExportDBAReport', body)
+    //   .subscribe(data => { console.log('data****', data) },
+    //     err => {
+    //       console.log('Error: ' + err.error);
+    //       console.log('Name: ' + err.name);
+    //       console.log('Message: ' + err.message);
+    //       console.log('Status: ' + err.status);
+    //     });
   }
 
 
