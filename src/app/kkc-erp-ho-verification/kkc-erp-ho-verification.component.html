@@ -1,0 +1,128 @@
+<div style="margin-left: 50px;" class="wrapper ">
+  <div id="content" class="createcontent">
+      <div class="form-row">
+          <h1 *ngIf='!isEditMode'>Ho Verification for Sro ERP Despatch Entry</h1> 
+          <!-- <h1 *ngIf='isEditMode'> Edit KKC ERP Despatch Entry</h1> -->
+          <br>
+  </div>
+
+  <div  style="color: red" class="form-group col-md-3">
+    <label style="color: black" for="center">Centre Name</label>
+    <!-- <label for="centercode">Code :</label> -->
+         <select (change)="filterwithCenter(selectedcenter)" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let s of centerList">
+            <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+        </ng-container>
+
+    </select>
+
+  
+</div>
+<!-- <div class="form-group col-md-3">
+  <label>Month</label>
+  <select #t  (change)="filterwithMonth(selectedmonth)" [(ngModel)]="selectedmonth" class="form-control" name="selectedcenter">
+    <option value="">--Choose--</option>
+    <ng-container *ngFor="let m of months">
+        <option [ngValue]="m.id">{{m.name}}</option>
+    </ng-container>
+
+</select>  
+</div> -->
+
+
+</div>
+
+
+
+<table class="table table-hover table-responsive table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ERP Sl.No</th>
+      <th>Date</th>
+      <th>ERP Despatch No</th>
+      <th>ERP Date</th>
+      <th>Center Name</th>
+      <th>No.od DD</th>
+      <th>DD Amount</th>
+      <th>Remarks</th>
+      <th>Entered Date</th>
+      <th>Entered Time</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor='let ddentry of selectedData'>
+      <tr  *ngIf="ddentry.ishoVerified != true" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
+        <td>{{ddentry.ID}}</td>
+        <td>{{ddentry.date}}</td>
+        <td>{{ddentry.erpdespNo}}</td>
+        <td>{{ddentry.erpdate}}</td>
+
+        <td>{{ddentry.centerName}}</td>
+        <td>{{ddentry.noofDd}}</td>
+        <td> {{ddentry.erpAmount}}</td>
+        <td>{{ddentry.remarks}}</td>
+        <td>{{ddentry.enteredDate}}</td>
+        <td>{{ddentry.enteredTime}}</td>
+
+        <td>
+          <button  type="button" (click)=verify(ddentry.unique,ddentry) class="btn btn-primary">
+            Verify
+          </button>
+        </td>
+        <td *ngIf="ddentry.isdespatchEntered === true">
+          Verified
+        </td>
+
+      </tr>
+    </ng-container>
+  </tbody>
+
+</table>
+
+<h1 *ngIf='!isEditMode'>Ho Verified ERP Despatch Entries</h1> 
+<table class="table table-hover table-responsive table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ERP Sl.No</th>
+      <th>Date</th>
+      <th>ERP Despatch No</th>
+      <th>ERP Date</th>
+      <th>Center Name</th>
+      <th>No.od DD</th>
+      <th>DD Amount</th>
+      <th>Remarks</th>
+      <th>Entered Date</th>
+      <th>Entered Time</th>
+      <th>Status</th>
+      <th>Verified By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor='let ddentry of erpList '>
+      <tr  *ngIf="ddentry.ishoVerified == true" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
+        <td>{{ddentry.ID}}</td>
+        <td>{{ddentry.date}}</td>
+        <td>{{ddentry.erpdespNo}}</td>
+        <td>{{ddentry.erpdate}}</td>
+
+        <td>{{ddentry.centerName}}</td>
+        <td>{{ddentry.noofDd}}</td>
+        <td> {{ddentry.erpAmount}}</td>
+        <td>{{ddentry.remarks}}</td>
+        <td>{{ddentry.enteredDate}}</td>
+        <td>{{ddentry.enteredTime}}</td>
+
+       
+        <td>
+         Ho Verified
+        </td>
+        <td>{{ddentry.hoVerifiedBy}}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+
+</table>
+
+</div>  

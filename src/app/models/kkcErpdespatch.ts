@@ -16,6 +16,10 @@ export class kkcerpDespatch {
     isEditable: Boolean;
     isentered: Boolean;
     isdespatchEntered: boolean;
+    enteredDate:string;
+    enteredTime: string;
+    ishoVerified:boolean;
+    hoVerifiedBy:string;
 }
 export class kkcerpdespatchList {
     ddenter: kkcerpDespatch = new kkcerpDespatch();
