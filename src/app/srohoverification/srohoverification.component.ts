@@ -24,6 +24,7 @@ export class SrohoverificationComponent implements OnInit {
   centerList = new Array<Center>();
   centers: CenterData; 
   selectedData;
+  isEditMode;
   constructor(    private cookieservice: CookieService,
     private route: ActivatedRoute,
   private db: AngularFireDatabase,

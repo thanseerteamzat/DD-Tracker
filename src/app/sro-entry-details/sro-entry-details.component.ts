@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 import { Common } from '../models/common';
 import { AcadamicService } from '../services/acadamic.service';
 import { Course } from '../models/Course';
+import { registerdateList, registerDate } from '../models/registerDate';
 
 @Component({
   selector: 'app-sro-entry-details',
@@ -16,8 +17,12 @@ import { Course } from '../models/Course';
 })
 export class SroEntryDetailsComponent implements OnInit {
   sroentries: sroEntry[] = [];
+  dateLists: registerdateList[] = [];
+  // dateLists: registerDate[] = [];
+  sroLists: sroEntryList[] = [];
+  
   newsroentry: sroEntry = new sroEntry();
-  isformOpen :boolean;
+  isformOpen: boolean;
   minDate;
   maxDate;
   courseList = new Array<Course>();
@@ -29,7 +34,7 @@ export class SroEntryDetailsComponent implements OnInit {
     { id: '1', name: 'Yes' },
     { id: '2', name: 'No' }
   ];
-  
+
   constructor(
     private db: AngularFireDatabase,
     private router: Router,
@@ -38,7 +43,7 @@ export class SroEntryDetailsComponent implements OnInit {
     private ets: EtsService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private academic:AcadamicService,
+    private academic: AcadamicService,
   ) {
 
     let id = this.route.snapshot.paramMap.get('sroId');
@@ -75,11 +80,11 @@ export class SroEntryDetailsComponent implements OnInit {
         if (obj.sroId != undefined && (obj.sroId == id)) {
           obj.sroId = obj.sroId.replace("/", "");
           this.newsroentry = obj;
-          console.log(this.newsroentry,'sroEntry*************')
-          console.log('***********************',this.newsroentry.sroId);
-          if(this.newsroentry.isddCollected == 'Yes'){
+          console.log(this.newsroentry, 'sroEntry*************')
+          console.log('***********************', this.newsroentry.sroId);
+          if (this.newsroentry.isddCollected == 'Yes') {
             this.isformOpen = true;
-            console.log('formopen',this.isformOpen)
+            console.log('formopen', this.isformOpen)
           }
           // let center = this.centerList.filter(s => s.Id == (obj.centerId));
           // if (center.length > 0) {
@@ -89,8 +94,78 @@ export class SroEntryDetailsComponent implements OnInit {
       })
     })
 
+
+  
+
+    let itemReff = db.object('dateforsro');
+    itemReff.snapshotChanges().subscribe(action => {
+      this.dateLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new registerdateList();
+        let qobj: registerDate = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.Id != undefined) {
+          qobj.Id = qobj.Id.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+        this.dateLists.push(ddListItem);
+        
+      });
+    });
+
+   console.log(this.dateLists,'date Lists**************************')
+    
+
+
+
+
+
+
+   let itemReferance = db.object('sroEntry');
+   itemReferance.snapshotChanges().subscribe(action => {
+     this.sroLists = [];
+     var quatationsList = action.payload.val();
+     let quotationobj = Common.snapshotToArray(action.payload);
+     quotationobj.forEach(element => {
+       let ddListItem = new sroEntryList();
+       let qobj: sroEntry = JSON.parse(element);
+       // console.log("****" + element);
+       if (qobj.sroId != undefined) {
+         qobj.sroId = qobj.sroId.replace("/", "");
+       }
+
+       ddListItem.ddenter = qobj;
+       this.sroLists.push(ddListItem);
+       
+     });
+   });
+
+  console.log(this.dateLists,'date Lists**************************')
    
-   }
+
+
+
+
+
+
+
+  // let ddentryttempRef = db.object('dateforsro');
+  // ddentryttempRef.snapshotChanges().subscribe(action => {
+  //   var quatationsList = action.payload.val();
+  //   let obj = Common.snapshotToArray(action.payload);
+  //   this.dateLists = [];
+  //   obj.forEach(element => {
+  //     let obj: registerDate = JSON.parse(element);
+  //     // this.newddentryTemp = obj;
+  //     this.dateLists.push(obj as registerDate);
+  //   });
+  // });
+  //  console.log(this.dateLists,'date Lists**************************')
+
+  }
 
   ngOnInit() {
   }
@@ -104,28 +179,44 @@ export class SroEntryDetailsComponent implements OnInit {
       this.isformOpen = false;
     }
   }
-  filterCenter()
-  {}
-  beforeregister(key, ddentry :sroEntry){
-    var updates = {};
+  beforeregister(key, ddentry: sroEntry) {
+    // var updates = {};
 
-    console.log('entry',ddentry)
-    console.log('key',key)
+    // console.log('entry', ddentry)
+    // console.log('key', key)
 
-    if (confirm('Are you sure to update details')) {
-      updates['/sroEntry/' + this.newsroentry.sroId] = JSON.stringify(this.newsroentry);
-      try {
-        let up = this.db.database.ref().update(updates);
-        alert('updated succesfully')
+    // if (confirm('Are you sure to update details')) {
+    //   updates['/sroEntry/' + this.newsroentry.sroId] = JSON.stringify(this.newsroentry);
+    //   try {
+    //     let up = this.db.database.ref().update(updates);
+    //     alert('updated succesfully')
+    //   }
+    //   catch (ex) {
+    //     alert("Error in Updating details");
+    //   }
+    // }
+    console.log(this.dateLists);
+    var noOfDd =0;
+    var totalAmount = 0;
+        
+
+    console.log('******************srOListsss',this.sroLists)
+    for( let i=0 ; i<= this.dateLists.length ; i++){
+      let tempList = this.dateLists[i];
+      if( tempList!= null &&  tempList.ddenter.date == ddentry.date && tempList.ddenter.centerName == ddentry.centerName ){
+        console.log(tempList);
       }
-      catch (ex) {
-        alert("Error in Updating details");
-      }
-    
-
-
-    
-
+    }
+    for(let i=0; i<= this.sroLists.length; i++){
+      let tempsroList = this.sroLists[i];
+      if( tempsroList != null && tempsroList.ddenter.date == ddentry.date && tempsroList.ddenter.centerName == ddentry.centerName){
+       if(tempsroList.ddenter.isddCollected == 'Yes'){
+         noOfDd = noOfDd + 1;
+         totalAmount =totalAmount + parseFloat( tempsroList.ddenter.ddAmount.toString());
+       }
+    }
   }
-}
+console.log(noOfDd,'noofDD');
+console.log(totalAmount,'totalAmount')
+  }
 }

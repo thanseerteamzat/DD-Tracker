@@ -20,13 +20,21 @@ import { erpDespatch } from '../models/erpdespatch';
 export class KkcErpDespatchEntryComponent implements OnInit {
   centerList: Center[] = [];
   centers: CenterData;
+  enteredDate = new Date;
+  enteredTime = new Date;
+  selectedenteredDate;
+  selectedenteredTime;
+  
   tempcenterList;
   erpEntries : erpData;
   selectedcenter;
   newerpentry:kkcerpDespatch = new kkcerpDespatch();
   // kkcerpdespatch: kkcerpDespatch;
   kkcerpdespatch: kkcerpDespatch = new kkcerpDespatch();
+  enteredBy;
+  userType;
   id;
+  isSroLogin:boolean;
   // remarks;
   erpdespNo;
   // erpAmount;
@@ -49,6 +57,8 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     private cookieservice: CookieService
   ) {
     this.id = this.route.snapshot.paramMap.get('erpId');
+    this.selectedenteredDate = this.formatDate(this.enteredDate);
+    this.selectedenteredTime = this.formatTime(this.enteredTime)
     this.getAllkkccenters();
     this.ddcreateForm();
     this.getErpEntry();    
@@ -59,10 +69,43 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.enteredBy = this.ets.cookiename;
+    this.selectedcenter = this.ets.cookiecenter;
+
+    console.log('*******************',this.selectedcenter)
+    console.log('entered by', this.enteredBy);
+    this.userType = this.ets.cookieuser;
+    console.log(this.userType);
+    if ((this.userType == "SRO" || this.userType == "KKC")) {
+      console.log('it is sro');
+      this.isSroLogin = true;
+    }
+    else {
+      console.log('It is not sro')
+    }
+    // if(this.userType.indexOf('Admin') !== -1 && this.ets.cookieuser != null){
+    //   console.log('it is ho');      
+     //   this.isHoLogin = true;
+    // }
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x6') !== -1) || (this.ets.cookievalue == "All")) {
+      console.log('inside if condition *********************')
+    }
+    else {
+      // this.router.navigate(['/error']);
+    }
   }
 
 
 
+  formatTime(time) {
+    var d = new Date(time),
+      hours = '' + (d.getHours()),
+      minutes = '' + d.getMinutes(),
+      seconds = d.getSeconds();
+    if (hours.length < 2) hours = '0' + hours;
+    if (minutes.length < 2) minutes = '0' + minutes;
+    return [hours, minutes].join('-');
+  }
 
   getAllkkccenters() {
     this.academic.GetAllCenters().subscribe(resdata => {
@@ -122,6 +165,8 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.selectederpDate = this.erpDate;
     this.kkcerpdespatch.erpdate = this.formatDate(this.selectederpDate);
     this.kkcerpdespatch.erpdespNo = this.erpdespNo;
+    this.kkcerpdespatch.enteredDate = this.selectedenteredDate;
+    this.kkcerpdespatch.enteredTime =this.selectedenteredTime;
     console.log(this.erpdespNo)
     console.log(this.kkcerpdespatch);
     try{
@@ -199,7 +244,10 @@ this.resetForm();
         erpEntry.noofDd = data.Data[i].noofDd;
         erpEntry.remarks = data.Data[i].remarks;
         erpEntry.unique = data.Data[i].unique;
-        erpEntry.isdespatchEntered = data.Data[i].isdespatchEntered
+        erpEntry.isdespatchEntered = data.Data[i].isdespatchEntered;
+        erpEntry.enteredDate = data.Data[i].enteredDate;
+        erpEntry.enteredTime=data.Data[i].enteredTime;
+        erpEntry.ishoVerified = data.Data[i].ishoVerified;
         this.erpList.push(erpEntry);
         }
       }
@@ -234,7 +282,7 @@ this.resetForm();
 
   ddentryForm = new FormGroup({
 
-    centerNameVal: new FormControl(),
+    // centerNameVal: new FormControl(),
     erpdespnoVal: new FormControl(),
     noodDdVal: new FormControl(),
     ddamountVal: new FormControl(),
@@ -245,8 +293,8 @@ this.resetForm();
   ddcreateForm() {
     this.ddentryForm = this.fb.group(
       {
-        centerNameVal: [null, Validators.required],
-        erpdespnoVal: [null],
+        erpdespnoVal: [null, Validators.required],
+        // erpdespnoVal: [null,Validators.required],
         noodDdVal: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
         ddamountVal: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
         // remarks: [null, Validators.required],
@@ -257,7 +305,7 @@ this.resetForm();
   }
 
 
-  get centerNameVal() { return this.ddentryForm.get('centerNameVal'); }
+  // get centerNameVal() { return this.ddentryForm.get('centerNameVal'); }
   get erpdespnoVal() { return this.ddentryForm.get('erpdespnoVal'); }
   get noodDdVal() { return this.ddentryForm.get('noodDdVal'); }
   get ddamountVal() { return this.ddentryForm.get('ddamountVal'); }
@@ -265,7 +313,7 @@ this.resetForm();
   resetForm() {
     this.ddentryForm.reset(
       {
-        centerNameVal: null,
+        // centerNameVal: null,
         erpdespnoVal: null,
         noodDdVal: null,
         ddamountVal: null,

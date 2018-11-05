@@ -135,6 +135,8 @@ export class AcadamicService {
       "erpdespNo": erpEntry.erpdespNo,
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
+      "enteredDate":erpEntry.enteredDate,
+      "enteredTime":erpEntry.enteredTime
 
     };
     const body = {
@@ -186,6 +188,7 @@ export class AcadamicService {
       "enteredBy": ddEntry.enteredBy,
       "isVerified": ddEntry.isVerified,
       "isddCancelled": ddEntry.isddCancelled
+      
 
     };
     const body = {
@@ -220,6 +223,8 @@ export class AcadamicService {
       // "ID": erpEntry.ID,
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
+      "ishoVerified":erpEntry.ishoVerified,
+      "hoVerifiedBy":erpEntry.hoVerifiedBy,
       // "unique": erpEntry.unique,
      
     };

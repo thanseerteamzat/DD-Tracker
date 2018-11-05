@@ -1,11 +1,10 @@
 <div style="margin-left: 50px;" class="wrapper ">
     <div id="content" class="createcontent">
         <div class="form-row">
-            <h1 *ngIf='!isEditMode'>KKC ERP Despatch Entry</h1>
+            <h1 *ngIf='!isEditMode'>KKC ERP Despatch Entry</h1> 
             <h1 *ngIf='isEditMode'> Edit KKC ERP Despatch Entry</h1>
-
             <br>
-            <br>
+         <div style="color: red"> Date : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time : </div>{{selectedenteredDate}}&nbsp;&nbsp;&nbsp;&nbsp;{{selectedenteredTime}}&nbsp; <div style="color: red">&nbsp;</div>
         </div>
         <form name="form">
             <div class="row">
@@ -31,18 +30,18 @@
                         containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
                 </div>
 
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="">ERP Despatch No</label>
 
 
-                    <input #text type="text" class="form-control" [(ngModel)]="erpdespNo" name="erpdespNo">
-                    <button type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
+                    <input #text type="text" class="form-control" formControlName="erpdespnoVal"  [(ngModel)]="erpdespNo" name="erpdespNo">
+                    <button *ngIf='!isSroLogin'  type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
 
-                    <!-- <div *ngIf="erpdespnoVal.invalid && (erpdespnoVal.dirty || erpdespnoVal.touched)" class="alert-danger">
+                    <div *ngIf="erpdespnoVal.invalid && (erpdespnoVal.dirty || erpdespnoVal.touched)" class="alert-danger">
                         <div *ngIf="erpdespnoVal.errors.required">
                             ERP desp number is required
                         </div>
-                    </div> -->
+                    </div>
 
 
 
@@ -68,15 +67,15 @@
                 </div>
 
 
-                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                <div class="form-group col-md-3" >
                     <label for="center">Center Name</label>
-                    <input type="text" formControlName="centerNameVal" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
+                    <input readonly type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
 
-                    <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
+                    <!-- <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
                         <div *ngIf="centerNameVal.errors.required">
                             Please use get center
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -148,12 +147,14 @@
                     <th>No.od DD</th>
                     <th>DD Amount</th>
                     <th>Remarks</th>
+      <th>Entered Date</th>
+      <th>Entered Time</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container *ngFor='let ddentry of erpList '>
-                    <tr [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
+                    <tr *ngIf="ddentry.centerName == selectedcenter" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
                         <td>{{ddentry.ID}}</td>
                         <td>{{ddentry.date}}</td>
                         <td>{{ddentry.erpdespNo}}</td>
@@ -163,15 +164,18 @@
                         <td>{{ddentry.noofDd}}</td>
                         <td> {{ddentry.erpAmount}}</td>
                         <td>{{ddentry.remarks}}</td>
-                        <td *ngIf="ddentry.isdespatchEntered !== true">
-                            <button type="button" (click)=entrySelection(ddentry.unique,ddentry) class="btn btn-primary">
+                     <td>{{ddentry.enteredDate}}</td>
+                     <td>{{ddentry.enteredTime}}</td>
+                     
+                        <td  >
+                            <button *ngIf="ddentry.ishoVerified !== true" type="button" (click)=entrySelection(ddentry.unique,ddentry) class="btn btn-primary">
                                 View Details
                             </button>
                         </td>
-                        <td *ngIf="ddentry.isdespatchEntered === true">
+                        <!-- <td *ngIf="ddentry.isdespatchEntered === true">
                                 Verified
                               </td>
-                      
+                       -->
                     </tr>
                 </ng-container>
             </tbody>

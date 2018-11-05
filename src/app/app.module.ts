@@ -92,6 +92,7 @@ import { KkcErpDespatchEntryComponent } from './kkc-erp-despatch-entry/kkc-erp-d
 import { KkcDespatchStudListComponent } from './KKC/kkc-despatch-stud-list/kkc-despatch-stud-list.component';
 import { KkcErpDespDetailsComponent } from './kkc-erp-desp-details/kkc-erp-desp-details.component';
 import { RefreshComponent } from './refresh/refresh.component';
+import { KkcErpHoVerificationComponent } from './kkc-erp-ho-verification/kkc-erp-ho-verification.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -181,8 +182,8 @@ const appRoutes: Routes = [
   
   { path: 'kkc-erp-desp-details', component:KkcErpDespDetailsComponent},
   { path: 'kkc-erp-desp-details/:erpId', component:KkcErpDespDetailsComponent},
-  { path : 'refresh',component:RefreshComponent}
-  
+  { path : 'refresh',component:RefreshComponent},
+  { path :'kkc-erp-ho-verification',component:KkcErpHoVerificationComponent }  
 ];
 
 
@@ -258,7 +259,8 @@ const appRoutes: Routes = [
     KkcErpDespatchEntryComponent,
     KkcDespatchStudListComponent,
     KkcErpDespDetailsComponent,
-    RefreshComponent
+    RefreshComponent,
+    KkcErpHoVerificationComponent
 
   ],
   imports: [
