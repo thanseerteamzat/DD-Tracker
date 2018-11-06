@@ -33,7 +33,7 @@
       <label>Filter DD's with Centre Name : </label>&nbsp;
       <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
-        <ng-container *ngFor="let s of centers">
+        <ng-container *ngFor="let s of centerList">
           <option [ngValue]="s.Id">{{s.CenterName}}</option>
         </ng-container>
 
@@ -62,7 +62,7 @@
     <div class="form-group col-md-3" [formGroup]="dbaForm">
 
       <label>Note : Select and Enter Dba No here </label>&nbsp;
-      <input type="text" [(ngModel)]="newdespatch.dbaNo" name="dbaNo" class="form-control" formControlName="dbaNum">
+      <input type="text" [(ngModel)]="newdbaEntry.dbaNo" name="dbaNo" class="form-control" formControlName="dbaNum">
       <div *ngIf="dbaNum.invalid && (dbaNum.dirty || dbaNum.touched)" class="alert-danger">
         <div *ngIf="dbaNum.errors.required">
           Dba No is Required
@@ -75,7 +75,7 @@
     <div class="form-group col-md-3" [formGroup]="dbaForm">
 
       <label>Dba Date</label>&nbsp;
-      <input type="date" [(ngModel)]="newdespatch.dbaDate" name="dbaDate" class="form-control" formControlName="dbaDate">
+      <input type="date" [(ngModel)]="newdbaEntry.dbaDate" name="dbaDate" class="form-control" formControlName="dbaDate">
       <div *ngIf="dbaDate.invalid && (dbaDate.dirty || dbaDate.touched)" class="alert-danger">
         <div *ngIf="dbaDate.errors.required">
           Please Select Date
@@ -139,10 +139,10 @@
             <td>{{e.erpdate}}</td>
             <td>{{e.feesItem}}</td>
             <td>{{e.erpAmount}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{e.tax}}</td>
+            <td>{{e.feeWithoutTax}}</td>
+            <td>{{e.shareAmount}}</td>
+            <td>{{e.rate}}</td>
             <td><input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)"></td>
           </tr>
 
