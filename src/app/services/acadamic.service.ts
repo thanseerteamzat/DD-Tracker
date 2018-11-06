@@ -128,7 +128,7 @@ export class AcadamicService {
   public AddKkcErpEntry(erpEntry: kkcerpDespatch) {
     const Sub = {
       "unique": erpEntry.unique,
-      "date": erpEntry.date,
+      // "date": erpEntry.date,
       "erpAmount": erpEntry.erpAmount,
       "erpdate": erpEntry.erpdate,
       "centerName": erpEntry.centerName,
@@ -136,7 +136,8 @@ export class AcadamicService {
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
       "enteredDate": erpEntry.enteredDate,
-      "enteredTime": erpEntry.enteredTime
+      "enteredTime": erpEntry.enteredTime,
+      "feesItem": erpEntry.feesItem
 
     };
     const body = {
@@ -200,7 +201,7 @@ export class AcadamicService {
     const Sub = {
 
       "centerName": erpEntry.centerName,
-      "date": erpEntry.date,
+      // "date": erpEntry.date,
       "erpAmount": erpEntry.erpAmount,
       "erpdate": erpEntry.erpdate,
       "erpdespNo": erpEntry.erpdespNo,
@@ -209,6 +210,7 @@ export class AcadamicService {
       "remarks": erpEntry.remarks,
       "ishoVerified": erpEntry.ishoVerified,
       "hoVerifiedBy": erpEntry.hoVerifiedBy,
+      "feesItem":erpEntry.feesItem,
       // "unique": erpEntry.unique,
 
     };

@@ -1,10 +1,16 @@
 <div style="margin-left: 50px;" class="wrapper ">
     <div id="content" class="createcontent">
         <div class="form-row">
-            <h1 *ngIf='!isEditMode'>KKC ERP Despatch Entry</h1> 
+            <h1 *ngIf='!isEditMode'>KKC ERP Despatch Entry</h1>
             <h1 *ngIf='isEditMode'> Edit KKC ERP Despatch Entry</h1>
             <br>
-         <div style="color: red"> Date : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time : </div>{{selectedenteredDate}}&nbsp;&nbsp;&nbsp;&nbsp;{{selectedenteredTime}}&nbsp; <div style="color: red">&nbsp;</div>
+                <div class="row">
+                        <div class="form-group col-md-3">
+                    <div style="color: red"> Date : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time : </div>{{selectedenteredDate}}&nbsp;&nbsp;&nbsp;&nbsp;{{selectedenteredTime}}&nbsp;
+                    <div style="color: red">&nbsp;</div>
+                </div>
+            <div style="color: red" class="form-group col-md-3">{{message}}
+            </div>
         </div>
         <form name="form">
             <div class="row">
@@ -14,7 +20,7 @@
                     <span *ngIf='!isEditMode' style="color: red">{{serialNo}}</span>
                     <span *ngIf='isEditMode' style="color: red">{{newerpentry.ID}}</span>
                 </div>
-                <div *ngIf='!isEditMode' class="form-group col-md-3">
+                <!-- <div *ngIf='!isEditMode' class="form-group col-md-3">
 
                     <label for="date"> Date</label>
 
@@ -28,14 +34,14 @@
 
                     <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.date" class="form-control" #dp="bsDatepicker" bsDatepicker
                         containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
-                </div>
+                </div> -->
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="">ERP Despatch No</label>
+                    <label for="">ERP Despatch No (DD Despatch Statement No)</label>
 
 
-                    <input #text type="text" class="form-control" formControlName="erpdespnoVal"  [(ngModel)]="erpdespNo" name="erpdespNo">
-                    <button *ngIf='!isSroLogin'  type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
+                    <input #text type="text" class="form-control" formControlName="erpdespnoVal" [(ngModel)]="erpdespNo" name="erpdespNo">
+                    <button *ngIf='!isSroLogin' type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
 
                     <div *ngIf="erpdespnoVal.invalid && (erpdespnoVal.dirty || erpdespnoVal.touched)" class="alert-danger">
                         <div *ngIf="erpdespnoVal.errors.required">
@@ -46,28 +52,28 @@
 
 
                 </div>
+                <div *ngIf='!isEditMode' class="form-group col-md-3">
 
+                        <label for="date">ERP Date(Statement Date)</label>
+    
+                        <input readonly type="text" name="todaydatee" [(ngModel)]="erpDate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
+                    </div>
+    
+                    <div *ngIf='isEditMode' class="form-group col-md-3">
+    
+                        <label for="date">ERP Date</label>
+    
+                        <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
+                    </div>
+    
 
             </div>
             <div class="row">
-                <div *ngIf='!isEditMode' class="form-group col-md-3">
+    
 
-                    <label for="date">ERP Date</label>
-
-                    <input readonly type="text" name="todaydatee" [(ngModel)]="erpDate" class="form-control" #dp="bsDatepicker" bsDatepicker
-                        containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
-                </div>
-
-                <div *ngIf='isEditMode' class="form-group col-md-3">
-
-                    <label for="date">ERP Date</label>
-
-                    <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
-                        containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}">
-                </div>
-
-
-                <div class="form-group col-md-3" >
+                <div class="form-group col-md-3">
                     <label for="center">Center Name</label>
                     <input readonly type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
 
@@ -79,21 +85,47 @@
 
                 </div>
 
-                <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                    <label for="noofdd">No.of DD</label>
-                    <input type="text" [(ngModel)]="newerpentry.noofDd" formControlName="noodDdVal" name="selectednodd" class="form-control">
-                    <div *ngIf="noodDdVal.invalid && (noodDdVal.dirty || noodDdVal.touched)" class="alert-danger">
-                        <div *ngIf="noodDdVal.errors.required">
-                            No of DD is Required
-                        </div>
-                        <div *ngIf="noodDdVal.errors.pattern">
-                            Please enter digit format
-                        </div>
-                    </div>
 
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                    <label for="feesItem">Fees Item</label>
+
+                    <select (change)=selectfeesItem(newerpentry.feesItem) [(ngModel)]="newerpentry.feesItem" name="feesItem" class="form-control"
+                        formControlName="feesItemVal">
+                        <option value="" disabled [selected]>--Choose--</option>
+                        <ng-container>
+                            <option>Course Fee</option>
+                            <option>Prospectus</option>
+                        </ng-container>
+
+                    </select>
+                    <div *ngIf="feesItemVal.invalid && (feesItemVal.dirty || feesItemVal.touched)" class="alert-danger">
+                        <div *ngIf="feesItemVal.errors.required">
+                            Please select fees item
+                        </div>
+
+                    </div>
                 </div>
+
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
+                        <label for="noofdd">No.of DD (Total DD Number)</label>
+                        <input type="text" [(ngModel)]="newerpentry.noofDd" formControlName="noodDdVal" name="selectednodd" class="form-control">
+                        <div *ngIf="noodDdVal.invalid && (noodDdVal.dirty || noodDdVal.touched)" class="alert-danger">
+                            <div *ngIf="noodDdVal.errors.required">
+                                No of DD is Required
+                            </div>
+                            <div *ngIf="noodDdVal.errors.pattern">
+                                Please enter digit format
+                            </div>
+                        </div>
+    
+                    </div>
+    
+    
+
             </div>
             <div class="row">
+
+
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="amount">DD Amount</label>
                     <input type="text" formControlName="ddamountVal" [(ngModel)]="newerpentry.erpAmount" name="selectedamount" class="form-control">
@@ -124,7 +156,7 @@
 
                     <button [disabled]="ddentryForm.invalid" *ngIf='!isEditMode' (click)="register()" type="submit" class="btn btn-primary">Submit</button>
                     <button [disabled]="ddentryForm.invalid" *ngIf='isEditMode' (click)="update()" type="submit" class="btn btn-primary">Update</button>
-                
+
                 </div>
 
             </div>
@@ -140,15 +172,17 @@
             <thead class="thead-dark">
                 <tr>
                     <th>ERP Sl.No</th>
-                    <th>Date</th>
+                    <!-- <th>Date</th> -->
                     <th>ERP Despatch No</th>
                     <th>ERP Date</th>
                     <th>Center Name</th>
+                    <th>Fees Item</th>
+
                     <th>No.od DD</th>
                     <th>DD Amount</th>
                     <th>Remarks</th>
-      <th>Entered Date</th>
-      <th>Entered Time</th>
+                    <th>Entered Date</th>
+                    <th>Entered Time</th>
                     <th></th>
                 </tr>
             </thead>
@@ -156,18 +190,19 @@
                 <ng-container *ngFor='let ddentry of erpList '>
                     <tr *ngIf="ddentry.centerName == selectedcenter" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
                         <td>{{ddentry.ID}}</td>
-                        <td>{{ddentry.date}}</td>
+                        <!-- <td>{{ddentry.date}}</td> -->
                         <td>{{ddentry.erpdespNo}}</td>
                         <td>{{ddentry.erpdate}}</td>
 
                         <td>{{ddentry.centerName}}</td>
+                        <td>{{ddentry.feesItem}}</td>
                         <td>{{ddentry.noofDd}}</td>
                         <td> {{ddentry.erpAmount}}</td>
                         <td>{{ddentry.remarks}}</td>
-                     <td>{{ddentry.enteredDate}}</td>
-                     <td>{{ddentry.enteredTime}}</td>
-                     
-                        <td  >
+                        <td>{{ddentry.enteredDate}}</td>
+                        <td>{{ddentry.enteredTime}}</td>
+
+                        <td>
                             <button *ngIf="ddentry.ishoVerified !== true" type="button" (click)=entrySelection(ddentry.unique,ddentry) class="btn btn-primary">
                                 View Details
                             </button>

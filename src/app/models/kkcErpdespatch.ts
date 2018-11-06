@@ -6,7 +6,7 @@ export class erpData {
 export class kkcerpDespatch {
     ID: number;
     unique: string;
-    date: string;
+    // date: string;
     erpdespNo: String;
     centerName: string;
     erpdate: string;

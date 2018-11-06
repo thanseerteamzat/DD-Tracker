@@ -53,13 +53,14 @@ export class KkcErpDespDetailsComponent implements OnInit {
         if(data.Data[i] != null){
         erpEntry.ID = data.Data[i].ID;
         erpEntry.centerName = data.Data[i].centerName;
-        erpEntry.date =  data.Data[i].date;
+        // erpEntry.date =  data.Data[i].date;
         erpEntry.erpAmount =  data.Data[i].erpAmount;
         erpEntry.erpdate = data.Data[i].erpdate;
         erpEntry.erpdespNo = data.Data[i].erpdespNo;
         erpEntry.noofDd = data.Data[i].noofDd;
         erpEntry.remarks = data.Data[i].remarks;
         erpEntry.unique = data.Data[i].unique;
+        erpEntry.feesItem = data.Data[i].feesItem;
         this.erpList.push(erpEntry);
         }
       }
@@ -70,16 +71,17 @@ export class KkcErpDespDetailsComponent implements OnInit {
         if(erpObj != null && erpObj.unique == this.id){
            this.newerpentry.unique = erpObj.unique;
            this.newerpentry.centerName = erpObj.centerName;
-           this.newerpentry.date = erpObj.date;
+          //  this.newerpentry.date = erpObj.date;
            this.newerpentry.erpAmount = erpObj.erpAmount;
            this.newerpentry.erpdate = erpObj.erpdate;
            this.newerpentry.erpdespNo = erpObj.erpdespNo;
            this.newerpentry.ID = erpObj.ID;
            this.newerpentry.noofDd = erpObj.noofDd;
-           this.newerpentry.remarks = erpObj.remarks; 
+           this.newerpentry.remarks = erpObj.remarks;
+           this.newerpentry.feesItem= erpObj.feesItem; 
         }
       }
-      console.log(this.newerpentry)
+      console.log('**************',this.newerpentry)
 
       
       },

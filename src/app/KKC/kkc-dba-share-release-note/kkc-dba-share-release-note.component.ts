@@ -67,7 +67,7 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
         if (data.Data[i] != null) {
           erpEntry.ID = data.Data[i].ID;
           erpEntry.centerName = data.Data[i].centerName;
-          erpEntry.date = data.Data[i].date;
+          // erpEntry.date = data.Data[i].date;
           erpEntry.erpAmount = data.Data[i].erpAmount;
           erpEntry.erpdate = data.Data[i].erpdate;
           erpEntry.erpdespNo = data.Data[i].erpdespNo;

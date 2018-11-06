@@ -35,39 +35,52 @@
           <!-- <input type="hidden" disabled [(ngModel)]="lstid.lastId" name="lastId" class="form-control"> -->
         </div>
 
-        <div class="form-group col-md-3">
+        <!-- <div class="form-group col-md-3">
           <label for="date">Date</label>
           <input readonly type="text" name="todaydate" [(ngModel)]="newerpentry.date" class="form-control" #dp="bsDatepicker" bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-        </div>
+            [b  sConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+        </div> -->
         <div class="form-group col-md-3">
-          <label for="">ERP Despatch No</label>
+          <label for="">ERP Despatch No (DD Despatch Statement No)</label>
           <input readonly #text type="text" class="form-control" [(ngModel)]="newerpentry.erpdespNo" name="erpdespNo">
           <button type="button" class="form-control">Get Center</button>
 
         </div>
 
-
+        <div class="form-group col-md-3">
+            <label for="erpdate">ERP Date (Statement Date)</label>
+            <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
+  
+          </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-3">
-          <label for="erpdate">ERP Date</label>
-          <input readonly type="text" name="todaydatee" [(ngModel)]="newerpentry.erpdate" class="form-control" #dp="bsDatepicker" bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }">
-
-        </div>
+        
         <div class="form-group col-md-3">
           <label for="center">Center Name</label>
           <input readonly type="text" [(ngModel)]="newerpentry.centerName" class="form-control" name="selectedcenter">
         </div>
+
+
         <div class="form-group col-md-3">
-          <label for="noofdd">No.of DD</label>
-          <input readonly type="text" [(ngModel)]="newerpentry.noofDd" name="selectednodd" class="form-control">
+            <label for="feesItem">Fees Item</label>
 
-
+            <input readonly type="text" [(ngModel)]="newerpentry.feesItem" name="feesItem" class="form-control">
+           
         </div>
+        <div class="form-group col-md-3">
+            <label for="noofdd">No.of DD (Total DD Number)</label>
+            <input readonly type="text" [(ngModel)]="newerpentry.noofDd" name="selectednodd" class="form-control">
+  
+  
+          </div>
+
+
+        
       </div>
       <div class="row">
+        
+      
         <div class="form-group col-md-3">
           <label for="amount">DD Amount</label>
           <input readonly type="text" [(ngModel)]="newerpentry.erpAmount" name="selectedamount" class="form-control">

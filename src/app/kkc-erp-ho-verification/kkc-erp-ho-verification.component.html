@@ -39,11 +39,12 @@
   <thead class="thead-dark">
     <tr>
       <th>ERP Sl.No</th>
-      <th>Date</th>
-      <th>ERP Despatch No</th>
-      <th>ERP Date</th>
+      <!-- <th>Date</th> -->
+      <th>ERP Despatch No (DD Despatch Statement No)</th>
+      <th>ERP Date (Statement Date)</th>
       <th>Center Name</th>
-      <th>No.od DD</th>
+<th>Fees Item</th>
+      <th>No.od DD (Total DD Number)</th>
       <th>DD Amount</th>
       <th>Remarks</th>
       <th>Entered Date</th>
@@ -55,11 +56,12 @@
     <ng-container *ngFor='let ddentry of selectedData'>
       <tr  *ngIf="ddentry.ishoVerified != true" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
         <td>{{ddentry.ID}}</td>
-        <td>{{ddentry.date}}</td>
+        <!-- <td>{{ddentry.date}}</td> -->
         <td>{{ddentry.erpdespNo}}</td>
         <td>{{ddentry.erpdate}}</td>
 
         <td>{{ddentry.centerName}}</td>
+        <td>{{ddentry.feesItem}}</td>
         <td>{{ddentry.noofDd}}</td>
         <td> {{ddentry.erpAmount}}</td>
         <td>{{ddentry.remarks}}</td>
@@ -70,9 +72,6 @@
           <button  type="button" (click)=verify(ddentry.unique,ddentry) class="btn btn-primary">
             Verify
           </button>
-        </td>
-        <td *ngIf="ddentry.isdespatchEntered === true">
-          Verified
         </td>
 
       </tr>
@@ -85,16 +84,19 @@
 <table class="table table-hover table-responsive table-bordered">
   <thead class="thead-dark">
     <tr>
+    
       <th>ERP Sl.No</th>
-      <th>Date</th>
-      <th>ERP Despatch No</th>
-      <th>ERP Date</th>
-      <th>Center Name</th>
-      <th>No.od DD</th>
-      <th>DD Amount</th>
-      <th>Remarks</th>
       <th>Entered Date</th>
       <th>Entered Time</th>
+      <!-- <th>Date</th> -->
+      <th>ERP Despatch No(DD Desp Statement No)</th>
+      <th>ERP Date (Statement Date)</th>
+      <th>Center Name</th>
+<th>Fees Item</th>
+      <th>No.od DD (Total DD Number)</th>
+      <th>DD Amount</th>
+      <th>Remarks</th>
+    
       <th>Status</th>
       <th>Verified By</th>
     </tr>
@@ -103,16 +105,17 @@
     <ng-container *ngFor='let ddentry of erpList '>
       <tr  *ngIf="ddentry.ishoVerified == true" [ngClass]="{bgRed: ddentry.isdespatchEntered === true}">
         <td>{{ddentry.ID}}</td>
-        <td>{{ddentry.date}}</td>
+        <td>{{ddentry.enteredDate}}</td>
+        <td>{{ddentry.enteredTime}}</td>
         <td>{{ddentry.erpdespNo}}</td>
         <td>{{ddentry.erpdate}}</td>
 
         <td>{{ddentry.centerName}}</td>
+        <td>{{ddentry.feesItem}}</td>
+       
         <td>{{ddentry.noofDd}}</td>
         <td> {{ddentry.erpAmount}}</td>
         <td>{{ddentry.remarks}}</td>
-        <td>{{ddentry.enteredDate}}</td>
-        <td>{{ddentry.enteredTime}}</td>
 
        
         <td>

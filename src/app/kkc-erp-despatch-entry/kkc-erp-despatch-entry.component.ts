@@ -21,6 +21,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   centerList: Center[] = [];
   centers: CenterData;
   enteredDate = new Date;
+  message : string;
   enteredTime = new Date;
   selectedenteredDate;
   selectedenteredTime;
@@ -160,8 +161,9 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
     this.kkcerpdespatch.centerName = this.selectedcenter;
     this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
+   this.kkcerpdespatch.feesItem = this.newerpentry.feesItem;
     this.selectedDate = this.Date;
-    this.kkcerpdespatch.date = this.formatDate(this.selectedDate);
+    // this.kkcerpdespatch.date = this.formatDate(this.selectedDate);
     this.selectederpDate = this.erpDate;
     this.kkcerpdespatch.erpdate = this.formatDate(this.selectederpDate);
     this.kkcerpdespatch.erpdespNo = this.erpdespNo;
@@ -188,12 +190,12 @@ export class KkcErpDespatchEntryComponent implements OnInit {
 
     this.kkcerpdespatch.centerName = this.selectedcenter;
 
-    if(this.newerpentry.date.length <= 10){
-      this.kkcerpdespatch.date = this.newerpentry.date;
-    }
-    else{
-      this.kkcerpdespatch.date = this.formatDate(this.newerpentry.date)
-    }
+    // if(this.newerpentry.date.length <= 10){
+    //   this.kkcerpdespatch.date = this.newerpentry.date;
+    // }
+    // else{
+    //   this.kkcerpdespatch.date = this.formatDate(this.newerpentry.date)
+    // }
 
     if(this.newerpentry.erpdate.length <= 10){
       this.kkcerpdespatch.erpdate = this.newerpentry.erpdate;
@@ -201,7 +203,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     else{
       this.kkcerpdespatch.erpdate = this.formatDate(this.newerpentry.erpdate)
     }
-  
+    this.kkcerpdespatch.feesItem = this.newerpentry.feesItem;
     this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
     this.kkcerpdespatch.erpdespNo = this.erpdespNo;
     this.kkcerpdespatch.ID = this.newerpentry.ID;
@@ -237,7 +239,7 @@ this.resetForm();
         if(data.Data[i] != null){
         erpEntry.ID = data.Data[i].ID;
         erpEntry.centerName = data.Data[i].centerName;
-        erpEntry.date =  data.Data[i].date;
+        // erpEntry.date =  data.Data[i].date;
         erpEntry.erpAmount =  data.Data[i].erpAmount;
         erpEntry.erpdate = data.Data[i].erpdate;
         erpEntry.erpdespNo = data.Data[i].erpdespNo;
@@ -248,6 +250,7 @@ this.resetForm();
         erpEntry.enteredDate = data.Data[i].enteredDate;
         erpEntry.enteredTime=data.Data[i].enteredTime;
         erpEntry.ishoVerified = data.Data[i].ishoVerified;
+        erpEntry.feesItem = data.Data[i].feesItem;
         this.erpList.push(erpEntry);
         }
       }
@@ -286,6 +289,8 @@ this.resetForm();
     erpdespnoVal: new FormControl(),
     noodDdVal: new FormControl(),
     ddamountVal: new FormControl(),
+    feesItemVal: new FormControl(),
+
     // remarksVal: new FormControl(),
 
 
@@ -294,6 +299,8 @@ this.resetForm();
     this.ddentryForm = this.fb.group(
       {
         erpdespnoVal: [null, Validators.required],
+        feesItemVal: [null, Validators.required],
+        
         // erpdespnoVal: [null,Validators.required],
         noodDdVal: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
         ddamountVal: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
@@ -306,6 +313,8 @@ this.resetForm();
 
 
   // get centerNameVal() { return this.ddentryForm.get('centerNameVal'); }
+  get feesItemVal() { return this.ddentryForm.get('feesItemVal'); }
+
   get erpdespnoVal() { return this.ddentryForm.get('erpdespnoVal'); }
   get noodDdVal() { return this.ddentryForm.get('noodDdVal'); }
   get ddamountVal() { return this.ddentryForm.get('ddamountVal'); }
@@ -317,6 +326,7 @@ this.resetForm();
         erpdespnoVal: null,
         noodDdVal: null,
         ddamountVal: null,
+        feesItemVal: null
       }
     )
   }
@@ -334,18 +344,29 @@ this.resetForm();
         if(erpObj != null && erpObj.unique == this.id){
            this.newerpentry.unique = erpObj.unique;
            this.newerpentry.centerName = erpObj.centerName;
-           this.newerpentry.date = erpObj.date;
+          //  this.newerpentry.date = erpObj.date;
            this.newerpentry.erpAmount = erpObj.erpAmount;
            this.newerpentry.erpdate = erpObj.erpdate;
            this.newerpentry.erpdespNo = erpObj.erpdespNo;
            this.newerpentry.ID = erpObj.ID;
            this.newerpentry.noofDd = erpObj.noofDd;
            this.newerpentry.remarks = erpObj.remarks; 
+           this.newerpentry.feesItem = erpObj.feesItem;
         }
       }
       console.log('*****************************',this.newerpentry)
     }
 
   }
+ selectfeesItem(key){
 
+  console.log(key);
+  if( key == 'Prospectus'){
+     this.message='If the fees item in dd despatch statement is prospectus, then we have to calculate total dd amount and total number of dd'  
+  }
+  else{
+    this.message='';
+  }
+
+  }
 }
