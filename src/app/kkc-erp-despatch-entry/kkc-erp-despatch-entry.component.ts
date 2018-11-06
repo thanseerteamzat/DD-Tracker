@@ -166,6 +166,10 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     // this.kkcerpdespatch.date = this.formatDate(this.selectedDate);
     this.selectederpDate = this.erpDate;
     this.kkcerpdespatch.erpdate = this.formatDate(this.selectederpDate);
+    var temp = this.getMonthFromDate(this.kkcerpdespatch.erpdate);
+    // switch(temp){
+    //   case '01' :  
+    // }
     this.kkcerpdespatch.erpdespNo = this.erpdespNo;
     this.kkcerpdespatch.enteredDate = this.selectedenteredDate;
     this.kkcerpdespatch.enteredTime =this.selectedenteredTime;
@@ -369,4 +373,20 @@ this.resetForm();
   }
 
   }
+  beforeregister(){
+
+    // this.register();
+    // for(let i=0; i<=this.erpList.length;i++){
+    //   let tempObj = this.erpList[i];
+    //   if(this)
+    // }
+
+  }
+  getMonthFromDate(dateData) {
+    if (dateData != null) {
+      var month = dateData.toString().slice(3, -5)
+      console.log('month**',month)
+      return month;
+    }}
+  
 }

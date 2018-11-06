@@ -15,6 +15,7 @@ export class KkcErpHoVerificationComponent implements OnInit {
   centers:CenterData;  
   erpEntries : erpData;
   selectedData;
+  selectedmonth;
   isEditMode;
   selectmonth;
   selectedcenter;
