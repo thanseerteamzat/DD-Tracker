@@ -16,7 +16,7 @@ export class KkcErpHoVerificationComponent implements OnInit {
   erpEntries : erpData;
   selectedData;
   isEditMode;
-
+  selectmonth;
   selectedcenter;
   enteredBy;
   months = [
@@ -121,26 +121,47 @@ getAllKkcCenters(){
 }
 filterwithCenter(value){
 
-  console.log(value);
-  this.selectedData=[];
-  // this.selectedcenter=value;
-  this.selectedData = this.erpList.filter(
-    s=>s.centerName== value
-  )
-  console.log(this.selectedData)
+  this.selectedcenter = value;
+  this.selectedData = null;
+
+  if (this.selectmonth == null) {
+    this.selectedData = this.erpList.filter(s => s.centerName == this.selectedcenter)
+
+  }
+
+  else {
+    this.selectedData = this.erpList.filter(s => this.getMonthFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter)
+  }
+
 
 }
 
-// filterwithMonth(value){
-//   console.log(value);
-//   this.selectedData=[]
-//   this.selectedData = this.selectedData.filter(
-//     s=>this.getMonthFromDate(s.erpdate) == value
-//   )
-//   console.log(this.selectedData);
 
 
-// }
+filterwithMonth(key) {
+
+  this.selectmonth = key;
+  console.log('dd list data***', this.selectmonth)
+
+  if (this.selectedcenter == null) {
+    this.selectedData = this.erpList.filter(
+
+      s => this.getMonthFromDate(s.erpdate) == this.selectmonth
+    )
+
+  }
+
+  else {
+    this.selectedData = this.erpList.filter(
+      s => (this.getMonthFromDate(s.erpdate)) == this.selectmonth && s.centerName == this.selectedcenter 
+    )
+    console.log('success with month***')
+
+  }
+
+
+
+}
 
 getMonthFromDate(dateData) {
   if (dateData != null) {
