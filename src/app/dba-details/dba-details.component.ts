@@ -312,16 +312,16 @@ export class DbaDetailsComponent implements OnInit {
   }
   sendMail(data) {
     let that = this;
-    this.ets.sendData(data).subscribe(data => {
-      that.centers = data;
-      // this.ets.centerList = this.centers
-    },
-      error => console.log(error),
-      () => console.log('Get all complete'));
-    // console.log('****', data)
-    // this.exportExcel(data);
-    var workbook = XLSX.utils.table_to_book(document.getElementById('tabledata'));
-    XLSX.writeFile(workbook, 'out.xlsb');
+    // this.ets.sendData(data).subscribe(data => {
+    //   that.centers = data;
+    //   // this.ets.centerList = this.centers
+    // },
+    //   error => console.log(error),
+    //   () => console.log('Get all complete'));
+    // // console.log('****', data)
+    // // this.exportExcel(data);
+    // var workbook = XLSX.utils.table_to_book(document.getElementById('tabledata'));
+    // XLSX.writeFile(workbook, 'out.xlsb');
 
   }
 

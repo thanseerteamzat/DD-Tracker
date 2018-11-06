@@ -50,6 +50,7 @@ export class dbaShareReleaseNote {
     despSerialNo: string;
     centerName: string;
     batchNo: string;
+    despNo: string;
     depDate: string;
     feesItem: string;
     total: number;
@@ -57,4 +58,5 @@ export class dbaShareReleaseNote {
     fwt: number;
     amt: number;
     rate: string;
+    dbaNo: string;
 }

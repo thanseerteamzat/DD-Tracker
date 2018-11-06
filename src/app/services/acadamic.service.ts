@@ -121,7 +121,7 @@ export class AcadamicService {
 
   }
 
- 
+
 
 
 
@@ -135,8 +135,8 @@ export class AcadamicService {
       "erpdespNo": erpEntry.erpdespNo,
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
-      "enteredDate":erpEntry.enteredDate,
-      "enteredTime":erpEntry.enteredTime
+      "enteredDate": erpEntry.enteredDate,
+      "enteredTime": erpEntry.enteredTime
 
     };
     const body = {
@@ -153,22 +153,6 @@ export class AcadamicService {
           console.log('Status: ' + err.status);
         });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   public updateKKCEntry(ddEntry: kkcddEntry) {
     console.log('here', ddEntry);
@@ -188,7 +172,7 @@ export class AcadamicService {
       "enteredBy": ddEntry.enteredBy,
       "isVerified": ddEntry.isVerified,
       "isddCancelled": ddEntry.isddCancelled
-      
+
 
     };
     const body = {
@@ -223,17 +207,17 @@ export class AcadamicService {
       // "ID": erpEntry.ID,
       "noofDd": erpEntry.noofDd,
       "remarks": erpEntry.remarks,
-      "ishoVerified":erpEntry.ishoVerified,
-      "hoVerifiedBy":erpEntry.hoVerifiedBy,
+      "ishoVerified": erpEntry.ishoVerified,
+      "hoVerifiedBy": erpEntry.hoVerifiedBy,
       // "unique": erpEntry.unique,
-     
+
     };
     const body = {
       "Table": "kkcErpEntry",
       "Where": { "unique": erpEntry.unique },
       "Data": Sub,
       "UniqueId": "unique"
-      
+
     };
 
     this.http.post(this.config.pyUrl + 'UpdateRows', body)
@@ -324,7 +308,7 @@ export class AcadamicService {
 
 
   public ExportDbaReport(dbaDetails: Array<dbaShareReleaseNote>) {
-
+    console.log('data****', dbaDetails);
     const body = {
       "Data": dbaDetails
     };
@@ -337,6 +321,23 @@ export class AcadamicService {
           console.log('Message: ' + err.message);
           console.log('Status: ' + err.status);
         });
+  }
+
+  public sendDBAdespList(dbaData: Array<dbaShareReleaseNote>) {
+    console.log('data', dbaData);
+
+    const body = {
+      "Data": dbaData
+    };
+
+    // this.http.post(this.config.pyUrl + 'ExportDBAReport', body)
+    //   .subscribe(data => { console.log('data****', data) },
+    //     err => {
+    //       console.log('Error: ' + err.error);
+    //       console.log('Name: ' + err.name);
+    //       console.log('Message: ' + err.message);
+    //       console.log('Status: ' + err.status);
+    //     });
   }
 
 
