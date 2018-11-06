@@ -17,7 +17,30 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
   erpList = new Array<kkcerpDespatch>();
   serialNo: number;
   erpEntries: erpData;
+  Months = [
+    { id: '01', name: 'Jan' },
+    { id: '02', name: 'Feb' },
+    { id: '03', name: 'Mar' },
+    { id: '04', name: 'Apr' },
+    { id: '05', name: 'May' },
+    { id: '06', name: 'Jun' },
+    { id: '07', name: 'Jul' },
+    { id: '08', name: 'Aug' },
+    { id: '09', name: 'Sep' },
+    { id: '10', name: 'Oct' },
+    { id: '11', name: 'Nov' },
+    { id: '12', name: 'Dec' },
 
+];
+feesItems = [
+    { id: '1', name: 'Course Fee' },
+    { id: '2', name: 'Prospectus' },
+    { id: '3', name: 'Re exam' },
+    { id: '4', name: 'Renewal Fee' },
+    { id: '5', name: 'Affiliation' },
+    { id: '6', name: 'Inspection' },
+    { id: '7', name: 'Duplicate Certificate/Marklist' },
+];
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
