@@ -4,8 +4,8 @@ export class erpData {
     public Data = new Array<kkcerpDespatch>()
 }
 export class kkcerpDespatch {
-    ID:number;
-    unique :string;
+    ID: number;
+    unique: string;
     date: string;
     erpdespNo: String;
     centerName: string;
@@ -16,10 +16,12 @@ export class kkcerpDespatch {
     isEditable: Boolean;
     isentered: Boolean;
     isdespatchEntered: boolean;
-    enteredDate:string;
+    enteredDate: string;
     enteredTime: string;
-    ishoVerified:boolean;
-    hoVerifiedBy:string;
+    ishoVerified: boolean;
+    hoVerifiedBy: string;
+    feesItem: string;
+    batchNo: string;
 }
 export class kkcerpdespatchList {
     ddenter: kkcerpDespatch = new kkcerpDespatch();

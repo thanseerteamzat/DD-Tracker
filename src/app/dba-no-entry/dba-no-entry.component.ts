@@ -315,6 +315,7 @@ export class DbaNoEntryComponent implements OnInit {
 
         }
         for (let i = 0; i < data.length; i++) {
+            let newdbaNote = new Array<dbaShareReleaseNote>();
             var list = data[i];
             this.newdbaNote.despSerialNo = list.despatchList.despId;
             this.centerList.forEach(data => {
@@ -333,11 +334,13 @@ export class DbaNoEntryComponent implements OnInit {
             this.newdbaNote.rate = list.despatchList.Rate;
             this.dbaExportdata.push(this.newdbaNote);
         }
-        console.log('data ***', this.dbaExportdata)
+        // console.log('data ***', this.dbaExportdata)
     }
 
     export()
     {
+        console.log('data ***', this.dbaExportdata)
+
         this.academic.ExportDbaReport(this.dbaExportdata)
     }
     filterMonth(key) {

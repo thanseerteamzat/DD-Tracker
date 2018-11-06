@@ -93,6 +93,8 @@ import { KkcDespatchStudListComponent } from './KKC/kkc-despatch-stud-list/kkc-d
 import { KkcErpDespDetailsComponent } from './kkc-erp-desp-details/kkc-erp-desp-details.component';
 import { RefreshComponent } from './refresh/refresh.component';
 import { KkcErpHoVerificationComponent } from './kkc-erp-ho-verification/kkc-erp-ho-verification.component';
+import { KkcDbaShareReleaseNoteComponent } from './KKC/kkc-dba-share-release-note/kkc-dba-share-release-note.component';
+import { dbaShareReleaseNote } from './models/dbaEntry';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -179,11 +181,12 @@ const appRoutes: Routes = [
   { path: 'kkc-desp-studlist', component: KkcDespatchStudListComponent },
 
   { path: 'kkc-erp-despatch-entry/:erpId', component: KkcErpDespatchEntryComponent },
-  
-  { path: 'kkc-erp-desp-details', component:KkcErpDespDetailsComponent},
-  { path: 'kkc-erp-desp-details/:erpId', component:KkcErpDespDetailsComponent},
-  { path : 'refresh',component:RefreshComponent},
-  { path :'kkc-erp-ho-verification',component:KkcErpHoVerificationComponent }  
+
+  { path: 'kkc-erp-desp-details', component: KkcErpDespDetailsComponent },
+  { path: 'kkc-erp-desp-details/:erpId', component: KkcErpDespDetailsComponent },
+  { path: 'refresh', component: RefreshComponent },
+  { path: 'kkc-erp-ho-verification', component: KkcErpHoVerificationComponent },
+  { path: 'kkc-dbaentry', component: KkcDbaShareReleaseNoteComponent }
 ];
 
 
@@ -260,7 +263,8 @@ const appRoutes: Routes = [
     KkcDespatchStudListComponent,
     KkcErpDespDetailsComponent,
     RefreshComponent,
-    KkcErpHoVerificationComponent
+    KkcErpHoVerificationComponent,
+    KkcDbaShareReleaseNoteComponent
 
   ],
   imports: [
