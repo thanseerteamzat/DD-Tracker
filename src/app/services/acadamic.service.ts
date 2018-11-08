@@ -15,6 +15,7 @@ import { despatchList } from '../models/despatch';
 import { kkcddEntry, KKCentryData } from '../models/KKC/kkcddentry';
 import { InvoiceCenterList2, InvoiceCenterList2Data, centerUpdate, centerInvNoChkListData } from '../models/invoice ';
 import { kkcerpDespatch, erpData } from '../models/kkcErpdespatch';
+import { kkcErpReportTable, reportData } from '../models/kkerpdespatchReport';
 
 @Injectable({
   providedIn: 'root'
@@ -117,35 +118,28 @@ export class AcadamicService {
     const body = { "Table": "kkcErpEntry" };
 
 
-    return this.http.post<erpData>(this.config.pyUrl + 'GetRows', body)
+    return this.http.post<erpData>(this.config.testpyUrl + 'GetRows', body)
 
   }
 
 
-
-
-
-  public AddKkcErpEntry(erpEntry: kkcerpDespatch) {
+  public AddkkcerpReportTable(reportEntry : kkcErpReportTable){
+    console.log('inside add')
     const Sub = {
-      "unique": erpEntry.unique,
-      // "date": erpEntry.date,
-      "erpAmount": erpEntry.erpAmount,
-      "erpdate": erpEntry.erpdate,
-      "centerName": erpEntry.centerName,
-      "erpdespNo": erpEntry.erpdespNo,
-      "noofDd": erpEntry.noofDd,
-      "remarks": erpEntry.remarks,
-      "enteredDate": erpEntry.enteredDate,
-      "enteredTime": erpEntry.enteredTime,
-      "feesItem": erpEntry.feesItem
-
+      "tableId": reportEntry.tableId,
+      "centerName":reportEntry.centerName,
+      "month":reportEntry.month,
+      "statementNo":reportEntry.statementNo,
+      "totalAmount":reportEntry.totalAmount,
+      "totalNoofDd":reportEntry.totalNoofDd,
+      "date":reportEntry.date ,
     };
     const body = {
-      "Table": "kkcErpEntry",
+      "Table": "kkcErpSroReportTable",
       "Data": Sub,
     };
 
-    this.http.post(this.config.pyUrl + 'AddRow', body)
+    this.http.post(this.config.testpyUrl + 'AddRow', body)
       .subscribe(data => { },
         err => {
           console.log('Error: ' + err.error);
@@ -155,6 +149,117 @@ export class AcadamicService {
         });
   }
 
+
+  public GetKkcReportTable(): Observable<reportData>  {
+    console.log('AddSubject in service**************')
+
+    const body = { "Table": "kkcErpSroReportTable" };
+
+
+    return this.http.post<reportData>(this.config.testpyUrl + 'GetRows', body)
+
+  }
+
+
+  public UpdatekkcerpReportTable(reportEntry : kkcErpReportTable){
+    const Sub = {
+      "tableId": reportEntry.tableId,
+      "centerName":reportEntry.centerName,
+      "month":reportEntry.month,
+      "statementNo":reportEntry.statementNo,
+      "totalAmount":reportEntry.totalAmount,
+      "totalNoofDd":reportEntry.totalNoofDd,
+      "date":reportEntry.date ,    
+    };
+    const body = {
+      "Table": "kkcErpSroReportTable",
+      "Data": Sub,
+      "Where":{"tableId":reportEntry.tableId}
+    };
+
+    this.http.post(this.config.testpyUrl + 'UpdateRows', body)
+      .subscribe(data => { },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
+  public AddKkcErpEntry(erpEntry: kkcerpDespatch) {
+    console.log(erpEntry)
+    const Sub = {
+      "unique": erpEntry.unique,
+      // "date": erpEntry.date,
+      "erpAmount": erpEntry.erpAmount,
+      "erpdate": erpEntry.erpdate,
+      "centerName": erpEntry.centerName,
+      "erpdespNo": erpEntry.  erpdespNo,
+      "noofDd": erpEntry.noofDd,
+      "remarks": erpEntry.remarks,
+      "enteredDate": erpEntry.enteredDate,
+      "enteredTime": erpEntry.enteredTime,
+      "feesItem": erpEntry.feesItem,
+      "month":erpEntry.month
+    };
+    const body = {
+      "Table": "kkcErpEntry",
+      "Data": Sub,
+    };
+
+    this.http.post(this.config.testpyUrl + 'AddRow', body)
+      .subscribe(data => { },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+  public updateKkcErpEntry(erpEntry: kkcerpDespatch) {
+    console.log('here', erpEntry);
+    const Sub = {
+
+      "centerName": erpEntry.centerName,
+      // "date": erpEntry.date,
+      "erpAmount": erpEntry.erpAmount,
+      "erpdate": erpEntry.erpdate,
+      "erpdespNo": erpEntry.erpdespNo,
+      // "ID": erpEntry.ID,
+      "noofDd": erpEntry.noofDd,
+      "remarks": erpEntry.remarks,
+      "ishoVerified": erpEntry.ishoVerified,
+      "hoVerifiedBy": erpEntry.hoVerifiedBy,
+      "feesItem":erpEntry.feesItem,
+      // "unique": erpEntry.unique,
+
+    };
+    const body = {
+      "Table": "kkcErpEntry",
+      "Where": { "unique": erpEntry.unique },
+      "Data": Sub,
+      "UniqueId": "unique"
+
+    };
+
+    this.http.post(this.config.testpyUrl + 'UpdateRows', body)
+      .subscribe(data => {
+        console.log('data', data)
+      },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        });
+  }
+
+
+
+ 
   public updateKKCEntry(ddEntry: kkcddEntry) {
     console.log('here', ddEntry);
     const Sub = {
@@ -196,46 +301,8 @@ export class AcadamicService {
   }
 
 
-  public updateKkcErpEntry(erpEntry: kkcerpDespatch) {
-    console.log('here', erpEntry);
-    const Sub = {
-
-      "centerName": erpEntry.centerName,
-      // "date": erpEntry.date,
-      "erpAmount": erpEntry.erpAmount,
-      "erpdate": erpEntry.erpdate,
-      "erpdespNo": erpEntry.erpdespNo,
-      // "ID": erpEntry.ID,
-      "noofDd": erpEntry.noofDd,
-      "remarks": erpEntry.remarks,
-      "ishoVerified": erpEntry.ishoVerified,
-      "hoVerifiedBy": erpEntry.hoVerifiedBy,
-      "feesItem":erpEntry.feesItem,
-      // "unique": erpEntry.unique,
-
-    };
-    const body = {
-      "Table": "kkcErpEntry",
-      "Where": { "unique": erpEntry.unique },
-      "Data": Sub,
-      "UniqueId": "unique"
-
-    };
-
-    this.http.post(this.config.pyUrl + 'UpdateRows', body)
-      .subscribe(data => {
-        console.log('data', data)
-      },
-        err => {
-          console.log('Error: ' + err.error);
-          console.log('Name: ' + err.name);
-          console.log('Message: ' + err.message);
-          console.log('Status: ' + err.status);
-        });
-  }
-
-
-
+  
+ 
   // public ExportDbaReport(dbaDetails: dbaShareReleaseNote) {
   public AddCenterInvoiceList2(invoiceEntry: InvoiceCenterList2) {
     // console.log('centerno data', invoiceEntry);

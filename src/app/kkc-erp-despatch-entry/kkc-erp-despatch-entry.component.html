@@ -154,7 +154,7 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
 
 
-                    <button [disabled]="ddentryForm.invalid" *ngIf='!isEditMode' (click)="register()" type="submit" class="btn btn-primary">Submit</button>
+                    <button [disabled]="ddentryForm.invalid" *ngIf='!isEditMode' (click)="beforeregister()" type="submit" class="btn btn-primary">Submit</button>
                     <button [disabled]="ddentryForm.invalid" *ngIf='isEditMode' (click)="update()" type="submit" class="btn btn-primary">Update</button>
 
                 </div>

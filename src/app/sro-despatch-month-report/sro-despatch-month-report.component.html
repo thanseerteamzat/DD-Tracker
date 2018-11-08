@@ -4,28 +4,55 @@
         <h1>KKC Sro Monthy Report</h1>
   
       </div>
+      <div style="padding-top: 15px" class="row">
+            <div  *ngIf="isSroLogin" class="form-group col-md-3">
+              <label>Center Name</label>
+              <input readonly type="text" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+      
+            </div>
+            <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
+              <label style="color: black" for="center">Centre Name</label>
+              <!-- <label for="centercode">Code :</label> -->
+                   <select (change)="filterwithCenter()" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                  <option value="">--Choose--</option>
+                  <ng-container *ngFor="let s of centerList">
+                      <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+                  </ng-container>
+      
+              </select>
+      
+            
+          </div>
+          </div>
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Sl No</th>
+                <th height="50" bgcolor="#6599F">Month</th>
+                <th>Statement No's</th>
+                <th>Center Name</th>
+                <th style="min-width: 90px;">Total No of DD's</th>
+    
+                <th style="min-width: 100px;">Amount</th>
+                <th> Read</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor='let ddentry of reportList '>
+                <tr *ngIf="ddentry.centerName == selectedcenter">
+                    <td>{{reportList.indexOf(ddentry) + 1}}</td>
+                    <td>{{ddentry.month}}</td>
+                    <td>{{ddentry.statementNo}}</td>
+                    <td>{{ddentry.centerName}}</td>
+                    <td>{{ddentry.totalNoofDd}}</td>
+                    <td>{{ddentry.totalAmount}}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    
+    </table>
+    
 </div>
 
-<table class="table table-hover table-responsive table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th height="50" bgcolor="#6599F">Month</th>
-            <th>Statement No's</th>
-            <th style="min-width: 90px;">Total No of DD's</th>
-
-            <th style="min-width: 100px;">Amount</th>
-            <th> Read</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor='let ddenter of selectedData '>
-            <tr>
-            <tr *ngIf="ddenter.ddenter.centerName == selectedcenter && ddenter.ddenter.centerName != null && ddenter.ddenter.issroVerified != true" >
-                <td>{{dateLists.indexOf(ddenter) + 1}}</td>
-            </tr>
-        </ng-container>
-    </tbody>
-
-</table>
 
 

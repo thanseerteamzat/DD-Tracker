@@ -136,9 +136,9 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
           erpEntry.enteredDate = data.Data[i].enteredDate;
           erpEntry.enteredTime = data.Data[i].enteredTime;
           erpEntry.ishoVerified = data.Data[i].ishoVerified;
-          let feeWithoutTax = parseFloat(data.Data[i].erpAmount) / 1.18;
+          let feeWithoutTax = (data.Data[i].erpAmount) / 1.18;
           let feeWithoutTaxRounded = feeWithoutTax.toFixed(2);
-          let tax = parseFloat(data.Data[i].erpAmount) - parseFloat(feeWithoutTaxRounded);
+          let tax = (data.Data[i].erpAmount) - parseFloat(feeWithoutTaxRounded);
           let taxRound = tax.toFixed(2);
           erpEntry.tax = parseFloat(taxRound);
           erpEntry.feeWithoutTax = parseFloat(feeWithoutTaxRounded);
