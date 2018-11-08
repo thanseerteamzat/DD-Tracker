@@ -28,6 +28,8 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
   selectedFee;
   selectedCenter;
   erpList = new Array<kkcerpDespatch>();
+  checkBoxList = new Array<kkcerpDespatch>();
+  erpEntryList = new Array<kkcerpDespatch>();
   serialNo: number;
   erpEntries: erpData;
   newdbaEntry = new Array<kkcdbaEntry>();
@@ -44,6 +46,7 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
   temprate = 0;
   tot = 0;
   totalamount = 0;
+  checklisttemp;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -62,18 +65,18 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
   feesItems = [
     { id: '1', name: 'Course Fee' },
     { id: '2', name: 'Prospectus' },
-    { id: '3', name: 'Re exam' },
-    { id: '4', name: 'Renewal Fee' },
-    { id: '5', name: 'Affiliation' },
-    { id: '6', name: 'Inspection' },
-    { id: '7', name: 'Duplicate Certificate/Marklist' },
+    // { id: '3', name: 'Re exam' },
+    // { id: '4', name: 'Renewal Fee' },
+    // { id: '5', name: 'Affiliation' },
+    // { id: '6', name: 'Inspection' },
+    // { id: '7', name: 'Duplicate Certificate/Marklist' },
   ];
   constructor(
     private db: AngularFireDatabase,
     private ets: EtsService,
     private fb: FormBuilder,
     private academic: AcadamicService,
-    private router :Router
+    private router: Router
   ) {
     this.getAllkkccenters();
     this.getErpEntry();
@@ -147,6 +150,7 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
           let shareAmtRounded = shareAmount.toFixed(2);
           erpEntry.shareAmount = parseFloat(shareAmtRounded);
           this.erpList.push(erpEntry);
+          this.erpEntryList.push(erpEntry);
         }
       }
       console.log('erpEntry', this.erpList)
@@ -250,48 +254,56 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
     }
   }
   ngOnInit() {
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x9') !== -1) || (this.ets.cookievalue == "All")) {
-      console.log('inside if condition *********************')
-      // this.router.navigate(['/dd-entry'])
-    }
-    else {
-      this.router.navigate(['/error']);
-    }
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x9') !== -1) || (this.ets.cookievalue == "All")) {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
   }
-
+  listDatabyFiltering() {
+    this.erpList.splice(0, this.erpList.length);
+    this.selectedData.forEach(data => {
+      this.erpList.push(data);
+    })
+    // this.selectedListTotal(this.ddList)
+  }
   filterMonth(key) {
     this.selectmonth = key;
     this.selectedData = null;
 
-    // for (let i = 0; i <= this.desplist.length; i++) {
-    //   this.desplist.splice(i, this.desplist.length);
-    // }
+    this.checkBoxList.splice(0, this.checkBoxList.length);
     if (this.selectedfee == null && this.selectedcenter == null) {
-      this.selectedData = this.erpList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
-      //    console.log('selected data',this.selectedData)
+      this.selectedData = this.erpEntryList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
+      console.log('selected data', this.selectedData)
       //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
       this.selectData(this.selectedData)
+      this.listDatabyFiltering();
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.erpList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.isdbaEntered == null)
       //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedcenter == null) {
-      this.selectedData = this.erpList.filter(s => s.feesItem == this.selectedfee && this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => s.feesItem == this.selectedfee && this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
       //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.erpList.filter(
+      this.selectedData = this.erpEntryList.filter(
         s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
       // //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
     }
 
@@ -302,18 +314,20 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
     this.selectedcenter = key;
     this.selectedData = null;
     // for (let i = 0; i <= this.desplist.length; i++) {
-    //   this.desplist.splice(i, this.desplist.length);
+    this.checkBoxList.splice(0, this.checkBoxList.length);
     // }
     if (this.selectedfee == null && this.selectmonth == null) {
-      this.selectedData = this.erpList.filter(s => s.centerName == this.selectedcenter && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => s.centerName == this.selectedcenter && s.isdbaEntered == null)
       //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
 
     }
     else if (this.selectedfee == null) {
-      this.selectedData = this.erpList.filter(s => s.centerName == this.selectedcenter && this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => s.centerName == this.selectedcenter && this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
       //this.getdespatchDetails(this.selectedData);
+      this.listDatabyFiltering();
       console.log('with fee filter******')
 
       this.getbatchNo();
@@ -323,19 +337,85 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
 
     }
     else if (this.selectmonth == null) {
-      this.selectedData = this.erpList.filter(s => s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
       console.log('with fee filter******')
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
 
     }
     else {
-      this.selectedData = this.erpList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
+      this.selectedData = this.erpEntryList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
       //this.getdespatchDetails(this.selectedData);
       this.getbatchNo();
+      this.listDatabyFiltering();
       this.selectData(this.selectedData)
     }
 
+
+  }
+  filterFee(key) {
+    this.selectedfee = key;
+    this.selectedData = null;
+    this.checkBoxList.splice(0, this.checkBoxList.length);
+    if (this.selectmonth == null && this.selectedcenter == null) {
+
+      this.selectedData = this.erpEntryList.filter(s => s.feesItem == this.selectedfee && s.isdbaEntered == null)
+      this.getdespatchDetails(this.selectedData);
+      this.listDatabyFiltering();
+      this.selectData(this.selectedData);
+    }
+    else if (this.selectmonth == null) {
+
+      this.selectedData = this.erpEntryList.filter(s => s.feesItem == this.selectedfee && s.centerName == this.selectedcenter && s.isdbaEntered == null)
+      this.getdespatchDetails(this.selectedData);
+      this.listDatabyFiltering();
+      this.selectData(this.selectedData);
+
+    }
+    else if (this.selectedcenter == null) {
+
+      this.selectedData = this.erpEntryList.filter(s => s.feesItem == this.selectedfee && this.getMothFromDate(s.erpdate) == this.selectmonth && s.isdbaEntered == null)
+      this.getdespatchDetails(this.selectedData);
+      this.listDatabyFiltering();
+      this.selectData(this.selectedData);
+
+    }
+    else {
+      this.selectedData = this.erpEntryList.filter(s => this.getMothFromDate(s.erpdate) == this.selectmonth && s.centerName == this.selectedcenter && s.feesItem == this.selectedfee && s.isdbaEntered == null)
+      this.getdespatchDetails(this.selectedData);
+      this.listDatabyFiltering();
+      this.selectData(this.selectedData);
+    }
+  }
+  chechlistTotal(checklist) {
+    for (let i = 0; i <= checklist.length; i++) {
+
+      this.checklisttemp = checklist[i];
+      if (this.checklisttemp != null) {
+        this.checklistddTotal = parseFloat(this.checklistddTotal) + parseFloat(this.checklisttemp.erpAmount);
+      }
+    }
+  }
+  onchange(event, id, checkedData: kkcerpDespatch) {
+    console.log('event**', event);
+    console.log('id**', id);
+    console.log('checkdata**', checkedData);
+    if (event == true) {
+
+      this.checkBoxList.push(checkedData);
+      this.checklisttotal = this.checkBoxList.length;
+      this.checklistddTotal = 0;
+      this.chechlistTotal(this.checkBoxList);
+    }
+    else if (event == false) {
+      this.selectedDataIndex = this.checkBoxList.findIndex(list => list.unique == id);
+      this.checkBoxList.splice(this.selectedDataIndex, 1);
+      this.checklisttotal = this.checkBoxList.length;
+      this.checklistddTotal = 0;
+      this.chechlistTotal(this.checkBoxList);
+
+    }
 
   }
   getdespatchDetails(data) {
@@ -369,13 +449,11 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
     )
 
   }
-  beforeRegister(key){
+  beforeRegister(key) {
 
   }
-  filterFee(key){
 
-  }
-  export(){
+  export() {
 
   }
 }
