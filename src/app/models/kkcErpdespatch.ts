@@ -7,12 +7,12 @@ export class kkcerpDespatch {
     ID: number;
     unique: string;
     // date: string;
-    erpdespNo: String;
+    erpdespNo: string;
     centerName: string;
     centerCode: string;
     erpdate: string;
-    noofDd: String;
-    erpAmount: string;
+    noofDd: number;
+    erpAmount: number;
     remarks: string;
     isEditable: Boolean;
     isentered: Boolean;
@@ -21,6 +21,7 @@ export class kkcerpDespatch {
     enteredTime: string;
     ishoVerified: boolean;
     hoVerifiedBy: string;
+    month:string;
     feesItem: string;
     batchNo: string;
     tax: number;;

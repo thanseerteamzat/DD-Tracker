@@ -34,7 +34,7 @@
       <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
         <option value="" [selected]="" disabled>--Choose--</option>
         <ng-container *ngFor="let s of centerList">
-          <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+          <option [ngValue]="s.Id">{{s.CenterName}}</option>
         </ng-container>
 
       </select>
@@ -143,14 +143,14 @@
             <td>{{e.feeWithoutTax}}</td>
             <td>{{e.shareAmount}}</td>
             <td>{{e.rate}}</td>
-            <td><input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,e.unique,e)"></td>
+            <td><input type="checkbox" name="dbaNo" (change)="onchange($event.target.checked,ddenter.despatchList.despId,ddenter.despatchList)"></td>
           </tr>
 
         </ng-container>
         <tr>
           <td colspan="7" style="text-align: right">Total</td>
           <td>
-
+           
           </td>
           <td></td>
           <td></td>
