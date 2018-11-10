@@ -118,7 +118,7 @@ export class AcadamicService {
     const body = { "Table": "kkcErpEntry" };
 
 
-    return this.http.post<erpData>(this.config.testpyUrl + 'GetRows', body)
+    return this.http.post<erpData>(this.config.pyUrl + 'GetRows', body)
 
   }
 
@@ -156,12 +156,14 @@ export class AcadamicService {
     const body = { "Table": "kkcErpSroReportTable" };
 
 
-    return this.http.post<reportData>(this.config.testpyUrl + 'GetRows', body)
+    return this.http.post<reportData>(this.config.pyUrl + 'GetRows', body)
 
   }
 
 
   public UpdatekkcerpReportTable(reportEntry : kkcErpReportTable){
+  console.log('inside update service********************************************************')
+    
     const Sub = {
       "tableId": reportEntry.tableId,
       "centerName":reportEntry.centerName,
@@ -176,8 +178,8 @@ export class AcadamicService {
       "Data": Sub,
       "Where":{"tableId":reportEntry.tableId}
     };
-
-    this.http.post(this.config.testpyUrl + 'UpdateRows', body)
+  console.log('inside update service********************************************************')
+    this.http.post(this.config.pyUrl + 'UpdateRows', body)
       .subscribe(data => { },
         err => {
           console.log('Error: ' + err.error);
@@ -209,7 +211,7 @@ export class AcadamicService {
       "Data": Sub,
     };
 
-    this.http.post(this.config.testpyUrl + 'AddRow', body)
+    this.http.post(this.config.pyUrl + 'AddRow', body)
       .subscribe(data => { },
         err => {
           console.log('Error: ' + err.error);

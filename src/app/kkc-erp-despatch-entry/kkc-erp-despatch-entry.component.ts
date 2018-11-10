@@ -186,25 +186,16 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     let that = this;
     that.academic.GetKkcReportTable().subscribe(data => {
       that.reportEntries = data;
-      console.log("hi************")
-      // console.log(that.erpEntries, 'ERP Entries');
       console.log(that.reportEntries)
       this.reportList = new Array<kkcErpReportTable>();
       for (let i = 0; i <= data.Data.length; i++) {
-  
         let reportEntry = new kkcErpReportTable();
         if(data.Data[i] != null){
          reportEntry = data.Data[i];      
         this.reportList.push(reportEntry);
         }
       }
-      console.log('reportEntry',this.reportList)
-      // this.geteditEntry();    
-      
       },
-
-
-
       err => {
         console.log('Error: ' + err.error);
         console.log('Name: ' + err.name);
@@ -216,43 +207,19 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   }
 
   getErpEntry(){
-    
     let that = this;
     that.academic.GeterpEntry().subscribe(data => {
       that.erpEntries = data;
-      console.log("hi************")
-      console.log(that.erpEntries, 'ERP Entries');
       this.erpList = new Array<kkcerpDespatch>();
       this.serialNo = data.Data.length + 1;
-      for (let i = 0; i <= data.Data.length; i++) {
-      
+      for (let i = 0; i <= data.Data.length; i++) {      
         let erpEntry = new kkcerpDespatch();
         if(data.Data[i] != null){
-        erpEntry.ID = data.Data[i].ID;
-        erpEntry.centerName = data.Data[i].centerName;
-        // erpEntry.date =  data.Data[i].date;
-        erpEntry.erpAmount =  data.Data[i].erpAmount;
-        erpEntry.erpdate = data.Data[i].erpdate;
-        erpEntry.erpdespNo = data.Data[i].erpdespNo;
-        erpEntry.noofDd = data.Data[i].noofDd;
-        erpEntry.remarks = data.Data[i].remarks;
-        erpEntry.unique = data.Data[i].unique;
-        erpEntry.isdespatchEntered = data.Data[i].isdespatchEntered;
-        erpEntry.enteredDate = data.Data[i].enteredDate;
-        erpEntry.enteredTime=data.Data[i].enteredTime;
-        erpEntry.ishoVerified = data.Data[i].ishoVerified;
-        erpEntry.feesItem = data.Data[i].feesItem;
-        erpEntry.month = data.Data[i].month;
+        erpEntry = data.Data[i];
         this.erpList.push(erpEntry);
         }
       }
-      console.log('erpEntry',this.erpList)
-      this.geteditEntry();    
-      
       },
-
-
-
       err => {
         console.log('Error: ' + err.error);
         console.log('Name: ' + err.name);
@@ -386,63 +353,108 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.registerReporttable();
   }
   }
-  updateReportTable(month,centerName){
+ async updateReportTable(month,centerName){
     console.log('inside update Report Table');
     console.log('month------------->',month , ' centerName --------->',centerName)
     var amount =0;
     var count =0
     var no = [];
     console.log('inside update');
-    
-    for(let i=0 ;i<=this.erpList.length; i++){
-      let temperpObj = this.erpList[i];
-      if(temperpObj != null && temperpObj.month == month && temperpObj.centerName == centerName){
-        amount = parseFloat(amount.toString()) + parseFloat(temperpObj.erpAmount.toString());
-        console.log('amount*****************', amount);
-        count = parseFloat(count.toString()) + parseFloat(temperpObj.noofDd.toString());
-        console.log('count',count);
-        no.push(temperpObj.erpdespNo);
+    await this.getReportTable();
+   
+    let that = this;
+    that.academic.GeterpEntry().subscribe(data => {
+      that.erpEntries = data;
+      this.erpList = new Array<kkcerpDespatch>();
+      this.serialNo = data.Data.length + 1;
+      for (let i = 0; i <= data.Data.length; i++) {      
+        let erpEntry = new kkcerpDespatch();
+        if(data.Data[i] != null){
+        erpEntry = data.Data[i];
+        this.erpList.push(erpEntry);
+        }
       }
+      for(let i=0 ;i<=this.erpList.length; i++){
+        let temperpObj = this.erpList[i];
+        if(temperpObj != null && temperpObj.month == month && temperpObj.centerName == centerName){
+          amount = parseFloat(amount.toString()) + parseFloat(temperpObj.erpAmount.toString());
+          console.log('amount*****************', amount);
+          count = parseFloat(count.toString()) + parseFloat(temperpObj.noofDd.toString());
+          console.log('count',count);
+          no.push(temperpObj.erpdespNo);
+        }
+      
+      }
+  
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+   
+   
+   
     
-    }
     amount = amount + parseFloat(this.kkcerpdespatch.erpAmount.toString());
      
     count = count + parseFloat(this.kkcerpdespatch.noofDd.toString());
     // no.push(this.kkcerpdespatch.erpdespNo)
     // this.getReportTable();
 
-
-    console.log(this.reportList,'reprtList')
-    for(let i=0; i<=this.reportList.length;i++){
-      let tempObj=this.reportList[i];
-      console.log('report',this.reportList[i])
-      // console.log('tempobjmonth',tempObj.month);
-      console.log('month',month);
-      // console.log('temobj.centerName',tempObj.centerName);
-      console.log('centerName',centerName);
-      console.log('tempobj',tempObj)
-      if(this.kkcerpdespatch.erpdespNo != null && tempObj !=null && tempObj.month == month && tempObj.centerName == centerName){
-        console.log('inside if update')
-        console.log(tempObj.totalNoofDd);
-        console.log(this.kkcerpdespatch.noofDd)
-        // console.log(te)
-
-        tempObj.totalNoofDd = count;
-       tempObj.totalAmount = amount;
-       tempObj.statementNo = no;
-      // tempObj.totalNoofDd = parseFloat(tempObj.totalNoofDd.toString()) + parseFloat(this.kkcerpdespatch.noofDd.toString());      
-      
-      // tempObj.totalAmount =parseFloat( tempObj.totalAmount.toString()) + parseFloat(this.kkcerpdespatch.erpAmount.toString());
-         console.log('tempobj',tempObj);
-        
-       tempObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
-       this.academic.UpdatekkcerpReportTable(tempObj);
+    let thatt = this;
+    thatt.academic.GetKkcReportTable().subscribe(data => {
+      that.reportEntries = data;
+      console.log(that.reportEntries)
+      this.reportList = new Array<kkcErpReportTable>();
+      for (let i = 0; i <= data.Data.length; i++) {
+        let reportEntry = new kkcErpReportTable();
+        if(data.Data[i] != null){
+         reportEntry = data.Data[i];      
+        this.reportList.push(reportEntry);
+        }
       }
-    }
+      console.log(this.reportList,'reprtList')
+      for(let i=0; i<=this.reportList.length;i++){
+        let tempObj=this.reportList[i];
+        console.log('report',this.reportList[i])
+        // console.log('tempobjmonth',tempObj.month);
+        console.log('month',month);
+        // console.log('temobj.centerName',tempObj.centerName);
+        console.log('centerName',centerName);
+        console.log('tempobj',tempObj)
+        if(this.kkcerpdespatch.erpdespNo != null && tempObj !=null && tempObj.month == month && tempObj.centerName == centerName){
+          console.log('inside if update')
+          console.log(tempObj.totalNoofDd);
+          console.log(this.kkcerpdespatch.noofDd)
+          // console.log(te)
+  
+          tempObj.totalNoofDd = count;
+         tempObj.totalAmount = amount;
+         tempObj.statementNo = no;
+        // tempObj.totalNoofDd = parseFloat(tempObj.totalNoofDd.toString()) + parseFloat(this.kkcerpdespatch.noofDd.toString());      
+        
+        // tempObj.totalAmount =parseFloat( tempObj.totalAmount.toString()) + parseFloat(this.kkcerpdespatch.erpAmount.toString());
+           console.log('tempobj',tempObj);
+          
+         tempObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
+         this.academic.UpdatekkcerpReportTable(tempObj);
+        }
+      }
+  
+  
+  
+    },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+   
 
-
-
-
+    
   }
   registerReporttable(){
    this.tableforerpReport.centerName = this.kkcerpdespatch.centerName;
