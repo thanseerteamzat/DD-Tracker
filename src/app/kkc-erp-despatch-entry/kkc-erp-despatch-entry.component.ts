@@ -155,7 +155,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
    }
    if(tempList != null && tempList.CenterName == selectedcenter){
      this.selectedcenterCode = tempList.CenterCode;
-     console.log('selected center code******************************',this.selectedcenterCode);
+     console.log('selected center code*******************************',this.selectedcenterCode);
    }
   }   
 
