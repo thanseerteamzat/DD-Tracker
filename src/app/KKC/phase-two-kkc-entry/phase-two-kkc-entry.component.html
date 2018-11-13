@@ -56,8 +56,9 @@
 
 
                     <div class="form-group">
-                        <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker" bsDatepicker
-                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDate" [maxDate]="maxDate">
+                        <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker"
+                            bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }"
+                            [minDate]="minDate" [maxDate]="maxDate">
 
 
 
@@ -103,8 +104,8 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <!-- <label for="centercode">Code :</label> -->
                     Code : {{tempcentercode}}
-                    <select #t (change)="callType(t.value,centerName)" formControlName="centerNameVal"
-                        [(ngModel)]="centerName" class="form-control" name="selectedcenter">
+                    <select #t (change)="callType(t.value,centerName)" formControlName="centerNameVal" [(ngModel)]="centerName"
+                        class="form-control" name="selectedcenter">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let s of centerList">
                             <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
@@ -122,10 +123,11 @@
                         <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
 
-                <div class="form-group col-md-3"  [formGroup]="ddentryForm">
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="course">Student RollNumber</label>
 
-                    <select (change)="loadApp(studentRollNumber)" formControlName="rollNumberVal" [(ngModel)]="studentRollNumber" class="form-control" name="selectedstudent">
+                    <select (change)="loadApp(studentRollNumber)" formControlName="rollNumberVal" [(ngModel)]="studentRollNumber"
+                        class="form-control" name="selectedstudent">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let students of selectedData">
                             <option>{{students.studentRollNumber}}</option>
@@ -145,10 +147,10 @@
             <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
 
-                <div class="form-group col-md-3"  [formGroup]="ddentryForm">
+                <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="course">Student Name</label>
 
-                    <select  [(ngModel)]="studentName" class="form-control" formControlName="studentNameVal" name="selectedstudent">
+                    <select [(ngModel)]="studentName" class="form-control" formControlName="studentNameVal" name="selectedstudent">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let students of newselectedData">
                             <option>{{students.studentName}}</option>
@@ -184,7 +186,8 @@
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="app">Application Number</label>
 
-                    <select [(ngModel)]="applicationNumber" formControlName="applicationNoVal" class="form-control" name="selectedstudent">
+                    <select [(ngModel)]="applicationNumber" formControlName="applicationNoVal" class="form-control"
+                        name="selectedstudent">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let appNo of newselectedData">
                             <option>{{appNo.applicationNumber}}</option>
@@ -208,7 +211,7 @@
 
 
 
-            
+
 
 
 
@@ -223,11 +226,12 @@
 
             </div>
             <div class="row">
-               
+
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="course">Course Name</label>
 
-                    <select [(ngModel)]="courseName" formControlName="courseNameVal" (change)="callTypee()" class="form-control" name="selectedcourse">
+                    <select [(ngModel)]="courseName" formControlName="courseNameVal" (change)="callTypee()" class="form-control"
+                        name="selectedcourse">
                         <option value="">--Choose--</option>
                         <ng-container *ngFor="let courses of newselectedData">
                             <option [ngValue]="courses.courseName">{{courses.courseName}}</option>
@@ -243,10 +247,11 @@
                     <!-- <label for="centerName">Center Name</label>
                 <input type="text" class="form-control" placeholder="Center Name"> -->
                 </div>
-  
+
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddNo">DD Number</label>
-                    <input type="text" class="form-control" formControlName="ddNumberVal" [(ngModel)]="ddNumber" name="ddNumber" placeholder="DD Number">
+                    <input type="text" class="form-control" formControlName="ddNumberVal" [(ngModel)]="ddNumber" name="ddNumber"
+                        placeholder="DD Number">
                     <div *ngIf="ddNumberVal.invalid && (ddNumberVal.dirty || ddNumberVal.touched)" class="alert-danger">
                         <div *ngIf="ddNumberVal.errors.required">
                             DD Number is Required
@@ -285,9 +290,9 @@
                             <option>INDIAN BANK</option>
                             <option> INDIAN OVERSEAS BANK (IOB)</option>
                             <option>INDUSIND BANK</option>
-                         <option>KANNUR DIS.COOPERATIVE BANK(KDC)</option>
-                            
-                        <option>KARNATAKA BANK</option> 
+                            <option>KANNUR DIS.COOPERATIVE BANK(KDC)</option>
+
+                            <option>KARNATAKA BANK</option>
                             <option>KARUR VYSYA BANK</option>
                             <option>KERALA GRAMIN BANK</option>
                             <option>PUNJAB NATIONAL BANK</option>
@@ -297,6 +302,7 @@
                             <option>STATE BANK OF TRAVANCORE(SBT)</option>
                             <option>SYNDICATE BANK</option>
                             <option>THE CATHOLIC SYRIAN BANK</option>
+                            <option>TAMILNAD MERCANTILE BANK</option>
                             <option>UNION BANK OF INDIA (UBI)</option>
                             <option>UNITED BANK OF INDIA</option>
                             <option>VIJAYA BANK</option>
@@ -316,7 +322,8 @@
 
                 <div class="form-group col-md-3" [formGroup]="ddentryForm">
                     <label for="ddAmount">DD Amount</label>
-                    <input type="text" formControlName="ddAmountVal" [(ngModel)]="ddAmount" name="Amount" class="form-control" placeholder="DD Amount">
+                    <input type="text" formControlName="ddAmountVal" [(ngModel)]="ddAmount" name="Amount" class="form-control"
+                        placeholder="DD Amount">
                     <div *ngIf="ddAmountVal.invalid && (ddAmountVal.dirty || ddAmountVal.touched)" class="alert-danger">
                         <div *ngIf="ddAmountVal.errors.required">
                             DD Amount is required
@@ -329,17 +336,18 @@
 
 
 
-                
+
             </div>
             <div class="row">
-                
+
                 <div *ngIf='!isEditMode' class="form-group col-md-3">
                     <label for="date">DD Date(Date should be within last 60 days)</label>
 
 
                     <div class="form-group">
-                        <input readonly type="text" name="todaydatee" [(ngModel)]="ddDate" class="form-control" #dp="bsDatepicker" bsDatepicker containerClass="theme-red"
-                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}" [minDate]="minDateDD" [maxDate]="maxDateDD">
+                        <input readonly type="text" name="todaydatee" [(ngModel)]="ddDate" class="form-control" #dp="bsDatepicker"
+                            bsDatepicker containerClass="theme-red" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red'}"
+                            [minDate]="minDateDD" [maxDate]="maxDateDD">
 
 
 

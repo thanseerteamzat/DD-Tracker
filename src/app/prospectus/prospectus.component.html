@@ -28,114 +28,103 @@
 
 
             <div class="form-group">
-                    <input readonly type="text"
-                           name="todaydate"
-                           [(ngModel)]="todaydate"
-                    class="form-control"
-                           #dp="bsDatepicker"
-                           bsDatepicker
-                           
-                           [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }"
-                           [minDate]="minDate"
-                           [maxDate]="maxDate">
-                           
-                           
+              <input readonly type="text" name="todaydate" [(ngModel)]="todaydate" class="form-control" #dp="bsDatepicker"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDate"
+                [maxDate]="maxDate">
 
-                  </div>
+
+
+            </div>
 
 
             <!-- <input type="text" id="datepicker"> -->
             <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
 
-        </div>
+          </div>
 
-        <div *ngIf='isEditMode' class="form-group col-md-3">
+          <div *ngIf='isEditMode' class="form-group col-md-3">
             <label for="date">Date</label>
 
 
             <div class="form-group">
-                    <input type="text"
-                    name="newddEntry.dDate"       
-                    [(ngModel)]="newddEntry.dDate"
-                    class="form-control"
-                           #dp="bsDatepicker"
-                           bsDatepicker
-                         
-                           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }"
-                          >
-                           
-                           
+              <input type="text" name="newddEntry.dDate" [(ngModel)]="newddEntry.dDate" class="form-control" #dp="bsDatepicker"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }">
 
-                  </div>
+
+
+            </div>
 
 
             <!-- <input type="text" id="datepicker"> -->
             <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
 
-        </div>
+          </div>
 
 
           <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="enteredby">Fees Item </label>
-            <input type="text" readonly [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control" formControlName="feesItem">
+            <input type="text" readonly [(ngModel)]="newddEntry.feesItem" name="feesItem" class="form-control"
+              formControlName="feesItem">
           </div>
           <div class="form-group col-md-3">
-              <label for="District">District</label>
+            <label for="District">District</label>
 
-              <select (change)="district($event.target.value)" name="district" class="form-control">
-                  <option value="" disabled [selected]>--Choose--</option>
-                  <ng-container *ngFor="let d of districts">
-                      <option [value]="d.name">{{d.name}}</option>
+            <select (change)="district($event.target.value)" name="district" class="form-control">
+              <option value="" disabled [selected]>--Choose--</option>
+              <ng-container *ngFor="let d of districts">
+                <option [value]="d.name">{{d.name}}</option>
 
-                      <!-- <option [ngValue]="district" >Kannur</option>
+                <!-- <option [ngValue]="district" >Kannur</option>
                               <option [ngValue]="district">Kozhikode</option>
                               <option [ngValue]="district">Malappuram</option> -->
-                  </ng-container>
+              </ng-container>
 
-              </select>
+            </select>
           </div>
 
 
         </div>
 
         <div class="row">
-         
-            <div style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
-                <label style="color: black" for="center">Centre Name</label>
+
+          <div style="color: red" class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label style="color: black" for="center">Centre Name</label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <!-- <label for="centercode">Code :</label> -->
-            {{code}}    {{tempcentercode}}
+            <!-- <label for="centercode">Code :</label> -->
+            {{code}} {{tempcentercode}}
 
             <!-- <div class="form-group col-md-3" [formGroup]="ddentryForm">
                 <label for="center">Centre Name</label> -->
-    
-                <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter" formControlName="centerName">
-                  <option value="">--Choose--</option>
-                  <ng-container *ngFor="let s of centers">
-                    <option [ngValue]="s.Id">{{s.CenterName}}</option>
-                  </ng-container>
-    
-                </select>
-                <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
-                  <div *ngIf="centerName.errors.required">
-                    Please select a center
-                  </div>
-    
-                </div>
-    
-    
-                <!-- <label for="centerName">Center Name</label>
-                      <input type="text" class="form-control" placeholder="Center Name"> -->
+
+            <select #t (change)="callType(t.value)" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter"
+              formControlName="centerName">
+              <option value="">--Choose--</option>
+              <ng-container *ngFor="let s of centers">
+                <option [ngValue]="s.Id">{{s.CenterName}}</option>
+              </ng-container>
+
+            </select>
+            <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="alert-danger">
+              <div *ngIf="centerName.errors.required">
+                Please select a center
               </div>
-    
-    
-    
-    
-    
+
+            </div>
+
+
+            <!-- <label for="centerName">Center Name</label>
+                      <input type="text" class="form-control" placeholder="Center Name"> -->
+          </div>
+
+
+
+
+
 
           <div class="form-group col-md-3" [formGroup]="ddentryForm">
             <label for="ddNo">DD Number</label>
-            <input type="text" class="form-control" [(ngModel)]="newddEntry.ddNumber" name="ddNumber" placeholder="DD Number" formControlName="ddNumber">
+            <input type="text" class="form-control" [(ngModel)]="newddEntry.ddNumber" name="ddNumber" placeholder="DD Number"
+              formControlName="ddNumber">
             <div *ngIf="ddNumber.invalid && (ddNumber.dirty || ddNumber.touched)" class="alert-danger">
               <div *ngIf="ddNumber.errors.required">
                 DD Number is Required
@@ -166,7 +155,7 @@
                 <option>DHANALAXMI
                 </option>
                 <option>ERNAKULAM DT. CO-OPERATIVE BANK</option>
-                
+
                 <option>FEDERAL BANK</option>
                 <option>HDFC</option>
                 <option>ICICI</option>
@@ -183,6 +172,7 @@
                 <option>STATE BANK OF TRAVANCORE(SBT)</option>
                 <option>SYNDICATE BANK</option>
                 <option>THE CATHOLIC SYRIAN BANK</option>
+                <option>TAMILNAD MERCANTILE BANK</option>
                 <option>UNION BANK OF INDIA (UBI)</option>
                 <option>UNITED BANK OF INDIA</option>
                 <option>VIJAYA BANK</option>
@@ -206,51 +196,37 @@
 
 
             <div class="form-group">
-                    <input readonly type="text"
-                           name="todaydatee"
-                           [(ngModel)]="todaydatee"
-                    class="form-control"
-                           #dp="bsDatepicker"
-                           bsDatepicker
-                           
-                           [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }"
-                           [minDate]="minDateDD"
-                           [maxDate]="maxDateDD">
-                           
-                           
+              <input readonly type="text" name="todaydatee" [(ngModel)]="todaydatee" class="form-control" #dp="bsDatepicker"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',containerClass: 'theme-red' }" [minDate]="minDateDD"
+                [maxDate]="maxDateDD">
 
-                  </div> 
+
+
+            </div>
 
 
             <!-- <input type="text" id="datepicker"> -->
             <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
 
-        </div>
+          </div>
 
-        <div *ngIf='isEditMode' class="form-group col-md-3">
+          <div *ngIf='isEditMode' class="form-group col-md-3">
             <label for="date">DD Date</label>
 
 
             <div class="form-group">
-                    <input type="text"
-                    name="newddEntry.ddDate"       
-                    [(ngModel)]="newddEntry.ddDate"
-                    class="form-control"
-                           #dp="bsDatepicker"
-                           bsDatepicker
-                         
-                           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }"
-                          >
-                           
-                           
+              <input type="text" name="newddEntry.ddDate" [(ngModel)]="newddEntry.ddDate" class="form-control" #dp="bsDatepicker"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-red' }">
 
-                  </div>
+
+
+            </div>
 
 
             <!-- <input type="text" id="datepicker"> -->
             <!-- <input type="date" value=""[(ngModel)]="newddEntry.dDate" name="dDate" class="form-control"> -->
 
-        </div>
+          </div>
 
 
           <!-- <div class="form-group col-md-3">
@@ -259,26 +235,28 @@
           </div> -->
 
 
-          </div>
+        </div>
         <div class="row">
-            <div class="form-group col-md-3" [formGroup]="ddentryForm">
-                <label for="ddAmount">DD Amount</label>
-                <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount" formControlName="ddAmount">
-                <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
-                  <div *ngIf="ddAmount.errors.required">
-                    DD Amount is Required
-                  </div>
-                  <div *ngIf="ddAmount.errors.pattern">
-                    Please enter digit format
-                  </div>
-    
-                </div>
+          <div class="form-group col-md-3" [formGroup]="ddentryForm">
+            <label for="ddAmount">DD Amount</label>
+            <input type="text" [(ngModel)]="newddEntry.Amount" name="Amount" class="form-control" placeholder="DD Amount"
+              formControlName="ddAmount">
+            <div *ngIf="ddAmount.invalid && (ddAmount.dirty || ddAmount.touched)" class="alert-danger">
+              <div *ngIf="ddAmount.errors.required">
+                DD Amount is Required
               </div>
-            
+              <div *ngIf="ddAmount.errors.pattern">
+                Please enter digit format
+              </div>
+
+            </div>
+          </div>
+
 
           <div class="form-group col-md-3">
             <label for="enteredby">Entered By </label>
-            <input type="text" readonly [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control" placeholder="Entered By">
+            <input type="text" readonly [(ngModel)]="newddEntry.enteredBy" name="enteredBy" class="form-control"
+              placeholder="Entered By">
           </div>
 
 
@@ -287,10 +265,12 @@
 
         <div class="row">
           <div class="form-group col-md-12" [formGroup]="ddentryForm">
-            <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Save</button>
+            <button *ngIf='!isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid"
+              class="btn btn-primary">Save</button>
             &nbsp;
 
-            <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid" class="btn btn-primary">Update</button>
+            <button *ngIf='isEditMode' type="submit" (click)="register(lstid.Id,lstid)" [disabled]="ddentryForm.invalid"
+              class="btn btn-primary">Update</button>
 
             <!-- <button  type="submit" class="btn btn-primary">Update</button> -->
             &nbsp; <button type="reset" class="btn btn-primary">Cancel</button>
@@ -304,16 +284,16 @@
 
 
     <div style="padding-top: 20px;">
-        <h2>DD Entry List </h2>
+      <h2>DD Entry List </h2>
 
 
 
-<table class="table table-hover table-responsive table-bordered">
-    <thead class="thead-dark">
-        <tr>
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr>
             <th height="50">SL NO</th>
             <th>DD SL.No</th>
-            <th style="min-width: 90px;" >Date</th>
+            <th style="min-width: 90px;">Date</th>
             <th>Application No</th>
 
             <th style="min-width: 200px;">Centre Name</th>
@@ -329,45 +309,45 @@
             <th>Entered By</th>
             <th style="min-width: 100px;">Fees Item</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor='let ddenter of ddLists '>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor='let ddenter of ddLists '>
             <tr *ngIf="ddenter.ddenter.isVerified  == false">
-                <td>{{ddLists.indexOf(ddenter) + 1}}</td>
-                <td>{{ddenter.ddenter.ddlastId}}</td>
-                <td>{{ddenter.ddenter.dDate}}</td>
-                <td>{{ddenter.ddenter.appNo}}</td>
+              <td>{{ddLists.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.ddenter.ddlastId}}</td>
+              <td>{{ddenter.ddenter.dDate}}</td>
+              <td>{{ddenter.ddenter.appNo}}</td>
 
-                <td>{{ddenter.center.CenterName}}</td>
-                <td>{{ddenter.ddenter.courseName}}</td>
-                <td>   {{ddenter.ddenter.studentName}}
-                </td>
-             
-                <!-- <button type="button" class="btn btn-link">
+              <td>{{ddenter.center.CenterName}}</td>
+              <td>{{ddenter.ddenter.courseName}}</td>
+              <td> {{ddenter.ddenter.studentName}}
+              </td>
+
+              <!-- <button type="button" class="btn btn-link">
                         <a [routerLink]="['/ddentry-details', ddenter.ddenter.ddlastId]">{{ddenter.ddenter.studentName}}</a>
                     </button> -->
 
 
-                <td>{{ddenter.ddenter.ddNumber}}</td>
-                <td>{{ddenter.ddenter.bank}}</td>
+              <td>{{ddenter.ddenter.ddNumber}}</td>
+              <td>{{ddenter.ddenter.bank}}</td>
 
-                <td>{{ddenter.ddenter.ddDate}}</td>
+              <td>{{ddenter.ddenter.ddDate}}</td>
 
-                <td>{{ddenter.ddenter.Amount}}</td>
+              <td>{{ddenter.ddenter.Amount}}</td>
 
-                <td>{{ddenter.ddenter.enteredBy}}</td>
-                <td>{{ddenter.ddenter.feesItem}}</td>
+              <td>{{ddenter.ddenter.enteredBy}}</td>
+              <td>{{ddenter.ddenter.feesItem}}</td>
 
-             
+
             </tr>
-        </ng-container>
-    </tbody>
+          </ng-container>
+        </tbody>
 
-</table>
+      </table>
 
 
-</div>
+    </div>
 
 
 
