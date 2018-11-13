@@ -23,6 +23,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   centerList: Center[] = [];
   centers: CenterData;
   enteredDate = new Date;
+  test;
   message : string;
   enteredTime = new Date;
   selectedenteredDate;
@@ -156,7 +157,6 @@ export class KkcErpDespatchEntryComponent implements OnInit {
    if(tempList != null && tempList.CenterName == selectedcenter){
      this.selectedcenterCode = tempList.CenterCode;
      console.log('selected center code******************************',this.selectedcenterCode);
-     console.log('selected center code*******************************',this.selectedcenterCode);
    }
   }   
 
@@ -220,6 +220,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         this.erpList.push(erpEntry);
         }
       }
+      console.log('erplist',this.erpList )
       },
       err => {
         console.log('Error: ' + err.error);
@@ -329,85 +330,20 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   }
 
   }
- async beforeregister(){
+  beforeregister(){
 
     var dataalreadyExists : boolean;
- await this.register();
-    for(let i=0; i<=this.erpList.length;i++){
-      let tempObj = this.erpList[i];
-      if(tempObj != null && tempObj.month == this.kkcerpdespatch.month && tempObj.centerName == this.kkcerpdespatch.centerName){
-        //  this.tableforerpReport.centerName = this.kk
-          dataalreadyExists = true;
-          console.log('inside if')
-          break;
-      }
-      else{
-          dataalreadyExists = false;
-      }
-    }
-  if(dataalreadyExists == true){
-    console.log('need update ');
-    this.updateReportTable(this.kkcerpdespatch.month,this.kkcerpdespatch.centerName);
-  }
-  else{
-    console.log('need register');
-    this.registerReporttable();
-  }
-  }
- async updateReportTable(month,centerName){
-    console.log('inside update Report Table');
-    console.log('month------------->',month , ' centerName --------->',centerName)
-    var amount =0;
-    var count =0
-    var no = [];
-    console.log('inside update');
-    await this.getReportTable();
-   
-    let that = this;
-    that.academic.GeterpEntry().subscribe(data => {
-      that.erpEntries = data;
-      this.erpList = new Array<kkcerpDespatch>();
-      this.serialNo = data.Data.length + 1;
-      for (let i = 0; i <= data.Data.length; i++) {      
-        let erpEntry = new kkcerpDespatch();
-        if(data.Data[i] != null){
-        erpEntry = data.Data[i];
-        this.erpList.push(erpEntry);
-        }
-      }
-      for(let i=0 ;i<=this.erpList.length; i++){
-        let temperpObj = this.erpList[i];
-        if(temperpObj != null && temperpObj.month == month && temperpObj.centerName == centerName){
-          amount = parseFloat(amount.toString()) + parseFloat(temperpObj.erpAmount.toString());
-          console.log('amount*****************', amount);
-          count = parseFloat(count.toString()) + parseFloat(temperpObj.noofDd.toString());
-          console.log('count',count);
-          no.push(temperpObj.erpdespNo);
-        }
-      
-      }
   
-    },
-      err => {
-        console.log('Error: ' + err.error);
-        console.log('Name: ' + err.name);
-        console.log('Message: ' + err.message);
-        console.log('Status: ' + err.status);
-      })
-   
-   
-   
-    
-    amount = amount + parseFloat(this.kkcerpdespatch.erpAmount.toString());
-     
-    count = count + parseFloat(this.kkcerpdespatch.noofDd.toString());
-    // no.push(this.kkcerpdespatch.erpdespNo)
-    // this.getReportTable();
-
+  
+  
+  
+  
+    this.register();
+    this.getErpEntry();
     let thatt = this;
-    thatt.academic.GetKkcReportTable().subscribe(data => {
-      that.reportEntries = data;
-      console.log(that.reportEntries)
+     thatt.academic.GetKkcReportTable().subscribe(data => {
+      thatt.reportEntries = data;
+      console.log(thatt.reportEntries)
       this.reportList = new Array<kkcErpReportTable>();
       for (let i = 0; i <= data.Data.length; i++) {
         let reportEntry = new kkcErpReportTable();
@@ -416,46 +352,90 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         this.reportList.push(reportEntry);
         }
       }
-      console.log(this.reportList,'reprtList')
+
       for(let i=0; i<=this.reportList.length;i++){
-        let tempObj=this.reportList[i];
-        console.log('report',this.reportList[i])
-        // console.log('tempobjmonth',tempObj.month);
-        console.log('month',month);
-        // console.log('temobj.centerName',tempObj.centerName);
-        console.log('centerName',centerName);
-        console.log('tempobj',tempObj)
-        if(this.kkcerpdespatch.erpdespNo != null && tempObj !=null && tempObj.month == month && tempObj.centerName == centerName){
-          console.log('inside if update')
-          console.log(tempObj.totalNoofDd);
-          console.log(this.kkcerpdespatch.noofDd)
-          // console.log(te)
-  
-          tempObj.totalNoofDd = count;
-         tempObj.totalAmount = amount;
-         tempObj.statementNo = no;
-        // tempObj.totalNoofDd = parseFloat(tempObj.totalNoofDd.toString()) + parseFloat(this.kkcerpdespatch.noofDd.toString());      
-        
-        // tempObj.totalAmount =parseFloat( tempObj.totalAmount.toString()) + parseFloat(this.kkcerpdespatch.erpAmount.toString());
-           console.log('tempobj',tempObj);
-          
-         tempObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
-         this.academic.UpdatekkcerpReportTable(tempObj);
+        let tempObj = this.reportList[i];
+        if(tempObj != null && tempObj.month == this.kkcerpdespatch.month && tempObj.centerName == this.kkcerpdespatch.centerName){
+          //  this.tableforerpReport.centerName = this.kk
+            dataalreadyExists = true;
+            console.log('inside if')
+            break;
+        }
+        else{
+            dataalreadyExists = false;
         }
       }
-  
-  
-  
-    },
+
+    if(dataalreadyExists == true){
+    console.log('need update ');
+    this.updateReportTable(this.kkcerpdespatch.month,this.kkcerpdespatch.centerName);
+    }
+   else{
+    console.log('need register');
+    this.registerReporttable();
+    }
+
+
+
+
+      },
       err => {
         console.log('Error: ' + err.error);
         console.log('Name: ' + err.name);
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
       })
-   
+ 
+  }
+  updateReportTable(month,centerName){
 
-    
+    console.log('inside update report table')
+    var amount = 0;
+    var count = 0;
+    var  no = [];
+
+    let thatt = this;
+    thatt.academic.GetKkcReportTable().subscribe(data => {
+     thatt.reportEntries = data;
+     console.log(thatt.reportEntries)
+     this.reportList = new Array<kkcErpReportTable>();
+     for (let i = 0; i <= data.Data.length; i++) {
+       let reportEntry = new kkcErpReportTable();
+       if(data.Data[i] != null){
+        reportEntry = data.Data[i];      
+       this.reportList.push(reportEntry);
+       }
+     }
+
+    for( let i=0 ; i<= this.reportList.length ; i++){
+        let tempreportObj = this.reportList[i];
+        if( tempreportObj != null && tempreportObj.centerName == centerName && tempreportObj.month == month){
+          tempreportObj.totalAmount =parseFloat( tempreportObj.totalAmount.toString()) + parseFloat( this.kkcerpdespatch.erpAmount.toString());
+          tempreportObj.totalNoofDd = parseFloat( tempreportObj.totalNoofDd.toString())+ parseFloat(this.kkcerpdespatch.noofDd.toString()) ;
+          tempreportObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
+          console.log('inside if')
+          this.test = tempreportObj;
+
+           
+        } 
+    }
+    console.log('abc',this.test );
+
+   this.academic.UpdatekkcerpReportTable(this.test);
+
+
+
+     },
+     err => {
+       console.log('Error: ' + err.error);
+       console.log('Name: ' + err.name);
+       console.log('Message: ' + err.message);
+       console.log('Status: ' + err.status);
+     })
+
+
+  
+    this.resetform();
   }
   registerReporttable(){
    this.tableforerpReport.centerName = this.kkcerpdespatch.centerName;
@@ -472,6 +452,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
    console.log('table for register', this.tableforerpReport);
    this.academic.AddkkcerpReportTable(this.tableforerpReport);
 
+   this.resetform();
    
   }
   getMonthFromDate(dateData) {
@@ -480,7 +461,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       console.log('month**',month)
       return month;
     }}
-    async register()  {
+      register()  {
 
       let uniqueId = "ERP" + Common.newGuid();
       this.kkcerpdespatch.unique = uniqueId;
@@ -551,15 +532,15 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       console.log(this.erpdespNo)
       console.log(this.kkcerpdespatch);
       try{
-      await this.academic.AddKkcErpEntry(this.kkcerpdespatch);
-      await this.getReportTable();
+       this.academic.AddKkcErpEntry(this.kkcerpdespatch);
+      //  this.getReportTable();
       alert('Added Succesfully for the ERP Despatch No : ' +  this.kkcerpdespatch.erpdespNo);
     }
       catch(ex){
         alert('error in adding Erp despatch')
       }
-     this.getErpEntry();  
-     this.resetForm();  
+    //  this.getErpEntry();  
+    //  this.resetForm();  
     
     
     

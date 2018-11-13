@@ -118,7 +118,7 @@ export class AcadamicService {
     const body = { "Table": "kkcErpEntry" };
 
 
-    return this.http.post<erpData>(this.config.testpyUrl + 'GetRows', body)
+    return this.http.post<erpData>(this.config.pyUrl + 'GetRows', body)
 
   }
 
@@ -139,7 +139,7 @@ export class AcadamicService {
       "Data": Sub,
     };
 
-    this.http.post(this.config.testpyUrl + 'AddRow', body)
+    this.http.post(this.config.pyUrl + 'AddRow', body)
       .subscribe(data => { },
         err => {
           console.log('Error: ' + err.error);
@@ -249,7 +249,7 @@ export class AcadamicService {
 
     };
 
-    this.http.post(this.config.testpyUrl + 'UpdateRows', body)
+    this.http.post(this.config.pyUrl + 'UpdateRows', body)
       .subscribe(data => {
         console.log('data', data)
       },
