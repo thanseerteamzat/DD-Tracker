@@ -12,7 +12,10 @@
             <div style="color: red" class="form-group col-md-3">{{message}}
             </div>
         </div>
+
         <form name="form">
+            <ng-container *ngIf='serialNo != undefined'>
+        
             <div class="row">
                 <div class="form-group col-md-3">
                     <br>
@@ -41,11 +44,17 @@
 
 
                     <input #text type="text" class="form-control" formControlName="erpdespnoVal" [(ngModel)]="erpdespNo" name="erpdespNo">
-                    <button *ngIf='!isSroLogin' type="button" (click)="clickme(text.value)" class="form-control">Get Center</button>
+                    <!-- <button *ngIf='!isSroLogin' type="button" (click)="clickme(text.value)" class="form-control">Get Center</button> -->
 
                     <div *ngIf="erpdespnoVal.invalid && (erpdespnoVal.dirty || erpdespnoVal.touched)" class="alert-danger">
                         <div *ngIf="erpdespnoVal.errors.required">
                             ERP desp number is required
+                        </div>
+                        <div *ngIf="erpdespnoVal.errors.pattern">
+                            Please enter digit format
+                        </div>
+                        <div *ngIf="erpdespnoVal.errors.maxlength">
+                            Maximum is 4 digit number
                         </div>
                     </div>
 
@@ -73,7 +82,7 @@
             <div class="row">
     
 
-                <div class="form-group col-md-3">
+                <div *ngIf='isSroLogin' class="form-group col-md-3">
                     <label for="center">Center Name</label>
                     <input readonly type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
 
@@ -82,6 +91,19 @@
                             Please use get center
                         </div>
                     </div> -->
+
+                </div>
+
+                <div *ngIf='!isSroLogin' class="form-group col-md-3">
+                    <label for="center">Center Name</label>
+
+                    <select class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                  <option value="">--Choose--</option>
+                  <ng-container *ngFor="let s of centerList">
+                      <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+                  </ng-container>
+      
+              </select>
 
                 </div>
 
@@ -160,7 +182,7 @@
                 </div>
 
             </div>
-
+</ng-container>
         </form>
 
         <div style="padding-top: 20px;"></div>
