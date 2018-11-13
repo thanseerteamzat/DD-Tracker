@@ -30,7 +30,7 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
   erpList = new Array<kkcerpDespatch>();
   serialNo: number;
   erpEntries: erpData;
-  newdbaEntry = new Array<kkcdbaEntry>();
+  newdbaEntry: kkcdbaEntry = new kkcdbaEntry();
   selectedData: kkcerpDespatch[];
   selectedDataIndex;
   selectmonth;
@@ -73,7 +73,7 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
     private ets: EtsService,
     private fb: FormBuilder,
     private academic: AcadamicService,
-    private router :Router
+    private router: Router
   ) {
     this.getAllkkccenters();
     this.getErpEntry();
@@ -369,13 +369,13 @@ export class KkcDbaShareReleaseNoteComponent implements OnInit {
     )
 
   }
-  beforeRegister(key){
+  beforeRegister(key) {
 
   }
-  filterFee(key){
+  filterFee(key) {
 
   }
-  export(){
+  export() {
 
   }
 }

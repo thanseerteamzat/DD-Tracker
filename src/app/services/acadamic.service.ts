@@ -344,7 +344,6 @@ export class AcadamicService {
 
 
   public GetCenterInvoiceList2(): Observable<InvoiceCenterList2Data> {
-    console.log('AddSubject in service**************')
 
     const body = { "Table": "ddtKCVTPInvoiceCenterList2" };
 

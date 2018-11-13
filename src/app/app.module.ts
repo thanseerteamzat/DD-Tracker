@@ -189,7 +189,8 @@ const appRoutes: Routes = [
   { path: 'refresh', component: RefreshComponent },
   { path: 'kkc-erp-ho-verification', component: KkcErpHoVerificationComponent },
   { path: 'kkc-dbaentry', component: KkcDbaShareReleaseNoteComponent },
-  { path: 'kkc-sro-erp-monthly-report',component:SroDespatchMonthReportComponent }
+  { path: 'kkc-sro-erp-monthly-report', component: SroDespatchMonthReportComponent },
+  { path: 'invoicePendingCenters', component: CenterInvoiceReportComponent }
 ];
 
 

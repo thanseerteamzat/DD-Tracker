@@ -15,83 +15,83 @@ import { Center } from '../../models/Center';
 export class InvoiceentryverificationComponent implements OnInit {
 
 
-  
+
   ddLists: invoiceentryList[] = [];
   centerList: Center[] = [];
 
   count;
   format;
   constructor(private route: ActivatedRoute,
-              private db: AngularFireDatabase,
-               private router: Router,
-                private ets: EtsService) {
+    private db: AngularFireDatabase,
+    private router: Router,
+    private ets: EtsService) {
 
-    
-                  this.ets.GetAllCenters().subscribe(data => {
 
-                    this.ets.centerList = data;
-              
-                  },
-                    error => console.log(error),
-                    () => console.log('Get all complete'));
-              
-                  let centerResponse = this.ets.centerList;
-                  //  Iterate throw all keys.
-                  for (let cent of centerResponse) {
-              
-                    this.centerList.push(cent);
-              
-              
-                  }
-              
-              
-              
-                  let itemRef = db.object('invoiceEntry');
-                  itemRef.snapshotChanges().subscribe(action => {
-                    this.ddLists = [];
-                    var quatationsList = action.payload.val();
-                    let quotationobj = Common.snapshotToArray(action.payload);
-                    quotationobj.forEach(element => {
-                      let ddListItem = new invoiceentryList();
-                      let qobj: InvoiceEntry = JSON.parse(element);
-                      // console.log("****" + element);
-                      if (qobj.invoiceEntryId != undefined) {
-                        qobj.invoiceEntryId = qobj.invoiceEntryId.replace("/", "");
-                      }
-              
-                      ddListItem.ddenter = qobj;
-              
-                      // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
-                      // // console.log('2222222222222222222222222222',custList)
-                      // if (custList.length > 0) {
-                      //   ddListItem.center = custList[0];
-                      // }
-              
-                      this.ddLists.push(ddListItem);
-              
-                    });
-              
-                  });
-              
-              
+    this.ets.GetAllCenters().subscribe(data => {
+
+      this.ets.centerList = data;
+
+    },
+      error => console.log(error),
+      () => console.log('Get all complete'));
+
+    let centerResponse = this.ets.centerList;
+    //  Iterate throw all keys.
+    for (let cent of centerResponse) {
+
+      this.centerList.push(cent);
+
+
+    }
+
+
+
+    let itemRef = db.object('invoiceEntry');
+    itemRef.snapshotChanges().subscribe(action => {
+      this.ddLists = [];
+      var quatationsList = action.payload.val();
+      let quotationobj = Common.snapshotToArray(action.payload);
+      quotationobj.forEach(element => {
+        let ddListItem = new invoiceentryList();
+        let qobj: InvoiceEntry = JSON.parse(element);
+        // console.log("****" + element);
+        if (qobj.invoiceEntryId != undefined) {
+          qobj.invoiceEntryId = qobj.invoiceEntryId.replace("/", "");
+        }
+
+        ddListItem.ddenter = qobj;
+
+        // let custList = this.ets.centerList.filter(s => s.Id == (qobj.centerId));
+        // // console.log('2222222222222222222222222222',custList)
+        // if (custList.length > 0) {
+        //   ddListItem.center = custList[0];
+        // }
+
+        this.ddLists.push(ddListItem);
+
+      });
+
+    });
+
+
   }
 
   ngOnInit() {
-    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x2') !==-1 ) || (this.ets.cookievalue == "All"))  {
+    if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('x2') !== -1) || (this.ets.cookievalue == "All")) {
       console.log('inside if condition *********************')
       // this.router.navigate(['/dd-entry'])
     }
     else {
       this.router.navigate(['/error']);
     }
-  
+
   }
   entrySelection(ddlastId, invoiceentry: InvoiceEntry) {
 
     console.log('inside functionl entry selection', ddlastId)
     console.log(invoiceentry.enteredBy);
     console.log(invoiceentry.invoiceEntryId);
-    
-      this.router.navigate(['/invoiceentry-details/' +invoiceentry.invoiceEntryId])
-}
+
+    this.router.navigate(['/invoiceentry-details/' + invoiceentry.invoiceEntryId])
+  }
 }
