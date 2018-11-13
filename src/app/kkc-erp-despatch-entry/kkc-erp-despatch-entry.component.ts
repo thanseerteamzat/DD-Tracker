@@ -435,7 +435,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
 
 
   
-    
+    this.resetform();
   }
   registerReporttable(){
    this.tableforerpReport.centerName = this.kkcerpdespatch.centerName;
@@ -452,6 +452,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
    console.log('table for register', this.tableforerpReport);
    this.academic.AddkkcerpReportTable(this.tableforerpReport);
 
+   this.resetform();
    
   }
   getMonthFromDate(dateData) {
