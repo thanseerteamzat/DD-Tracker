@@ -443,7 +443,7 @@ export class InvoiceManualComponent implements OnInit {
       for (let j: number = 0; j < item1.length; j++) {
         let inneritem = item1[j];
         newList.CenterId = inneritem.CenterId;
-        newList.invoiceNo = this.newInvoice.invoiceNo + '/' + this.ets.FullFormatFinancialYear;
+        newList.invoiceNo = inneritem.CenterCode + '/' + this.newInvoice.invoiceNo + '/' + this.ets.financialYear;
         newList.invoiceDate = this.formatDate(this.newInvoice.invoiceDate);
         newList.dbaNo.push(inneritem.dbaNo);
         newList.dbaMonth = inneritem.dbaMonth;
@@ -460,6 +460,8 @@ export class InvoiceManualComponent implements OnInit {
       }
       this.groupedInvoiceCenterList.push(newList)
     }
+    console.log('DATA****', this.groupedInvoiceCenterList)
+
     // code for saving centerinvoice no
     for (let i = 0; i < this.centerList.length; i++) {
       var data = this.centerList[i];
@@ -502,20 +504,20 @@ export class InvoiceManualComponent implements OnInit {
         }
       }
     }
-    // console.log('DATA****', this.centerInvoiceNoList)
+    console.log('DATA****', this.centerInvoiceNoList)
 
 
 
     for (let i = 0; i < this.centerInvoiceNoList.length; i++) {
       var tempdata = this.centerInvoiceNoList[i];
-      this.academic.AddCenterInvoiceList2(tempdata);
+      // this.academic.AddCenterInvoiceList2(tempdata);
       for (let j = 0; j < this.centerList.length; j++) {
         let centerData = this.centerList[j];
         if (tempdata != null && centerData != null) {
           if (centerData.CenterName == tempdata.centerName) {
             let centerNo = parseInt(centerData.lastInvoiceNo) + 1;
             centerData.lastInvoiceNo = centerNo.toString();
-            this.academic.updateLastInvoiceNo(centerData);
+            // this.academic.updateLastInvoiceNo(centerData);
           }
         }
       }
@@ -528,7 +530,7 @@ export class InvoiceManualComponent implements OnInit {
   duplicateChecking() {
 
     this.invoiceNoExists = false;
-    let invoiceno = this.newInvoice.invoiceNo + '/' + this.ets.FullFormatFinancialYear;
+    let invoiceno = this.newInvoice.invoiceNo + '/' + this.ets.financialYear;
 
     for (let i = 0; i <= this.invoice.length; i++) {
       this.tempinvoiceList = this.invoice[i];

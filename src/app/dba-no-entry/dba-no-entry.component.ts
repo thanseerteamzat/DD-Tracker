@@ -163,7 +163,7 @@ export class DbaNoEntryComponent implements OnInit {
 
                 this.ddLists.push(ddListItem);
 
-                // console.log('**********', this.selectedData)
+                console.log('**********', this.despatch)
 
             });
 
@@ -193,10 +193,9 @@ export class DbaNoEntryComponent implements OnInit {
 
                 this.dbalist.push(obj as dbaEntry);
 
-
-
             });
         });
+        
 
     }
     formatDate(date) {
@@ -270,6 +269,9 @@ export class DbaNoEntryComponent implements OnInit {
         this.newInvoice.enteredby = this.entered;
         console.log('cookiename****', this.entered)
     }
+    toHTML(input): any {
+        return new DOMParser().parseFromString(input, "text/html").documentElement.textContent;
+    }
 
     filterFee(key) {
         this.selectedfee = key;
@@ -323,7 +325,7 @@ export class DbaNoEntryComponent implements OnInit {
                     this.newdbaNote.centerName = data.CenterName;
                 }
             })
-    
+
             this.newdbaNote.batchNo = list.despatchList.batchNo;
             this.newdbaNote.depDate = list.despatchList.despatchDate;
             this.newdbaNote.feesItem = list.despatchList.feeItem;
@@ -337,8 +339,7 @@ export class DbaNoEntryComponent implements OnInit {
         // console.log('data ***', this.dbaExportdata)
     }
 
-    export()
-    {
+    export() {
         console.log('data ***', this.dbaExportdata)
 
         this.academic.ExportDbaReport(this.dbaExportdata)
@@ -352,7 +353,7 @@ export class DbaNoEntryComponent implements OnInit {
         }
         if (this.selectedfee == null && this.selectedcenter == null) {
             this.selectedData = this.ddLists.filter(s => this.getMothFromDate(s.despatchList.despatchDate) == this.selectmonth && s.despatchList.isdbaEntered == null)
-        //    console.log('selected data',this.selectedData)
+            //    console.log('selected data',this.selectedData)
             this.getdespatchDetails(this.selectedData);
             this.getbatchNo();
             this.selectData(this.selectedData)
