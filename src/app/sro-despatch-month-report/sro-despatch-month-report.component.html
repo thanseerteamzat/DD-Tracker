@@ -13,7 +13,7 @@
             <div  *ngIf="!isSroLogin" style="color: red" class="form-group col-md-3">
               <label style="color: black" for="center">Centre Name</label>
               <!-- <label for="centercode">Code :</label> -->
-                   <select (change)="filterwithCenter()" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                   <select  class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
                   <option value="">--Choose--</option>
                   <ng-container *ngFor="let s of centerList">
                       <option [ngValue]="s.CenterName">{{s.CenterName}}</option>

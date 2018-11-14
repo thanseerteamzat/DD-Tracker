@@ -24,6 +24,11 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   centers: CenterData;
   enteredDate = new Date;
   test;
+testone;
+  tempamount = 0;
+  tempcount = 0;
+  tempno = [];
+
   message : string;
   enteredTime = new Date;
   selectedenteredDate;
@@ -68,11 +73,36 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.selectedenteredTime = this.formatTime(this.enteredTime)
     this.getAllkkccenters();
     this.ddcreateForm();
-    this.getErpEntry();    
+    this.getErpEntry();
+        
+
+
     this.getReportTable();
     if(this.id != undefined){     
        this.isEditMode  = true;
-       console.log('isEditmode',this.isEditMode)
+       console.log('isEditmode',this.isEditMode);
+       let that = this;
+       that.academic.GeterpEntry().subscribe(data => {
+         that.erpEntries = data;
+         this.erpList = new Array<kkcerpDespatch>();
+         this.serialNo = data.Data.length + 1;
+         for (let i = 0; i <= data.Data.length; i++) {      
+           let erpEntry = new kkcerpDespatch();
+           if(data.Data[i] != null){
+           erpEntry = data.Data[i];
+           this.erpList.push(erpEntry);
+           }
+         }
+         console.log('erplist',this.erpList );
+         this.geteditEntry();
+         },
+         err => {
+           console.log('Error: ' + err.error);
+           console.log('Name: ' + err.name);
+           console.log('Message: ' + err.message);
+           console.log('Status: ' + err.status);
+         })
+     
      }    
     }
 
@@ -245,6 +275,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
 
 
   ddentryForm = new FormGroup({
+    
 
     // centerNameVal: new FormControl(),
     erpdespnoVal: new FormControl(),
@@ -259,7 +290,8 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   ddcreateForm() {
     this.ddentryForm = this.fb.group(
       {
-        erpdespnoVal: [null, Validators.required],
+        erpdespnoVal: [null, Validators.compose([Validators.required, Validators.maxLength(4),Validators.pattern('[0-9]*')])],
+        
         feesItemVal: [null, Validators.required],
         
         // erpdespnoVal: [null,Validators.required],
@@ -313,6 +345,13 @@ export class KkcErpDespatchEntryComponent implements OnInit {
            this.newerpentry.noofDd = erpObj.noofDd;
            this.newerpentry.remarks = erpObj.remarks; 
            this.newerpentry.feesItem = erpObj.feesItem;
+          //  this.newerpentry.erpdespNo = erpObj.erpdespNo;
+           var str;
+           str = (erpObj.erpdespNo.match(/.{1,7}/g));
+           var abc = str[1];
+           abc=(abc.match(/.{1,4}/g));
+
+           this.erpdespNo = abc[0];
         }
       }
       console.log('*****************************',this.newerpentry)
@@ -420,9 +459,13 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         } 
     }
     console.log('abc',this.test );
-
+try{
    this.academic.UpdatekkcerpReportTable(this.test);
-
+   console.log('report table updates succesfully')
+}
+catch(x){
+  alert('error in update report table');
+}
 
 
      },
@@ -433,8 +476,6 @@ export class KkcErpDespatchEntryComponent implements OnInit {
        console.log('Status: ' + err.status);
      })
 
-
-  
     this.resetForm();
   }
   registerReporttable(){
@@ -450,8 +491,8 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.tableforerpReport.statementNo.push(this.kkcerpdespatch.erpdespNo)
   
    console.log('table for register', this.tableforerpReport);
+ try{
    this.academic.AddkkcerpReportTable(this.tableforerpReport);
-
    this.resetForm();
    
   }
@@ -461,13 +502,17 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       console.log('month**',month)
       return month;
     }}
-      register()  {
+      
+     
+    register()  {
 
       let uniqueId = "ERP" + Common.newGuid();
       this.kkcerpdespatch.unique = uniqueId;
       this.kkcerpdespatch.remarks = this.newerpentry.remarks;
       this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
       this.kkcerpdespatch.centerName = this.selectedcenter;
+    this.getcentercodefromCenterName(this.selectedcenter);
+      
       this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
      this.kkcerpdespatch.feesItem = this.newerpentry.feesItem;
       this.selectedDate = this.Date;
@@ -475,6 +520,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       this.selectederpDate = this.erpDate;
       this.kkcerpdespatch.erpdate = this.formatDate(this.selectederpDate);
       var temp = this.getMonthFromDate(this.kkcerpdespatch.erpdate);
+      
       switch(temp){
         case '01' :{ this.kkcerpdespatch.month = 'JAN';
                     break;}
@@ -521,12 +567,12 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         this.erpdespNo = '0' + this.erpdespNo ;
       }
       
-      if(this.isSroLogin){
+      // if(this.isSroLogin){
         this.kkcerpdespatch.erpdespNo = 'IDE/'+this.selectedcenterCode + '/' + this.erpdespNo + '/' + this.getMonthFromDate(this.kkcerpdespatch.erpdate) + '/'+ this.ets.financialYear
-      }
-      if(!this.isSroLogin){
-      this.kkcerpdespatch.erpdespNo = this.erpdespNo;
-      }
+      // }
+      // if(!this.isSroLogin){
+      // this.kkcerpdespatch.erpdespNo = this.erpdespNo;
+      // }
       this.kkcerpdespatch.enteredDate = this.selectedenteredDate;
       this.kkcerpdespatch.enteredTime =this.selectedenteredTime;
       console.log(this.erpdespNo)
@@ -546,7 +592,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     
     }
   
-   async update(){
+      update(){
       console.log('inside update function')
   
       this.kkcerpdespatch.centerName = this.selectedcenter;
@@ -556,68 +602,211 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       else{
         this.kkcerpdespatch.erpdate = this.formatDate(this.newerpentry.erpdate)
       }
-      this.kkcerpdespatch.month = this.getMonthFromDate(this.kkcerpdespatch.erpdate)
+      var temp = this.getMonthFromDate(this.kkcerpdespatch.erpdate)
+      switch(temp){
+        case '01' :{ this.kkcerpdespatch.month = 'JAN';
+                    break;}
+        case '02' :{ this.kkcerpdespatch.month = 'FEB';
+        break;}
+        
+        case '03' :{ this.kkcerpdespatch.month = 'MAR';
+        break;}
+        
+        case '04' : {this.kkcerpdespatch.month = 'APR';
+        break;}
+        
+        case '05' :{ this.kkcerpdespatch.month = 'MAY';
+        break;}
+  
+        case '06' : {this.kkcerpdespatch.month = 'JUN';
+        break;}
+        case '07' :{ this.kkcerpdespatch.month = 'JUL';
+        break;}
+  
+        case '08' :{ this.kkcerpdespatch.month = 'AUG';
+        break;
+      }
+        case '09' :{ this.kkcerpdespatch.month = 'SEP';
+        break;}
+  
+        case '10' :{ this.kkcerpdespatch.month = 'OCT';
+        break;}
+  
+        case '11' :{ this.kkcerpdespatch.month = 'NOV';
+        break;}
+  
+        case '12' :{ this.kkcerpdespatch.month = 'DEC';
+        break;}
+        
+      }
+
+
+
       this.kkcerpdespatch.feesItem = this.newerpentry.feesItem;
       this.kkcerpdespatch.erpAmount = this.newerpentry.erpAmount;
-      this.kkcerpdespatch.erpdespNo = this.erpdespNo;
+      // this.kkcerpdespatch.erpdespNo = this.erpdespNo;
+      this.getcentercodefromCenterName(this.selectedcenter);
+      if(this.erpdespNo.length == 3){
+        this.erpdespNo = '0'+ this.erpdespNo;
+
+      }
+
+      if(this.erpdespNo.length == 2){
+        this.erpdespNo = '00'+ this.erpdespNo;
+
+      }
+      if(this.erpdespNo.length == 2){
+        this.erpdespNo = '000'+ this.erpdespNo;
+
+      }
+      
+      this.kkcerpdespatch.erpdespNo = 'IDE/'+this.selectedcenterCode + '/' + this.erpdespNo + '/' + this.getMonthFromDate(this.kkcerpdespatch.erpdate) + '/'+ this.ets.financialYear
+
+
       this.kkcerpdespatch.ID = this.newerpentry.ID;
       this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
       this.kkcerpdespatch.remarks = this.newerpentry.remarks;
       this.kkcerpdespatch.unique = this.newerpentry.unique;
-      if (confirm('Are you sure to update details')) {
+     console.log( this.kkcerpdespatch)
+        if (confirm('Are you sure to update details')) {
   
-      await  this.academic.updateKkcErpEntry(this.kkcerpdespatch);
-  
-      alert('updated successfully');
-      }
-     this.getErpEntry();
-      console.log('hai')
+         this.academic.updateKkcErpEntry(this.kkcerpdespatch);
+         alert('updated successfully');
 
-      // console.log('month------------->',month , ' centerName --------->',centerName)
-      var amount =0;
-      var count =0
+         let that = this;
+         that.academic.GeterpEntry().subscribe(data => {
+         that.erpEntries = data;
+          this.erpList = new Array<kkcerpDespatch>();
+        this.serialNo = data.Data.length + 1;
+        for (let i = 0; i <= data.Data.length; i++) {      
+        let erpEntry = new kkcerpDespatch();
+        if(data.Data[i] != null){
+        erpEntry = data.Data[i];
+        this.erpList.push(erpEntry);
+        }
+      }
+      var amount = 0;
+      var count = 0;
       var no = [];
-
-      console.log('length',this.erpList.length);
-      
-      for(let i=0 ;i<=this.erpList.length; i++){
-        let temperpObj = this.erpList[i];
-        // console.log('temperpObj', temperp)
-        if(temperpObj != null && temperpObj.month == this.kkcerpdespatch.month && temperpObj.centerName == this.kkcerpdespatch.centerName){
-          amount = parseFloat(amount.toString()) + parseFloat(temperpObj.erpAmount.toString());
-          console.log('amount*****************', amount);
-          count = parseFloat(count.toString()) + parseFloat(temperpObj.noofDd.toString());
-          console.log('count',count);
-          no.push(temperpObj.erpdespNo);
-        }
-      
-      }
-      // amount = amount + parseFloat(this.kkcerpdespatch.erpAmount.toString());
-       
-      // count = count + parseFloat(this.kkcerpdespatch.noofDd.toString());
-      // no.push(this.kkcerpdespatch.erpdespNo)
-      // this.getReportTable();
-  
-  
-      for(let i=0; i<=this.reportList.length;i++){
-        let tempObj=this.reportList[i];
-        // console.log('centerName',centerName);
-        if(this.kkcerpdespatch.erpdespNo != null && tempObj !=null && tempObj.month == this.kkcerpdespatch.month && tempObj.centerName == this.kkcerpdespatch.centerName){
-          console.log(tempObj.totalNoofDd);
-          console.log(this.kkcerpdespatch.noofDd)
-          // console.log(te)
-  
-          tempObj.totalNoofDd = count;
-         tempObj.totalAmount = amount;
-         tempObj.statementNo = no;
-        // tempObj.totalNoofDd = parseFloat(tempObj.totalNoofDd.toString()) + parseFloat(this.kkcerpdespatch.noofDd.toString());      
-        
-        // tempObj.totalAmount =parseFloat( tempObj.totalAmount.toString()) + parseFloat(this.kkcerpdespatch.erpAmount.toString());
+      console.log('erplist',this.erpList );
+      console.log(this.erpList.length,'length')
+      for( let i=0 ; i<= this.erpList.length;i++){
+        let tempupdObj = this.erpList[i];
+        console.log(tempupdObj);
+        console.log(this.kkcerpdespatch.month);
+        console.log(this.kkcerpdespatch.centerName)
+        if(tempupdObj != null && tempupdObj.month == this.kkcerpdespatch.month && tempupdObj.centerName == this.kkcerpdespatch.centerName){
+         console.log('inside if')
+          amount =parseFloat( amount.toString()) + parseFloat( tempupdObj.erpAmount.toString());
+          count = parseFloat(count.toString()) + parseFloat( tempupdObj.noofDd.toString());
+          no.push(this.kkcerpdespatch.erpdespNo);
           
-         tempObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
-         this.academic.UpdatekkcerpReportTable(tempObj);
         }
       }
+      this.tempamount =amount;
+      console.log(this.tempamount,'temp amount')
+      this.tempcount = count;
+      this.tempno = no;
+
+
+
+
+      },
+      err => {
+        console.log('Error: ' + err.error);
+        console.log('Name: ' + err.name);
+        console.log('Message: ' + err.message);
+        console.log('Status: ' + err.status);
+      })
+  
+      let thatt = this;
+      thatt.academic.GetKkcReportTable().subscribe(data => {
+        that.reportEntries = data;
+        console.log(that.reportEntries)
+        this.reportList = new Array<kkcErpReportTable>();
+        for (let i = 0; i <= data.Data.length; i++) {
+          let reportEntry = new kkcErpReportTable();
+          if(data.Data[i] != null){
+           reportEntry = data.Data[i];      
+          this.reportList.push(reportEntry);
+          }
+        }
+         
+        for(let i=0 ; i<= this.reportList.length ; i++){
+          let tempupdateobj = this.reportList[i];
+          if(tempupdateobj != null && tempupdateobj.centerName == this.kkcerpdespatch.centerName && tempupdateobj.month == this.kkcerpdespatch.month){
+            tempupdateobj.statementNo = this.tempno;
+            tempupdateobj.totalNoofDd = this.tempcount;
+            tempupdateobj.totalAmount = this.tempamount; 
+            console.log(tempupdateobj , 'tempupdate obj');
+             this.academic.UpdatekkcerpReportTable(tempupdateobj);
+             this.getReportTable();
+            
+          }
+        }
+        // console.log('',)
+        },
+        err => {
+          console.log('Error: ' + err.error);
+          console.log('Name: ' + err.name);
+          console.log('Message: ' + err.message);
+          console.log('Status: ' + err.status);
+        })
+     
+  
+      }
+
+
+
+
+    //  this.getErpEntry();
+    //   console.log('hai')
+
+    //   // console.log('month------------->',month , ' centerName --------->',centerName)
+    //   var amount =0;
+    //   var count =0
+    //   var no = [];
+
+    //   console.log('length',this.erpList.length);
+      
+    //   for(let i=0 ;i<=this.erpList.length; i++){
+    //     let temperpObj = this.erpList[i];
+    //     // console.log('temperpObj', temperp)
+    //     if(temperpObj != null && temperpObj.month == this.kkcerpdespatch.month && temperpObj.centerName == this.kkcerpdespatch.centerName){
+    //       amount = parseFloat(amount.toString()) + parseFloat(temperpObj.erpAmount.toString());
+    //       console.log('amount*****************', amount);
+    //       count = parseFloat(count.toString()) + parseFloat(temperpObj.noofDd.toString());
+    //       console.log('count',count);
+    //       no.push(temperpObj.erpdespNo);
+    //     }
+      
+    //   }
+    //   // amount = amount + parseFloat(this.kkcerpdespatch.erpAmount.toString());
+       
+    //   // count = count + parseFloat(this.kkcerpdespatch.noofDd.toString());
+    //   // no.push(this.kkcerpdespatch.erpdespNo)
+    //   // this.getReportTable();
+  
+  
+    //   for(let i=0; i<=this.reportList.length;i++){
+    //     let tempObj=this.reportList[i];
+    //     // console.log('centerName',centerName);
+    //     if(this.kkcerpdespatch.erpdespNo != null && tempObj !=null && tempObj.month == this.kkcerpdespatch.month && tempObj.centerName == this.kkcerpdespatch.centerName){
+    //       console.log(tempObj.totalNoofDd);
+    //       console.log(this.kkcerpdespatch.noofDd)
+    //       // console.log(te)
+  
+    //       tempObj.totalNoofDd = count;
+    //      tempObj.totalAmount = amount;
+    //      tempObj.statementNo = no;
+    //     // tempObj.totalNoofDd = parseFloat(tempObj.totalNoofDd.toString()) + parseFloat(this.kkcerpdespatch.noofDd.toString());      
+        
+    //     // tempObj.totalAmount =parseFloat( tempObj.totalAmount.toString()) + parseFloat(this.kkcerpdespatch.erpAmount.toString());
+          
+    //      tempObj.statementNo.push(this.kkcerpdespatch.erpdespNo);
+    //      this.academic.UpdatekkcerpReportTable(tempObj);
+    //     }
+    //   }
   
   
   
@@ -642,9 +831,9 @@ export class KkcErpDespatchEntryComponent implements OnInit {
 
 
 
-    console.log('hai')
-      this.resetForm();
-      //  this.router.navigate[('../dd-entry')];
+    // console.log('hai')
+    //   this.resetForm();
+    //   //  this.router.navigate[('../dd-entry')];
       
     }
    
