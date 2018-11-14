@@ -96,6 +96,7 @@ import { KkcErpHoVerificationComponent } from './kkc-erp-ho-verification/kkc-erp
 import { KkcDbaShareReleaseNoteComponent } from './KKC/kkc-dba-share-release-note/kkc-dba-share-release-note.component';
 import { dbaShareReleaseNote } from './models/dbaEntry';
 import { SroDespatchMonthReportComponent } from './sro-despatch-month-report/sro-despatch-month-report.component';
+import { CenterInvoiceReportComponent } from './Invoicee/center-invoice-report/center-invoice-report.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -188,7 +189,8 @@ const appRoutes: Routes = [
   { path: 'refresh', component: RefreshComponent },
   { path: 'kkc-erp-ho-verification', component: KkcErpHoVerificationComponent },
   { path: 'kkc-dbaentry', component: KkcDbaShareReleaseNoteComponent },
-  { path: 'kkc-sro-erp-monthly-report',component:SroDespatchMonthReportComponent }
+  { path: 'kkc-sro-erp-monthly-report', component: SroDespatchMonthReportComponent },
+  { path: 'invoicePendingCenters', component: CenterInvoiceReportComponent }
 ];
 
 
@@ -267,7 +269,8 @@ const appRoutes: Routes = [
     RefreshComponent,
     KkcErpHoVerificationComponent,
     KkcDbaShareReleaseNoteComponent,
-    SroDespatchMonthReportComponent
+    SroDespatchMonthReportComponent,
+    CenterInvoiceReportComponent
 
   ],
   imports: [

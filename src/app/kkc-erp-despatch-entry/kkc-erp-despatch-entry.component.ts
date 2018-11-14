@@ -476,8 +476,6 @@ catch(x){
        console.log('Status: ' + err.status);
      })
 
-
-  
     this.resetForm();
   }
   registerReporttable(){
@@ -495,11 +493,6 @@ catch(x){
    console.log('table for register', this.tableforerpReport);
  try{
    this.academic.AddkkcerpReportTable(this.tableforerpReport);
-   console.log('added in report table successfully')
- }
- catch(x){
-   alert('error in adding in report table')
- }
    this.resetForm();
    
   }
@@ -509,6 +502,7 @@ catch(x){
       console.log('month**',month)
       return month;
     }}
+      
      
     register()  {
 

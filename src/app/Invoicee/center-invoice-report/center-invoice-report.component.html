@@ -1,0 +1,90 @@
+<div class="wrapper" style="margin-left: 50px">
+  <h2>KCVTP Invoice Pending Centers</h2>
+  <div class="row" style="padding-top: 30px;padding-left: 50px;padding-right: 50px">
+    <div class="form-group col-md-3">
+
+      <label>Filter with Month : </label>&nbsp;
+      <select [(ngModel)]="selectedMonth" class="form-control" name="selectedMonth" (change)="filterMonth(selectedMonth)">
+        <option value="">--Choose--</option>
+        <ng-container *ngFor="let month of Months">
+          <option [ngValue]="month.name">{{month.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+
+    <div class="form-group col-md-3">
+
+      <label>Filter with Centre Name : </label>&nbsp;
+      <select [(ngModel)]="selectedCenter" class="form-control" name="selectedCenter" (change)="filterCenter(selectedCenter)">
+        <option value="" [selected]="" disabled>--Choose--</option>
+        <ng-container *ngFor="let s of centerList">
+          <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
+        </ng-container>
+
+      </select>
+
+    </div>
+
+    <div style="padding-top: 50px;" id="tabledata">
+
+      <table class="table table-hover table-responsive table-bordered">
+        <thead class="thead-dark">
+          <tr rowspan="2">
+
+            <th>Sl.No </th>
+            <th>HO DBA NO</th>
+            <th>INVOICE NO</th>
+            <th>CENTER INVOICE NO</th>
+            <th>NAME OF KCVTP</th>
+            <th>INVOICE MONTH</th>
+            <th>DBA AMOUNT</th>
+            <th>TAXABLE AMOUNT</th>
+            <th>SHARE AMOUNT</th>
+            <th>INVOICE DATE</th>
+            <th>GST</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let ddenter of pendingList">
+            <tr>
+              <td>{{pendingList.indexOf(ddenter) + 1}}</td>
+              <td>{{ddenter.dbaNo}}</td>
+              <td>{{ddenter.InvoiceNo}}</td>
+
+              <!-- <td>{{ddenter.center?.CenterName}}</td> -->
+              <td>{{ddenter.centerInvoiceNo}}</td>
+              <td>{{ddenter.centerName}}</td>
+
+              <td>{{ddenter.invoiceMonth}}</td>
+              <td>{{ddenter.dbaAmount}}</td>
+              <td>{{ddenter.taxableAmount}}</td>
+              <td>{{ddenter.shareAmount}} </td>
+              <td>{{ddenter.invoiceDate}}</td>
+              <td></td>
+              <!-- <td>
+                <mat-checkbox (change)="onClick($event.checked,ddenter.InvoiceNo,ddenter)">
+
+                </mat-checkbox>
+              </td> -->
+
+            </tr>
+
+          </ng-container>
+          <!-- <tr>
+            <th colspan="5" style="text-align: right">Total</th>
+            <td>
+              {{desptotal}}
+            </td>
+            <td>{{taxtotal}}</td>
+            <td>{{amountTotal}}</td>
+
+          </tr> -->
+        </tbody>
+
+      </table>
+    </div>
+    <!-- <button type="submit" (click)="sendMail(selectedData)">Send Mail</button> -->
+  </div>
+</div>
