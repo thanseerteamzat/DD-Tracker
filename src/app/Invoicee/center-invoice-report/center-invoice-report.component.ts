@@ -15,7 +15,7 @@ import { InvoiceCenterList2 } from 'src/app/models/invoice ';
 })
 export class CenterInvoiceReportComponent implements OnInit {
   centerList: Center[] = []
-  invoiceEntryLists: InvoiceEntry[];
+  invoiceEntryLists: InvoiceEntry[] = [];
   invoiceEntry: InvoiceEntry[] = [];
   centers;
   selectedMonth;
@@ -44,7 +44,7 @@ export class CenterInvoiceReportComponent implements OnInit {
     { id: '6', name: 'Inspection' },
     { id: '7', name: 'Duplicate Certificate/Marklist' },
   ];
-  centerInvoiceList2: InvoiceCenterList2[] = [];
+  centerInvoiceList2 = new Array<InvoiceCenterList2>();
   pendingList: InvoiceCenterList2[] = [];
   list;
   constructor(
@@ -54,10 +54,7 @@ export class CenterInvoiceReportComponent implements OnInit {
     private academic: AcadamicService
   ) {
 
-    // this.getKcvtpCenters();
-    // this.getKcvtpCenterInvoiceList2();
-    // this.checkInvoicePendingCenters();
-    console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+
     let itemRef = db.object('invoiceEntry');
     itemRef.snapshotChanges().subscribe(action => {
       this.invoiceEntry = [];
@@ -66,24 +63,29 @@ export class CenterInvoiceReportComponent implements OnInit {
       quotationobj.forEach(element => {
         let ddListItem = new invoiceentryList();
         let qobj: InvoiceEntry = JSON.parse(element);
-        this.invoiceEntry.push(qobj)
+        this.invoiceEntry.push(qobj as InvoiceEntry)
+        this.invoiceEntryLists = this.invoiceEntry.filter(s => s.isVerified == true);
 
 
-      });
-      // console.log('firebase data', this.invoiceEntry)
+      }),
+
+
+        // console.log('7777777', this.centerList)
+        // this.getKcvtpCenters();
+        this.getkkcCenters();
+      this.kkcCenterInvoiceList()
+      this.checkInvoicePendingCenters(this.invoiceEntryLists, this.centerInvoiceList2);
+
     });
-    console.log('inv 2', this.centerInvoiceList2);
-    console.log('firebase data**', this.invoiceEntry);
-    this.invoiceEntryLists = this.invoiceEntry.filter(s => s.isVerified == true);
-    console.log('data**', this.invoiceEntryLists)
+
 
 
 
 
   }
-  getKcvtpCenters() {
+
+  getkkcCenters() {
     let that = this;
-    //center list from api
     this.academic.GetAllKCVTPCenters().subscribe(resdata => {
       this.centers = resdata;
       // console.log(resdata);
@@ -100,6 +102,7 @@ export class CenterInvoiceReportComponent implements OnInit {
 
         }
       }
+      // console.log('center list', this.centerList)
 
     },
       err => {
@@ -109,24 +112,23 @@ export class CenterInvoiceReportComponent implements OnInit {
         console.log('Status: ' + err.status);
       })
   }
-  getKcvtpCenterInvoiceList2() {
+  kkcCenterInvoiceList() {
     let that = this;
     that.academic.GetCenterInvoiceList2().subscribe(data => {
       that.list = data;
-      this.getKcvtpCenters();
-
+      // console.log('CENTER***', this.centerList)
       for (let i = 0; i <= data.Data.length; i++) {
         let invList = new InvoiceCenterList2();
-
         if (data.Data[i] != null) {
           invList.dbaNo = data.Data[i].dbaNo;
-
           this.centerList.forEach(center => {
             if (center.CenterName == data.Data[i].centerName) {
+              console.log('matching')
+
               let split1 = data.Data[i].InvoiceNo.slice(0, -10);
               // console.log('no', split1)
               let year = '18-19'
-              invList.InvoiceNo = center.CenterCode + '/' + split1 + '/' + year;
+              invList.InvoiceNo = center.CenterCode + '/' + split1 + '/' + year
 
             }
           })
@@ -144,22 +146,8 @@ export class CenterInvoiceReportComponent implements OnInit {
         }
       }
 
-      console.log('centerlist', this.centerInvoiceList2)
-      for (let i = 0; i < this.centerInvoiceList2.length; i++) {
-        var centerInvoiceData = this.centerInvoiceList2[i];
-        for (let j = 0; j < this.invoiceEntryLists.length; j++) {
-          var invoiceEntryData = this.invoiceEntryLists[j];
+      // console.log('centerlist', this.centerInvoiceList2)
 
-          if (centerInvoiceData != null && invoiceEntryData != null
-            && centerInvoiceData.InvoiceNo == invoiceEntryData.invoiceNumber
-            && centerInvoiceData.centerName == invoiceEntryData.centerName) {
-            console.log('success')
-            this.pendingList.push(centerInvoiceData);
-
-          }
-        }
-      }
-      console.log('88888', this.pendingList)
 
     },
       err => {
@@ -168,9 +156,6 @@ export class CenterInvoiceReportComponent implements OnInit {
         console.log('Message: ' + err.message);
         console.log('Status: ' + err.status);
       })
-
-
-
   }
   ngOnInit() {
     // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
@@ -180,14 +165,36 @@ export class CenterInvoiceReportComponent implements OnInit {
     // else {
     //   this.router.navigate(['/error']);
     // }
-    this.getKcvtpCenters();
-    this.getKcvtpCenterInvoiceList2();
+
+    this.getkkcCenters();
 
 
   }
 
-  checkInvoicePendingCenters() {
+  checkInvoicePendingCenters(invoiceData, invoiceCenterList) {
+    console.log('invoiceData ', invoiceData)
+    console.log('invoiceCentFerList ', invoiceCenterList)
+    console.log('pendingList length', this.pendingList.length)
 
+    for (let i = 0; i < invoiceCenterList.length; i++) {
+      var centerInvoiceData = invoiceCenterList[i];
+      for (let j = 0; j < invoiceData.length; j++) {
+        var invoiceEntryData = invoiceData[j];
+        console.log('before condition')
+
+        if (centerInvoiceData != null && invoiceEntryData != null
+          && centerInvoiceData.InvoiceNo == invoiceEntryData.invoiceNumber
+          && centerInvoiceData.centerName == invoiceData.centerName
+        ) {
+          console.log('success')
+          this.pendingList.push(centerInvoiceData);
+
+        }
+
+      }
+
+    }
+    console.log('PENDING LIST', this.pendingList)
 
   }
   filterMonth(monthValue) {
