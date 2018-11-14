@@ -170,8 +170,17 @@ export class CenterInvoiceReportComponent implements OnInit {
 
   }
   ngOnInit() {
+    // if (this.ets.cookievalue != null && (this.ets.cookievalue.indexOf('y2') !== -1) || (this.ets.cookievalue == "All")) {
+    //   console.log('inside if condition *********************')
+    //   // this.router.navigate(['/dd-entry'])
+    // }
+    // else {
+    //   this.router.navigate(['/error']);
+    // }
     this.getKcvtpCenters();
     this.getKcvtpCenterInvoiceList2();
+
+    
   }
 
   checkInvoicePendingCenters() {
