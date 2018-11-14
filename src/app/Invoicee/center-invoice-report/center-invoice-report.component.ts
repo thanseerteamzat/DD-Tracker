@@ -73,7 +73,7 @@ export class CenterInvoiceReportComponent implements OnInit {
         // console.log('7777777', this.centerList)
         // this.getKcvtpCenters();
         this.getkkcCenters();
-      this.kkcCenterInvoiceList()
+      // this.kkcCenterInvoiceList()
       this.checkInvoicePendingCenters(this.invoiceEntryLists, this.centerInvoiceList2);
 
     });
@@ -103,6 +103,7 @@ export class CenterInvoiceReportComponent implements OnInit {
         }
       }
       // console.log('center list', this.centerList)
+      this.kkcCenterInvoiceList()
 
     },
       err => {
