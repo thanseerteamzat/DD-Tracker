@@ -781,7 +781,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
           let reportEntry = new kkcErpReportTable();
           if (data.Data[i] != null) {
             reportEntry = data.Data[i];
-            this.reportList.push(reportEntry);
+            this.reportList.push(reportEntry); 
           }
         }
 
