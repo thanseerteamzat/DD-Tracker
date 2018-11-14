@@ -18,6 +18,8 @@ export class CenterInvoiceReportComponent implements OnInit {
   invoiceEntryLists: InvoiceEntry[];
   invoiceEntry: InvoiceEntry[] = [];
   centers;
+  selectedMonth;
+  selectedCenter;
   Months = [
     { id: '01', name: 'Jan' },
     { id: '02', name: 'Feb' },
@@ -75,21 +77,7 @@ export class CenterInvoiceReportComponent implements OnInit {
     this.invoiceEntryLists = this.invoiceEntry.filter(s => s.isVerified == true);
     console.log('data**', this.invoiceEntryLists)
 
-    for (let i = 0; i < this.centerInvoiceList2.length; i++) {
-      var centerInvoiceData = this.centerInvoiceList2[i];
-      for (let j = 0; j < this.invoiceEntryLists.length; j++) {
-        var invoiceEntryData = this.invoiceEntryLists[j];
 
-        if (centerInvoiceData != null && invoiceEntryData != null
-          && centerInvoiceData.InvoiceNo == invoiceEntryData.invoiceNumber
-          && centerInvoiceData.centerName == invoiceEntryData.centerName) {
-          console.log('success')
-          this.pendingList.push(centerInvoiceData);
-
-        }
-      }
-    }
-    console.log('88888', this.pendingList)
 
 
   }
@@ -156,7 +144,22 @@ export class CenterInvoiceReportComponent implements OnInit {
         }
       }
 
-      // console.log('centerlist', this.centerInvoiceList2)
+      console.log('centerlist', this.centerInvoiceList2)
+      for (let i = 0; i < this.centerInvoiceList2.length; i++) {
+        var centerInvoiceData = this.centerInvoiceList2[i];
+        for (let j = 0; j < this.invoiceEntryLists.length; j++) {
+          var invoiceEntryData = this.invoiceEntryLists[j];
+
+          if (centerInvoiceData != null && invoiceEntryData != null
+            && centerInvoiceData.InvoiceNo == invoiceEntryData.invoiceNumber
+            && centerInvoiceData.centerName == invoiceEntryData.centerName) {
+            console.log('success')
+            this.pendingList.push(centerInvoiceData);
+
+          }
+        }
+      }
+      console.log('88888', this.pendingList)
 
     },
       err => {
@@ -180,11 +183,17 @@ export class CenterInvoiceReportComponent implements OnInit {
     this.getKcvtpCenters();
     this.getKcvtpCenterInvoiceList2();
 
-    
+
   }
 
   checkInvoicePendingCenters() {
 
+
+  }
+  filterMonth(monthValue) {
+
+  }
+  filterCenter(centerValue) {
 
   }
 

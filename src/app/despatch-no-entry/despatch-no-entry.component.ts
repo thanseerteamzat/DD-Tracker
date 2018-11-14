@@ -409,7 +409,7 @@ export class DespatchNoEntryComponent implements OnInit {
         var splityear = styear.slice(-2)
         var splitnextyear = stnextyear.slice(-2);
         // console.log(list)
-        this.despatchFormat = '/' + "IDE" + '/' + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+        this.despatchFormat =  "IDE" + '/' + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
         this.despatch.despatchNo = this.despatchFormat;
         // console.log('this.despatchFormat', this.despatchFormat)
         // console.log('this.checklist.length', this.checklist.length)
@@ -479,7 +479,7 @@ export class DespatchNoEntryComponent implements OnInit {
             var splityear = styear.slice(-2)
             var splitnextyear = stnextyear.slice(-2);
             console.log('split ....', splitnextyear)
-            var despformat = '/' + "IDE" + '/' + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
+            var despformat = "IDE" + '/' + this.tempcentercode + "/" + this.newddEntry.despatchNo + "/" + splityear + "-" + splitnextyear;
             try {
 
                 for (let j = 0; j <= this.erpLists.length; j++) {
