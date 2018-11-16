@@ -277,7 +277,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   ddentryForm = new FormGroup({
 
 
-    // centerNameVal: new FormControl(),
+    centerNameVal: new FormControl(),
     erpdespnoVal: new FormControl(),
     noodDdVal: new FormControl(),
     ddamountVal: new FormControl(),
@@ -293,6 +293,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
         erpdespnoVal: [null, Validators.compose([Validators.required, Validators.maxLength(4), Validators.pattern('[0-9]*')])],
 
         feesItemVal: [null, Validators.required],
+        centerNameVal: [null, Validators.required],
 
         // erpdespnoVal: [null,Validators.required],
         noodDdVal: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
@@ -305,7 +306,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   }
 
 
-  // get centerNameVal() { return this.ddentryForm.get('centerNameVal'); }
+  get centerNameVal() { return this.ddentryForm.get('centerNameVal'); }
   get feesItemVal() { return this.ddentryForm.get('feesItemVal'); }
 
   get erpdespnoVal() { return this.ddentryForm.get('erpdespnoVal'); }
@@ -621,7 +622,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
   }
 
   update() {
-    console.log('inside update function')
+    // console.log('inside update function')
 
     this.kkcerpdespatch.centerName = this.selectedcenter;
     if (this.newerpentry.erpdate.length <= 10) {
@@ -718,7 +719,7 @@ export class KkcErpDespatchEntryComponent implements OnInit {
     this.kkcerpdespatch.noofDd = this.newerpentry.noofDd;
     this.kkcerpdespatch.remarks = this.newerpentry.remarks;
     this.kkcerpdespatch.unique = this.newerpentry.unique;
-    console.log(this.kkcerpdespatch)
+    // console.log(this.kkcerpdespatch)
     if (confirm('Are you sure to update details')) {
 
       this.academic.updateKkcErpEntry(this.kkcerpdespatch);
@@ -736,26 +737,26 @@ export class KkcErpDespatchEntryComponent implements OnInit {
             this.erpList.push(erpEntry);
           }
         }
+        // console.log(this.erpList,'erPLISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
         var amount = 0;
         var count = 0;
         var no = [];
-        console.log('erplist', this.erpList);
-        console.log(this.erpList.length, 'length')
+        // console.log(this.erpList.length, 'length')
         for (let i = 0; i <= this.erpList.length; i++) {
           let tempupdObj = this.erpList[i];
-          console.log(tempupdObj);
-          console.log(this.kkcerpdespatch.month);
+          // console.log(tempupdObj);
+          // console.log(this.kkcerpdespatch.month);
           console.log(this.kkcerpdespatch.centerName)
           if (tempupdObj != null && tempupdObj.month == this.kkcerpdespatch.month && tempupdObj.centerName == this.kkcerpdespatch.centerName) {
-            console.log('inside if')
+            // console.log('inside if')
             amount = parseFloat(amount.toString()) + parseFloat(tempupdObj.erpAmount.toString());
             count = parseFloat(count.toString()) + parseFloat(tempupdObj.noofDd.toString());
-            no.push(this.kkcerpdespatch.erpdespNo);
+            no.push(tempupdObj.erpdespNo)
 
           }
         }
         this.tempamount = amount;
-        console.log(this.tempamount, 'temp amount')
+        // console.log(this.tempamount, 'temp amount')
         this.tempcount = count;
         this.tempno = no;
 
@@ -773,13 +774,14 @@ export class KkcErpDespatchEntryComponent implements OnInit {
       let thatt = this;
       thatt.academic.GetKkcReportTable().subscribe(data => {
         that.reportEntries = data;
+        
         console.log(that.reportEntries)
         this.reportList = new Array<kkcErpReportTable>();
         for (let i = 0; i <= data.Data.length; i++) {
           let reportEntry = new kkcErpReportTable();
           if (data.Data[i] != null) {
             reportEntry = data.Data[i];
-            this.reportList.push(reportEntry);
+            this.reportList.push(reportEntry); 
           }
         }
 
@@ -789,9 +791,30 @@ export class KkcErpDespatchEntryComponent implements OnInit {
             tempupdateobj.statementNo = this.tempno;
             tempupdateobj.totalNoofDd = this.tempcount;
             tempupdateobj.totalAmount = this.tempamount;
-            console.log(tempupdateobj, 'tempupdate obj');
+            // console.log(tempupdateobj, 'tempupdate obj');
             this.academic.UpdatekkcerpReportTable(tempupdateobj);
-            this.getReportTable();
+            console.log('************************')
+            let that = this;
+            that.academic.GetKkcReportTable().subscribe(data => {
+              that.reportEntries = data;
+              console.log(that.reportEntries)
+              this.reportList = new Array<kkcErpReportTable>();
+              for (let i = 0; i <= data.Data.length; i++) {
+                let reportEntry = new kkcErpReportTable();
+                if (data.Data[i] != null) {
+                  reportEntry = data.Data[i];
+                  this.reportList.push(reportEntry);
+                }
+              }
+            },
+              err => {
+                console.log('Error: ' + err.error);
+                console.log('Name: ' + err.name);
+                console.log('Message: ' + err.message);
+                console.log('Status: ' + err.status);
+              })
+        
+            // this.getReportTable();
 
           }
         }

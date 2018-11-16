@@ -82,28 +82,34 @@
             <div class="row">
     
 
-                <div *ngIf='isSroLogin' class="form-group col-md-3">
+                <div [formGroup]="ddentryForm" *ngIf='isSroLogin' class="form-group col-md-3">
                     <label for="center">Center Name</label>
-                    <input readonly type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
+                    <input formControlName="centerNameVal"  readonly type="text" [(ngModel)]="selectedcenter" class="form-control" name="selectedcenter">
 
-                    <!-- <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
+                    <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
                         <div *ngIf="centerNameVal.errors.required">
                             Please use get center
                         </div>
-                    </div> -->
+                    </div>
 
                 </div>
 
-                <div *ngIf='!isSroLogin' class="form-group col-md-3">
+                <div [formGroup]="ddentryForm" *ngIf='!isSroLogin' class="form-group col-md-3">
                     <label for="center">Center Name</label>
 
-                    <select class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
+                    <select formControlName="centerNameVal" class="form-control" [(ngModel)]="selectedcenter" name="selectedcenter">
                   <option value="">--Choose--</option>
                   <ng-container *ngFor="let s of centerList">
                       <option [ngValue]="s.CenterName">{{s.CenterName}}</option>
                   </ng-container>
       
               </select>
+              <div *ngIf="centerNameVal.invalid && (centerNameVal.dirty || centerNameVal.touched)" class="alert-danger">
+                <div *ngIf="centerNameVal.errors.required">
+                    Please use get center
+                </div>
+            </div>
+
 
                 </div>
 
